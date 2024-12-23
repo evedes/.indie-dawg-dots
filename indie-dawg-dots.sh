@@ -11,6 +11,12 @@ install_dotfiles() {
 
   local os=$(detect_os)
 
+  # Create generated directory if it doesn't exist
+  if [ ! -d "./generated" ]; then
+    log_info "Creating generated directory..."
+    mkdir -p "./generated"
+  fi
+
   # GIT
   generate_gitconfig
 
