@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-source "./utils.sh"
-source "./os.sh"
+source "./scripts/utils.sh"
+source "./scripts/os.sh"
+source "./scripts/gitconfig.sh"
 
 install_dotfiles() {
   clear
@@ -10,9 +11,14 @@ install_dotfiles() {
 
   local os=$(detect_os)
 
+  # GIT
+  generate_gitconfig
+
+  # OS SPECIFIC
   case "$os" in
   arch)
     log_info "Running Arch-specific installation..."
+
     ;;
   macos)
     log_info "Running macOS-specific installation..."
@@ -28,6 +34,11 @@ uninstall_dotfiles() {
   clear
   log_info "The Indie Dawg Dotfiles - Uninstall Script"
   log_info "------------------------------------------"
+
+  # GIT
+  remove_gitconfig
+
+  # OS SPECIFIC
 }
 
 main() {

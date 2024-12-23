@@ -1,0 +1,12 @@
+[user]
+    name = {{GIT_NAME}}
+    email = {{GIT_EMAIL}}
+[core]
+    editor = {{GIT_EDITOR}}
+[pull]
+    rebase = true
+[init]
+    defaultBranch = main
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+
