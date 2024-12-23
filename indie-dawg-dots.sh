@@ -61,8 +61,13 @@ main() {
       echo "Options:"
       echo "  install     Install dotfiles into user's home directory"
       echo "  uninstall   Remove dotfiles from user's home directory"
+      echo "  reinstall   Reinstall dotfiles from user's home directory"
       echo "  --help, -h  Show this help message"
       exit 0
+      ;;
+    "reinstall")
+      uninstall_dotfiles
+      install_dotfiles
       ;;
     *)
       log_error "Unknown option: $1"
