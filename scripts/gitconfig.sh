@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 generate_gitconfig() {
+  log_section_separator
+  log_info "** GIT CONFIG **"
   log_info "Generating .gitconfig from template..."
 
   # Check if config.sh exists
@@ -34,11 +36,15 @@ generate_gitconfig() {
 }
 
 remove_gitconfig() {
-  if [ -f "$HOME/.gitconfig" ]; then
+  log_section_separator
+  log_info "** GIT CONFIG **"
+
+  if [ -e "$HOME/.gitconfig" ] || [ -L "$HOME/.gitconfig" ]; then
     log_info "Found .gitconfig in home directory"
-    rm "$HOME/.gitconfig"
+    rm -f "$HOME/.gitconfig"
     log_info "Removed .gitconfig from home directory"
   else
     log_info "No .gitconfig found in home directory"
   fi
+
 }

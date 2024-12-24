@@ -12,7 +12,11 @@ Beware, they're a work in progress.
 
 ## What does it do?
 
+### Configs
+
 1. Generates a .gitconfig file from a template
+
+### Packages
 
 ## What will it do in the future?
 

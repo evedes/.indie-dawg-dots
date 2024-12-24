@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-source "./utils.sh"
-
 detect_os() {
+  log_section_separator
+  log_info "** OS Detection **"
+  log_info "Detecting operating system"
   local os
   case "$(uname -s)" in
   Linux*)
@@ -21,6 +22,7 @@ detect_os() {
     ;;
   esac
 
-  log_info "Detected operating system: ${yellow}${os}"
+  log_info "Detected operating system: ${os}"
+  local os
   printf "%s" "$os"
 }
