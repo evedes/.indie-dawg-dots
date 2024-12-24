@@ -3,8 +3,14 @@
 source "scripts/utils.sh"
 source "scripts/os.sh"
 source "scripts/gitconfig.sh"
+source "scripts/kitty.sh"
+source "scripts/privileges.sh"
 
 install_dotfiles() {
+  clear
+  # PRIVILEGES
+  log_info "Getting root privileges.."
+  get_privileges
   clear
   log_info "The Indie Dawg Dotfiles - Install Script"
   log_section_separator
@@ -21,7 +27,7 @@ install_dotfiles() {
   arch)
     log_section_separator
     log_info "** ARCH SPECIFIC CONFIG **"
-
+    install_kitty
     ;;
   macos)
     log_info "** MACOS SPECIFIC CONIG **"
@@ -31,15 +37,32 @@ install_dotfiles() {
 
 uninstall_dotfiles() {
   clear
+  # PRIVILEGES
+  log_info "Getting root privileges.."
+  get_privileges
+  clear
   log_info "The Indie Dawg Dotfiles - Uninstall Script"
   log_section_separator
+
+  # PRIVILEGES
+  get_privileges
 
   # TEMP FOLDERS
   remove_temp_folders
   # GIT
   remove_gitconfig # GIT
   #
-  # OS SPECIFIC
+  local os=$(detect_os)
+  case "$os" in
+  arch)
+    log_section_separator
+    log_info "** ARCH SPECIFIC CONFIG **"
+    remove_kitty
+    ;;
+  macos)
+    log_info "** MACOS SPECIFIC CONIG **"
+    ;;
+  esac
 }
 
 main() {

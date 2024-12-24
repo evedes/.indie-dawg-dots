@@ -64,3 +64,42 @@ remove_operations_log() {
     return 0
   fi
 }
+
+function install_package() {
+  local package=$1
+  local exit_code
+
+  log_info "Installing $package"
+
+  if ! sudo pacman -S --noconfirm "$package" >/dev/null 2>&1; then
+    exit_code=$?
+    log_error "Failed to install $package (exit code: $exit_code)"
+    return $exit_code
+  fi
+
+  log_info "Installed $package ✓"
+  return 0
+}
+function uninstall_package() {
+  local package=$1
+  local max_attempts=3
+  local attempt=1
+
+  while [ $attempt -le $max_attempts ]; do
+    log_info "Uninstalling $package (attempt $attempt/$max_attempts)"
+
+    if sudo pacman -R --noconfirm "$package" >/dev/null 2>&1; then
+      log_info "Uninstalled $package ✓"
+      return 0
+    fi
+
+    exit_code=$?
+    log_warn "Attempt $attempt failed (exit code: $exit_code)"
+    ((attempt++))
+
+    [ $attempt -le $max_attempts ] && sleep 3
+  done
+
+  log_error "Failed to uninstall $package after $max_attempts attempts"
+  return $exit_code
+}
