@@ -12,7 +12,7 @@ generate_gitconfig() {
   fi
 
   if [ -f "$HOME/.gitconfig" ]; then
-    log_error ".gitconfig file already exists"
+    log_warning ".gitconfig file already exists"
     return 1
   fi
 

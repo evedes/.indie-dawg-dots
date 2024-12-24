@@ -64,3 +64,17 @@ remove_operations_log() {
     return 0
   fi
 }
+
+function install_package() {
+  local package=$1
+  log_info "Installing %s..." "$package"
+  sudo pacman -S --noconfirm "$package" >/dev/null 2>&1 &
+  log_info "Installed $package ✓"
+}
+
+function uninstall_package() {
+  local package=$1
+  log_info "Uninstalling %s..." "$package"
+  sudo pacman -R --noconfirm "$package" >/dev/null 2>&1 &
+  log_info "Uninstalled $package ✓"
+}
