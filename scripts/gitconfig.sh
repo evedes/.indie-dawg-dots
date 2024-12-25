@@ -20,17 +20,17 @@ generate_gitconfig() {
   source "config.sh"
 
   # Check if template exists
-  if [ ! -f "templates/.gitconfig.template" ]; then
-    log_error "templates/.gitconfig.template not found"
+  if [ ! -f "templates/gitconfig/gitconfig.template" ]; then
+    log_error "templates/gitconfig/gitconfig.template not found"
     return 1
   fi
 
-  cat "templates/.gitconfig.template" |
+  cat "templates/gitconfig/gitconfig.template" |
     sed "s/{{GIT_NAME}}/$GIT_NAME/g" |
     sed "s/{{GIT_EMAIL}}/$GIT_EMAIL/g" |
-    sed "s/{{GIT_EDITOR}}/$GIT_EDITOR/g" >"generated/.gitconfig"
+    sed "s/{{GIT_EDITOR}}/$GIT_EDITOR/g" >"generated/gitconfig"
 
-  ln -s "$(pwd)/generated/.gitconfig" "$HOME/.gitconfig"
+  ln -s "$(pwd)/generated/gitconfig" "$HOME/.gitconfig"
 
   log_info "Successfully generated .gitconfig"
 }
