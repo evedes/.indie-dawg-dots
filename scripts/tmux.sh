@@ -2,7 +2,7 @@
 
 install_tmux() {
   log_info "** TMUX **"
-  ln -s "$(pwd)/templates/tmux.conf" "$HOME/.tmux.conf"
+  ln -sf "$(pwd)/templates/tmux.conf" "$HOME/.tmux.conf"
   log_info " - Added .tmux.conf symlink"
   # git clone from  https://github.com/tmux-plugins/tpm
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm >/dev/null 2>&1

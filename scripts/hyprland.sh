@@ -3,7 +3,8 @@
 install_hyprland() {
   log_info "** HYPRLAND **"
   install_package hyprland
-  ln -s "$(pwd)/templates/hypr" "$HOME/.config/"
+  rm -rf "$HOME/.config/hypr"
+  ln -sf "$(pwd)/templates/hypr" "$HOME/.config/"
   log_info " - Added hyprland symlink"
 }
 

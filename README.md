@@ -23,6 +23,7 @@ Beware, they're a work in progress.
 3. sym links tmux config
 4. hyprland config
 5. waybar config
+6. lazygit config
 
 ### Packages
 
@@ -30,6 +31,7 @@ Beware, they're a work in progress.
 2. tmux + plugins
 3. hyprland
 4. waybar
+5. lazygit
 
 ## What will it do in the future?
 

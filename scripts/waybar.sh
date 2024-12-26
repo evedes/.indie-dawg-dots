@@ -3,7 +3,7 @@
 install_waybar() {
   log_info "** WAYBAR **"
   install_package waybar
-  ln -s "$(pwd)/templates/waybar" "$HOME/.config/"
+  ln -sf "$(pwd)/templates/waybar" "$HOME/.config/"
   log_info " - Added waybar symlink"
 }
 

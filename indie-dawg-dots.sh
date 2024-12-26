@@ -9,6 +9,7 @@ source "scripts/privileges.sh"
 source "scripts/arch_system.sh"
 source "scripts/hyprland.sh"
 source "scripts/waybar.sh"
+source "scripts/lazygit.sh"
 
 install_dotfiles() {
   clear
@@ -47,6 +48,7 @@ install_dotfiles() {
     install_tmux
     install_hyprland
     install_waybar
+    install_lazygit
     log_section_separator
     ;;
   macos)
@@ -90,8 +92,9 @@ uninstall_dotfiles() {
     log_section_separator
 
     # PACKAGES
+    remove_lazygit
     remove_waybar
-    remove hyprland
+    remove_hyprland
     remove_tmux
     remove_kitty
     log_section_separator

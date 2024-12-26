@@ -29,7 +29,7 @@ generate_gitconfig() {
     sed "s/{{GIT_EMAIL}}/$GIT_EMAIL/g" |
     sed "s/{{GIT_EDITOR}}/$GIT_EDITOR/g" >"generated/gitconfig"
 
-  ln -s "$(pwd)/generated/gitconfig" "$HOME/.gitconfig"
+  ln -sf "$(pwd)/generated/gitconfig" "$HOME/.gitconfig"
 
   log_info " - Successfully generated .gitconfig"
 }

@@ -3,7 +3,7 @@
 install_kitty() {
   log_info "** KITTY **"
   install_package kitty
-  ln -s "$(pwd)/templates/kitty" "$HOME/.config/"
+  ln -sf "$(pwd)/templates/kitty" "$HOME/.config/"
   log_info " - Added kitty symlink"
 }
 
