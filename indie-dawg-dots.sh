@@ -7,6 +7,8 @@ source "scripts/kitty.sh"
 source "scripts/tmux.sh"
 source "scripts/privileges.sh"
 source "scripts/arch_system.sh"
+source "scripts/hyprland.sh"
+source "scripts/waybar.sh"
 
 install_dotfiles() {
   clear
@@ -15,7 +17,7 @@ install_dotfiles() {
   create_temp_folders
 
   # PRIVILEGES
-  log_info "Getting root privileges.."
+  log_info " - Getting root privileges.."
   get_privileges
 
   clear
@@ -43,6 +45,8 @@ install_dotfiles() {
     # PACKAGES
     install_kitty
     install_tmux
+    install_hyprland
+    install_waybar
     log_section_separator
     ;;
   macos)
@@ -86,6 +90,8 @@ uninstall_dotfiles() {
     log_section_separator
 
     # PACKAGES
+    remove_waybar
+    remove hyprland
     remove_tmux
     remove_kitty
     log_section_separator

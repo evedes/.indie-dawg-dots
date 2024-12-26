@@ -21,11 +21,15 @@ Beware, they're a work in progress.
 1. generates a .gitconfig file from a template
 2. sym links kitty config
 3. sym links tmux config
+4. hyprland config
+5. waybar config
 
 ### Packages
 
 1. kitty
 2. tmux + plugins
+3. hyprland
+4. waybar
 
 ## What will it do in the future?
 

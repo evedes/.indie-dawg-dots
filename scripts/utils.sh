@@ -77,7 +77,7 @@ function install_package() {
     return $exit_code
   fi
 
-  log_info "Installed $package ✓"
+  log_info " - Installed $package"
   return 0
 }
 function uninstall_package() {
@@ -89,7 +89,7 @@ function uninstall_package() {
     log_info " - Uninstalling $package (attempt $attempt/$max_attempts)"
 
     if sudo pacman -R --noconfirm "$package" >/dev/null 2>&1; then
-      log_info " - Uninstalled $package ✓"
+      log_info " - Uninstalled $package"
       return 0
     fi
 
