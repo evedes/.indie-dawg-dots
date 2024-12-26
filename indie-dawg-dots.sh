@@ -4,19 +4,24 @@ source "scripts/utils.sh"
 source "scripts/os.sh"
 source "scripts/gitconfig.sh"
 source "scripts/kitty.sh"
+source "scripts/tmux.sh"
 source "scripts/privileges.sh"
+source "scripts/arch_system.sh"
 
 install_dotfiles() {
   clear
-  # PRIVILEGES
-  log_info "Getting root privileges.."
-  get_privileges
-  clear
-  log_info "The Indie Dawg Dotfiles - Install Script"
-  log_section_separator
 
   # TEMP FOLDERS
   create_temp_folders
+
+  # PRIVILEGES
+  log_info "Getting root privileges.."
+  get_privileges
+
+  clear
+
+  log_info "The Indie Dawg Dotfiles - Install Script"
+  log_section_separator
   # GIT
   generate_gitconfig
 
@@ -25,9 +30,20 @@ install_dotfiles() {
   local os=$(detect_os)
   case "$os" in
   arch)
-    log_section_separator
     log_info "** ARCH SPECIFIC CONFIG **"
+    log_section_separator
+
+    # SYSTEM
+    log_info "** SYSTEM **"
+    log_section_separator
+    set_hostname
+
+    log_section_separator
+
+    # PACKAGES
     install_kitty
+    install_tmux
+    log_section_separator
     ;;
   macos)
     log_info "** MACOS SPECIFIC CONIG **"
@@ -37,27 +53,42 @@ install_dotfiles() {
 
 uninstall_dotfiles() {
   clear
-  # PRIVILEGES
-  log_info "Getting root privileges.."
-  get_privileges
-  clear
-  log_info "The Indie Dawg Dotfiles - Uninstall Script"
-  log_section_separator
-
-  # PRIVILEGES
-  get_privileges
 
   # TEMP FOLDERS
   remove_temp_folders
+
+  # PRIVILEGES
+  log_info "Getting root privileges.."
+  get_privileges
+
+  clear
+
+  log_info "The Indie Dawg Dotfiles - Uninstall Script"
+  log_section_separator
+
   # GIT
   remove_gitconfig # GIT
+
+  # OS SPECIFIC
   #
   local os=$(detect_os)
   case "$os" in
   arch)
-    log_section_separator
     log_info "** ARCH SPECIFIC CONFIG **"
+    log_section_separator
+
+    # SYSTEM
+    log_info "** SYSTEM **"
+    log_section_separator
+
+    unset_hostname
+
+    log_section_separator
+
+    # PACKAGES
+    remove_tmux
     remove_kitty
+    log_section_separator
     ;;
   macos)
     log_info "** MACOS SPECIFIC CONIG **"
@@ -88,11 +119,11 @@ main() {
     "reinstall")
       # UNINSTALL
       uninstall_dotfiles
-      log_info "Finished Uninstalling dotfiles"
+      log_info " - Finished uninstalling dotfiles"
       log_operation_separator
       # INSTALL
       install_dotfiles
-      log_info "Finished Installing dotfiles"
+      log_info " - Finished installing dotfiles"
       log_operation_separator
       ;;
     "logs")

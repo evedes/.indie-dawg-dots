@@ -12,14 +12,20 @@ Beware, they're a work in progress.
 
 ## What does it do?
 
+### System
+
+1. sets hostname
+
 ### Configs
 
 1. generates a .gitconfig file from a template
 2. sym links kitty config
+3. sym links tmux config
 
 ### Packages
 
 1. kitty
+2. tmux + plugins
 
 ## What will it do in the future?
 

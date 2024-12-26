@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 get_privileges() {
   # At the start of your script
   sudo -v

@@ -3,7 +3,7 @@
 detect_os() {
   log_section_separator
   log_info "** OS Detection **"
-  log_info "Detecting operating system"
+  log_info " - Detecting operating system"
   local os
   case "$(uname -s)" in
   Linux*)
@@ -17,12 +17,12 @@ detect_os() {
     os="macos"
     ;;
   *)
-    log_error "Unsupported operating system"
+    log_error " - Unsupported operating system"
     exit 1
     ;;
   esac
 
-  log_info "Detected operating system: ${os}"
+  log_info " - Detected operating system: ${os}"
   local os
   printf "%s" "$os"
 }

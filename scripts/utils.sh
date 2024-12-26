@@ -35,14 +35,14 @@ create_temp_folders() {
   log_info "** TEMP FOLDERS **"
 
   if [ ! -d "./generated" ]; then
-    log_info "Creating generated directory..."
+    log_info " - Creating generated directory..."
     mkdir -p "./generated"
   fi
 
   if [ ! -d "./logs" ]; then
-    log_info "Creating logs directory"
+    log_info " - Creating logs directory"
     mkdir -p "./logs"
-    log_info "Creating operations.log file"
+    log_info " - Creating operations.log file"
     touch "./logs/operations.log"
   fi
 }
@@ -50,7 +50,7 @@ create_temp_folders() {
 remove_temp_folders() {
   log_info "** TEMP FOLDERS **"
   if [ -d "generated" ]; then
-    log_info "Removing generated directory..."
+    log_info " - Removing generated directory..."
     rm -rf "generated"
     return 0
   fi
@@ -59,7 +59,7 @@ remove_temp_folders() {
 remove_operations_log() {
   log_info "** OPERATIONS LOG **"
   if [ -d "logs" ]; then
-    log_info "Resetting logs..."
+    log_info " - Resetting logs..."
     rm -rf "logs"
     return 0
   fi
@@ -69,11 +69,11 @@ function install_package() {
   local package=$1
   local exit_code
 
-  log_info "Installing $package"
+  log_info " - Installing $package"
 
   if ! sudo pacman -S --noconfirm "$package" >/dev/null 2>&1; then
     exit_code=$?
-    log_error "Failed to install $package (exit code: $exit_code)"
+    log_error " - Failed to install $package (exit code: $exit_code)"
     return $exit_code
   fi
 
@@ -86,10 +86,10 @@ function uninstall_package() {
   local attempt=1
 
   while [ $attempt -le $max_attempts ]; do
-    log_info "Uninstalling $package (attempt $attempt/$max_attempts)"
+    log_info " - Uninstalling $package (attempt $attempt/$max_attempts)"
 
     if sudo pacman -R --noconfirm "$package" >/dev/null 2>&1; then
-      log_info "Uninstalled $package ✓"
+      log_info " - Uninstalled $package ✓"
       return 0
     fi
 
@@ -100,6 +100,23 @@ function uninstall_package() {
     [ $attempt -le $max_attempts ] && sleep 3
   done
 
-  log_error "Failed to uninstall $package after $max_attempts attempts"
+  log_error " - Failed to uninstall $package after $max_attempts attempts"
   return $exit_code
+}
+
+spinner() {
+  local pid=$1
+  local delay=0.15
+  local dots=1
+  while ps -p $pid >/dev/null; do
+    printf "\r%s" " - Installing... ${dots:+${dots/#/.}}"
+    if [ $dots -lt 3 ]; then
+      ((dots++))
+    else
+      dots=1
+    fi
+    sleep $delay
+  done
+  printf "\r%*s\r\033[A" "$(tput cols)" "" # Clear the line and move cursor up
+  log_info " - TPM plugins installed successfully"
 }

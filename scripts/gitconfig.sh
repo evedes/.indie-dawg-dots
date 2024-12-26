@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 
 generate_gitconfig() {
-  log_section_separator
   log_info "** GIT CONFIG **"
-  log_info "Generating .gitconfig from template..."
+  log_info " - Generating .gitconfig from template..."
 
   # Check if config.sh exists
   if [ ! -f "config.sh" ]; then
-    log_error "config.sh not found. Please create it first."
+    log_error " - config.sh not found. Please create it first."
     return 1
   fi
 
   if [ -f "$HOME/.gitconfig" ]; then
-    log_warning ".gitconfig file already exists"
+    log_warning " - .gitconfig file already exists"
     return 1
   fi
 
@@ -32,19 +31,18 @@ generate_gitconfig() {
 
   ln -s "$(pwd)/generated/gitconfig" "$HOME/.gitconfig"
 
-  log_info "Successfully generated .gitconfig"
+  log_info " - Successfully generated .gitconfig"
 }
 
 remove_gitconfig() {
-  log_section_separator
   log_info "** GIT CONFIG **"
 
   if [ -e "$HOME/.gitconfig" ] || [ -L "$HOME/.gitconfig" ]; then
-    log_info "Found .gitconfig in home directory"
+    log_info " - Found .gitconfig in home directory"
     rm -f "$HOME/.gitconfig"
-    log_info "Removed .gitconfig from home directory"
+    log_info " - Removed .gitconfig from home directory"
   else
-    log_info "No .gitconfig found in home directory"
+    log_info " - No .gitconfig found in home directory"
   fi
 
 }
