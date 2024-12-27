@@ -10,16 +10,17 @@ source "scripts/arch_system.sh"
 source "scripts/hyprland.sh"
 source "scripts/waybar.sh"
 source "scripts/lazygit.sh"
+source "scripts/yay.sh"
 
 install_dotfiles() {
   clear
 
-  # TEMP FOLDERS
-  create_temp_folders
-
   # PRIVILEGES
   log_info " - Getting root privileges.."
   get_privileges
+
+  # TEMP FOLDERS
+  create_temp_folders
 
   clear
 
@@ -45,6 +46,7 @@ install_dotfiles() {
 
     # PACKAGES
     install_kitty
+    install_yay
     install_tmux
     install_hyprland
     install_waybar
@@ -59,9 +61,6 @@ install_dotfiles() {
 
 uninstall_dotfiles() {
   clear
-
-  # TEMP FOLDERS
-  remove_temp_folders
 
   # PRIVILEGES
   log_info "Getting root privileges.."
@@ -92,11 +91,12 @@ uninstall_dotfiles() {
     log_section_separator
 
     # PACKAGES
-    remove_lazygit
-    remove_waybar
-    remove_hyprland
-    remove_tmux
-    remove_kitty
+    uninstall_lazygit
+    uninstall_waybar
+    uninstall_hyprland
+    uninstall_tmux
+    uninstall_yay
+    uninstall_kitty
     log_section_separator
     ;;
   macos)
@@ -128,11 +128,9 @@ main() {
     "reinstall")
       # UNINSTALL
       uninstall_dotfiles
-      log_info " - Finished uninstalling dotfiles"
       log_operation_separator
       # INSTALL
       install_dotfiles
-      log_info " - Finished installing dotfiles"
       log_operation_separator
       ;;
     "logs")

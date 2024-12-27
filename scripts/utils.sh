@@ -18,6 +18,7 @@ log_error() {
   printf "${timestamp} [error]   > $1\n" >>"${LOG_FILE}"
 
 }
+
 log_info() {
   printf "${green}[info]    > ${nocolor} $1\n" >&2
   printf "${timestamp} [info]    > $1\n" >>"${LOG_FILE}"
@@ -54,6 +55,11 @@ remove_temp_folders() {
     rm -rf "generated"
     return 0
   fi
+  if [ -d "logs" ]; then
+    log_info " - Removing logs directory..."
+    rm -rf "logs"
+    return 0
+  fi
 }
 
 remove_operations_log() {
@@ -65,7 +71,7 @@ remove_operations_log() {
   fi
 }
 
-function install_package() {
+function install_pacman_package() {
   local package=$1
   local exit_code
 
@@ -80,7 +86,7 @@ function install_package() {
   log_info " - Installed $package"
   return 0
 }
-function uninstall_package() {
+function uninstall_pacman_package() {
   local package=$1
   local max_attempts=3
   local attempt=1
@@ -88,7 +94,7 @@ function uninstall_package() {
   while [ $attempt -le $max_attempts ]; do
     log_info " - Uninstalling $package (attempt $attempt/$max_attempts)"
 
-    if sudo pacman -R --noconfirm "$package" >/dev/null 2>&1; then
+    if sudo pacman -Rns --noconfirm "$package" >/dev/null 2>&1; then
       log_info " - Uninstalled $package"
       return 0
     fi
@@ -118,5 +124,4 @@ spinner() {
     sleep $delay
   done
   printf "\r%*s\r\033[A" "$(tput cols)" "" # Clear the line and move cursor up
-  log_info " - TPM plugins installed successfully"
 }

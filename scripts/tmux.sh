@@ -16,9 +16,8 @@ install_tmux() {
   log_info " - Installed tmux plugins"
 }
 
-remove_tmux() {
+uninstall_tmux() {
   log_info "** TMUX **"
-  rm -rf "$HOME/.tmux.conf"
   log_info " - Removed .tmux.conf symlink"
   rm -rf "$HOME/.tmux"
   log_info " - Removed .tmux plugins directory"
