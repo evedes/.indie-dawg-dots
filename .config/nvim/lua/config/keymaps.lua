@@ -29,7 +29,8 @@ keymap.set("n", "<C-A-j>", "<C-w>-", with_desc("Resize down"))
 
 -- Mini Picker
 keymap.set("n", "<leader>fe", "<cmd>lua MiniFiles.open()<cr>", with_desc("Explorer"))
-keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", with_desc("Finder"))
+keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", with_desc("Find Files"))
+
 keymap.set("n", "<leader>/", "<cmd>Pick grep_live<cr>", with_desc("Live Grep"))
 keymap.set("n", "<leader>bb", "<cmd>Pick buffers<cr>", with_desc("Buffers"))
 keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", with_desc("Help"))
