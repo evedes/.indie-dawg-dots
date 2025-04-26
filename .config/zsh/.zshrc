@@ -81,3 +81,6 @@ export XDG_DATA_DIRS=/opt/homebrew/share:$XDG_DATA_DIRS
 
 ## NEOVIM
 ## export NVIM_APPNAME="nvim"
+
+## RIPGREP
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
