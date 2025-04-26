@@ -108,10 +108,7 @@ alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias myiplocation='curl https://ipinfo.io'
 
 # LIST
-alias ls="eza -ahl --icons=always"
-alias lc="ls -CF"
 alias l='eza --icons=always -ahl'
-alias ll='eza --icons=always -l'
 
 # MAC M1
 alias arm64='arch -arm64 zsh'
