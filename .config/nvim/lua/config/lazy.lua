@@ -21,7 +21,7 @@ require("lazy").setup({
   },
   install = { colorscheme = { "kanagawa" } },
   checker = {
-    enabled = true,
+    enabled = false,
     notify = false,
   },
   performance = {
