@@ -13,7 +13,7 @@ keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Write" })
 keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 keymap.set("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
 
--- Indtend while remaining in visual mode.
+-- Indent while remaining in visual mode.
 keymap.set("v", "<", "<gv", with_desc("Shift left"))
 keymap.set("v", ">", ">gv", with_desc("Shift right"))
 
@@ -37,7 +37,6 @@ keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", with_desc("Help"))
 keymap.set("n", "<leader>fr", "<cmd>lua MiniPick.builtin.resume()<cr>", with_desc("Resume"))
 
 -- Git
-keymap.set("n", "<leader>gg", ":Neogit<CR>", with_desc("NeoGit"))
 keymap.set("n", "<leader>go", "<cmd>lua MiniDiff.toggle_overlay()<cr>", with_desc("MiniDiff"))
 
 -- Obsidian
