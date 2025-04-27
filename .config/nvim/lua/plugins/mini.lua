@@ -4,6 +4,7 @@ return {
     enabled = true,
     version = false,
     config = function()
+      require("mini.ai").setup()
       require("mini.statusline").setup({
         content = {
           active = function()
