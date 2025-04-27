@@ -9,8 +9,8 @@ alias aa='nvim ~/.indie-dawg-dots/.config/zsh/.alias'
 alias zz='nvim ~/.indie-dawg-dots/.config/zsh/.zshrc'
 alias mm='cd ~/Nextcloud/Multiverse && v EVERYTHING\ PLAN.md'
 
-# P10K
-alias p10kc='for i in {0..255}; do print -Pn "%K{$i} %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done'
+# INDIE-DAWG-DOTS
+alias dots='cd ~/.indie-dawg-dots && nvim .'
 
 # NEOVIM
 alias v='nvim'
@@ -57,7 +57,6 @@ alias dlb="git branch | grep -v \* | xargs git branch -D"
 alias npmg='npm list -g --depth 0'
 
 # UTILS
-alias dotfiles='n ~/.dotfiles'
 alias mb='cmatrix -C blue'
 alias m='cmatrix'
 
@@ -89,7 +88,6 @@ alias prometheus='ssh prometheus'
 alias alien='ssh alien'
 alias odin='ssh odin'
 alias vedesvps='ssh -i ~/.ssh/id_ed25519_vedesvps edo@vedesvps'
-alias sidelinepropsvps='ssh -i ~/.ssh/id_ed25519_sidelinepropsvps edo@sidelinepropsvps'
 alias thestartervps='ssh -i ~/.ssh/id_ed25519_thestartervps thestarter@thestartervps'
 alias k21='ssh edo@k21'
 alias k22='ssh edo@k22'
@@ -114,10 +112,6 @@ alias ll='eza --icons=always -l'
 # MAC M1
 alias arm64='arch -arm64 zsh'
 alias x86='arch -x86_64 zsh'
-
-# PUMA
-alias puma-down="killall puma-dev && puma-dev -stop && puma-dev -uninstall"
-alias puma-restart="killall puma-dev && puma-dev -stop"
 
 # POSTGRESQL
 alias psql-stop="brew services stop postgresql@15"
