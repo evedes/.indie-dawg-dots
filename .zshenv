@@ -15,10 +15,6 @@ eval "$(rbenv init - zsh)"
 # PSQL
 export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 
-# OH-MY-ZSH
-export ZSH="$HOME/.oh-my-zsh"
-source $ZSH/oh-my-zsh.sh
-
 # NEOVIM
 export EDITOR="$(which nvim)"
 export VISUAL="$EDITOR"

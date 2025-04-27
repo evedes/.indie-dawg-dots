@@ -1,23 +1,23 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# Zinit
+source /opt/homebrew/opt/zinit/zinit.zsh
 
-#RUBY
-eval "$(rbenv init - zsh)"
+# Load Zinit plugins - keeping just the essential ones
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zdharma-continuum/fast-syntax-highlighting
 
-# ZSH THEME
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# Completions
+zinit ice wait lucid atload"zicompinit; zicdreplay"
+zinit light zsh-users/zsh-completions
 
-# OH-MY-ZSH
-source $ZSH/oh-my-zsh.sh
 
-# ALIAS
+# Alias
 source $HOME/.indie-dawg-dots/.config/zsh/.alias
 
-# SECRETS
+# Secrets
 source $HOME/.ssh/load_secrets.sh
 
-# HISTORY SETUP
+# History setup
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=5000
 SAVEHIST=$HISTSIZE
@@ -30,21 +30,15 @@ setopt hist_verify
 # EMACS MODE
 bindkey -e
 
-## ZOXIDE
+# ZOXIDE
 eval "$(zoxide init zsh)"
 
-## FZF
+# FZF
 source <(fzf --zsh)
 
-plugins=(
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	git
-	docker
-  ruby
-  rails
-  bundler
-)
+# Git completions (without Oh-My-Zsh dependency)
+zinit ice as"completion"
+zinit snippet https://github.com/git/git/blob/master/contrib/completion/git-completion.zsh
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Starship
+eval "$(starship init zsh)"
