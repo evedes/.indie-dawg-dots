@@ -69,3 +69,13 @@ vim.opt.conceallevel = 0 -- Show text normally
 
 -- Disable Luarocks health check
 vim.g.loaded_health_nvim_luarocks = 1
+
+-- Create the undo directory if it doesn't exist
+local undodir = vim.fn.stdpath("data") .. "/undo"
+if vim.fn.isdirectory(undodir) == 0 then
+  vim.fn.mkdir(undodir, "p")
+end
+
+-- Set undofile and undodir
+vim.opt.undofile = true
+vim.opt.undodir = undodir
