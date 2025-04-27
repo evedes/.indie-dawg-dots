@@ -1,3 +1,6 @@
+# CARGO
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # PNPM
 export PNPM_HOME="/Users/edo/Library/pnpm"
 case ":$PATH:" in
