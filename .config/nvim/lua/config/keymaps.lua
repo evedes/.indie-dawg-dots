@@ -34,6 +34,7 @@ keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", with_desc("Find Files"))
 keymap.set("n", "<leader>/", "<cmd>Pick grep_live<cr>", with_desc("Live Grep"))
 keymap.set("n", "<leader>bb", "<cmd>Pick buffers<cr>", with_desc("Buffers"))
 keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", with_desc("Help"))
+keymap.set("n", "<leader>fr", "<cmd>lua MiniPick.builtin.resume()<cr>", with_desc("Resume"))
 
 -- Git
 keymap.set("n", "<leader>gg", ":Neogit<CR>", with_desc("NeoGit"))
