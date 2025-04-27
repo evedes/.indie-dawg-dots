@@ -123,11 +123,17 @@ alias puma-restart="killall puma-dev && puma-dev -stop"
 alias psql-stop="brew services stop postgresql@15"
 alias psql-start="brew services start postgresql@15"
 
+# SPOTIFY
+alias sp='spotify_player'
+
 # ZOXIDE
 alias cd='z'
 
 # FABRIC
 alias p2t='pdftotext'
+
+# KITTY
+alias img='kitty +kitten icat'
 
 ## ZONE
 alias ss='sudo overmind start'
