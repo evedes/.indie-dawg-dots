@@ -10,6 +10,11 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit ice wait lucid atload"zicompinit; zicdreplay"
 zinit light zsh-users/zsh-completions
 
+# Fnm
+eval "$(fnm env --use-on-cd)"
+
+# Ruby
+eval "$(rbenv init - zsh)"
 
 # Alias
 source $HOME/.indie-dawg-dots/.config/zsh/.alias
