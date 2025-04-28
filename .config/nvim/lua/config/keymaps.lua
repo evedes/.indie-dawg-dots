@@ -13,10 +13,9 @@ keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Write" })
 keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 keymap.set("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
 
--- New tab
-keymap.set("n", "te", ":tabedit")
-keymap.set("n", "<tab>", ":tabnext<Return>", opts)
-keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
+-- Splits
+keymap.set("n", "ss", ":split<Return>", opts)
+keymap.set("n", "sj", ":vsplit<Return>", opts)
 
 -- Indent while remaining in visual mode.
 keymap.set("v", "<", "<gv", with_desc("Shift left"))
