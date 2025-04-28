@@ -10,8 +10,8 @@ keymap.set("n", "x", '"_x') -- Sends the deleted char to the black hole register
 
 -- Write & Quit
 keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Write" })
-keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
-keymap.set("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
+keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit (close this window)" })
+keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", { desc = "Quit vim (all changes are lost!)" })
 
 -- Splits
 keymap.set("n", "ss", ":split<Return>", opts)
