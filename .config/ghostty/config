@@ -3,6 +3,7 @@ font-size = 15
 adjust-cell-height = 30%
 theme = "Kanagawa Dragon"
 background = "#000000"
+background-blur-radius = 20
 background-opacity = 0.90
 font-thicken = 0
 window-save-state = always
