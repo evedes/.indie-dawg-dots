@@ -13,13 +13,18 @@ keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Write" })
 keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 keymap.set("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
 
+-- New tab
+keymap.set("n", "te", ":tabedit")
+keymap.set("n", "<tab>", ":tabnext<Return>", opts)
+keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
+
 -- Indent while remaining in visual mode.
 keymap.set("v", "<", "<gv", with_desc("Shift left"))
 keymap.set("v", ">", ">gv", with_desc("Shift right"))
 
 -- Utils
-keymap.set("n", "<leader>ul", "<cmd>Lazy<cr>", with_desc("Lazy"))
-keymap.set("n", "<leader>um", "<cmd>Mason<cr>", with_desc("Mason"))
+keymap.set("n", "<leader>L", "<cmd>Lazy<cr>", with_desc("Lazy"))
+keymap.set("n", "<leader>M", "<cmd>Mason<cr>", with_desc("Mason"))
 
 -- Resize window
 keymap.set("n", "<C-A-h>", "<C-w><", with_desc("Resize left"))
