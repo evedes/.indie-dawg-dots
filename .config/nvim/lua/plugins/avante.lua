@@ -30,7 +30,7 @@ return {
     "MunifTanjim/nui.nvim",
     "echasnovski/mini.pick",
     "hrsh7th/nvim-cmp",
-    "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+    "nvim-tree/nvim-web-devicons",
     {
       "HakonHarnes/img-clip.nvim",
       event = "VeryLazy",
