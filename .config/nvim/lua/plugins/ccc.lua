@@ -9,25 +9,23 @@ local colored_fts = {
 
 -- Create Color Code.
 return {
-  {
-    "uga-rosa/ccc.nvim",
-    ft = colored_fts,
-    cmd = "CccPick",
-    opts = function()
-      local ccc = require("ccc")
+  "uga-rosa/ccc.nvim",
+  ft = colored_fts,
+  cmd = "CccPick",
+  opts = function()
+    local ccc = require("ccc")
 
-      -- Use uppercase for hex codes.
-      ccc.output.hex.setup({ uppercase = true })
-      ccc.output.hex_short.setup({ uppercase = true })
+    -- Use uppercase for hex codes.
+    ccc.output.hex.setup({ uppercase = true })
+    ccc.output.hex_short.setup({ uppercase = true })
 
-      return {
-        highlighter = {
-          auto_enable = true,
-          filetypes = colored_fts,
-          -- LSP causes the highlights to not cover the correct range.
-          lsp = false,
-        },
-      }
-    end,
-  },
+    return {
+      highlighter = {
+        auto_enable = true,
+        filetypes = colored_fts,
+        -- LSP causes the highlights to not cover the correct range.
+        lsp = false,
+      },
+    }
+  end,
 }
