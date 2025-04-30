@@ -42,6 +42,7 @@ keymap.set("n", "<leader>fr", "<cmd>lua MiniPick.builtin.resume()<cr>", with_des
 
 -- Git
 keymap.set("n", "<leader>go", "<cmd>lua MiniDiff.toggle_overlay()<cr>", with_desc("MiniDiff"))
+keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", with_desc("Neogit"))
 
 -- Obsidian
 keymap.set("n", "<leader>of", "<cmd>ObsidianFollowLink<cr>", with_desc("Follow Link"))
