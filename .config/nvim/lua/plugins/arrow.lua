@@ -1,7 +1,7 @@
 return {
   "otavioschwanck/arrow.nvim",
   dependencies = {
-    { "nvim-tree/nvim-web-devicons" },
+    "echasnovski/mini.icons",
   },
   opts = {
     show_icons = true,

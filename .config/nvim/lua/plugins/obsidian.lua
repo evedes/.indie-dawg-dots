@@ -22,11 +22,8 @@ return {
     mappings = {
       ["<leader>og"] = {
         action = function()
-          -- Open Obsidian
           vim.fn.system('open -a Obsidian "' .. vim.fn.expand("~/Nextcloud/Multiverse") .. '"')
-          -- Wait a bit for Obsidian to open and load
           vim.cmd("sleep 1000m")
-          -- Send the keystroke to open graph view
           vim.fn.system(
             'osascript -e \'tell application "Obsidian" to activate\' -e \'tell application "System Events" to keystroke "g" using {command down, shift down}\''
           )

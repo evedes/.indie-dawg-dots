@@ -4,6 +4,7 @@ return {
   version = false,
   config = function()
     require("mini.ai").setup()
+    require("mini.icons").setup()
     require("mini.statusline").setup({
       content = {
         active = function()
