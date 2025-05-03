@@ -33,6 +33,9 @@ keymap.set("n", "<C-A-j>", "<C-w>-", with_desc("Resize down"))
 
 -- Mini Picker
 keymap.set("n", "<leader>fe", "<cmd>lua MiniFiles.open()<cr>", with_desc("Explorer"))
+keymap.set("n", "<leader>fc", function()
+  require("mini.files").open(vim.api.nvim_buf_get_name(0))
+end, with_desc("Current File"))
 keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", with_desc("Find Files"))
 
 keymap.set("n", "<leader>/", "<cmd>Pick grep_live<cr>", with_desc("Live Grep"))
