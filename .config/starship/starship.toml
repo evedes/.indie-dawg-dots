@@ -27,7 +27,7 @@ style = "bold cyan"
 # Git branch configuration
 [git_branch]
 format = "[$symbol$branch]($style) "
-symbol = "  "
+symbol = "✨ "
 style = "bold purple"
 
 # Git status configuration
