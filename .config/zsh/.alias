@@ -8,6 +8,7 @@ alias bsl='brew services list'
 alias aa='nvim ~/.indie-dawg-dots/.config/zsh/.alias'
 alias zz='nvim ~/.indie-dawg-dots/.config/zsh/.zshrc'
 alias mm='cd ~/Nextcloud/Multiverse && v -O EVERYTHING\ PLAN.md TODO\ ARCHIVE.md GET\ THINGS\ DONE.md'
+alias cc='cd ~/Nextcloud/Multiverse && v -O CREATORSGUILD-PROJECT-MANAGEMENT.md'
 
 # INDIE-DAWG-DOTS
 alias dots='cd ~/.indie-dawg-dots && nvim .'
