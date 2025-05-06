@@ -46,12 +46,6 @@ vim.opt.wrap = false -- Don't wrap lines
 -- File and path settings
 vim.opt.path:append({ "**" }) -- Search down into subfolders
 
--- Ignore patterns for file operations
-vim.opt.wildignore:append({ "*/node_modules/*" }) -- Ignore node_modules
-vim.opt.wildignore:append({ "*/.pnpm-store/*" }) -- Ignore pnpm store
-vim.opt.wildignore:append({ "*/.next/*" }) -- Ignore Next.js build
-vim.opt.wildignore:append({ "*/.git*" }) -- Ignore git files
-
 -- Additional window split settings
 vim.opt.splitbelow = true -- Open horizontal splits below
 vim.opt.splitright = true -- Open vertical splits to the right

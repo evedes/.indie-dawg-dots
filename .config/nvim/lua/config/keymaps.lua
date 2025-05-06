@@ -9,9 +9,10 @@ keymap.set("i", "jk", "<Esc>", with_desc("Escape"))
 keymap.set("n", "x", '"_x') -- Sends the deleted char to the black hole register
 
 -- Write & Quit
-keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Write" })
-keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit (close this window)" })
-keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", { desc = "Quit vim (all changes are lost!)" })
+keymap.set("n", "<leader>w", "<cmd>w<cr>", with_desc("Write"))
+keymap.set("n", "<leader>q", "<cmd>q<cr>", with_desc("Quit (close this window)"))
+keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", with_desc("Quit vim"))
+keymap.set("n", "<leader>kb", "<cmd>:bd<cr>", with_desc("Close Buffer"))
 
 -- Splits
 keymap.set("n", "ss", ":split<Return>", opts)
@@ -33,7 +34,7 @@ keymap.set("n", "<C-A-j>", "<C-w>-", with_desc("Resize down"))
 
 -- Mini Picker
 keymap.set("n", "<leader>fe", "<cmd>lua MiniFiles.open()<cr>", with_desc("Explorer"))
-keymap.set("n", "<leader>fc", function()
+keymap.set("n", "<leader>ee", function()
   require("mini.files").open(vim.api.nvim_buf_get_name(0))
 end, with_desc("Current File"))
 keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", with_desc("Find Files"))
@@ -41,7 +42,7 @@ keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", with_desc("Find Files"))
 keymap.set("n", "<leader>/", "<cmd>Pick grep_live<cr>", with_desc("Live Grep"))
 keymap.set("n", "<leader>bb", "<cmd>Pick buffers<cr>", with_desc("Buffers"))
 keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", with_desc("Help"))
-keymap.set("n", "<leader>fr", "<cmd>lua MiniPick.builtin.resume()<cr>", with_desc("Resume"))
+keymap.set("n", "<leader>cc", "<cmd>lua MiniPick.builtin.resume()<cr>", with_desc("Resume"))
 
 -- Git
 keymap.set("n", "<leader>go", "<cmd>lua MiniDiff.toggle_overlay()<cr>", with_desc("MiniDiff"))
