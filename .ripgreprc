@@ -26,3 +26,5 @@
 --glob=!**/public/assets/**
 --glob=!**/public/packs/**
 --glob=!**/log/**
+## Zone
+--glob=!**/previews/**
