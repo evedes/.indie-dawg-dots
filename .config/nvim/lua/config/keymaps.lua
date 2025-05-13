@@ -12,7 +12,7 @@ keymap.set("n", "x", '"_x') -- Sends the deleted char to the black hole register
 keymap.set("n", "<leader>w", "<cmd>w<cr>", with_desc("Write"))
 keymap.set("n", "<leader>q", "<cmd>q<cr>", with_desc("Quit (close this window)"))
 keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", with_desc("Quit vim"))
-keymap.set("n", "<leader>kb", "<cmd>:bd<cr>", with_desc("Close Buffer"))
+keymap.set("n", "<leader>kk", "<cmd>:bd<cr>", with_desc("Close Buffer"))
 
 -- Splits
 keymap.set("n", "ss", ":split<Return>", opts)
