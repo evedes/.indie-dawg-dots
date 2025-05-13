@@ -24,3 +24,7 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 ## VIRT MANAGER
 export XDG_DATA_DIRS=/opt/homebrew/share:$XDG_DATA_DIRS
+
+## ERLANG
+export PATH=$HOME//opt/homebrew/Cellar/erlang/27.3.3/lib/erlang/erts-15.2.6/bin:$PATH
+export PATH=$HOME//opt/homebrew/bin:$PATH
