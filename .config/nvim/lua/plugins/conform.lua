@@ -15,6 +15,7 @@ return {
       sh = { "shfmt" },
       typescript = { "prettier", name = "dprint", timeout_ms = 500, lsp_format = "fallback" },
       typescriptreact = { "prettier", name = "dprint", timeout_ms = 500, lsp_format = "fallback" },
+      elixir = { "mix_format" },
       -- For filetypes without a formatter:
       ["_"] = { "trim_whitespace", "trim_newlines" },
     },

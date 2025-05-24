@@ -19,7 +19,7 @@ require("lazy").setup({
   spec = {
     { import = "plugins" },
   },
-  install = { colorscheme = { "kanagawa" } },
+  install = { colorscheme = { "gruvbox-material" } },
   checker = {
     enabled = false,
     notify = false,

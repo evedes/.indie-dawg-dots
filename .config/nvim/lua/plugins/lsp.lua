@@ -19,6 +19,9 @@ return {
     -- Configure basic LSP functionality
     local lspconfig = require("lspconfig")
 
+    -- Elixir Language Server
+    lspconfig.elixirls.setup({})
+
     -- TypeScript server configuration
     lspconfig.ts_ls.setup({
       filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
