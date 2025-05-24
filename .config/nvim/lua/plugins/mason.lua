@@ -25,6 +25,7 @@ return {
       "markdownlint-cli2",
       "markdown-toc",
       "mdformat",
+      "elixir-ls",
     },
   },
   ---@param opts MasonSettings | {ensure_installed: string[]}

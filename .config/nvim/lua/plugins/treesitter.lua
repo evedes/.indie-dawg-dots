@@ -40,6 +40,7 @@ return {
       "css",
       "clojure",
       "dockerfile",
+      "elixir",
       "git_config",
       "gitcommit",
       "git_rebase",
