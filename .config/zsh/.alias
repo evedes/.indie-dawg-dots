@@ -16,9 +16,7 @@ alias dots='cd ~/.indie-dawg-dots && nvim .'
 # NEOVIM
 alias v='nvim'
 alias nconf='cd ~/.config/nvim && nvim .'
-
-# CURSOR
-alias cu='cursor .'
+alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 alias t='tmux'
 alias ta='t attach -t'
@@ -136,3 +134,6 @@ alias img='kitty +kitten icat'
 
 ## ZONE
 alias ss='sudo overmind start'
+
+## CLAUDE CODE
+alias ccusage="npx ccusage daily"
