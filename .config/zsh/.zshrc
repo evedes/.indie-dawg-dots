@@ -13,9 +13,6 @@ zinit light zsh-users/zsh-completions
 # Fnm
 eval "$(fnm env --use-on-cd)"
 
-# Ruby
-eval "$(rbenv init - zsh)"
-
 # Alias
 source $HOME/.indie-dawg-dots/.config/zsh/.alias
 
@@ -47,3 +44,6 @@ zinit snippet https://github.com/git/git/blob/master/contrib/completion/git-comp
 
 # Starship
 eval "$(starship init zsh)"
+
+# Ruby
+eval "$(rbenv init - zsh)"

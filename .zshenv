@@ -8,9 +8,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# RUBY
-export PATH="$HOME/.rbenv/bin:$PATH"
-
 # PSQL
 export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 
