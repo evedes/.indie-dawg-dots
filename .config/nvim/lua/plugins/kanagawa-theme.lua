@@ -25,9 +25,9 @@ return {
           },
         },
       },
-      theme = "dragon",
+      theme = "wave",
       background = {
-        dark = "dragon",
+        dark = "wave",
         light = "lotus",
       },
     })
