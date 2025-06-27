@@ -45,5 +45,9 @@ zinit snippet https://github.com/git/git/blob/master/contrib/completion/git-comp
 # Starship
 eval "$(starship init zsh)"
 
+# Claude
+alias claude="/Users/edo/.claude/local/claude"
+
 # Ruby
-eval "$(rbenv init - zsh)"
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
