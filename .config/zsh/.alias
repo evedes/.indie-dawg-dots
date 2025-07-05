@@ -55,6 +55,11 @@ alias dlb="git branch | grep -v \* | xargs git branch -D"
 # NPM
 alias npmg='npm list -g --depth 0'
 
+
+# PNPM
+alias pdd='pnpm dev:down'
+alias pdu='pnpm dev:up'
+
 # UTILS
 alias mb='cmatrix -C blue'
 alias m='cmatrix'
@@ -87,7 +92,7 @@ alias prometheus='ssh prometheus'
 alias alien='ssh alien'
 alias odin='ssh odin'
 alias vedesvps='ssh -i ~/.ssh/id_ed25519_vedesvps edo@vedesvps'
-alias thestartervps='ssh -i ~/.ssh/id_ed25519_thestartervps thestarter@thestartervps'
+alias getzartavps='ssh -i ~/.ssh/id_ed25519_getzartavps edo@getzartavps'
 alias k21='ssh edo@k21'
 alias k22='ssh edo@k22'
 alias k23='ssh edo@k23'

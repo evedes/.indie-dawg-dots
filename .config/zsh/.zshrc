@@ -32,9 +32,6 @@ setopt hist_verify
 # EMACS MODE
 bindkey -e
 
-# ZOXIDE
-eval "$(zoxide init zsh)"
-
 # FZF
 source <(fzf --zsh)
 
