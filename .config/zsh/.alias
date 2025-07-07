@@ -128,9 +128,6 @@ alias psql17-stop="brew services stop postgresql@17"
 # SPOTIFY
 alias sp='spotify_player'
 
-# ZOXIDE
-alias cd='z'
-
 # FABRIC
 alias p2t='pdftotext'
 
