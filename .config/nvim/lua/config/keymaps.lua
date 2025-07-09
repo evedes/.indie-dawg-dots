@@ -14,6 +14,12 @@ keymap.set("n", "<leader>q", "<cmd>q<cr>", with_desc("Quit (close this window)")
 keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", with_desc("Quit vim"))
 keymap.set("n", "<leader>kk", "<cmd>:bd<cr>", with_desc("Close Buffer"))
 
+-- Tabs
+keymap.set("n", "<leader>tt", "<cmd>tabclose<cr>", with_desc("Close Tab"))
+
+-- Dadbod
+keymap.set("n", "<leader>d", "<cmd>DBUI<cr>", with_desc("Dadbod"))
+
 -- Splits
 keymap.set("n", "ss", ":split<Return>", opts)
 keymap.set("n", "sj", ":vsplit<Return>", opts)
