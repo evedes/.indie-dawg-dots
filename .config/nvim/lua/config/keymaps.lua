@@ -18,7 +18,7 @@ keymap.set("n", "<leader>kk", "<cmd>:bd<cr>", with_desc("Close Buffer"))
 keymap.set("n", "<leader>tt", "<cmd>tabclose<cr>", with_desc("Close Tab"))
 
 -- Dadbod
-keymap.set("n", "<leader>d", "<cmd>DBUI<cr>", with_desc("Dadbod"))
+keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", with_desc("Dadbod"))
 
 -- Splits
 keymap.set("n", "ss", ":split<Return>", opts)
