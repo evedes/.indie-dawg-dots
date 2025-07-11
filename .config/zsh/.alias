@@ -4,7 +4,7 @@ alias chist='history -p'
 alias r='exec ${SHELL} -l'
 alias x='exit'
 alias b='bat'
-alias bsl='brew services list'
+# Platform-specific aliases moved to .macosrc/.linuxrc
 alias aa='nvim ~/.indie-dawg-dots/.config/zsh/.alias'
 alias zz='nvim ~/.indie-dawg-dots/.config/zsh/.zshrc'
 alias mm='cd ~/Nextcloud/Multiverse && v -O EVERYTHING\ PLAN.md TODO\ ARCHIVE.md GET\ THINGS\ DONE.md'
@@ -25,9 +25,7 @@ alias tl='t ls'
 alias tn='t new -s'
 alias tk='t kill-session -t'
 
-# PBCOPY / PBPASTE
-alias pbcopy='xsel --clipboard --input'
-alias pbpaste='xsel --clipboard --output'
+# PBCOPY / PBPASTE - handled in platform-specific files
 
 # SCRIPTS
 alias figen='~/.dotfiles/arch/scripts/figen.sh'
@@ -115,17 +113,9 @@ alias myiplocation='curl https://ipinfo.io'
 alias l='eza --icons=always -ahl'
 alias ll='eza --icons=always -l'
 
-# MAC M1
-alias arm64='arch -arm64 zsh'
-alias x86='arch -x86_64 zsh'
+# Architecture switching - handled in .macosrc
 
-# POSTGRESQL
-alias psql15='/opt/homebrew/opt/postgresql@15/bin/psql'
-alias psql17='/opt/homebrew/opt/postgresql@17/bin/psql'
-alias psql15-start="brew services start postgresql@15"
-alias psql15-stop="brew services stop postgresql@15"
-alias psql17-start="brew services start postgresql@17"
-alias psql17-stop="brew services stop postgresql@17"
+# POSTGRESQL - handled in platform-specific files
 
 # SPOTIFY
 alias sp='spotify_player'
