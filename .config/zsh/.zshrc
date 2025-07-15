@@ -39,7 +39,7 @@ if command -v zinit &>/dev/null; then
 fi
 
 # Fnm
-command -v fnm &>/dev/null && eval "$(fnm env --use-on-cd)"
+eval "$(fnm env --use-on-cd)"
 
 # Platform-specific configurations
 [[ -f "$HOME/.indie-dawg-dots/.config/zsh/.${PLATFORM}rc" ]] && source "$HOME/.indie-dawg-dots/.config/zsh/.${PLATFORM}rc"
@@ -72,4 +72,3 @@ command -v starship &>/dev/null && eval "$(starship init zsh)"
 
 # Ruby
 command -v rbenv &>/dev/null && eval "$(rbenv init -)"
-
