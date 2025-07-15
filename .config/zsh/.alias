@@ -51,6 +51,7 @@ alias groms="git rebase origin/master"
 alias lg="lazygit"
 alias gwl="git worktree list"
 alias dlb="git branch | grep -v \* | xargs git branch -D"
+alias gloc="git ls-files | grep -v -E '(pnpm-lock\.yaml|package-lock\.json)' | xargs wc -l"
 
 # NPM
 alias npmg='npm list -g --depth 0'
