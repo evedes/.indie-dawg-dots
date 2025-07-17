@@ -13,6 +13,10 @@ alias cc='cd ~/Nextcloud/Multiverse && v -O CREATORSGUILD-PROJECT-MANAGEMENT.md'
 # INDIE-DAWG-DOTS
 alias dots='cd ~/.indie-dawg-dots && nvim .'
 
+# HYPRLAND
+alias rwaybar="killall waybar && waybar & disown"
+alias rpaper="killall hyprpaper && hyprpaper & disown"
+
 # NEOVIM
 alias v='nvim'
 alias nconf='cd ~/.config/nvim && nvim .'
