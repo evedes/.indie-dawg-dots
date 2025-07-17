@@ -111,8 +111,8 @@ alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias myiplocation='curl https://ipinfo.io'
 
 # LIST
-alias l='eza --icons=always -ahl'
-alias ll='eza --icons=always -l'
+alias l='ls -l'
+alias ll='ls -ahl'
 
 # Architecture switching - handled in .macosrc
 
