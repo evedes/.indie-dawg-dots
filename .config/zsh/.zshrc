@@ -38,8 +38,10 @@ if command -v zinit &>/dev/null; then
     zinit snippet https://github.com/git/git/blob/master/contrib/completion/git-completion.zsh
 fi
 
-# Fnm
-eval "$(fnm env --use-on-cd)"
+# Fnm - Fast Node Manager (cross-platform)
+if command -v fnm &>/dev/null; then
+    eval "$(fnm env --use-on-cd --shell zsh)"
+fi
 
 # Platform-specific configurations
 [[ -f "$HOME/.indie-dawg-dots/.config/zsh/.${PLATFORM}rc" ]] && source "$HOME/.indie-dawg-dots/.config/zsh/.${PLATFORM}rc"

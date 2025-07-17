@@ -1,0 +1,29 @@
+configuration {
+    modes: "drun";
+    font: "BerkeleyMono 14";
+    fixed-num-lines: true;
+    show-icons: true;
+
+    sort: true;
+    sorting-method: "fzf";
+    case-sensitive: false;
+    cycle: true;
+
+    disable-history: false;
+    max-history-size: 50;
+
+    timeout {
+        action: "kb-cancel";
+        delay:  0;
+    }
+
+    kb-row-up: "Up,Control+k";
+    kb-row-down: "Down,Control+j";
+    kb-accept-entry: "Return,KP_Enter";
+    kb-remove-to-eol: "Control+Shift+e";
+    kb-mode-next: "Shift+Right,Control+Tab";
+    kb-mode-previous: "Shift+Left,Control+Shift+Tab";
+    kb-remove-char-back: "BackSpace";
+}
+
+@theme "arch-theme"
