@@ -1,0 +1,71 @@
+* {
+  background:                  #1f1f28;
+  selected-active-foreground:  var(background);
+  separatorcolor:              var(foreground);
+  urgent-foreground:           var(red);
+  alternate-urgent-background: var(lightbg);
+  background-color:            transparent;
+  border-color:                var(foreground);
+  normal-background:           var(background);
+  selected-urgent-background:  var(red);
+  alternate-active-background: var(lightbg);
+  spacing:                     5;
+  alternate-normal-foreground: var(foreground);
+  urgent-background:           var(background);
+  selected-normal-foreground:  #dcd7ba;
+  active-foreground:           #dcd7ba;
+  selected-active-background:  #2d4f67;
+  active-background:           #2d4f67;
+  selected-normal-background:  #1f1f28;
+  alternate-normal-background: #1f1f28;
+  foreground:                  #dcd7ba;
+  selected-urgent-foreground:  #dcd7ba;
+  normal-foreground:           #dcd7ba;
+  alternate-urgent-foreground: #dcd7ba;
+  alternate-active-foreground: #dcd7ba;
+}
+
+element {
+    padding: 8px 16px;
+    cursor:  pointer;
+}
+
+element alternate.normal {
+    background-color: #1f1f28;
+    text-color:       #dcd7ba;
+}
+element-text {
+    highlight:        #e8c92d;
+    text-color:       #7eb3c9;
+}
+
+window {
+    background-color:   #1f1f28;
+    border:             3;
+    border-color:       #7eb3c9;
+    border-radius:      8;
+    width: 1200px;
+}
+
+listview {
+    scrollbar:    false;
+    background-color: #1f1f28;
+    border-radius: 4px;
+    lines: 6;
+}
+
+inputbar {
+    padding: 15px;
+}
+
+entry {
+    text-color:        #7eb3c9;
+    cursor:            text;
+    spacing:           0;
+    placeholder-color: #7eb3c9;
+    placeholder:       "   Search";
+}
+
+prompt {
+    enabled: false;
+}
