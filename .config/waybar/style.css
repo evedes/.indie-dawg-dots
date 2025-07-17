@@ -1,0 +1,57 @@
+* {
+  font-family: "BerkeleyMono";
+  font-size: 16px;
+}
+
+/* stylelint-disable */
+@define-color blue #7eb3c9;
+@define-color yellow #e8c92d;
+
+window#waybar {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+}
+
+#workspaces {
+  padding: 8px;
+}
+
+#workspaces button {
+  border-radius: 8px;
+  padding: 0 4px;
+  color: @blue;
+}
+
+#workspaces button.active {
+  color: @yellow;
+}
+
+#pulseaudio,
+#cpu,
+#disk,
+#memory,
+#network,
+#custom-ping {
+  color: #7eb3c9;
+  margin: 2px;
+  padding: 8px;
+}
+
+#clock {
+  color: @yellow;
+  margin-right: 12px;
+  padding: 0 8px;
+}
+
+#custom-arch {
+  font-size: 24px;
+  color: @yellow;
+  padding: 8px;
+  margin-left: 12px;
+}
+
+#custom-separator {
+  color: @yellow;
+  padding: 0 8px;
+  font-size: 18px;
+}
