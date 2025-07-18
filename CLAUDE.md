@@ -62,6 +62,8 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
    - Interactive shell configuration in `.config/zsh/.zshrc` (plugins, completions, keybindings)
    - Platform-specific configurations in `.config/zsh/.{macos,linux}rc`
    - FZF integration for fuzzy finding
+   - **Zinit paths**: Checks multiple locations on Linux (`/usr/share/zinit/`, `~/.local/share/zinit/`, `/usr/share/zsh/plugins/zinit/`)
+   - **Cross-platform compatibility**: Platform detection ensures macOS and Linux-specific paths are handled correctly
 
 3. **Cross-Platform Support**
    - Configurations work on both macOS and Linux
@@ -71,7 +73,10 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 ### Important Considerations
 
 1. **No Automated Installation**: This repository requires manual symlinking or copying of dotfiles
-2. **External Dependencies**: Assumes various tools are pre-installed (Neovim, tmux, fnm, etc.)
+2. **External Dependencies**: 
+   - Required: zsh, git, Neovim
+   - Recommended: tmux, fnm, fzf, starship, ripgrep (rg), bat, lazygit, xsel/xclip
+   - Optional: Zinit (will still work without it), rbenv, cargo, PostgreSQL
 3. **SSH Configuration**: References external secrets file (`~/.ssh/load_secrets.sh`)
 4. **Machine-Specific Aliases**: Contains SSH shortcuts to personal machines (rubik, prometheus, etc.)
 
@@ -81,3 +86,22 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 - Rust: Cargo binaries in `~/.cargo/bin`
 - PostgreSQL: Multiple versions in `/usr/lib/postgresql/*/bin` (Linux) or `/opt/homebrew/opt/postgresql@*/bin` (macOS)
 - PNPM: Platform-specific homes - `~/Library/pnpm` (macOS) or `~/.local/share/pnpm` (Linux)
+
+## Recent Updates
+
+### Zsh Configuration Improvements (2025-07-18)
+- Fixed Git completion URL to use raw GitHub content
+- Added multiple Zinit path checks for better Linux compatibility
+- Removed duplicate fnm initialization
+- Improved cross-platform support with robust platform detection
+
+## Troubleshooting
+
+### Arch Linux Issues
+- If Zinit fails to load, install it manually: `git clone https://github.com/zdharma-continuum/zinit.git ~/.local/share/zinit`
+- Missing commands can be installed via: `sudo pacman -S bat xsel fzf starship ripgrep`
+- For AUR packages: `yay -S lazygit-bin`
+
+### macOS Issues
+- Ensure Homebrew is installed and paths are correctly set
+- Zinit via Homebrew: `brew install zinit`
