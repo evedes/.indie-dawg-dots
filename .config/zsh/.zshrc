@@ -10,6 +10,8 @@ typeset -A platform_paths
 platform_paths=(
     [macos_zinit]="/opt/homebrew/opt/zinit/zinit.zsh"
     [linux_zinit]="/usr/share/zinit/zinit.zsh"
+    [linux_zinit_alt1]="$HOME/.local/share/zinit/zinit.zsh"
+    [linux_zinit_alt2]="/usr/share/zsh/plugins/zinit/zinit.zsh"
     [macos_claude]="$HOME/.claude/local/claude"
     [linux_claude]="$HOME/.claude/local/claude"
 )
@@ -20,8 +22,19 @@ get_platform_path() {
     echo "${platform_paths[$key]}"
 }
 
-# Zinit
-[[ -f "$(get_platform_path zinit)" ]] && source "$(get_platform_path zinit)"
+# Zinit - check multiple possible locations
+ZINIT_LOADED=0
+if [[ "$PLATFORM" == "linux" ]]; then
+    for zinit_path in "$(get_platform_path zinit)" "$(get_platform_path zinit_alt1)" "$(get_platform_path zinit_alt2)"; do
+        if [[ -f "$zinit_path" ]]; then
+            source "$zinit_path"
+            ZINIT_LOADED=1
+            break
+        fi
+    done
+else
+    [[ -f "$(get_platform_path zinit)" ]] && source "$(get_platform_path zinit)" && ZINIT_LOADED=1
+fi
 
 # Load Zinit plugins - keeping just the essential ones
 if command -v zinit &>/dev/null; then
@@ -35,7 +48,7 @@ if command -v zinit &>/dev/null; then
 
     # Git completions (without Oh-My-Zsh dependency)
     zinit ice as"completion"
-    zinit snippet https://github.com/git/git/blob/master/contrib/completion/git-completion.zsh
+    zinit snippet https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh
 fi
 
 # Fnm - Fast Node Manager (cross-platform)
