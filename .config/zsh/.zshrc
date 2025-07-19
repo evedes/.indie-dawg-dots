@@ -1,10 +1,3 @@
-# Platform detection
-case "$(uname -s)" in
-    Darwin) PLATFORM="macos" ;;
-    Linux)  PLATFORM="linux" ;;
-    *)      PLATFORM="unknown" ;;
-esac
-
 # Platform-specific paths using associative arrays
 typeset -A platform_paths
 platform_paths=(
@@ -18,13 +11,13 @@ platform_paths=(
 
 # Helper function to get platform-specific path
 get_platform_path() {
-    local key="${PLATFORM}_${1}"
+    local key="${ZSH_PLATFORM}_${1}"
     echo "${platform_paths[$key]}"
 }
 
 # Zinit - check multiple possible locations
 ZINIT_LOADED=0
-if [[ "$PLATFORM" == "linux" ]]; then
+if [[ "$ZSH_PLATFORM" == "linux" ]]; then
     for zinit_path in "$(get_platform_path zinit)" "$(get_platform_path zinit_alt1)" "$(get_platform_path zinit_alt2)"; do
         if [[ -f "$zinit_path" ]]; then
             source "$zinit_path"
@@ -57,7 +50,7 @@ if command -v fnm &>/dev/null; then
 fi
 
 # Platform-specific configurations
-[[ -f "$HOME/.indie-dawg-dots/.config/zsh/.${PLATFORM}rc" ]] && source "$HOME/.indie-dawg-dots/.config/zsh/.${PLATFORM}rc"
+[[ -f "$HOME/.indie-dawg-dots/.config/zsh/.${ZSH_PLATFORM}rc" ]] && source "$HOME/.indie-dawg-dots/.config/zsh/.${ZSH_PLATFORM}rc"
 
 # Common configurations
 source $HOME/.indie-dawg-dots/.config/zsh/.alias
