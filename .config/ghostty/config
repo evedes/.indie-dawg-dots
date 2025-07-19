@@ -12,3 +12,4 @@ macos-option-as-alt = true
 macos-window-shadow = false
 quit-after-last-window-closed = true
 mouse-hide-while-typing = true
+confirm-close-surface = false
