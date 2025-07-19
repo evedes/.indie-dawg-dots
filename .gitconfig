@@ -7,7 +7,7 @@
 	user = evedes
 [core]
 	editor = nvim
-	excludesfile = /Users/edo/.gitignore
+	excludesfile = ~/.gitignore
 	ignorecase = true
 [pull]
 	rebase = true
