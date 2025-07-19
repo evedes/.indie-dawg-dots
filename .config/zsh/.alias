@@ -139,5 +139,5 @@ alias ss='sudo overmind start'
 
 ## CLAUDE CODE
 alias ccusage="npx ccusage daily"
-alias claude="/home/edo/.claude/local/claude"
+alias claude="$HOME/.claude/local/claude"
 alias clauded="claude --dangerously-skip-permissions"

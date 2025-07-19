@@ -31,6 +31,9 @@ export NVIM_APPNAME="nvim"
 # RIPGREP
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
+# STARSHIP
+export STARSHIP_CONFIG="$HOME/.indie-dawg-dots/.config/starship/starship.toml"
+
 # Platform-specific environment setup
 if [[ "$ZSH_PLATFORM" == "macos" ]]; then
     # macOS specific paths (Homebrew should come first)
