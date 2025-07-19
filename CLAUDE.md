@@ -39,16 +39,183 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 │   ├── zsh/          # Shell configuration and aliases
 │   ├── tmux/         # Terminal multiplexer
 │   ├── starship/     # Cross-shell prompt
+│   ├── ghostty/      # Terminal emulator
 │   └── ...           # Other tool configs
 ├── .gitconfig        # Git configuration with custom aliases
 ├── .zshenv          # Environment variables for development tools
 └── .ripgreprc       # Search tool configuration
 ```
 
-### Key Design Patterns
+## Detailed Configuration Guides
+
+### Neovim Configuration (`.config/nvim/`)
+
+#### Overview
+A modern Neovim configuration built with Lua, focusing on minimalism and efficiency using the mini.nvim plugin suite extensively.
+
+#### Structure
+```
+.config/nvim/
+├── init.lua              # Entry point - loads lua/config/
+├── lua/
+│   ├── config/           # Main configuration files
+│   │   ├── autocmds.lua  # Autocommands
+│   │   ├── keymaps.lua   # Key mappings
+│   │   ├── lazy.lua      # Plugin manager setup
+│   │   └── options.lua   # Neovim options
+│   └── plugins/          # Plugin configurations
+└── lazy-lock.json        # Plugin version lock file
+```
+
+#### Key Features
+- **Plugin Manager**: lazy.nvim for fast startup times
+- **Leader Key**: Space
+- **Plugin Suite**: Heavy use of mini.nvim modules for core functionality
+- **LSP**: Mason for easy language server management
+- **Git Integration**: Neogit and gitsigns.nvim
+
+#### Important Patterns
+1. **Modular Configuration**: Each major feature has its own file in `lua/config/`
+2. **Lazy Loading**: Plugins are loaded on-demand where possible
+3. **Minimal Dependencies**: Prefer mini.nvim modules over separate plugins
+
+#### Common Tasks
+
+##### Adding a Plugin
+1. Create a new file in `lua/plugins/` or edit existing plugin file
+2. Follow the lazy.nvim specification format
+3. Run `:Lazy sync` to install
+
+##### Modifying Keymaps
+- Main keymaps are in `lua/config/keymaps.lua`
+- Plugin-specific keymaps are in their respective plugin files
+
+##### LSP Configuration
+- Language servers are managed through Mason
+- LSP configuration is in `lua/plugins/lsp.lua`
+
+#### Dependencies
+- Neovim >= 0.9.0
+- Git (for plugin management)
+- Node.js (for many LSP servers)
+- Ripgrep (for telescope and other search features)
+
+### Zsh Configuration (`.config/zsh/`)
+
+#### Overview
+A cross-platform Zsh configuration designed to work seamlessly on both macOS and Linux (especially Arch Linux).
+
+#### File Structure
+```
+.config/zsh/
+├── .zshrc       # Main interactive shell configuration
+├── .alias       # Shell aliases and functions
+├── .linuxrc     # Linux-specific configurations
+└── .macosrc     # macOS-specific configurations
+```
+
+#### Key Files
+
+##### .zshrc
+- **Platform Detection**: Automatically detects macOS vs Linux using `ZSH_PLATFORM`
+- **Zinit Integration**: Plugin manager with multiple fallback paths
+- **Plugin Loading**: Essential plugins for autosuggestions, fast syntax highlighting
+- **Environment Setup**: Sources platform-specific configs
+- **Command Caching**: Uses `has_cmd()` function for performance optimization
+
+##### .alias
+- Common command shortcuts (e.g., `dots`, `nconf`, `lg`)
+- Git aliases
+- Docker shortcuts
+- Platform-agnostic commands
+
+##### Platform-Specific Files
+- `.linuxrc`: Linux-specific paths, configurations, and Wayland/X11 clipboard support
+- `.macosrc`: macOS-specific paths and Homebrew setup
+
+#### Important Features
+
+##### Zinit Plugin Manager
+The configuration checks multiple paths for Zinit:
+- macOS: `/opt/homebrew/opt/zinit/zinit.zsh`
+- Linux (in order):
+  1. `/usr/share/zinit/zinit.zsh`
+  2. `~/.local/share/zinit/zinit.zsh`
+  3. `/usr/share/zsh/plugins/zinit/zinit.zsh`
+
+##### Cross-Platform Compatibility
+- Uses associative arrays for platform-specific paths
+- Conditional loading based on platform detection
+- Graceful fallbacks when tools aren't installed
+- Wayland and X11 clipboard support on Linux
+
+##### Performance Optimizations
+- Command existence caching with `has_cmd()` function
+- Git completions cached locally (refreshed weekly)
+- Single platform detection in `.zshenv`
+- Optimized plugin loading (only essential plugins)
+
+#### Common Issues & Solutions
+
+##### Zinit Not Loading
+```bash
+# Install Zinit manually on Linux
+git clone https://github.com/zdharma-continuum/zinit.git ~/.local/share/zinit
+
+# On macOS
+brew install zinit
+```
+
+##### Missing Commands
+- Check if commands are installed before using them
+- The config gracefully handles missing tools
+- See troubleshooting section for dependency installation
+
+##### Performance Issues
+- Remove duplicate initializations (e.g., fnm)
+- Check for conflicting plugins
+- Use `zsh -xv` to debug slow startup
+
+#### Customization
+
+##### Adding Aliases
+1. Edit `.alias` file
+2. Follow existing patterns
+3. Reload with `source ~/.zshrc` or use the `r` alias
+
+##### Adding Platform-Specific Config
+1. Edit `.linuxrc` or `.macosrc`
+2. Use platform detection for conditional logic
+3. Test on both platforms if possible
+
+### Tmux Configuration (`.config/tmux/`)
+
+#### Overview
+Tmux configuration focused on productivity with vim-like keybindings and a clean interface.
+
+#### Main Configuration File
+- `.tmux.conf`: Contains all tmux settings, keybindings, and plugin configurations
+
+#### Key Features
+- **Prefix Key**: Likely remapped from default Ctrl-b (check .tmux.conf)
+- **Vim-like Navigation**: Movement between panes using vim keys
+- **Session Management**: Easy session creation and switching
+- **Status Bar**: Customized for displaying relevant information
+
+#### Common Commands
+- `t` or `tmux`: Start tmux (alias defined in shell config)
+- Session management via tmux commands
+- Window and pane management
+
+#### Integration Points
+- Works seamlessly with the Neovim configuration
+- Shell aliases provide quick access
+- Color scheme likely matches overall terminal theme
+
+## Key Design Patterns
 
 1. **Neovim Configuration** (`~/.config/nvim/`)
-   - Entry point: `lua/edo/init.lua`
+   - Entry point: `init.lua` loads `lua/config/`
    - Modular Lua configuration using lazy.nvim plugin manager
    - Leader key: Space
    - Heavy use of mini.nvim plugin suite
@@ -69,13 +236,14 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
    - Configurations work on both macOS and Linux
    - Conditional paths for Homebrew on different architectures
    - Platform-specific tool configurations
+   - Wayland and X11 clipboard support
 
 ### Important Considerations
 
 1. **No Automated Installation**: This repository requires manual symlinking or copying of dotfiles
 2. **External Dependencies**: 
    - Required: zsh, git, Neovim
-   - Recommended: tmux, fnm, fzf, starship, ripgrep (rg), bat, lazygit, xsel/xclip
+   - Recommended: tmux, fnm, fzf, starship, ripgrep (rg), bat, lazygit, xsel/xclip, wl-clipboard
    - Optional: Zinit (will still work without it), rbenv, cargo, PostgreSQL
 3. **SSH Configuration**: References external secrets file (`~/.ssh/load_secrets.sh`)
 4. **Machine-Specific Aliases**: Contains SSH shortcuts to personal machines (rubik, prometheus, etc.)
@@ -89,6 +257,19 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 
 ## Recent Updates
 
+### Performance Optimizations (2025-07-19)
+- Consolidated platform detection into single `ZSH_PLATFORM` variable
+- Added command existence caching with `has_cmd()` function
+- Cached git completions to avoid network requests on startup
+- Removed duplicate plugins and configurations
+- Optimized Neovim plugin loading (removed duplicate mini.nvim plugins)
+
+### Cross-Platform Improvements (2025-07-19)
+- Added Wayland clipboard support with X11 fallback
+- Created platform-specific Ghostty terminal configurations
+- Fixed hardcoded paths for better portability
+- Enhanced Linux clipboard compatibility
+
 ### Zsh Configuration Improvements (2025-07-18)
 - Fixed Git completion URL to use raw GitHub content
 - Added multiple Zinit path checks for better Linux compatibility
@@ -99,9 +280,19 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 
 ### Arch Linux Issues
 - If Zinit fails to load, install it manually: `git clone https://github.com/zdharma-continuum/zinit.git ~/.local/share/zinit`
-- Missing commands can be installed via: `sudo pacman -S bat xsel fzf starship ripgrep`
+- Missing commands can be installed via: `sudo pacman -S bat xsel fzf starship ripgrep wl-clipboard`
 - For AUR packages: `yay -S lazygit-bin`
 
 ### macOS Issues
 - Ensure Homebrew is installed and paths are correctly set
 - Zinit via Homebrew: `brew install zinit`
+
+### Performance Issues
+- Use `zsh -xv` to debug slow shell startup
+- Check for conflicting or duplicate plugin initializations
+- Verify command caching is working with `typeset -p _cmd_cache`
+
+### Neovim Issues
+- Run `:checkhealth` to diagnose configuration problems
+- Use `:Lazy` to manage plugins and check for errors
+- Verify LSP servers are installed with `:Mason`

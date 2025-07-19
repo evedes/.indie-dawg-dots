@@ -1,15 +1,12 @@
-font-family = "ZedMono Nerd Font Mono"
-font-codepoint-map = U+E000-U+E00A,U+E0A0-U+E0A3,U+E0B0-U+E0C8,U+E0CA,U+E0CC-U+E0D7,U+E200-U+E2A9,U+E300-U+E3E3,U+E5FA-U+E6B7,U+E700-U+E8EF,U+EA60-U+EC1E,U+ED00-U+F2FF,U+EE00-U+EE0B,U+F300-U+F381,U+F400-U+F533,U+F0001-U+F1AF0=Symbols Nerd Font
-font-size = 14
-adjust-cell-height = 30%
-theme = "kanagawabones"
-background = "#000000"
-background-blur-radius = 20
-background-opacity = 0.90
-font-thicken = 0
-window-save-state = always
-macos-option-as-alt = true
-macos-window-shadow = false
-quit-after-last-window-closed = true
-mouse-hide-while-typing = true
-confirm-close-surface = false
+# Platform-aware Ghostty configuration
+# This loads common settings and the appropriate platform-specific settings
+# Note: Ghostty will ignore config files that don't exist
+
+# Load common configuration first
+config-file = ~/.indie-dawg-dots/.config/ghostty/config.common
+
+# Platform-specific configurations (only the existing one will be loaded)
+# On macOS: config.macos will exist and be loaded
+# On Linux: config.linux will exist and be loaded  
+config-file = ~/.indie-dawg-dots/.config/ghostty/config.macos
+config-file = ~/.indie-dawg-dots/.config/ghostty/config.linux
