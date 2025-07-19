@@ -14,8 +14,6 @@ platform_paths=(
     [linux_zinit]="/usr/share/zinit/zinit.zsh"
     [linux_zinit_alt1]="$HOME/.local/share/zinit/zinit.zsh"
     [linux_zinit_alt2]="/usr/share/zsh/plugins/zinit/zinit.zsh"
-    [macos_claude]="$HOME/.claude/local/claude"
-    [linux_claude]="$HOME/.claude/local/claude"
 )
 
 # Helper function to get platform-specific path
@@ -41,16 +39,20 @@ fi
 # Load Zinit plugins - keeping just the essential ones
 if has_cmd zinit; then
     zinit light zsh-users/zsh-autosuggestions
-    zinit light zsh-users/zsh-syntax-highlighting
     zinit light zdharma-continuum/fast-syntax-highlighting
 
     # Completions
     zinit ice wait lucid atload"zicompinit; zicdreplay"
     zinit light zsh-users/zsh-completions
 
-    # Git completions (without Oh-My-Zsh dependency)
+    # Git completions (cached locally)
+    GIT_COMP_CACHE="$HOME/.cache/zsh/git-completion.zsh"
+    if [[ ! -f "$GIT_COMP_CACHE" ]] || [[ $(find "$GIT_COMP_CACHE" -mtime +7 2>/dev/null) ]]; then
+        mkdir -p "$(dirname "$GIT_COMP_CACHE")"
+        curl -fsSL "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh" -o "$GIT_COMP_CACHE" 2>/dev/null
+    fi
     zinit ice as"completion"
-    zinit snippet https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh
+    zinit snippet "$GIT_COMP_CACHE"
 fi
 
 # Fnm - Fast Node Manager (cross-platform)
@@ -84,8 +86,6 @@ has_cmd fzf && source <(fzf --zsh)
 # Starship
 has_cmd starship && eval "$(starship init zsh)"
 
-# Claude
-[[ -f "$(get_platform_path claude)" ]] && alias claude="$(get_platform_path claude)"
 
 # Ruby
 has_cmd rbenv && eval "$(rbenv init -)"
