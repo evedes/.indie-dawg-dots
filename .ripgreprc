@@ -28,3 +28,8 @@
 --glob=!**/log/**
 ## Zone
 --glob=!**/previews/**
+## Dotfiles
+--glob=!**/google-chrome/**
+--glob=!**/spotify/**
+--glob=!**/Slack/**
+--glob=!**/go/**
