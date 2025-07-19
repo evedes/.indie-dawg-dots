@@ -47,8 +47,6 @@ vim.opt.wrap = false -- Don't wrap lines
 vim.opt.path:append({ "**" }) -- Search down into subfolders
 
 -- Additional window split settings
-vim.opt.splitbelow = true -- Open horizontal splits below
-vim.opt.splitright = true -- Open vertical splits to the right
 vim.opt.splitkeep = "cursor" -- Keep cursor position when splitting
 
 -- Miscellaneous settings
