@@ -1,3 +1,12 @@
+# Command existence cache for performance
+typeset -gA _cmd_cache
+has_cmd() {
+    [[ -n "${_cmd_cache[$1]}" ]] && return ${_cmd_cache[$1]}
+    command -v "$1" &>/dev/null
+    _cmd_cache[$1]=$?
+    return ${_cmd_cache[$1]}
+}
+
 # Platform-specific paths using associative arrays
 typeset -A platform_paths
 platform_paths=(
@@ -30,7 +39,7 @@ else
 fi
 
 # Load Zinit plugins - keeping just the essential ones
-if command -v zinit &>/dev/null; then
+if has_cmd zinit; then
     zinit light zsh-users/zsh-autosuggestions
     zinit light zsh-users/zsh-syntax-highlighting
     zinit light zdharma-continuum/fast-syntax-highlighting
@@ -45,7 +54,7 @@ if command -v zinit &>/dev/null; then
 fi
 
 # Fnm - Fast Node Manager (cross-platform)
-if command -v fnm &>/dev/null; then
+if has_cmd fnm; then
     eval "$(fnm env --use-on-cd --shell zsh)"
 fi
 
@@ -70,13 +79,13 @@ setopt hist_verify
 bindkey -e
 
 # FZF
-command -v fzf &>/dev/null && source <(fzf --zsh)
+has_cmd fzf && source <(fzf --zsh)
 
 # Starship
-command -v starship &>/dev/null && eval "$(starship init zsh)"
+has_cmd starship && eval "$(starship init zsh)"
 
 # Claude
 [[ -f "$(get_platform_path claude)" ]] && alias claude="$(get_platform_path claude)"
 
 # Ruby
-command -v rbenv &>/dev/null && eval "$(rbenv init -)"
+has_cmd rbenv && eval "$(rbenv init -)"
