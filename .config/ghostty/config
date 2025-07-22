@@ -7,6 +7,6 @@ config-file = ~/.indie-dawg-dots/.config/ghostty/config.common
 
 # Platform-specific configurations (only the existing one will be loaded)
 # On macOS: config.macos will exist and be loaded
-# On Linux: config.linux will exist and be loaded  
+# On Linux: config.linux will exist and be loaded
 config-file = ~/.indie-dawg-dots/.config/ghostty/config.macos
 config-file = ~/.indie-dawg-dots/.config/ghostty/config.linux
