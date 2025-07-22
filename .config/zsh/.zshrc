@@ -86,6 +86,5 @@ has_cmd fzf && source <(fzf --zsh)
 # Starship
 has_cmd starship && eval "$(starship init zsh)"
 
-
 # Ruby
 has_cmd rbenv && eval "$(rbenv init -)"

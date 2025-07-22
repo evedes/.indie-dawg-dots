@@ -1,12 +1,12 @@
 # Common Ghostty configuration for all platforms
 font-family = "ZedMono Nerd Font Mono"
 font-codepoint-map = U+E000-U+E00A,U+E0A0-U+E0A3,U+E0B0-U+E0C8,U+E0CA,U+E0CC-U+E0D7,U+E200-U+E2A9,U+E300-U+E3E3,U+E5FA-U+E6B7,U+E700-U+E8EF,U+EA60-U+EC1E,U+ED00-U+F2FF,U+EE00-U+EE0B,U+F300-U+F381,U+F400-U+F533,U+F0001-U+F1AF0=Symbols Nerd Font
-font-size = 16
-adjust-cell-height = 30%
-theme = "catppuccin-macchiato"
-background = "#000000"
-background-blur-radius = 20
-background-opacity = 0.88
+font-size = 20
+adjust-cell-height = 40%
+theme = "kanagawabones"
+background = "#000"
+background-blur-radius = 40
+background-opacity = 0.80
 font-thicken = 0
 window-save-state = always
 quit-after-last-window-closed = true

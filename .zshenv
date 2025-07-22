@@ -51,3 +51,6 @@ fi
 if [[ -d "$HOME/.rbenv/bin" ]]; then
     export PATH="$HOME/.rbenv/bin:$PATH"
 fi
+
+# Hubstaff
+export PATH="$HOME/.sre-toolkit/bin:$PATH"
