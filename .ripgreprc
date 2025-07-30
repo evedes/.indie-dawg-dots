@@ -33,3 +33,6 @@
 --glob=!**/spotify/**
 --glob=!**/Slack/**
 --glob=!**/go/**
+# Exclude specific files
+--glob=!**/package-lock.json
+--glob=!**/pnpm-lock.yaml

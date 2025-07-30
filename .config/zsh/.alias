@@ -58,6 +58,7 @@ alias lg="lazygit"
 alias gwl="git worktree list"
 alias dlb="git branch | grep -v \* | xargs git branch -D"
 alias gloc="git ls-files | grep -v -E '(pnpm-lock\.yaml|package-lock\.json)' | xargs wc -l"
+alias grc="git rebase --continue"
 
 # NPM
 alias npmg='npm list -g --depth 0'
@@ -141,3 +142,6 @@ alias ss='sudo overmind start'
 alias ccusage="npx ccusage daily"
 alias claude="$HOME/.claude/local/claude"
 alias clauded="claude --dangerously-skip-permissions"
+
+## HUBSTAFF
+alias rz='sudo -v cd ~/Work/hubstaff && cd zone && cd docs && bundle && cd .. && bundle && pnpm i && cd .. && sudo overmind start'
