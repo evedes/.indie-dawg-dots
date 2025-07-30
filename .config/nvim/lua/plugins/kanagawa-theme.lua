@@ -31,9 +31,9 @@ return {
         light = "lotus",
       },
     })
-    -- Default theme set by theme-switcher
-    build = function()
-      vim.cmd("KanagawaCompile")
-    end
+    vim.cmd("colorscheme kanagawa")
+  end,
+  build = function()
+    vim.cmd("KanagawaCompile")
   end,
 }

@@ -15,7 +15,7 @@ keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", with_desc("Quit vim"))
 keymap.set("n", "<leader>kk", "<cmd>:bd<cr>", with_desc("Close Buffer"))
 
 -- Tabs
-keymap.set("n", "<leader>tt", "<cmd>tabclose<cr>", with_desc("Close Tab"))
+keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", with_desc("Close Tab"))
 
 -- Dadbod
 keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", with_desc("Dadbod"))
