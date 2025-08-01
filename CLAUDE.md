@@ -40,10 +40,18 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 │   ├── tmux/         # Terminal multiplexer
 │   ├── starship/     # Cross-shell prompt
 │   ├── ghostty/      # Terminal emulator
-│   └── ...           # Other tool configs
+│   ├── hypr/         # Hyprland window manager (Linux)
+│   ├── waybar/       # Wayland bar configuration (Linux)
+│   ├── rofi/         # Application launcher
+│   ├── cava/         # Audio visualizer
+│   ├── emacs/        # Emacs configuration
+│   └── fontconfig/   # Font configuration
 ├── .gitconfig        # Git configuration with custom aliases
 ├── .zshenv          # Environment variables for development tools
-└── .ripgreprc       # Search tool configuration
+├── .ripgreprc       # Search tool configuration
+├── .vimrc           # Basic vim configuration (fallback)
+├── fonts/           # Custom fonts directory
+└── .claude/         # Claude-specific configuration
 ```
 
 ## Detailed Configuration Guides
@@ -63,16 +71,26 @@ A modern Neovim configuration built with Lua, focusing on minimalism and efficie
 │   │   ├── keymaps.lua   # Key mappings
 │   │   ├── lazy.lua      # Plugin manager setup
 │   │   └── options.lua   # Neovim options
-│   └── plugins/          # Plugin configurations
-└── lazy-lock.json        # Plugin version lock file
+│   ├── plugins/          # Plugin configurations
+│   ├── lsp.lua          # LSP configuration
+│   └── icons.lua        # Icon definitions
+├── lsp/                 # LSP-specific configuration
+├── after/               # After plugin configurations
+├── lazy-lock.json       # Plugin version lock file
+└── stylua.toml          # Lua formatter configuration
 ```
 
 #### Key Features
 - **Plugin Manager**: lazy.nvim for fast startup times
 - **Leader Key**: Space
 - **Plugin Suite**: Heavy use of mini.nvim modules for core functionality
-- **LSP**: Mason for easy language server management
-- **Git Integration**: Neogit and gitsigns.nvim
+- **LSP**: Integrated LSP support with custom configuration
+- **Git Integration**: Neogit, gitsigns.nvim, and diffview.nvim
+- **Completion**: Blink completion engine
+- **AI Integration**: Supermaven for AI-powered code suggestions
+- **Theme**: Kanagawa theme with custom configurations
+- **Code Actions**: Tiny code action for minimal UI
+- **Markdown**: Markview for enhanced markdown preview
 
 #### Important Patterns
 1. **Modular Configuration**: Each major feature has its own file in `lua/config/`
@@ -111,7 +129,8 @@ A cross-platform Zsh configuration designed to work seamlessly on both macOS and
 ├── .zshrc       # Main interactive shell configuration
 ├── .alias       # Shell aliases and functions
 ├── .linuxrc     # Linux-specific configurations
-└── .macosrc     # macOS-specific configurations
+├── .macosrc     # macOS-specific configurations
+└── yay/         # AUR helper configuration (Arch Linux)
 ```
 
 #### Key Files
@@ -197,10 +216,15 @@ Tmux configuration focused on productivity with vim-like keybindings and a clean
 - `.tmux.conf`: Contains all tmux settings, keybindings, and plugin configurations
 
 #### Key Features
-- **Prefix Key**: Likely remapped from default Ctrl-b (check .tmux.conf)
-- **Vim-like Navigation**: Movement between panes using vim keys
-- **Session Management**: Easy session creation and switching
-- **Status Bar**: Customized for displaying relevant information
+- **Prefix Key**: C-a (Ctrl-a) instead of default Ctrl-b
+- **Vim-like Navigation**: Movement between panes using vim keys (h,j,k,l)
+- **Smart Pane Switching**: Vim-aware pane navigation with C-h/j/k/l
+- **Window Splitting**: | for horizontal, - for vertical splits (preserves current path)
+- **Pane Resizing**: Prefix + h/j/k/l for incremental resizing
+- **Base Index**: Windows and panes start at 1 (not 0)
+- **True Color Support**: Full RGB color support enabled
+- **Image Support**: Passthrough enabled for image display in terminal
+- **Fast Escape**: No delay for escape key (escape-time 0)
 
 #### Common Commands
 - `t` or `tmux`: Start tmux (alias defined in shell config)
@@ -211,6 +235,25 @@ Tmux configuration focused on productivity with vim-like keybindings and a clean
 - Works seamlessly with the Neovim configuration
 - Shell aliases provide quick access
 - Color scheme likely matches overall terminal theme
+
+### Ghostty Configuration (`.config/ghostty/`)
+
+#### Overview
+Modern GPU-accelerated terminal emulator configuration with platform-specific settings.
+
+#### File Structure
+```
+.config/ghostty/
+├── config         # Main configuration (imports platform-specific configs)
+├── config.common  # Common settings across platforms
+├── config.linux   # Linux-specific settings
+└── config.macos   # macOS-specific settings
+```
+
+#### Key Features
+- **Platform-Specific Configs**: Separate files for Linux and macOS
+- **Common Configuration**: Shared settings in config.common
+- **Modular Design**: Main config imports platform-specific settings
 
 ## Key Design Patterns
 
@@ -238,6 +281,18 @@ Tmux configuration focused on productivity with vim-like keybindings and a clean
    - Platform-specific tool configurations
    - Wayland and X11 clipboard support
 
+4. **Git Configuration** (`.gitconfig`)
+   - User: Eduardo Vedes (eduardo.vedes@gmail.com)
+   - GitHub user: evedes
+   - Default editor: nvim
+   - Default branch: main
+   - Pull strategy: rebase
+   - Push: auto-setup remote
+   - Custom aliases:
+     - `fixup`: Interactive fixup commit selection with fzf
+     - `gll`: Pretty graph log with colors and author info
+   - SSH protocol preference for GitHub URLs
+
 ### Important Considerations
 
 1. **No Automated Installation**: This repository requires manual symlinking or copying of dotfiles
@@ -256,6 +311,11 @@ Tmux configuration focused on productivity with vim-like keybindings and a clean
 - PNPM: Platform-specific homes - `~/Library/pnpm` (macOS) or `~/.local/share/pnpm` (Linux)
 
 ## Recent Updates
+
+### Ghostty Configuration Updates (2025-08-01)
+- Modified Ghostty terminal configurations
+- Updated platform-specific settings for Linux and macOS
+- Refined common configuration settings
 
 ### Performance Optimizations (2025-07-19)
 - Consolidated platform detection into single `ZSH_PLATFORM` variable
