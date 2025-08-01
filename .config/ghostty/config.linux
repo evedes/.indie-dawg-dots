@@ -1,3 +1,4 @@
 # Linux-specific Ghostty configuration
 # Add Linux-specific options here as needed
 # Currently no Linux-specific options required
+font-size = 16
