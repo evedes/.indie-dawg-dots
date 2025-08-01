@@ -71,3 +71,6 @@ end
 -- Set undofile and undodir
 vim.opt.undofile = true
 vim.opt.undodir = undodir
+
+-- Experimental features
+vim.g.experimental = { check_rtp = false, check_rtp_message = false }

@@ -5,9 +5,14 @@ return {
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
-    keymap = { preset = "default" },
+    keymap = {
+      preset = "default",
+      ["<C-k>"] = { "select_prev", "fallback" },
+      ["<C-j>"] = { "select_next", "fallback" },
+      ["<C-d>"] = { "show_documentation" },
+    },
     appearance = {
-      nerd_font_variant = "mono",
+      nerd_font_variant = "normal",
     },
     completion = { documentation = { auto_show = false } },
     sources = {
