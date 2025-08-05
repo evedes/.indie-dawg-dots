@@ -144,4 +144,4 @@ alias claude="$HOME/.claude/local/claude"
 alias clauded="claude --dangerously-skip-permissions"
 
 ## HUBSTAFF
-alias rz='sudo -v cd ~/Work/hubstaff && cd zone && cd docs && bundle && cd .. && bundle && pnpm i && cd .. && sudo overmind start'
+alias rz='sudo cd ~/Work/hubstaff && cd zone && cd docs && bundle && cd .. && bundle && pnpm i && cd .. && sudo overmind start'
