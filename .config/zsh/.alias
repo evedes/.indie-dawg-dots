@@ -145,3 +145,13 @@ alias clauded="claude --dangerously-skip-permissions"
 
 ## HUBSTAFF
 alias rz='sudo cd ~/Work/hubstaff && cd zone && cd docs && bundle && cd .. && bundle && pnpm i && cd .. && sudo overmind start'
+
+# PSQL
+alias pg_dump17='/opt/homebrew/opt/postgresql@17/bin/pg_dump'
+
+# ZELLIJ
+alias z='zellij'
+alias zl='zellij list-sessions'
+alias za='zellij attach'
+alias zd='zellij delete-session'
+alias zn='zellij -n'
