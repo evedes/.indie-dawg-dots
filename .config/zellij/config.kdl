@@ -292,7 +292,36 @@ web_client {
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-theme "kanagawa"
+themes {
+    kanagawa_wave {
+        bg "#223249"
+        fg "#54546D"
+        black "#181816"
+        red "#C34043"
+        green "#76946A"
+        yellow "#C0A36E"
+        blue "#7E9CD8"
+        magenta "#957FB8"
+        cyan "#6A9589"
+        white "#54546D"
+        orange "#FFA066"
+    }
+    kanagawa_dragon {
+        fg "#C8C093"
+        bg "#181616"
+        black "#282727"
+        red "#c4746e"
+        green "#8a9a7b"
+        yellow "#c4b28a"
+        blue "#8ba4b0"
+        magenta "#a292a3"
+        cyan "#8ea4a2"
+        white "#C8C093"
+        orange "#FFA066"
+    }
+}
+
+theme "kanagawa_dragon"
 
 // Choose the base input mode of zellij.
 // Default: normal

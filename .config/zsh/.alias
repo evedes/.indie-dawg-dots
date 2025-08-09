@@ -111,6 +111,10 @@ alias k26='ssh edo@k26'
 alias k27='ssh edo@k27'
 alias k28='ssh edo@k28'
 
+# CODEBASES
+alias getzarta='cd ~/Work/getzarta'
+alias atomize='cd ~/Work/atomize'
+
 alias wr='wakeonlan b4:2e:99:3d:2f:40'
 alias wp='wakeonlan 14:cc:20:00:3c:87'
 
@@ -135,16 +139,14 @@ alias p2t='pdftotext'
 # KITTY
 alias img='kitty +kitten icat'
 
-## ZONE
+## HUBSTAFF
 alias ss='sudo overmind start'
+alias rz='sudo cd ~/Work/hubstaff && cd zone && cd docs && bundle && cd .. && bundle && pnpm i && cd .. && sudo overmind start'
 
 ## CLAUDE CODE
 alias ccusage="npx ccusage daily"
 alias claude="$HOME/.claude/local/claude"
 alias clauded="claude --dangerously-skip-permissions"
-
-## HUBSTAFF
-alias rz='sudo cd ~/Work/hubstaff && cd zone && cd docs && bundle && cd .. && bundle && pnpm i && cd .. && sudo overmind start'
 
 # PSQL
 alias pg_dump17='/opt/homebrew/opt/postgresql@17/bin/pg_dump'
