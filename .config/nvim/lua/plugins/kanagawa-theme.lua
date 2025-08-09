@@ -37,7 +37,5 @@ return {
     vim.api.nvim_set_hl(0, "Search", { bg = "#FFFF00", fg = "#000000" })
     vim.api.nvim_set_hl(0, "IncSearch", { bg = "#FFFF00", fg = "#000000" })
   end,
-  build = function()
-    vim.cmd("KanagawaCompile")
-  end,
+  build = ":KanagawaCompile",
 }
