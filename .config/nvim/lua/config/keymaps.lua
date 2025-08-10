@@ -60,3 +60,6 @@ keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<cr>", with_desc("Quick S
 
 -- Markview
 keymap.set("n", "<leader>mt", "<cmd>Markview toggle<cr>", with_desc("Toggle Markview"))
+
+-- Dadbod
+keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", with_desc("Open Dadbod"))
