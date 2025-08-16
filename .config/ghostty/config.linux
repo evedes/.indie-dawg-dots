@@ -3,5 +3,5 @@
 # Currently no Linux-specific options required
 font-size = 16
 
-background-opacity = 0.88
+background-opacity = 0.80
 background-blur-radius = 40
