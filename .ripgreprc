@@ -36,3 +36,4 @@
 # Exclude specific files
 --glob=!**/package-lock.json
 --glob=!**/pnpm-lock.yaml
+--glob=!**/ormlogs.log

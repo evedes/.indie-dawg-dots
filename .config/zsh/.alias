@@ -157,3 +157,7 @@ alias zl='zellij list-sessions'
 alias za='zellij attach'
 alias zd='zellij delete-session'
 alias zn='zellij -n'
+
+# GETZARTA
+alias gz='cd ~/Work/getzarta'
+alias zwt='./zwt'
