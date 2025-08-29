@@ -9,3 +9,4 @@ config-file = ~/.indie-dawg-dots/.config/ghostty/config.common
 # Uncomment the line for your current platform:
 config-file = ~/.indie-dawg-dots/.config/ghostty/config.macos
 # config-file = ~/.indie-dawg-dots/.config/ghostty/config.linux
+keybind = shift+enter=text:\n
