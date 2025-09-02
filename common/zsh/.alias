@@ -31,6 +31,10 @@ alias tl='t ls'
 alias tn='t new -s'
 alias tk='t kill-session -t'
 
+# ZELLIJ
+alias zt='~/.indie-dawg-dots/common/zellij/switch-theme.sh'
+alias ztheme='zt'
+
 # PBCOPY / PBPASTE - handled in platform-specific files
 
 # SCRIPTS
