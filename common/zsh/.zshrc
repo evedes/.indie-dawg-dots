@@ -12,7 +12,7 @@ typeset -A platform_paths
 platform_paths=(
     [macos_zinit]="/opt/homebrew/opt/zinit/zinit.zsh"
     [linux_zinit]="/usr/share/zinit/zinit.zsh"
-    [linux_zinit_alt1]="$HOME/.local/share/zinit/zinit.zsh"
+    [linux_zinit_alt1]="$HOME/.local/share/zinit/zinit.git/zinit.zsh"
     [linux_zinit_alt2]="/usr/share/zsh/plugins/zinit/zinit.zsh"
 )
 
@@ -61,10 +61,14 @@ if has_cmd fnm; then
 fi
 
 # Platform-specific configurations
-[[ -f "$HOME/.indie-dawg-dots/.config/zsh/.${ZSH_PLATFORM}rc" ]] && source "$HOME/.indie-dawg-dots/.config/zsh/.${ZSH_PLATFORM}rc"
+if [[ "$ZSH_PLATFORM" == "linux" ]]; then
+    [[ -f "$HOME/.indie-dawg-dots/archlinux/.linuxrc" ]] && source "$HOME/.indie-dawg-dots/archlinux/.linuxrc"
+elif [[ "$ZSH_PLATFORM" == "macos" ]]; then
+    [[ -f "$HOME/.indie-dawg-dots/macos/.macosrc" ]] && source "$HOME/.indie-dawg-dots/macos/.macosrc"
+fi
 
 # Common configurations
-source $HOME/.indie-dawg-dots/.config/zsh/.alias
+source $HOME/.indie-dawg-dots/common/zsh/.alias
 [[ -f "$HOME/.ssh/load_secrets.sh" ]] && source $HOME/.ssh/load_secrets.sh
 
 # History setup
