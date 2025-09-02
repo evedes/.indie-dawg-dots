@@ -34,36 +34,42 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 ### Directory Organization
 ```
 .indie-dawg-dots/
-├── .config/           # Application configurations
+├── common/           # Cross-platform configurations
 │   ├── nvim/         # Neovim (Lua-based config with lazy.nvim)
 │   ├── zsh/          # Shell configuration and aliases
 │   ├── tmux/         # Terminal multiplexer
 │   ├── starship/     # Cross-shell prompt
 │   ├── ghostty/      # Terminal emulator
-│   ├── hypr/         # Hyprland window manager (Linux)
-│   ├── waybar/       # Wayland bar configuration (Linux)
-│   ├── rofi/         # Application launcher
+│   ├── zellij/       # Terminal workspace manager
 │   ├── cava/         # Audio visualizer
 │   ├── emacs/        # Emacs configuration
 │   └── fontconfig/   # Font configuration
+├── archlinux/        # Linux-specific configurations
+│   ├── hypr/         # Hyprland window manager
+│   ├── waybar/       # Wayland bar configuration
+│   ├── rofi/         # Application launcher
+│   ├── yay/          # AUR helper configuration
+│   └── .linuxrc      # Linux-specific shell configuration
+├── macos/            # macOS-specific configurations
+│   └── .macosrc      # macOS-specific shell configuration
 ├── .gitconfig        # Git configuration with custom aliases
-├── .zshenv          # Environment variables for development tools
-├── .ripgreprc       # Search tool configuration
-├── .vimrc           # Basic vim configuration (fallback)
-├── fonts/           # Custom fonts directory
-└── .claude/         # Claude-specific configuration
+├── .zshenv           # Environment variables for development tools
+├── .ripgreprc        # Search tool configuration
+├── .vimrc            # Basic vim configuration (fallback)
+├── fonts/            # Custom fonts directory
+└── .claude/          # Claude-specific configuration
 ```
 
 ## Detailed Configuration Guides
 
-### Neovim Configuration (`.config/nvim/`)
+### Neovim Configuration (`common/nvim/`)
 
 #### Overview
 A modern Neovim configuration built with Lua, focusing on minimalism and efficiency using the mini.nvim plugin suite extensively.
 
 #### Structure
 ```
-.config/nvim/
+common/nvim/
 ├── init.lua              # Entry point - loads lua/config/
 ├── lua/
 │   ├── config/           # Main configuration files
@@ -72,12 +78,12 @@ A modern Neovim configuration built with Lua, focusing on minimalism and efficie
 │   │   ├── lazy.lua      # Plugin manager setup
 │   │   └── options.lua   # Neovim options
 │   ├── plugins/          # Plugin configurations
-│   ├── lsp.lua          # LSP configuration
-│   └── icons.lua        # Icon definitions
-├── lsp/                 # LSP-specific configuration
-├── after/               # After plugin configurations
-├── lazy-lock.json       # Plugin version lock file
-└── stylua.toml          # Lua formatter configuration
+│   ├── lsp.lua           # LSP configuration
+│   └── icons.lua         # Icon definitions
+├── lsp/                  # LSP-specific configuration
+├── after/                # After plugin configurations
+├── lazy-lock.json        # Plugin version lock file
+└── stylua.toml           # Lua formatter configuration
 ```
 
 #### Key Features
@@ -118,19 +124,23 @@ A modern Neovim configuration built with Lua, focusing on minimalism and efficie
 - Node.js (for many LSP servers)
 - Ripgrep (for telescope and other search features)
 
-### Zsh Configuration (`.config/zsh/`)
+### Zsh Configuration (`common/zsh/`, `archlinux/`, `macos/`)
 
 #### Overview
 A cross-platform Zsh configuration designed to work seamlessly on both macOS and Linux (especially Arch Linux).
 
 #### File Structure
 ```
-.config/zsh/
+common/zsh/
 ├── .zshrc       # Main interactive shell configuration
-├── .alias       # Shell aliases and functions
+└── .alias       # Shell aliases and functions
+
+archlinux/
 ├── .linuxrc     # Linux-specific configurations
-├── .macosrc     # macOS-specific configurations
-└── yay/         # AUR helper configuration (Arch Linux)
+└── yay/         # AUR helper configuration
+
+macos/
+└── .macosrc     # macOS-specific configurations
 ```
 
 #### Key Files
@@ -149,8 +159,8 @@ A cross-platform Zsh configuration designed to work seamlessly on both macOS and
 - Platform-agnostic commands
 
 ##### Platform-Specific Files
-- `.linuxrc`: Linux-specific paths, configurations, and Wayland/X11 clipboard support
-- `.macosrc`: macOS-specific paths and Homebrew setup
+- `archlinux/.linuxrc`: Linux-specific paths, configurations, and Wayland/X11 clipboard support
+- `macos/.macosrc`: macOS-specific paths and Homebrew setup
 
 #### Important Features
 
@@ -203,11 +213,11 @@ brew install zinit
 3. Reload with `source ~/.zshrc` or use the `r` alias
 
 ##### Adding Platform-Specific Config
-1. Edit `.linuxrc` or `.macosrc`
+1. Edit `archlinux/.linuxrc` or `macos/.macosrc`
 2. Use platform detection for conditional logic
 3. Test on both platforms if possible
 
-### Tmux Configuration (`.config/tmux/`)
+### Tmux Configuration (`common/tmux/`)
 
 #### Overview
 Tmux configuration focused on productivity with vim-like keybindings and a clean interface.
@@ -236,14 +246,14 @@ Tmux configuration focused on productivity with vim-like keybindings and a clean
 - Shell aliases provide quick access
 - Color scheme likely matches overall terminal theme
 
-### Ghostty Configuration (`.config/ghostty/`)
+### Ghostty Configuration (`common/ghostty/`)
 
 #### Overview
 Modern GPU-accelerated terminal emulator configuration with platform-specific settings.
 
 #### File Structure
 ```
-.config/ghostty/
+common/ghostty/
 ├── config         # Main configuration (imports platform-specific configs)
 ├── config.common  # Common settings across platforms
 ├── config.linux   # Linux-specific settings
@@ -257,7 +267,7 @@ Modern GPU-accelerated terminal emulator configuration with platform-specific se
 
 ## Key Design Patterns
 
-1. **Neovim Configuration** (`~/.config/nvim/`)
+1. **Neovim Configuration** (`common/nvim/`)
    - Entry point: `init.lua` loads `lua/config/`
    - Modular Lua configuration using lazy.nvim plugin manager
    - Leader key: Space
@@ -267,12 +277,12 @@ Modern GPU-accelerated terminal emulator configuration with platform-specific se
 
 2. **Shell Environment**
    - Primary shell: zsh with Zinit plugin manager
-   - Aliases defined in `.config/zsh/.alias`
+   - Aliases defined in `common/zsh/.alias`
    - Environment variables and PATH exports in `.zshenv` (cross-platform, non-interactive)
-   - Interactive shell configuration in `.config/zsh/.zshrc` (plugins, completions, keybindings)
-   - Platform-specific configurations in `.config/zsh/.{macos,linux}rc`
+   - Interactive shell configuration in `common/zsh/.zshrc` (plugins, completions, keybindings)
+   - Platform-specific configurations in `macos/.macosrc` and `archlinux/.linuxrc`
    - FZF integration for fuzzy finding
-   - **Zinit paths**: Checks multiple locations on Linux (`/usr/share/zinit/`, `~/.local/share/zinit/`, `/usr/share/zsh/plugins/zinit/`)
+   - **Zinit paths**: Checks multiple locations on Linux (`/usr/share/zinit/`, `~/.local/share/zinit/zinit.git/`, `/usr/share/zsh/plugins/zinit/`)
    - **Cross-platform compatibility**: Platform detection ensures macOS and Linux-specific paths are handled correctly
 
 3. **Cross-Platform Support**
@@ -312,6 +322,13 @@ Modern GPU-accelerated terminal emulator configuration with platform-specific se
 
 ## Recent Updates
 
+### Directory Structure Reorganization (2025-09-02)
+- Reorganized dotfiles into three main directories: `common/`, `archlinux/`, and `macos/`
+- Moved cross-platform configurations to `common/` directory
+- Separated platform-specific configurations into dedicated folders
+- Updated shell configuration paths to reflect new structure
+- Fixed Zinit loading path on Arch Linux to use `~/.local/share/zinit/zinit.git/zinit.zsh`
+
 ### Ghostty Configuration Updates (2025-08-01)
 - Modified Ghostty terminal configurations
 - Updated platform-specific settings for Linux and macOS
@@ -339,7 +356,7 @@ Modern GPU-accelerated terminal emulator configuration with platform-specific se
 ## Troubleshooting
 
 ### Arch Linux Issues
-- If Zinit fails to load, install it manually: `git clone https://github.com/zdharma-continuum/zinit.git ~/.local/share/zinit`
+- If Zinit fails to load, install it manually: `git clone https://github.com/zdharma-continuum/zinit.git ~/.local/share/zinit/zinit.git`
 - Missing commands can be installed via: `sudo pacman -S bat xsel fzf starship ripgrep wl-clipboard`
 - For AUR packages: `yay -S lazygit-bin`
 

@@ -5,8 +5,8 @@ alias r='exec ${SHELL} -l'
 alias x='exit'
 alias b='bat'
 # Platform-specific aliases moved to .macosrc/.linuxrc
-alias aa='nvim ~/.indie-dawg-dots/.config/zsh/.alias'
-alias zz='nvim ~/.indie-dawg-dots/.config/zsh/.zshrc'
+alias aa='nvim ~/.indie-dawg-dots/common/zsh/.alias'
+alias zz='nvim ~/.indie-dawg-dots/common/zsh/.zshrc'
 alias mm='cd ~/Nextcloud/Multiverse && v -O EVERYTHING\ PLAN.md TODO\ ARCHIVE.md GET\ THINGS\ DONE.md'
 alias cc='cd ~/Nextcloud/Multiverse && v -O CREATORSGUILD-PROJECT-MANAGEMENT.md'
 # Hostname
@@ -21,7 +21,7 @@ alias rpaper="killall hyprpaper && hyprpaper & disown"
 
 # NEOVIM
 alias v='nvim'
-alias nconf='cd ~/.config/nvim && nvim .'
+alias nconf='cd ~/.indie-dawg-dots/common/nvim && nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 alias t='tmux'

@@ -13,7 +13,12 @@
       "Bash(chmod:*)",
       "Bash(waybar:*)",
       "Bash(fc-match:*)",
-      "Bash(killall:*)"
+      "Bash(killall:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(rm:*)",
+      "Bash(rmdir:*)",
+      "Bash(zsh:*)"
     ],
     "deny": []
   }
