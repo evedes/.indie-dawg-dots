@@ -282,18 +282,7 @@ web_client {
     font "ZedMono Nerd Font Mono"
 }
 
-// Use a simplified UI without special fonts (arrow glyphs)
-// Options:
-//   - true
-//   - false (Default)
-//
-// simplified_ui true
-
-// Choose the theme that is specified in the themes section.
-// Default: default
-//
 themes {
-    // Kanagawa themes
     kanagawa_wave {
         bg "#223249"
         fg "#54546D"
@@ -333,158 +322,9 @@ themes {
         white "#545464"
         orange "#FFA066"
     }
-    
-    // Rose Pine themes
-    rose_pine_main {
-        fg "#e0def4"
-        bg "#191724"
-        black "#26233a"
-        red "#eb6f92"
-        green "#31748f"
-        yellow "#f6c177"
-        blue "#9ccfd8"
-        magenta "#c4a7e7"
-        cyan "#ebbcba"
-        white "#e0def4"
-        orange "#f6c177"
-    }
-    rose_pine_moon {
-        fg "#e0def4"
-        bg "#232136"
-        black "#393552"
-        red "#eb6f92"
-        green "#3e8fb0"
-        yellow "#f6c177"
-        blue "#9ccfd8"
-        magenta "#c4a7e7"
-        cyan "#ea9a97"
-        white "#e0def4"
-        orange "#f6c177"
-    }
-    rose_pine_dawn {
-        fg "#575279"
-        bg "#faf4ed"
-        black "#f2e9e1"
-        red "#b4637a"
-        green "#286983"
-        yellow "#ea9d34"
-        blue "#56949f"
-        magenta "#907aa9"
-        cyan "#d7827e"
-        white "#575279"
-        orange "#ea9d34"
-    }
-    
-    // Catppuccin themes
-    catppuccin_latte {
-        fg "#4c4f69"
-        bg "#eff1f5"
-        black "#5c5f77"
-        red "#d20f39"
-        green "#40a02b"
-        yellow "#df8e1d"
-        blue "#1e66f5"
-        magenta "#8839ef"
-        cyan "#179299"
-        white "#4c4f69"
-        orange "#fe640b"
-    }
-    catppuccin_frappe {
-        fg "#c6d0f5"
-        bg "#303446"
-        black "#51576d"
-        red "#e78284"
-        green "#a6d189"
-        yellow "#e5c890"
-        blue "#8caaee"
-        magenta "#ca9ee6"
-        cyan "#81c8be"
-        white "#c6d0f5"
-        orange "#ef9f76"
-    }
-    catppuccin_macchiato {
-        fg "#cad3f5"
-        bg "#24273a"
-        black "#494d64"
-        red "#ed8796"
-        green "#a6da95"
-        yellow "#eed49f"
-        blue "#8aadf4"
-        magenta "#c6a0f6"
-        cyan "#8bd5ca"
-        white "#cad3f5"
-        orange "#f5a97f"
-    }
-    catppuccin_mocha {
-        fg "#cdd6f4"
-        bg "#1e1e2e"
-        black "#45475a"
-        red "#f38ba8"
-        green "#a6e3a1"
-        yellow "#f9e2af"
-        blue "#89b4fa"
-        magenta "#cba6f7"
-        cyan "#89dceb"
-        white "#cdd6f4"
-        orange "#fab387"
-    }
-    
-    // Tokyo Night themes
-    tokyonight_storm {
-        fg "#c0caf5"
-        bg "#24283b"
-        black "#1a1b26"
-        red "#f7768e"
-        green "#9ece6a"
-        yellow "#e0af68"
-        blue "#7aa2f7"
-        magenta "#bb9af7"
-        cyan "#7dcfff"
-        white "#c0caf5"
-        orange "#ff9e64"
-    }
-    tokyonight_night {
-        fg "#c0caf5"
-        bg "#1a1b26"
-        black "#15161e"
-        red "#f7768e"
-        green "#9ece6a"
-        yellow "#e0af68"
-        blue "#7aa2f7"
-        magenta "#bb9af7"
-        cyan "#7dcfff"
-        white "#c0caf5"
-        orange "#ff9e64"
-    }
-    tokyonight_moon {
-        fg "#c8d3f5"
-        bg "#222436"
-        black "#1e2030"
-        red "#ff757f"
-        green "#c3e88d"
-        yellow "#ffc777"
-        blue "#82aaff"
-        magenta "#c099ff"
-        cyan "#86e1fc"
-        white "#c8d3f5"
-        orange "#ff966c"
-    }
-    tokyonight_day {
-        fg "#3760bf"
-        bg "#e1e2e7"
-        black "#a1a6c5"
-        red "#f52a65"
-        green "#587539"
-        yellow "#8c6c3e"
-        blue "#2e7de9"
-        magenta "#9854f1"
-        cyan "#007197"
-        white "#3760bf"
-        orange "#b15c00"
-    }
 }
 
-theme "rose_pine_moon"
+theme "kanagawa_dragon"
 
 // Choose the base input mode of zellij.
 // Default: normal
