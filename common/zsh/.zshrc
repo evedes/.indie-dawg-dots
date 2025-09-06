@@ -102,5 +102,3 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-rust
 
 ### End of Zinit's installer chunk
-
-alias claude="/home/edo/.claude/local/claude"
