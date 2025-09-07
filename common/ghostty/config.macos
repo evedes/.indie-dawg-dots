@@ -3,5 +3,5 @@ macos-option-as-alt = true
 macos-window-shadow = false
 font-size = 16
 
-background-opacity = 0.95
+background-opacity = 0.85
 background-blur-radius = 20
