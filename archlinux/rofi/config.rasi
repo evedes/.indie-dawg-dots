@@ -1,6 +1,6 @@
 configuration {
     modes: "drun";
-    font: "BerkeleyMono 14";
+    font: "ZedMono Nerd Font Mono 15";
     fixed-num-lines: true;
     show-icons: true;
 
@@ -14,7 +14,7 @@ configuration {
 
     timeout {
         action: "kb-cancel";
-        delay:  0;
+        delay:  10;
     }
 
     kb-row-up: "Up,Control+k";

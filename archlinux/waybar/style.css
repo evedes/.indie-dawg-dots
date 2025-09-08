@@ -3,55 +3,103 @@
   font-size: 16px;
 }
 
+/* Blue theme matching rofi arch-theme.rasi */
 /* stylelint-disable */
-@define-color blue #7eb3c9;
-@define-color yellow #e8c92d;
+@define-color bg-dark rgba(10, 25, 47, 0.85);
+@define-color bg-lighter rgba(15, 35, 60, 0.3);
+@define-color accent #4fc3f7;
+@define-color accent-bright #81d4fa;
+@define-color text-primary #e1f5fe;
+@define-color text-secondary #b3e5fc;
+@define-color selected rgba(41, 128, 185, 0.6);
+@define-color selected-bright rgba(33, 150, 243, 0.4);
+@define-color border-accent rgba(79, 195, 247, 0.5);
 
 window#waybar {
-  background: rgba(0, 0, 0, 0.8);
+  background: @bg-dark;
   border-radius: 0px;
+  border-bottom: 2px solid @border-accent;
 }
 
 #workspaces {
-  padding: 8px;
+  padding: 0;
+  background: transparent;
+  margin: 2px 12px;
 }
 
 #workspaces button {
-  border-radius: 8px;
-  padding: 0 4px;
-  color: @blue;
+  border-radius: 6px;
+  padding: 0 10px;
+  color: @text-secondary;
+  background: transparent;
+  margin: 0 3px;
+  transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+  background: rgba(79, 195, 247, 0.15);
+  color: @accent-bright;
 }
 
 #workspaces button.active {
-  color: @yellow;
+  color: @text-primary;
+  background: @selected;
+  border: 1px solid @border-accent;
 }
 
+#custom-system-info,
+#custom-system-stats,
 #pulseaudio,
 #cpu,
 #disk,
 #memory,
 #network,
 #custom-ping {
-  color: #7eb3c9;
-  margin: 2px;
-  padding: 8px;
+  color: @accent-bright;
+  margin: 2px 8px;
+  padding: 0;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+#custom-system-info:hover,
+#custom-system-stats:hover,
+#pulseaudio:hover,
+#cpu:hover,
+#disk:hover,
+#memory:hover,
+#network:hover,
+#custom-ping:hover {
+  color: @text-primary;
 }
 
 #clock {
-  color: @yellow;
-  margin-right: 12px;
-  padding: 0 8px;
+  color: @accent-bright;
+  margin-right: 16px;
+  padding: 0;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+#clock:hover {
+  color: @text-primary;
 }
 
 #custom-arch {
   font-size: 24px;
-  color: @yellow;
-  padding: 8px;
-  margin-left: 12px;
+  color: @accent;
+  padding: 0;
+  margin-left: 16px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+#custom-arch:hover {
+  color: @accent-bright;
 }
 
 #custom-separator {
-  color: @yellow;
-  padding: 0 8px;
+  color: @border-accent;
+  padding: 0 6px;
   font-size: 18px;
 }

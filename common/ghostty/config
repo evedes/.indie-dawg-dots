@@ -7,6 +7,6 @@ config-file = ~/.indie-dawg-dots/common/ghostty/config.common
 
 # Platform-specific configurations
 # Uncomment the line for your current platform:
-config-file = ~/.indie-dawg-dots/common/ghostty/config.macos
-# config-file = ~/.indie-dawg-dots/common/ghostty/config.linux
+# config-file = ~/.indie-dawg-dots/common/ghostty/config.macos
+config-file = ~/.indie-dawg-dots/common/ghostty/config.linux
 keybind = shift+enter=text:\n
