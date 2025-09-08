@@ -49,3 +49,8 @@ fi
 
 # PSQL
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# SPICETIFY
+if [[ "$ZSH_PLATFORM" == "linux" ]]; then
+  export PATH=$PATH:/home/edo/.spicetify
+fi

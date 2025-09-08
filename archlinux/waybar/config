@@ -3,15 +3,14 @@
     "margin": "10 20 0 20",
     "position": "top",
     "reload_style_on_change": true, // Only CSS Styles
-
     "output": "DP-2",
     "modules-left": ["custom/arch", "custom/separator", "hyprland/workspaces", "tray"],
     "modules-center": [],
-    "modules-right": ["cpu#percentage","custom/separator", "memory","custom/separator", "disk#root", "disk#home","custom/separator", "network", "custom/separator", "custom/ping", "custom/separator", "pulseaudio","custom/separator", "clock"],
+    "modules-right": ["custom/system-stats", "custom/separator", "network", "custom/separator", "custom/ping", "custom/separator", "pulseaudio","custom/separator", "clock"],
 
     "tray": {
-      "icon-size": 18,
-      "spacing": 10
+      "icon-size": 24,
+      "spacing": 16
     },
 
     "custom/separator": {
@@ -26,6 +25,21 @@
       "exec": "ping -c 1 8.8.8.8 | grep -oP 'time=\\K\\d+'"
     },
 
+    "custom/system-stats": {
+      "exec": "/home/edo/.indie-dawg-dots/archlinux/waybar/scripts/system-stats.sh",
+      "return-type": "json",
+      "interval": 5,
+      "format": "{}",
+      "on-click": "gnome-system-monitor || htop"
+    },
+
+    "custom/system-info": {
+      "exec": "/home/edo/.config/waybar/scripts/system-info.sh",
+      "return-type": "json",
+      "interval": 5,
+      "format": "{}"
+    },
+
     "custom/arch": {
       "format": "{icon}",
       "format-icons": {
@@ -38,13 +52,26 @@
       "format": "{name}",
       "on-scroll-up": "hyprctl dispatch workspace e+1",
       "on-scroll-down": "hyprctl dispatch workspace e-1",
-      "on-click": "activate"
+      "on-click": "activate",
+      "all-outputs": false,
+      "persistent-workspaces": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": []
+      }
     },
 
 
     "cpu#percentage": {
       "interval": 4,
       "format": "󰻠 {}%",
+      "tooltip": true,
+      "tooltip-format": "CPU Usage: {usage}%\nLoad: {load}\nFrequency: {avg_frequency} GHz"
     },
 
     "memory": {
@@ -100,7 +127,27 @@
     "clock": {
       "interval": 60,
       "format": "󱛡 {:%H:%M}",
-      "max-length": 25
+      "max-length": 25,
+      "tooltip": true,
+      "tooltip-format": "<b>{:%B %Y}</b>\n<tt>{calendar}</tt>",
+      "calendar": {
+        "mode": "month",
+        "mode-mon-col": 3,
+        "weeks-pos": "right",
+        "on-scroll": 1,
+        "format": {
+          "months": "<span color='#81d4fa' size='large'><b>{}</b></span>",
+          "days": "<span color='#b3e5fc' size='medium'>{}</span>",
+          "weeks": "<span color='#4fc3f7' size='medium'><b>W{}</b></span>",
+          "weekdays": "<span color='#e1f5fe' size='medium'><b>{}</b></span>",
+          "today": "<span color='#ffffff' size='medium'><b>{}</b></span>"
+        }
+      },
+      "actions": {
+        "on-click-right": "mode",
+        "on-scroll-up": "shift_up",
+        "on-scroll-down": "shift_down"
+      }
     },
 
 }
