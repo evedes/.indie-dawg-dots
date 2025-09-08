@@ -1,11 +1,12 @@
 {
   "layer": "top",
-    "margin": "10 20 0 20",
+    "margin": "0",
     "position": "top",
+    "height": 52,
     "reload_style_on_change": true, // Only CSS Styles
     "output": "DP-2",
     "modules-left": ["custom/arch", "custom/separator", "hyprland/workspaces", "tray"],
-    "modules-center": [],
+    "modules-center": ["custom/spotify", "custom/cava"],
     "modules-right": ["custom/system-stats", "custom/separator", "network", "custom/separator", "custom/ping", "custom/separator", "pulseaudio","custom/separator", "clock"],
 
     "tray": {
@@ -149,5 +150,27 @@
         "on-scroll-down": "shift_down"
       }
     },
+
+    "custom/spotify": {
+      "exec": "/home/edo/.indie-dawg-dots/archlinux/waybar/scripts/spotify.sh",
+      "return-type": "json",
+      "interval": 1,
+      "format": "{}",
+      "on-click": "playerctl -p spotify play-pause",
+      "on-click-right": "spotify",
+      "on-scroll-up": "playerctl -p spotify next",
+      "on-scroll-down": "playerctl -p spotify previous",
+      "escape": true,
+      "max-length": 60
+    },
+
+    "custom/cava": {
+      "exec": "/home/edo/.indie-dawg-dots/archlinux/waybar/scripts/cava-visualizer.sh",
+      "return-type": "json",
+      "interval": "continuous",
+      "format": "{}",
+      "tooltip": true,
+      "max-length": 20
+    }
 
 }
