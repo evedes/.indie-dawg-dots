@@ -1,6 +1,7 @@
 * {
   font-family: "JetBrainsMonoNerdFont";
-  font-size: 16px;
+  font-size: 17px;
+  min-height: 0;
 }
 
 /* Blue theme matching rofi arch-theme.rasi */
@@ -24,12 +25,12 @@ window#waybar {
 #workspaces {
   padding: 0;
   background: transparent;
-  margin: 2px 12px;
+  margin: 6px 12px;
 }
 
 #workspaces button {
   border-radius: 6px;
-  padding: 0 10px;
+  padding: 4px 12px;
   color: @text-secondary;
   background: transparent;
   margin: 0 3px;
@@ -56,8 +57,8 @@ window#waybar {
 #network,
 #custom-ping {
   color: @accent-bright;
-  margin: 2px 8px;
-  padding: 0;
+  margin: 6px 8px;
+  padding: 4px 0;
   background: transparent;
   transition: all 0.3s ease;
 }
@@ -76,7 +77,7 @@ window#waybar {
 #clock {
   color: @accent-bright;
   margin-right: 16px;
-  padding: 0;
+  padding: 4px 0;
   background: transparent;
   transition: all 0.3s ease;
 }
@@ -86,9 +87,9 @@ window#waybar {
 }
 
 #custom-arch {
-  font-size: 24px;
+  font-size: 26px;
   color: @accent;
-  padding: 0;
+  padding: 4px 0;
   margin-left: 16px;
   background: transparent;
   transition: all 0.3s ease;
@@ -103,3 +104,123 @@ window#waybar {
   padding: 0 6px;
   font-size: 18px;
 }
+
+/* Spotify Module Styles */
+#custom-spotify {
+  color: #1db954;
+  background: linear-gradient(90deg, rgba(29, 185, 84, 0.1), rgba(29, 185, 84, 0.05));
+  padding: 4px 12px;
+  margin: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(29, 185, 84, 0.3);
+  transition: all 0.3s ease;
+  animation: subtle-glow 3s ease-in-out infinite;
+}
+
+#custom-spotify.spotify-Playing {
+  color: #1ed760;
+  background: linear-gradient(90deg, rgba(30, 215, 96, 0.15), rgba(29, 185, 84, 0.1));
+  border-color: rgba(30, 215, 96, 0.5);
+  animation: playing-pulse 2s ease-in-out infinite;
+}
+
+#custom-spotify.spotify-Paused {
+  color: rgba(29, 185, 84, 0.7);
+  background: rgba(29, 185, 84, 0.05);
+  border-color: rgba(29, 185, 84, 0.2);
+}
+
+#custom-spotify.spotify-stopped {
+  color: rgba(29, 185, 84, 0.4);
+  background: transparent;
+  border-color: rgba(29, 185, 84, 0.1);
+}
+
+#custom-spotify:hover {
+  background: linear-gradient(90deg, rgba(30, 215, 96, 0.2), rgba(29, 185, 84, 0.15));
+  border-color: rgba(30, 215, 96, 0.7);
+}
+
+/* Cava Visualizer Styles */
+#custom-cava {
+  font-size: 22px;
+  color: @accent;
+  background: linear-gradient(90deg, 
+    rgba(79, 195, 247, 0.05),
+    rgba(129, 212, 250, 0.1),
+    rgba(79, 195, 247, 0.05));
+  padding: 4px 10px;
+  margin: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(79, 195, 247, 0.2);
+  transition: all 0.2s ease;
+}
+
+#custom-cava.cava-active {
+  color: @accent-bright;
+  background: linear-gradient(90deg,
+    rgba(129, 212, 250, 0.15),
+    rgba(79, 195, 247, 0.2),
+    rgba(129, 212, 250, 0.15));
+  border-color: @border-accent;
+  animation: visualizer-glow 0.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 8px rgba(79, 195, 247, 0.6);
+}
+
+#custom-cava.cava-idle {
+  color: rgba(79, 195, 247, 0.4);
+  background: rgba(79, 195, 247, 0.02);
+  border-color: rgba(79, 195, 247, 0.1);
+}
+
+/* Animations */
+@keyframes playing-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(30, 215, 96, 0);
+  }
+  50% {
+    box-shadow: 0 0 15px 3px rgba(30, 215, 96, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(30, 215, 96, 0);
+  }
+}
+
+@keyframes subtle-glow {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes visualizer-glow {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Rainbow animation for active visualizer (optional, can be toggled) */
+@keyframes rainbow {
+  0% { color: #ff6b6b; }
+  14% { color: #ffd93d; }
+  28% { color: #6bcf7f; }
+  42% { color: #4ecdc4; }
+  57% { color: #4ea8de; }
+  71% { color: #5e60ce; }
+  85% { color: #c77dff; }
+  100% { color: #ff6b6b; }
+}
+
+/* Apply rainbow effect to active cava bars (uncomment to enable) */
+/* #custom-cava.cava-active {
+  animation: visualizer-glow 0.5s ease-in-out infinite alternate,
+            rainbow 3s linear infinite;
+} */

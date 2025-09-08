@@ -63,3 +63,11 @@ keymap.set("n", "<leader>mt", "<cmd>Markview toggle<cr>", with_desc("Toggle Mark
 
 -- Dadbod
 keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", with_desc("Open Dadbod"))
+
+-- UI / Theme
+keymap.set("n", "<leader>ut", function()
+  require("config.theme-switcher").pick_theme()
+end, with_desc("Pick Theme"))
+keymap.set("n", "<leader>uT", function()
+  require("config.theme-switcher").cycle_theme()
+end, with_desc("Cycle Theme"))
