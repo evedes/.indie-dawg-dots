@@ -3,7 +3,7 @@
 ---@type vim.lsp.Config
 return {
   cmd = { "vtsls", "--stdio" },
-  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
   settings = {
     vtsls = {
