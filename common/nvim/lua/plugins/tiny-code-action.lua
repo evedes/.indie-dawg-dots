@@ -11,6 +11,14 @@ return {
         desc = "Code Action",
         mode = { "n", "x" },
       },
+      {
+        "<leader>cd",
+        function()
+          vim.diagnostic.open_float()
+        end,
+        desc = "Show Diagnostic Description",
+        mode = { "n" },
+      },
     },
     opts = {
       picker = {

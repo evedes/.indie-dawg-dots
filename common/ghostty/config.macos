@@ -1,7 +1,7 @@
 # macOS-specific Ghostty configuration
 macos-option-as-alt = true
 macos-window-shadow = false
-font-size = 16
+font-size = 18
 
 background-opacity = 0.85
 background-blur-radius = 20
