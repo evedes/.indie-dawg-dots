@@ -71,3 +71,19 @@ end, with_desc("Pick Theme"))
 keymap.set("n", "<leader>uT", function()
   require("config.theme-switcher").cycle_theme()
 end, with_desc("Cycle Theme"))
+
+-- Quickfix Navigation
+keymap.set("n", "[q", "<cmd>cprevious<cr>", with_desc("Previous quickfix item"))
+keymap.set("n", "]q", "<cmd>cnext<cr>", with_desc("Next quickfix item"))
+keymap.set("n", "[Q", "<cmd>cfirst<cr>", with_desc("First quickfix item"))
+keymap.set("n", "]Q", "<cmd>clast<cr>", with_desc("Last quickfix item"))
+keymap.set("n", "<leader>xq", "<cmd>copen<cr>", with_desc("Open quickfix"))
+keymap.set("n", "<leader>xc", "<cmd>cclose<cr>", with_desc("Close quickfix"))
+
+-- Location List Navigation
+keymap.set("n", "[l", "<cmd>lprevious<cr>", with_desc("Previous location item"))
+keymap.set("n", "]l", "<cmd>lnext<cr>", with_desc("Next location item"))
+keymap.set("n", "[L", "<cmd>lfirst<cr>", with_desc("First location item"))
+keymap.set("n", "]L", "<cmd>llast<cr>", with_desc("Last location item"))
+keymap.set("n", "<leader>xl", "<cmd>lopen<cr>", with_desc("Open location list"))
+keymap.set("n", "<leader>xC", "<cmd>lclose<cr>", with_desc("Close location list"))
