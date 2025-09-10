@@ -19,6 +19,40 @@ return {
       updateImportsOnFileMove = { enabled = "always" },
       suggest = {
         completeFunctionCalls = true,
+        autoImports = true,
+        includeCompletionsForModuleExports = true,
+        includeCompletionsForImportStatements = true,
+        includeCompletionsWithSnippetText = true,
+        includeAutomaticOptionalChainCompletions = true,
+      },
+      preferences = {
+        includePackageJsonAutoImports = "auto",
+        importModuleSpecifier = "shortest",
+        jsxAttributeCompletionStyle = "auto",
+      },
+      inlayHints = {
+        enumMemberValues = { enabled = true },
+        functionLikeReturnTypes = { enabled = true },
+        parameterNames = { enabled = "literals" },
+        parameterTypes = { enabled = true },
+        propertyDeclarationTypes = { enabled = true },
+        variableTypes = { enabled = false },
+      },
+    },
+    javascript = {
+      updateImportsOnFileMove = { enabled = "always" },
+      suggest = {
+        completeFunctionCalls = true,
+        autoImports = true,
+        includeCompletionsForModuleExports = true,
+        includeCompletionsForImportStatements = true,
+        includeCompletionsWithSnippetText = true,
+        includeAutomaticOptionalChainCompletions = true,
+      },
+      preferences = {
+        includePackageJsonAutoImports = "auto",
+        importModuleSpecifier = "shortest",
+        jsxAttributeCompletionStyle = "auto",
       },
       inlayHints = {
         enumMemberValues = { enabled = true },
