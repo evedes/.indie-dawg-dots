@@ -18,7 +18,19 @@
       "Bash(cp:*)",
       "Bash(rm:*)",
       "Bash(rmdir:*)",
-      "Bash(zsh:*)"
+      "Bash(zsh:*)",
+      "Bash(brew list:*)",
+      "Bash(grep:*)",
+      "Bash(brew uninstall:*)",
+      "Bash(zinit list:*)",
+      "Bash(./switch-theme-fzf.sh:*)",
+      "Bash(awk:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Read(//Users/edo/.local/bin/**)",
+      "Bash(echo $PATH)",
+      "Bash(~/.local/bin/ghostty-theme-switcher:*)",
+      "Bash(ln:*)"
     ],
     "deny": []
   }
