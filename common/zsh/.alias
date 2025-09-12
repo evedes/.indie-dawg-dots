@@ -4,11 +4,12 @@ alias chist='history -p'
 alias r='exec ${SHELL} -l'
 alias x='exit'
 alias b='bat'
-# Platform-specific aliases moved to .macosrc/.linuxrc
+
 alias aa='nvim ~/.indie-dawg-dots/common/zsh/.alias'
 alias zz='nvim ~/.indie-dawg-dots/common/zsh/.zshrc'
 alias mm='cd ~/Nextcloud/Multiverse && v -O EVERYTHING\ PLAN.md TODO\ ARCHIVE.md GET\ THINGS\ DONE.md'
 alias cc='cd ~/Nextcloud/Multiverse && v -O CREATORSGUILD-PROJECT-MANAGEMENT.md'
+
 # Hostname
 alias host='echo $HOST'
 
@@ -38,6 +39,8 @@ alias ztheme='zt'
 # GHOSTTY
 alias gt='ghostty-theme-switcher'
 alias gtheme='gt'
+alias gbg='ghostty-bg-picker'
+alias gm='ghostty-theme-menu'
 
 # PBCOPY / PBPASTE - handled in platform-specific files
 
@@ -59,6 +62,7 @@ alias gs="git status"
 alias gd="git diff"
 alias gb="git branch"
 alias gfo="git fetch origin"
+alias gcp="git cherry-pick"
 alias gco="git checkout"
 alias grom="git rebase origin/main"
 alias groms="git rebase origin/master"

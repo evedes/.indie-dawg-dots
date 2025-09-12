@@ -1,0 +1,47 @@
+#!/bin/bash
+
+CONFIG_FILE="$HOME/.indie-dawg-dots/common/ghostty/config.common"
+
+# Get available themes from ghostty
+THEMES=$(ghostty +list-themes 2>/dev/null)
+
+if [ -z "$THEMES" ]; then
+    echo "Error: Could not fetch themes from Ghostty"
+    exit 1
+fi
+
+# Use fzf to select a theme
+SELECTED_THEME=$(echo "$THEMES" | fzf --prompt="Select Ghostty theme: " --height=20 --reverse)
+
+if [ -z "$SELECTED_THEME" ]; then
+    echo "No theme selected"
+    exit 0
+fi
+
+# Remove " (resources)" suffix if present
+SELECTED_THEME=$(echo "$SELECTED_THEME" | sed 's/ (resources)$//')
+
+# Update the config file
+if [ -f "$CONFIG_FILE" ]; then
+    # Create a temp file for the updated content
+    TEMP_FILE=$(mktemp)
+    
+    # Check if theme line exists and update or add it
+    if grep -q "^theme = " "$CONFIG_FILE"; then
+        # Replace existing theme line
+        sed "s/^theme = .*/theme = \"$SELECTED_THEME\"/" "$CONFIG_FILE" > "$TEMP_FILE"
+    else
+        # Add theme line after the first few lines
+        cp "$CONFIG_FILE" "$TEMP_FILE"
+        echo "theme = \"$SELECTED_THEME\"" >> "$TEMP_FILE"
+    fi
+    
+    # Move temp file to config file
+    mv "$TEMP_FILE" "$CONFIG_FILE"
+    
+    echo "Theme changed to: $SELECTED_THEME"
+    echo "Restart Ghostty for changes to take effect"
+else
+    echo "Config file not found: $CONFIG_FILE"
+    exit 1
+fi
