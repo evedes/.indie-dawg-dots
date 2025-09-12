@@ -39,7 +39,7 @@ alias ztheme='zt'
 # GHOSTTY
 alias gt='ghostty-theme-switcher'
 alias gtheme='gt'
-alias gbg='ghostty-bg-picker'
+alias gbg='$HOME/.config/ghostty/ghostty-bg-picker'
 alias gm='ghostty-theme-menu'
 
 # PBCOPY / PBPASTE - handled in platform-specific files
@@ -135,12 +135,6 @@ alias wp='wakeonlan 14:cc:20:00:3c:87'
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias myiplocation='curl https://ipinfo.io'
 
-# LIST - EZA (modern ls with blue theme)
-# Blue color palette matching rofi theme
-export EZA_COLORS="di=1;94:ex=1;96:ln=3;96:so=94:pi=97:bd=94;1:cd=94;1:su=91;1:sg=91;1:tw=94;1:ow=94;1"
-export EZA_COLORS="$EZA_COLORS:ur=94:uw=96:ux=97:ue=97:gr=34:gw=36:gx=37:tr=31:tw=32:tx=33"
-export EZA_COLORS="$EZA_COLORS:sn=1;94:da=1;97:in=36:lp=96:ga=1;94:gm=3;96:gd=91:gv=34:gt=97:gi=90:gc=1;91"
-
 # Standard eza aliases
 alias ls='eza --icons --color=always --group-directories-first'
 alias l='eza -F --icons --color=always --group-directories-first'
@@ -161,10 +155,6 @@ alias lsmod='eza -alh --icons --color=always --group-directories-first --sort=mo
 
 # Size-based listing
 alias lsize='eza -alh --icons --color=always --group-directories-first --sort=size --reverse'
-
-# Architecture switching - handled in .macosrc
-
-# POSTGRESQL - handled in platform-specific files
 
 # SPOTIFY
 alias sp='spotify_player'
@@ -190,3 +180,6 @@ alias zn='zellij -n'
 
 # GETZARTA
 alias zwt='./zwt'
+
+# YAZI
+alias y='yazi'
