@@ -30,7 +30,9 @@
       "Read(//Users/edo/.local/bin/**)",
       "Bash(echo $PATH)",
       "Bash(~/.local/bin/ghostty-theme-switcher:*)",
-      "Bash(ln:*)"
+      "Bash(ln:*)",
+      "Bash(nvim:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": []
   }
