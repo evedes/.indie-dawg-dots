@@ -282,7 +282,7 @@ web_client {
     font "ZedMono Nerd Font Mono"
 }
 
-theme "kanagawa_wave"
+theme "kanagawa_dragon"
 
 // Choose the base input mode of zellij.
 // Default: normal
