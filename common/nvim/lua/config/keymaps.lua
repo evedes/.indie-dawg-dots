@@ -50,26 +50,6 @@ keymap.set("n", "<leader>cc", "<cmd>lua MiniPick.builtin.resume()<cr>", with_des
 keymap.set("n", "<leader>go", "<cmd>lua MiniDiff.toggle_overlay()<cr>", with_desc("MiniDiff"))
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", with_desc("Neogit"))
 
--- Obsidian
-keymap.set("n", "<leader>of", "<cmd>ObsidianFollowLink<cr>", with_desc("Follow Link"))
-keymap.set("n", "<leader>on", "<cmd>ObsidianNew<cr>", with_desc("New Note"))
-keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<cr>", with_desc("Backlinks"))
-keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<cr>", with_desc("Open in Obsidian App"))
-keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<cr>", with_desc("Search"))
-keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<cr>", with_desc("Quick Switch"))
-keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<cr>", with_desc("Daily Notes"))
-keymap.set("n", "<leader>ot", "<cmd>ObsidianToday<cr>", with_desc("Today's Note"))
-keymap.set("n", "<leader>oy", "<cmd>ObsidianYesterday<cr>", with_desc("Yesterday's Note"))
-keymap.set("n", "<leader>om", "<cmd>ObsidianTomorrow<cr>", with_desc("Tomorrow's Note"))
-keymap.set("n", "<leader>oi", "<cmd>ObsidianTemplate<cr>", with_desc("Insert Template"))
-keymap.set("n", "<leader>ol", "<cmd>ObsidianLinks<cr>", with_desc("List Links"))
-keymap.set("n", "<leader>oe", "<cmd>ObsidianExtractNote<cr>", with_desc("Extract Note"))
-keymap.set("n", "<leader>ow", "<cmd>ObsidianWorkspace<cr>", with_desc("Switch Workspace"))
-keymap.set("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", with_desc("Paste Image"))
-keymap.set("n", "<leader>or", "<cmd>ObsidianRename<cr>", with_desc("Rename Note"))
-keymap.set("n", "<leader>oc", "<cmd>ObsidianToggleCheckbox<cr>", with_desc("Toggle Checkbox"))
-keymap.set("v", "<leader>ol", "<cmd>ObsidianLink<cr>", with_desc("Link Selection"))
-keymap.set("v", "<leader>on", "<cmd>ObsidianLinkNew<cr>", with_desc("Link to New Note"))
 
 -- Markview
 keymap.set("n", "<leader>mt", "<cmd>Markview toggle<cr>", with_desc("Toggle Markview"))

@@ -56,7 +56,7 @@ nvim/
 │   │   ├── blink.lua       # Completion engine
 │   │   ├── conform.lua     # Code formatting
 │   │   ├── neogit.lua      # Git integration
-│   │   └── ...
+│   │   └── ...             # 28+ plugin files
 │   ├── lsp.lua            # Centralized LSP setup
 │   └── icons.lua          # UI icon definitions
 ├── lsp/                   # Language server configs
