@@ -32,7 +32,8 @@
       "Bash(~/.local/bin/ghostty-theme-switcher:*)",
       "Bash(ln:*)",
       "Bash(nvim:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(defaults read:*)"
     ],
     "deny": []
   }

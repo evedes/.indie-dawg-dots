@@ -25,6 +25,7 @@ This is a personal dotfiles repository (`indie-dawg-dots`) containing configurat
 - Docker shortcuts: `dps` (ps), `dcu` (compose up), `dcd` (compose down)
 
 ### Testing & Linting
+
 No project-specific test or lint commands are defined as this is a dotfiles repository. When modifying configurations:
 - Shell scripts: Verify syntax with `zsh -n <file>`
 - Lua files: Neovim will validate on load
@@ -70,21 +71,41 @@ A modern Neovim configuration built with Lua, focusing on minimalism and efficie
 #### Structure
 ```
 common/nvim/
-├── init.lua              # Entry point - loads lua/config/
+├── init.lua              # Entry point - sequential module loading
 ├── lua/
-│   ├── config/           # Main configuration files
-│   │   ├── autocmds.lua  # Autocommands
-│   │   ├── keymaps.lua   # Key mappings
-│   │   ├── lazy.lua      # Plugin manager setup
-│   │   └── options.lua   # Neovim options
-│   ├── plugins/          # Plugin configurations
-│   ├── lsp.lua           # LSP configuration
-│   └── icons.lua         # Icon definitions
-├── lsp/                  # LSP-specific configuration
-├── after/                # After plugin configurations
+│   ├── config/           # Core configuration modules
+│   │   ├── autocmds.lua  # Autocommands (yank highlight, terminal settings)
+│   │   ├── keymaps.lua   # Global key mappings
+│   │   ├── lazy.lua      # Plugin manager bootstrap & setup
+│   │   ├── options.lua   # Neovim options (UI, editor behavior)
+│   │   └── theme-switcher.lua # Custom theme management system
+│   ├── plugins/          # Individual plugin configs (30+ files)
+│   │   ├── mini-*.lua    # Mini.nvim suite configurations
+│   │   ├── conform.lua   # Code formatting setup
+│   │   ├── neogit.lua    # Git integration
+│   │   ├── obsidian.lua  # Note-taking integration
+│   │   └── ...           # Other plugin configurations
+│   ├── lsp.lua           # Centralized LSP configuration & keymaps
+│   └── icons.lua         # Icon definitions for UI consistency
+├── lsp/                  # Language-specific LSP configs
+│   ├── bash.lua          # Bash LSP setup
+│   ├── typescript.lua    # TypeScript/JavaScript (vtsls)
+│   ├── lua.lua           # Lua LSP with Neovim API support
+│   └── ...               # 15+ language server configs
+├── after/                # After-plugin configurations
 ├── lazy-lock.json        # Plugin version lock file
 └── stylua.toml           # Lua formatter configuration
 ```
+
+#### Initialization Flow
+1. `init.lua` loads modules in sequence:
+   - `config.options` - Sets vim options
+   - `config.keymaps` - Defines global keybindings
+   - `config.autocmds` - Sets up autocommands
+   - `config.lazy` - Bootstraps and configures lazy.nvim
+   - `lsp` - Initializes LSP configuration
+2. After VeryLazy event: `config.theme-switcher` initializes
+3. Plugins load on-demand based on events/commands/filetypes
 
 #### Key Features
 - **Plugin Manager**: lazy.nvim for fast startup times
@@ -103,26 +124,110 @@ common/nvim/
 2. **Lazy Loading**: Plugins are loaded on-demand where possible
 3. **Minimal Dependencies**: Prefer mini.nvim modules over separate plugins
 
-#### Common Tasks
+#### Common Neovim Commands
+
+##### Plugin Management (lazy.nvim)
+- `:Lazy` - Open lazy.nvim UI
+- `:Lazy sync` - Install, update, and clean plugins
+- `:Lazy update` - Update plugins only
+- `:Lazy restore` - Restore plugins from lock file
+- `:Lazy profile` - Profile plugin load times
+
+##### LSP Commands
+- `:Mason` - Open Mason UI to manage language servers
+- `:LspInfo` - Show active LSP servers
+- `:LspStop` / `:LspStart` - Control LSP servers
+- `gd` / `gD` - Go to definition (with picker for multiple)
+- `grr` - Find references
+- `gra` - Code actions (tiny UI)
+- `gy` - Type definition
+- `[d` / `]d` - Navigate diagnostics
+
+##### File Navigation
+- `<leader>fe` - Open mini.files explorer
+- `<leader>ee` - Explorer at current file
+- `<leader>ff` - Find files (mini.pick)
+- `<leader>/` - Live grep
+- `<leader>bb` - Buffer picker
+- `<leader>fh` - Help search
+- `<leader>cc` - Resume last picker
+
+##### Code Formatting
+- Auto-format on save (via conform.nvim)
+- `:ConformInfo` - Show formatter info for current buffer
+- Formatters configured: Prettier, dprint, stylua, shfmt, mix_format
+
+##### Git Integration
+- `<leader>gg` - Open Neogit
+- `<leader>go` - Toggle diff overlay (mini.diff)
+- `:DiffviewOpen` - Open diffview
+- `:Gitsigns` commands for hunk operations
+
+##### Theme Management
+- `<leader>ut` - Open theme picker
+- `<leader>uT` - Cycle through themes
+- Themes: Kanagawa (dragon/wave/lotus), Catppuccin (mocha/macchiato/frappe/latte)
+
+#### Common Development Tasks
 
 ##### Adding a Plugin
 1. Create a new file in `lua/plugins/` or edit existing plugin file
-2. Follow the lazy.nvim specification format
+2. Follow the lazy.nvim specification format:
+   ```lua
+   return {
+     "author/plugin-name",
+     event = "BufReadPre", -- or cmd, keys, ft for lazy loading
+     opts = {}, -- or config = function() end
+   }
+   ```
 3. Run `:Lazy sync` to install
 
 ##### Modifying Keymaps
-- Main keymaps are in `lua/config/keymaps.lua`
-- Plugin-specific keymaps are in their respective plugin files
+- Main keymaps: `lua/config/keymaps.lua`
+- Plugin-specific: In respective plugin files under `lua/plugins/`
+- Use `with_desc()` helper for consistent descriptions
 
-##### LSP Configuration
-- Language servers are managed through Mason
-- LSP configuration is in `lua/plugins/lsp.lua`
+##### Adding LSP Support for a Language
+1. Create a new file in `lsp/` directory (e.g., `lsp/rust.lua`)
+2. Follow existing LSP configuration pattern
+3. Install server via `:Mason` or configure in the file
+4. LSP will auto-load on next restart
+
+##### Customizing Formatters
+1. Edit `lua/plugins/conform.lua`
+2. Add language to `formatters_by_ft` table
+3. Install formatter if needed (via Mason or system package manager)
+
+#### Debugging & Troubleshooting
+
+##### Health Check
+- `:checkhealth` - Full system diagnostic
+- `:checkhealth lazy` - Check lazy.nvim status
+- `:checkhealth lsp` - Check LSP configuration
+
+##### Plugin Issues
+- `:Lazy log` - View plugin update log
+- `:Lazy profile` - Identify slow plugins
+- `:messages` - View Neovim messages/errors
+
+##### LSP Debugging
+- `:LspInfo` - Current buffer LSP status
+- `:LspLog` - View LSP log file
+- `vim.lsp.set_log_level("debug")` - Enable debug logging
+
+##### Performance
+- `nvim --startuptime startup.log` - Profile startup time
+- `:InspectTree` - Inspect treesitter parse tree
+- `:Inspect` - Inspect highlight groups under cursor
 
 #### Dependencies
-- Neovim >= 0.9.0
+- Neovim >= 0.10.0 (required for some mini.nvim features)
 - Git (for plugin management)
-- Node.js (for many LSP servers)
-- Ripgrep (for telescope and other search features)
+- Node.js (for many LSP servers and formatters)
+- Ripgrep (for search features)
+- fd (optional, for better file finding)
+- Lua formatter: stylua (install via cargo or Mason)
+- C compiler (for treesitter parser compilation)
 
 ### Zsh Configuration (`common/zsh/`, `archlinux/`, `macos/`)
 
@@ -265,6 +370,30 @@ common/ghostty/
 - **Common Configuration**: Shared settings in config.common
 - **Modular Design**: Main config imports platform-specific settings
 
+### Zellij Configuration (`common/zellij/`)
+
+#### Overview
+Terminal workspace manager similar to tmux but with a modern design philosophy and built-in features.
+
+#### Main Configuration File
+- `config.kdl`: KDL format configuration file with custom keybindings and settings
+
+#### Key Features
+- **Mode-Based Operation**: Different modes for different actions (normal, pane, tab, etc.)
+- **Vim-like Navigation**: Movement between panes using vim keys (h,j,k,l)
+- **Quick Mode Switching**: Ctrl-p for pane mode, Ctrl-t for tab mode
+- **Numbered Tab Navigation**: Direct tab access with number keys (1-9)
+- **Pane Management**: Split panes right (r), down (d), or stacked (s)
+- **Floating Panes**: Toggle floating panes with 'w' in pane mode
+- **Session Management**: Built-in session persistence and management
+
+#### Common Keybindings
+- `Ctrl-p`: Enter pane mode
+- `Ctrl-t`: Enter tab mode
+- `Ctrl-g`: Return to normal mode from locked mode
+- In pane mode: h/j/k/l for navigation, r/d/s for splits
+- In tab mode: h/l or arrow keys for tab navigation
+
 ## Key Design Patterns
 
 1. **Neovim Configuration** (`common/nvim/`)
@@ -321,6 +450,18 @@ common/ghostty/
 - PNPM: Platform-specific homes - `~/Library/pnpm` (macOS) or `~/.local/share/pnpm` (Linux)
 
 ## Recent Updates
+
+### Neovim Documentation Enhancement (2025-09-15)
+- Added comprehensive Neovim commands reference
+- Documented initialization flow and architecture patterns
+- Added debugging and troubleshooting section
+- Enhanced plugin management documentation
+- Added LSP configuration workflow details
+
+### Configuration Documentation Updates (2025-09-15)
+- Added comprehensive Zellij terminal workspace manager documentation
+- Documented key features and keybindings for Zellij configuration
+- Updated configuration guides for better clarity
 
 ### Directory Structure Reorganization (2025-09-02)
 - Reorganized dotfiles into three main directories: `common/`, `archlinux/`, and `macos/`

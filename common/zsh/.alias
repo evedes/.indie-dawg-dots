@@ -22,6 +22,7 @@ alias rpaper="killall hyprpaper && hyprpaper & disown"
 
 # NEOVIM
 alias v='nvim'
+alias lv='NVIM_APPNAME=lazynvim nvim'
 alias nconf='cd ~/.indie-dawg-dots/common/nvim && nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
