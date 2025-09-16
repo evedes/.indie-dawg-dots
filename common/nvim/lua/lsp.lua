@@ -10,6 +10,11 @@ vim.g.inlay_hints = false
 ---@param client vim.lsp.Client
 ---@param bufnr integer
 local function on_attach(client, bufnr)
+  -- Disable LSP's native completion in favor of blink.cmp
+  vim.bo[bufnr].omnifunc = nil
+  vim.bo[bufnr].completefunc = nil
+  vim.bo[bufnr].tagfunc = nil
+
   ---@param lhs string
   ---@param rhs string|function
   ---@param desc string

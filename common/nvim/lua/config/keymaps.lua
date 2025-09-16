@@ -6,6 +6,13 @@ local function with_desc(description)
 end
 
 keymap.set("i", "jk", "<Esc>", with_desc("Escape"))
+
+-- Disable native INSERT mode completion only (keep command-line completion working)
+keymap.set("i", "<C-n>", "<Nop>", with_desc("Disable native next completion"))
+keymap.set("i", "<C-p>", "<Nop>", with_desc("Disable native prev completion"))
+keymap.set("i", "<C-x><C-o>", "<Nop>", with_desc("Disable omni completion"))
+keymap.set("i", "<C-x><C-n>", "<Nop>", with_desc("Disable native completion"))
+keymap.set("i", "<C-x><C-p>", "<Nop>", with_desc("Disable native completion"))
 keymap.set("n", "x", '"_x') -- Sends the deleted char to the black hole register
 
 -- Clear search highlighting
@@ -15,14 +22,17 @@ keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", with_desc("Clear search highligh
 keymap.set("n", "<leader>w", "<cmd>w<cr>", with_desc("Write"))
 keymap.set("n", "<leader>q", "<cmd>q<cr>", with_desc("Quit (close this window)"))
 keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", with_desc("Quit vim"))
-keymap.set("n", "<leader>kk", "<cmd>:bd<cr>", with_desc("Close Buffer"))
-
--- Tabs
-keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", with_desc("Close Tab"))
+keymap.set("n", "<leader>kk", "<cmd>bd<cr>", with_desc("Close Buffer"))
 
 -- Splits
 keymap.set("n", "ss", ":split<Return>", opts)
 keymap.set("n", "sj", ":vsplit<Return>", opts)
+
+-- Window Navigation
+keymap.set("n", "<C-h>", "<C-w>h", with_desc("Navigate left"))
+keymap.set("n", "<C-j>", "<C-w>j", with_desc("Navigate down"))
+keymap.set("n", "<C-k>", "<C-w>k", with_desc("Navigate up"))
+keymap.set("n", "<C-l>", "<C-w>l", with_desc("Navigate right"))
 
 -- Indent while remaining in visual mode.
 keymap.set("v", "<", "<gv", with_desc("Shift left"))
@@ -36,6 +46,7 @@ keymap.set("n", "<C-A-j>", "<C-w>-", with_desc("Resize down"))
 
 -- Mini Picker
 keymap.set("n", "<leader>fe", "<cmd>lua MiniFiles.open()<cr>", with_desc("Explorer"))
+
 keymap.set("n", "<leader>ee", function()
   require("mini.files").open(vim.api.nvim_buf_get_name(0))
 end, with_desc("Current File"))
@@ -50,30 +61,10 @@ keymap.set("n", "<leader>cc", "<cmd>lua MiniPick.builtin.resume()<cr>", with_des
 keymap.set("n", "<leader>go", "<cmd>lua MiniDiff.toggle_overlay()<cr>", with_desc("MiniDiff"))
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", with_desc("Neogit"))
 
-
--- Markview
-keymap.set("n", "<leader>mt", "<cmd>Markview toggle<cr>", with_desc("Toggle Markview"))
-
 -- Dadbod
 keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", with_desc("Open Dadbod"))
 
--- UI / Theme
-keymap.set("n", "<leader>ut", function()
-  require("config.theme-switcher").pick_theme()
-end, with_desc("Pick Theme"))
-
 -- Quickfix Navigation
-keymap.set("n", "[q", "<cmd>cprevious<cr>", with_desc("Previous quickfix item"))
-keymap.set("n", "]q", "<cmd>cnext<cr>", with_desc("Next quickfix item"))
-keymap.set("n", "[Q", "<cmd>cfirst<cr>", with_desc("First quickfix item"))
-keymap.set("n", "]Q", "<cmd>clast<cr>", with_desc("Last quickfix item"))
 keymap.set("n", "<leader>xq", "<cmd>copen<cr>", with_desc("Open quickfix"))
 keymap.set("n", "<leader>xc", "<cmd>cclose<cr>", with_desc("Close quickfix"))
 
--- Location List Navigation
-keymap.set("n", "[l", "<cmd>lprevious<cr>", with_desc("Previous location item"))
-keymap.set("n", "]l", "<cmd>lnext<cr>", with_desc("Next location item"))
-keymap.set("n", "[L", "<cmd>lfirst<cr>", with_desc("First location item"))
-keymap.set("n", "]L", "<cmd>llast<cr>", with_desc("Last location item"))
-keymap.set("n", "<leader>xl", "<cmd>lopen<cr>", with_desc("Open location list"))
-keymap.set("n", "<leader>xC", "<cmd>lclose<cr>", with_desc("Close location list"))

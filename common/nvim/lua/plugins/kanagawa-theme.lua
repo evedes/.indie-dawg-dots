@@ -17,21 +17,19 @@ return {
       colors = {
         palette = {},
         theme = {
-          wave = {},
-          lotus = {},
-          dragon = {},
           all = {
             ui = { bg_gutter = "none" },
           },
         },
       },
-      theme = "dragon",
+      theme = "dragon", -- Set default theme variant
       background = {
         dark = "dragon",
         light = "lotus",
       },
     })
-    -- Theme will be set by theme-switcher
+    -- Load the colorscheme
+    vim.cmd("colorscheme kanagawa")
   end,
   build = ":KanagawaCompile",
 }

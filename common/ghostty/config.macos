@@ -4,5 +4,5 @@ macos-window-shadow = false
 macos-titlebar-style = hidden
 font-size = 16
 
-background-opacity = 0.95
+background-opacity = 0.88
 background-blur-radius = 20

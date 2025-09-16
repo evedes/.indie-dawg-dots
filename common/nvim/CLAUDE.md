@@ -11,7 +11,7 @@ This is the Neovim configuration within the `indie-dawg-dots` dotfiles repositor
 ### Configuration Testing & Validation
 - **Lua syntax check**: Files are auto-formatted on save via stylua (configured in `stylua.toml`)
 - **Health check**: `:checkhealth` in Neovim to diagnose issues
-- **Plugin status**: `:Lazy` to manage plugins, `:Lazy sync` to update
+- **Plugin status**: `:Lazy` to manage plugins, `:Lazy sync` to update, `:Lazy clean` to remove unused
 - **LSP status**: `:LspInfo` to check active language servers
 - **Format info**: `:ConformInfo` to see active formatters for current buffer
 
@@ -27,6 +27,13 @@ This is the Neovim configuration within the `indie-dawg-dots` dotfiles repositor
 - **Find references**: `grr`
 - **Navigate diagnostics**: `[d`/`]d` (previous/next)
 - **Toggle theme picker**: `<Space>ut`
+- **Comment line**: `gcc` (toggle comment)
+- **Comment selection**: `gc` in visual mode
+- **Add surrounding**: `sa` (e.g., `saiw"` to surround word with quotes)
+- **Delete surrounding**: `sd`
+- **Replace surrounding**: `sr`
+- **Jump to char**: `f`/`F`/`t`/`T` (enhanced with mini.jump)
+- **Jump anywhere**: `<CR>` in normal mode (mini.jump2d)
 
 ## Architecture & Structure
 
@@ -51,12 +58,20 @@ nvim/
 │   │   ├── lazy.lua        # Plugin manager setup
 │   │   ├── options.lua     # Neovim options
 │   │   └── theme-switcher.lua # Custom theme management
-│   ├── plugins/            # Plugin configurations (30+ files)
-│   │   ├── mini.lua        # Mini.nvim suite setup
+│   ├── plugins/            # Plugin configurations (13 files)
+│   │   ├── mini.lua        # Mini.nvim suite (11 modules)
 │   │   ├── blink.lua       # Completion engine
 │   │   ├── conform.lua     # Code formatting
 │   │   ├── neogit.lua      # Git integration
-│   │   └── ...             # 28+ plugin files
+│   │   ├── gitsigns.lua    # Git signs in gutter
+│   │   ├── treesitter.lua  # Syntax highlighting
+│   │   ├── diffview.lua    # Git diff viewer
+│   │   ├── supermaven.lua  # AI completion
+│   │   ├── tiny-code-action.lua # LSP code actions
+│   │   ├── markview.lua    # Markdown preview
+│   │   ├── dadbod.lua      # Database interface
+│   │   ├── autotag.lua     # HTML/JSX auto-closing
+│   │   └── kanagawa-theme.lua # Kanagawa theme
 │   ├── lsp.lua            # Centralized LSP setup
 │   └── icons.lua          # UI icon definitions
 ├── lsp/                   # Language server configs
@@ -83,13 +98,27 @@ return {
 LSP servers are auto-loaded on BufReadPre/BufNewFile events. The `lua/lsp.lua` file sets up keymaps and handlers globally.
 
 ### Plugin Management (lazy.nvim)
-- Plugins defined in `lua/plugins/*.lua`
+- Plugins defined in `lua/plugins/*.lua` (13 plugin files)
 - Each file returns a plugin spec or array of specs
 - Lazy loading configured per plugin via:
   - `event` - Load on specific events (BufReadPre, VeryLazy, etc.)
   - `cmd` - Load on commands
   - `ft` - Load on filetypes
   - `keys` - Load on keymaps
+
+### Mini.nvim Modules (11 active)
+- `mini.ai` - Enhanced text objects
+- `mini.icons` - Icon provider
+- `mini.pairs` - Auto-close brackets/quotes
+- `mini.jump` - Enhanced f/F/t/T motions
+- `mini.jump2d` - Jump anywhere with 2 chars
+- `mini.statusline` - Status line
+- `mini.files` - File explorer
+- `mini.diff` - Git diff visualization
+- `mini.pick` - Fuzzy finder
+- `mini.comment` - Comment code (gcc/gc)
+- `mini.surround` - Surround operations (sa/sd/sr)
+- `mini.bufremove` - Better buffer deletion
 
 ### Code Formatting (conform.nvim)
 Configured in `lua/plugins/conform.lua`:

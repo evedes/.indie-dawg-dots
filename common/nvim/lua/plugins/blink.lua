@@ -2,6 +2,8 @@ return {
   "saghen/blink.cmp",
   dependencies = { "rafamadriz/friendly-snippets" },
   version = "1.*",
+  event = "InsertEnter",
+  priority = 1000,  -- Load before other plugins
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
@@ -16,6 +18,33 @@ return {
     appearance = {
       nerd_font_variant = "normal",
       use_nvim_cmp_as_default = true,
+      kind_icons = {
+        Text = "󰉿",
+        Method = "󰊕",
+        Function = "󰊕",
+        Constructor = "󰒓",
+        Field = "󰜢",
+        Variable = "󰆦",
+        Property = "󰖷",
+        Class = "󱡠",
+        Interface = "󱡠",
+        Struct = "󱡠",
+        Module = "󰅩",
+        Unit = "󰪚",
+        Value = "󰦨",
+        Enum = "󰦨",
+        EnumMember = "󰦨",
+        Keyword = "󰻾",
+        Constant = "󰏿",
+        Snippet = "󱄽",
+        Color = "󰏘",
+        File = "󰈔",
+        Reference = "󰬲",
+        Folder = "󰉋",
+        Event = "󱐋",
+        Operator = "󰪚",
+        TypeParameter = "󰬛",
+      },
     },
     completion = {
       documentation = {

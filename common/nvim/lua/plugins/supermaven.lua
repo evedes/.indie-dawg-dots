@@ -1,52 +1,32 @@
 return {
   "supermaven-inc/supermaven-nvim",
   enabled = true,
-  lazy = false,
-  priority = 1000,
+  event = { "InsertEnter", "BufReadPost" },
   cmd = {
-    "SupermavenToggle",
     "SupermavenStart",
     "SupermavenStop",
     "SupermavenRestart",
+    "SupermavenToggle",
     "SupermavenStatus",
-    "SupermavenUsePro",
     "SupermavenUseFree",
+    "SupermavenUsePro",
     "SupermavenLogout",
+    "SupermavenShowLog",
+    "SupermavenClearLog",
   },
-  keys = {
-    {
-      "<leader>sm",
-      "<cmd>SupermavenStatus<cr>",
-      desc = "Supermaven Status",
+  opts = {
+    keymaps = {
+      accept_suggestion = "<C-l>",
+      clear_suggestion = "<C-k>",
+      accept_word = "<C-j>",
     },
+    ignore_filetypes = { cpp = true }, -- Add any filetypes to ignore
+    color = {
+      suggestion_color = "#ffffff",
+      cterm = 244,
+    },
+    disable_inline_completion = false, -- Show inline completions
+    disable_keymaps = false, -- Use the keymaps defined above
+    log_level = "info", -- Add logging for debugging
   },
-  config = function()
-    require("supermaven-nvim").setup({
-      keymaps = {
-        accept_suggestion = "<C-l>",
-        clear_suggestion = "<C-k>",
-        accept_word = "<C-j>",
-      },
-      ignore_filetypes = { cpp = true },
-      color = {
-        suggestion_color = "#888888",
-        cterm = 244,
-      },
-      log_level = "info",
-      disable_inline_completion = false,
-      disable_keymaps = false,
-      condition = function()
-        return true
-      end,
-    })
-    vim.api.nvim_create_autocmd("BufReadPost", {
-      once = true,
-      callback = function()
-        vim.schedule(function()
-          pcall(function() vim.cmd("SupermavenStart") end)
-          pcall(function() vim.cmd("SupermavenUsePro") end)
-        end)
-      end,
-    })
-  end,
 }

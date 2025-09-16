@@ -43,38 +43,6 @@ M.themes = {
       })
     end,
   },
-  {
-    name = "catppuccin-mocha",
-    colorscheme = "catppuccin",
-    variant = "mocha",
-    setup = function()
-      vim.g.catppuccin_flavour = "mocha"
-    end,
-  },
-  {
-    name = "catppuccin-macchiato",
-    colorscheme = "catppuccin",
-    variant = "macchiato",
-    setup = function()
-      vim.g.catppuccin_flavour = "macchiato"
-    end,
-  },
-  {
-    name = "catppuccin-frappe",
-    colorscheme = "catppuccin",
-    variant = "frappe",
-    setup = function()
-      vim.g.catppuccin_flavour = "frappe"
-    end,
-  },
-  {
-    name = "catppuccin-latte",
-    colorscheme = "catppuccin",
-    variant = "latte",
-    setup = function()
-      vim.g.catppuccin_flavour = "latte"
-    end,
-  },
 }
 
 M.current_theme_index = 1
