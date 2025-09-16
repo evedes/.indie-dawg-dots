@@ -74,3 +74,14 @@ vim.opt.undodir = undodir
 
 -- Experimental features
 vim.g.experimental = { check_rtp = false, check_rtp_message = false }
+
+-- Configure completion properly
+vim.opt.completeopt = { "menu", "menuone", "noselect" }  -- Required for blink.cmp
+vim.opt.complete = ""  -- Disable native completion sources in insert mode
+
+-- Enhanced command-line completion settings
+vim.opt.wildmenu = true  -- Enable wildmenu for command-line completion
+vim.opt.wildmode = "longest:full,full"  -- Complete longest common, then full matches
+vim.opt.wildoptions = "pum,fuzzy"  -- Use popup menu with fuzzy matching
+vim.opt.wildignorecase = true  -- Ignore case in command-line completion
+vim.opt.pumheight = 15  -- Increased popup menu height for better visibility

@@ -70,7 +70,6 @@ return {
       "vue",
       "yaml",
     },
-    highlight = { enable = true },
     incremental_selection = {
       enable = true,
       keymaps = {
