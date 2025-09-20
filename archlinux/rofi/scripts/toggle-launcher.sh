@@ -30,8 +30,7 @@ if [[ "$STATE" == "apps" ]]; then
         -matching fuzzy \
         -show-icons \
         -display-drun "Apps" \
-        -p "Apps (Next: Actions)" \
-        -lines 12
+        -p "Apps (Next: Actions)"
 else
     # Show apps next time  
     echo "apps" > "$STATE_FILE"

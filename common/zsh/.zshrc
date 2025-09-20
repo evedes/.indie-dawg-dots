@@ -62,11 +62,6 @@ source $HOME/.indie-dawg-dots/common/zsh/.alias
 # SSH SECRETS
 [[ -f "$HOME/.ssh/load_secrets.sh" ]] && source $HOME/.ssh/load_secrets.sh
 
-# FNM
-if has_cmd fnm; then
-    eval "$(fnm env --use-on-cd --shell zsh)"
-fi
-
 # ZSH HISTORY
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=5000
@@ -85,3 +80,6 @@ has_cmd fzf && source <(fzf --zsh)
 
 # STARSHIP
 has_cmd starship && eval "$(starship init zsh)"
+
+# MISE
+eval "$(mise activate zsh)"

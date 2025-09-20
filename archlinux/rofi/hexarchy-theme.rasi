@@ -1,0 +1,180 @@
+* {
+  /* Black color scheme with transparency */
+  background:                  rgba(5, 5, 5, 0.85);
+  selected-active-foreground:  #ffffff;
+  separatorcolor:              rgba(50, 50, 50, 0.5);
+  urgent-foreground:           #ff6b9d;
+  alternate-urgent-background: rgba(255, 107, 157, 0.2);
+  background-color:            transparent;
+  border-color:                rgba(80, 80, 80, 0.7);
+  normal-background:           transparent;
+  selected-urgent-background:  rgba(255, 107, 157, 0.4);
+  alternate-active-background: rgba(30, 30, 30, 0.3);
+  spacing:                     5;
+  alternate-normal-foreground: #cccccc;
+  urgent-background:           rgba(255, 107, 157, 0.1);
+  selected-normal-foreground:  #ffffff;
+  active-foreground:           #ffffff;
+  selected-active-background:  rgba(40, 40, 40, 0.8);
+  active-background:           rgba(25, 25, 25, 0.5);
+  selected-normal-background:  rgba(30, 30, 30, 0.9);
+  alternate-normal-background: rgba(10, 10, 10, 0.3);
+  foreground:                  #ffffff;
+  selected-urgent-foreground:  #ffffff;
+  normal-foreground:           #cccccc;
+  alternate-urgent-foreground: #ffcdd2;
+  alternate-active-foreground: #ffffff;
+
+  /* Additional style variables */
+  font:                        "ZedMono Nerd Font Mono 11";
+  text-color:                  @foreground;
+}
+
+element {
+    padding: 10px 16px;
+    cursor:  pointer;
+    border-radius: 4px;
+    margin: 2px 6px;
+}
+
+element normal {
+    background-color: transparent;
+}
+
+element selected {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+    border:           1px;
+    border-color:     rgba(100, 100, 100, 0.5);
+}
+
+element alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color:       @alternate-normal-foreground;
+}
+
+element-text {
+    highlight:        bold #888888;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
+
+element-icon {
+    size:             20px;
+    margin:           0 8px 0 0;
+}
+
+window {
+    background-color:   @background;
+    border:             1px;
+    border-color:       @border-color;
+    border-radius:      8px;
+    width:              35%;
+    height:             50%;
+    location:           center;
+    anchor:             center;
+    transparency:       "real";
+    children:           [ mainbox ];
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ message, inputbar, listview ];
+}
+
+message {
+    background-color: rgba(10, 10, 10, 0.7);
+    border-radius:    6px;
+    padding:          8px 12px;
+    margin:           8px 8px 4px 8px;
+    children:         [ textbox ];
+}
+
+textbox {
+    text-color:       @foreground;
+    background-color: transparent;
+    font:             "ZedMono Nerd Font Mono Bold 8";
+    horizontal-align: 0.5;
+    markup:           true;
+    content:          "<span foreground='#ff0000'>╦ ╦</span><span foreground='#ff8800'>┌─┐</span><span foreground='#ffff00'>─┐ ┬</span><span foreground='#00ff00'>╔═╗</span><span foreground='#00ffff'>┬─┐</span><span foreground='#0088ff'>┌─┐</span><span foreground='#8800ff'>┬ ┬</span><span foreground='#ff00ff'>┬ ┬</span>\n<span foreground='#ff0000'>╠═╣</span><span foreground='#ff8800'>├┤ </span><span foreground='#ffff00'>┌┴┬┘</span><span foreground='#00ff00'>╠═╣</span><span foreground='#00ffff'>├┬┘</span><span foreground='#0088ff'>│  </span><span foreground='#8800ff'>├─┤</span><span foreground='#ff00ff'>└┬┘</span>\n<span foreground='#ff0000'>╩ ╩</span><span foreground='#ff8800'>└─┘</span><span foreground='#ffff00'>┴ └─</span><span foreground='#00ff00'>╩ ╩</span><span foreground='#00ffff'>┴└─</span><span foreground='#0088ff'>└─┘</span><span foreground='#8800ff'>┴ ┴</span><span foreground='#ff00ff'> ┴ </span>";
+}
+
+listview {
+    scrollbar:        true;
+    background-color: transparent;
+    border-radius:    6px;
+    lines:            10;
+    columns:          2;
+    padding:          8px;
+    spacing:          3px;
+    fixed-height:     true;
+    dynamic:          false;
+}
+
+scrollbar {
+    width:            3px;
+    handle-width:     3px;
+    handle-color:     rgba(100, 100, 100, 0.5);
+    background-color: rgba(20, 20, 20, 0.3);
+    border-radius:    2px;
+}
+
+inputbar {
+    padding:          12px;
+    background-color: rgba(15, 15, 15, 0.5);
+    border-radius:    6px;
+    margin:           4px 8px;
+    children:         [ prompt, textbox-prompt-colon, entry, case-indicator ];
+}
+
+textbox-prompt-colon {
+    str:              ":";
+    text-color:       @border-color;
+    expand:           false;
+    margin:           0 0.5em 0 0;
+}
+
+entry {
+    text-color:        @foreground;
+    cursor:            text;
+    spacing:           0;
+    placeholder-color: rgba(150, 150, 150, 0.5);
+    placeholder:       "Search apps and actions...";
+    background-color:  transparent;
+    vertical-align:    0.5;
+}
+
+prompt {
+    enabled:          true;
+    text-color:       @foreground;
+    background-color: transparent;
+    padding:          0;
+    margin:           0 10px 0 0;
+    str:              "󰍉";
+}
+
+case-indicator {
+    text-color:       @border-color;
+    background-color: transparent;
+}
+
+mode-switcher {
+    background-color: transparent;
+    padding:          8px;
+    margin:           8px;
+}
+
+button {
+    text-color:       @normal-foreground;
+    background-color: rgba(20, 20, 20, 0.5);
+    border-radius:    4px;
+    padding:          6px;
+    margin:           0 3px;
+}
+
+button selected {
+    text-color:       @selected-normal-foreground;
+    background-color: @selected-normal-background;
+    border:           1px;
+    border-color:     @border-color;
+}

@@ -2,7 +2,7 @@
   "layer": "top",
     "margin": "0",
     "position": "top",
-    "height": 52,
+    "height": 32,
     "reload_style_on_change": true, // Only CSS Styles
     "output": "DP-2",
     "modules-left": ["custom/arch", "custom/separator", "hyprland/workspaces", "tray"],
@@ -10,8 +10,8 @@
     "modules-right": ["custom/system-stats", "custom/separator", "network", "custom/separator", "custom/ping", "custom/separator", "pulseaudio","custom/separator", "clock"],
 
     "tray": {
-      "icon-size": 24,
-      "spacing": 16
+      "icon-size": 16,
+      "spacing": 10
     },
 
     "custom/separator": {
@@ -167,10 +167,11 @@
     "custom/cava": {
       "exec": "/home/edo/.indie-dawg-dots/archlinux/waybar/scripts/cava-visualizer.sh",
       "return-type": "json",
-      "interval": "continuous",
       "format": "{}",
       "tooltip": true,
-      "max-length": 20
+      "max-length": 20,
+      "on-click": "pkill -f 'cava -p /tmp/cava_waybar.conf'; /home/edo/.indie-dawg-dots/archlinux/waybar/scripts/cava-visualizer.sh",
+      "restart-interval": 5
     }
 
 }

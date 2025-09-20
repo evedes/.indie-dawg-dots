@@ -1,44 +1,46 @@
 * {
   font-family: "JetBrainsMonoNerdFont";
-  font-size: 17px;
-  min-height: 0;
+  font-size: 16px;
+  min-height: 20px;
 }
 
-/* Blue theme matching rofi arch-theme.rasi */
+/* Monochrome theme with transparency for universal compatibility */
 /* stylelint-disable */
-@define-color bg-dark rgba(10, 25, 47, 0.85);
-@define-color bg-lighter rgba(15, 35, 60, 0.3);
-@define-color accent #4fc3f7;
-@define-color accent-bright #81d4fa;
-@define-color text-primary #e1f5fe;
-@define-color text-secondary #b3e5fc;
-@define-color selected rgba(41, 128, 185, 0.6);
-@define-color selected-bright rgba(33, 150, 243, 0.4);
-@define-color border-accent rgba(79, 195, 247, 0.5);
+@define-color bg-dark rgba(0, 0, 0, 0.8);
+@define-color bg-lighter rgba(255, 255, 255, 0.1);
+@define-color accent rgba(135, 206, 250, 0.9);
+@define-color accent-bright rgba(173, 216, 230, 1.0);
+@define-color text-primary rgba(173, 216, 230, 0.95);
+@define-color text-secondary rgba(135, 206, 250, 0.7);
+@define-color selected rgba(135, 206, 250, 0.2);
+@define-color selected-bright rgba(135, 206, 250, 0.15);
+@define-color border-accent rgba(135, 206, 250, 0.15);
 
 window#waybar {
   background: @bg-dark;
   border-radius: 0px;
-  border-bottom: 2px solid @border-accent;
+  border-bottom: 1px solid @border-accent;
+  padding: 0;
 }
 
 #workspaces {
   padding: 0;
   background: transparent;
-  margin: 6px 12px;
+  margin: 1px 8px;
 }
 
 #workspaces button {
-  border-radius: 6px;
-  padding: 4px 12px;
+  border-radius: 3px;
+  padding: 0px 8px;
   color: @text-secondary;
   background: transparent;
-  margin: 0 3px;
+  margin: 0 1px;
+  min-height: 22px;
   transition: all 0.3s ease;
 }
 
 #workspaces button:hover {
-  background: rgba(79, 195, 247, 0.15);
+  background: rgba(135, 206, 250, 0.1);
   color: @accent-bright;
 }
 
@@ -57,8 +59,8 @@ window#waybar {
 #network,
 #custom-ping {
   color: @accent-bright;
-  margin: 6px 8px;
-  padding: 4px 0;
+  margin: 1px 4px;
+  padding: 0;
   background: transparent;
   transition: all 0.3s ease;
 }
@@ -76,8 +78,8 @@ window#waybar {
 
 #clock {
   color: @accent-bright;
-  margin-right: 16px;
-  padding: 4px 0;
+  margin-right: 8px;
+  padding: 0;
   background: transparent;
   transition: all 0.3s ease;
 }
@@ -87,10 +89,10 @@ window#waybar {
 }
 
 #custom-arch {
-  font-size: 26px;
+  font-size: 16px;
   color: @accent;
-  padding: 4px 0;
-  margin-left: 16px;
+  padding: 0;
+  margin-left: 8px;
   background: transparent;
   transition: all 0.3s ease;
 }
@@ -101,88 +103,88 @@ window#waybar {
 
 #custom-separator {
   color: @border-accent;
-  padding: 0 6px;
-  font-size: 18px;
+  padding: 0 2px;
+  font-size: 12px;
 }
 
 /* Spotify Module Styles */
 #custom-spotify {
-  color: #1db954;
-  background: linear-gradient(90deg, rgba(29, 185, 84, 0.1), rgba(29, 185, 84, 0.05));
-  padding: 4px 12px;
-  margin: 6px 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(29, 185, 84, 0.3);
+  color: rgba(135, 206, 250, 0.8);
+  background: linear-gradient(90deg, rgba(135, 206, 250, 0.1), rgba(135, 206, 250, 0.05));
+  padding: 0px 6px;
+  margin: 1px 4px;
+  border-radius: 4px;
+  border: 1px solid rgba(135, 206, 250, 0.2);
   transition: all 0.3s ease;
   animation: subtle-glow 3s ease-in-out infinite;
 }
 
 #custom-spotify.spotify-Playing {
-  color: #1ed760;
-  background: linear-gradient(90deg, rgba(30, 215, 96, 0.15), rgba(29, 185, 84, 0.1));
-  border-color: rgba(30, 215, 96, 0.5);
+  color: rgba(173, 216, 230, 0.95);
+  background: linear-gradient(90deg, rgba(135, 206, 250, 0.15), rgba(135, 206, 250, 0.1));
+  border-color: rgba(135, 206, 250, 0.4);
   animation: playing-pulse 2s ease-in-out infinite;
 }
 
 #custom-spotify.spotify-Paused {
-  color: rgba(29, 185, 84, 0.7);
-  background: rgba(29, 185, 84, 0.05);
-  border-color: rgba(29, 185, 84, 0.2);
+  color: rgba(135, 206, 250, 0.6);
+  background: rgba(135, 206, 250, 0.05);
+  border-color: rgba(135, 206, 250, 0.15);
 }
 
 #custom-spotify.spotify-stopped {
-  color: rgba(29, 185, 84, 0.4);
+  color: rgba(135, 206, 250, 0.4);
   background: transparent;
-  border-color: rgba(29, 185, 84, 0.1);
+  border-color: rgba(135, 206, 250, 0.1);
 }
 
 #custom-spotify:hover {
-  background: linear-gradient(90deg, rgba(30, 215, 96, 0.2), rgba(29, 185, 84, 0.15));
-  border-color: rgba(30, 215, 96, 0.7);
+  background: linear-gradient(90deg, rgba(135, 206, 250, 0.2), rgba(135, 206, 250, 0.15));
+  border-color: rgba(135, 206, 250, 0.5);
 }
 
 /* Cava Visualizer Styles */
 #custom-cava {
-  font-size: 22px;
+  font-size: 14px;
   color: @accent;
-  background: linear-gradient(90deg, 
-    rgba(79, 195, 247, 0.05),
-    rgba(129, 212, 250, 0.1),
-    rgba(79, 195, 247, 0.05));
-  padding: 4px 10px;
-  margin: 6px 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(79, 195, 247, 0.2);
+  background: linear-gradient(90deg,
+    rgba(135, 206, 250, 0.05),
+    rgba(135, 206, 250, 0.1),
+    rgba(135, 206, 250, 0.05));
+  padding: 0px 4px;
+  margin: 1px 4px;
+  border-radius: 4px;
+  border: 1px solid rgba(135, 206, 250, 0.2);
   transition: all 0.2s ease;
 }
 
 #custom-cava.cava-active {
   color: @accent-bright;
   background: linear-gradient(90deg,
-    rgba(129, 212, 250, 0.15),
-    rgba(79, 195, 247, 0.2),
-    rgba(129, 212, 250, 0.15));
+    rgba(135, 206, 250, 0.15),
+    rgba(135, 206, 250, 0.2),
+    rgba(135, 206, 250, 0.15));
   border-color: @border-accent;
   animation: visualizer-glow 0.5s ease-in-out infinite alternate;
-  text-shadow: 0 0 8px rgba(79, 195, 247, 0.6);
+  text-shadow: 0 0 8px rgba(135, 206, 250, 0.4);
 }
 
 #custom-cava.cava-idle {
-  color: rgba(79, 195, 247, 0.4);
-  background: rgba(79, 195, 247, 0.02);
-  border-color: rgba(79, 195, 247, 0.1);
+  color: rgba(135, 206, 250, 0.4);
+  background: rgba(135, 206, 250, 0.02);
+  border-color: rgba(135, 206, 250, 0.1);
 }
 
 /* Animations */
 @keyframes playing-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(30, 215, 96, 0);
+    box-shadow: 0 0 0 0 rgba(135, 206, 250, 0);
   }
   50% {
-    box-shadow: 0 0 15px 3px rgba(30, 215, 96, 0.3);
+    box-shadow: 0 0 12px 2px rgba(135, 206, 250, 0.3);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(30, 215, 96, 0);
+    box-shadow: 0 0 0 0 rgba(135, 206, 250, 0);
   }
 }
 
@@ -207,20 +209,20 @@ window#waybar {
   }
 }
 
-/* Rainbow animation for active visualizer (optional, can be toggled) */
-@keyframes rainbow {
-  0% { color: #ff6b6b; }
-  14% { color: #ffd93d; }
-  28% { color: #6bcf7f; }
-  42% { color: #4ecdc4; }
-  57% { color: #4ea8de; }
-  71% { color: #5e60ce; }
-  85% { color: #c77dff; }
-  100% { color: #ff6b6b; }
+/* Grayscale pulse animation for active visualizer (optional, can be toggled) */
+@keyframes grayscale-pulse {
+  0% { color: rgba(135, 206, 250, 0.4); }
+  14% { color: rgba(135, 206, 250, 0.6); }
+  28% { color: rgba(135, 206, 250, 0.8); }
+  42% { color: rgba(173, 216, 230, 1.0); }
+  57% { color: rgba(173, 216, 230, 0.9); }
+  71% { color: rgba(135, 206, 250, 0.7); }
+  85% { color: rgba(135, 206, 250, 0.5); }
+  100% { color: rgba(135, 206, 250, 0.4); }
 }
 
-/* Apply rainbow effect to active cava bars (uncomment to enable) */
+/* Apply grayscale pulse effect to active cava bars (uncomment to enable) */
 /* #custom-cava.cava-active {
   animation: visualizer-glow 0.5s ease-in-out infinite alternate,
-            rainbow 3s linear infinite;
+            grayscale-pulse 3s linear infinite;
 } */
