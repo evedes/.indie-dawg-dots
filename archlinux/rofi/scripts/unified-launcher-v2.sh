@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# Unified launcher that shows both applications and custom actions
-# Preserves application icons while adding custom actions
+# Unified launcher with ASCII header and combined apps+actions search
 
-# Custom actions with icons (using Nerd Font icons)
-custom_actions="󰹑 Screenshot: Region
+# Create a temporary script that lists actions
+cat << 'EOF' > /tmp/rofi-actions.txt
+󰹑 Screenshot: Region
 󰍹 Screenshot: Window
 󰍺 Screenshot: Fullscreen
 󰨇 Screenshot: Region → Clipboard
@@ -19,12 +19,22 @@ custom_actions="󰹑 Screenshot: Region
 󰏘 System: Monitor
 󰢻 Tools: Color Picker
 󰅍 Tools: Clipboard History
-󱡶 Rofi: Window Switcher
-󰉋 Rofi: File Browser
-󰍉 Rofi: Run Command"
+󱡶 Window Switcher
+󰉋 File Browser
+󰍉 Run Command
+EOF
 
-# Use rofi in dmenu mode to select
-selection=$(echo "$custom_actions" | rofi -dmenu -theme ~/.config/rofi/black-theme.rasi -p "Actions" -i -matching fuzzy)
+# Launch rofi with combi mode combining drun and dmenu for actions
+selection=$(cat /tmp/rofi-actions.txt | rofi -dmenu \
+    -modi "drun,dmenu" \
+    -show-icons \
+    -theme ~/.config/rofi/hexarchy-theme.rasi \
+    -matching fuzzy \
+    -i \
+    -p "")
+
+# Clean up
+rm -f /tmp/rofi-actions.txt
 
 # Exit if nothing selected
 [[ -z "$selection" ]] && exit 0

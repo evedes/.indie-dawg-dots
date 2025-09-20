@@ -1,6 +1,6 @@
 configuration {
-    modes: "drun";
-    font: "ZedMono Nerd Font Mono 15";
+    modes: "drun,run,window,filebrowser";
+    font: "ZedMono Nerd Font Mono 12";
     fixed-num-lines: true;
     show-icons: true;
 
@@ -26,4 +26,4 @@ configuration {
     kb-remove-char-back: "BackSpace";
 }
 
-@theme "arch-theme"
+@theme "black-theme"

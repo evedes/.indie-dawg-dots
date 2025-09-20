@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Unified launcher that shows both applications and custom actions
-# Preserves application icons while adding custom actions
+# All-in-one launcher that shows both applications and custom actions together
+# No toggle state - shows everything in one menu
 
 # Custom actions with icons (using Nerd Font icons)
 custom_actions="󰹑 Screenshot: Region
@@ -23,13 +23,30 @@ custom_actions="󰹑 Screenshot: Region
 󰉋 Rofi: File Browser
 󰍉 Rofi: Run Command"
 
-# Use rofi in dmenu mode to select
-selection=$(echo "$custom_actions" | rofi -dmenu -theme ~/.config/rofi/black-theme.rasi -p "Actions" -i -matching fuzzy)
+# Create a temporary file for the combined menu
+TEMP_MENU="/tmp/rofi-all-menu-$$"
+
+# Add custom actions to temp file
+echo "$custom_actions" > "$TEMP_MENU"
+
+# Launch rofi with both drun (apps) and custom dmenu entries
+selection=$(cat "$TEMP_MENU" | rofi -dmenu \
+    -theme ~/.config/rofi/black-theme.rasi \
+    -p "Launcher" \
+    -i \
+    -matching fuzzy \
+    -combi-modi "drun,dmenu" \
+    -modi combi \
+    -show-icons \
+    -display-combi "All")
+
+# Clean up temp file
+rm -f "$TEMP_MENU"
 
 # Exit if nothing selected
 [[ -z "$selection" ]] && exit 0
 
-# Execute based on selection
+# If selection matches a custom action, execute it
 case "$selection" in
     *"Screenshot: Region")
         mkdir -p ~/Pictures/Screenshots

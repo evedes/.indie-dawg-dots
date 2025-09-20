@@ -165,9 +165,12 @@ alias p2t='pdftotext'
 
 ## CLAUDE CODE
 alias ccusage="npx ccusage daily"
-# alias claude="$HOME/.local/bin/claude"
-alias claude="$HOME/.claude/local/claude"
 alias clauded="claude --dangerously-skip-permissions"
+
+# MACOS
+# alias claude="$HOME/.local/bin/claude"
+# LINUX
+alias claude="$HOME/.claude/local/claude"
 
 # PSQL
 alias pg_dump17='/opt/homebrew/opt/postgresql@17/bin/pg_dump'

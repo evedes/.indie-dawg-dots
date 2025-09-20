@@ -12,9 +12,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # local binaries
 export PATH="$HOME/.local/bin:$PATH"
 
-# Fnm
-export PATH="$HOME/.local/share/fnm:$PATH"
-
 # PNPM (platform-specific home)
 if [[ "$ZSH_PLATFORM" == "macos" ]]; then
     export PNPM_HOME="$HOME/Library/pnpm"
@@ -49,8 +46,3 @@ fi
 
 # PSQL
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# SPICETIFY
-if [[ "$ZSH_PLATFORM" == "linux" ]]; then
-  export PATH=$PATH:/home/edo/.spicetify
-fi

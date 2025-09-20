@@ -49,8 +49,15 @@ if [ "$player_status" = "Playing" ] || [ "$player_status" = "Paused" ]; then
         playing="false"
     fi
     
-    # Output JSON
-    echo "{\"text\": \"$status_icon $artist - $title$time_info\", \"tooltip\": \"$title\\nby $artist\\n$album\", \"class\": \"spotify-$player_status\", \"alt\": \"$player_status\", \"playing\": $playing}"
+    # Only show when playing (not when paused)
+    if [ "$player_status" = "Playing" ]; then
+        # Output JSON
+        echo "{\"text\": \"$status_icon $artist - $title$time_info\", \"tooltip\": \"$title\\nby $artist\\n$album\", \"class\": \"spotify-$player_status\", \"alt\": \"$player_status\", \"playing\": $playing}"
+    else
+        # Return empty JSON to hide the module when paused or stopped
+        echo ""
+    fi
 else
-    echo "{\"text\": \" Spotify\", \"tooltip\": \"Spotify is not running\", \"class\": \"spotify-stopped\", \"alt\": \"Stopped\", \"playing\": false}"
+    # Return empty to hide the module when spotify is not running
+    echo ""
 fi

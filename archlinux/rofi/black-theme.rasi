@@ -1,40 +1,40 @@
 * {
-  /* Transparent blue color scheme */
-  background:                  rgba(10, 25, 47, 0.85);
+  /* Black color scheme with transparency */
+  background:                  rgba(5, 5, 5, 0.85);
   selected-active-foreground:  #ffffff;
-  separatorcolor:              rgba(100, 180, 255, 0.3);
+  separatorcolor:              rgba(50, 50, 50, 0.5);
   urgent-foreground:           #ff6b9d;
   alternate-urgent-background: rgba(255, 107, 157, 0.2);
   background-color:            transparent;
-  border-color:                #4fc3f7;
+  border-color:                rgba(80, 80, 80, 0.7);
   normal-background:           transparent;
   selected-urgent-background:  rgba(255, 107, 157, 0.4);
-  alternate-active-background: rgba(79, 195, 247, 0.15);
-  spacing:                     8;
-  alternate-normal-foreground: #b3e5fc;
+  alternate-active-background: rgba(30, 30, 30, 0.3);
+  spacing:                     5;
+  alternate-normal-foreground: #cccccc;
   urgent-background:           rgba(255, 107, 157, 0.1);
   selected-normal-foreground:  #ffffff;
-  active-foreground:           #81d4fa;
-  selected-active-background:  rgba(33, 150, 243, 0.4);
-  active-background:           rgba(33, 150, 243, 0.2);
-  selected-normal-background:  rgba(41, 128, 185, 0.6);
-  alternate-normal-background: rgba(15, 35, 60, 0.3);
-  foreground:                  #e1f5fe;
+  active-foreground:           #ffffff;
+  selected-active-background:  rgba(40, 40, 40, 0.8);
+  active-background:           rgba(25, 25, 25, 0.5);
+  selected-normal-background:  rgba(30, 30, 30, 0.9);
+  alternate-normal-background: rgba(10, 10, 10, 0.3);
+  foreground:                  #ffffff;
   selected-urgent-foreground:  #ffffff;
-  normal-foreground:           #b3e5fc;
+  normal-foreground:           #cccccc;
   alternate-urgent-foreground: #ffcdd2;
-  alternate-active-foreground: #81d4fa;
+  alternate-active-foreground: #ffffff;
 
   /* Additional style variables */
-  font:                        "JetBrainsMono Nerd Font 11";
+  font:                        "ZedMono Nerd Font Mono 11";
   text-color:                  @foreground;
 }
 
 element {
-    padding: 10px 18px;
+    padding: 10px 16px;
     cursor:  pointer;
-    border-radius: 6px;
-    margin: 2px 8px;
+    border-radius: 4px;
+    margin: 2px 6px;
 }
 
 element normal {
@@ -45,7 +45,7 @@ element selected {
     background-color: @selected-normal-background;
     text-color:       @selected-normal-foreground;
     border:           1px;
-    border-color:     rgba(79, 195, 247, 0.5);
+    border-color:     rgba(100, 100, 100, 0.5);
 }
 
 element alternate.normal {
@@ -54,23 +54,23 @@ element alternate.normal {
 }
 
 element-text {
-    highlight:        bold #4fc3f7;
+    highlight:        bold #888888;
     text-color:       inherit;
     vertical-align:   0.5;
 }
 
 element-icon {
-    size:             24px;
-    margin:           0 10px 0 0;
+    size:             20px;
+    margin:           0 8px 0 0;
 }
 
 window {
     background-color:   @background;
-    border:             2px;
+    border:             1px;
     border-color:       @border-color;
-    border-radius:      12px;
-    width:              40%;
-    height:             60%;
+    border-radius:      8px;
+    width:              35%;
+    height:             35%;
     location:           center;
     anchor:             center;
     transparency:       "real";
@@ -79,28 +79,28 @@ window {
 listview {
     scrollbar:        true;
     background-color: transparent;
-    border-radius:    8px;
+    border-radius:    6px;
     lines:            10;
     columns:          1;
-    padding:          10px;
-    spacing:          5px;
+    padding:          8px;
+    spacing:          3px;
     fixed-height:     true;
     dynamic:          false;
 }
 
 scrollbar {
-    width:            4px;
-    handle-width:     4px;
-    handle-color:     rgba(79, 195, 247, 0.5);
-    background-color: rgba(0, 0, 0, 0.1);
+    width:            3px;
+    handle-width:     3px;
+    handle-color:     rgba(100, 100, 100, 0.5);
+    background-color: rgba(20, 20, 20, 0.3);
     border-radius:    2px;
 }
 
 inputbar {
-    padding:          20px;
-    background-color: rgba(33, 150, 243, 0.1);
-    border-radius:    8px;
-    margin:           10px;
+    padding:          12px;
+    background-color: rgba(15, 15, 15, 0.5);
+    border-radius:    6px;
+    margin:           8px;
     children:         [ prompt, textbox-prompt-colon, entry, case-indicator ];
 }
 
@@ -115,7 +115,7 @@ entry {
     text-color:        @foreground;
     cursor:            text;
     spacing:           0;
-    placeholder-color: rgba(179, 229, 252, 0.5);
+    placeholder-color: rgba(150, 150, 150, 0.5);
     placeholder:       "Type to search...";
     background-color:  transparent;
     vertical-align:    0.5;
@@ -123,7 +123,7 @@ entry {
 
 prompt {
     enabled:          true;
-    text-color:       @border-color;
+    text-color:       @foreground;
     background-color: transparent;
     padding:          0;
     margin:           0 10px 0 0;
@@ -135,10 +135,10 @@ case-indicator {
 }
 
 message {
-    background-color: rgba(33, 150, 243, 0.1);
-    border-radius:    8px;
-    padding:          10px;
-    margin:           10px;
+    background-color: rgba(20, 20, 20, 0.5);
+    border-radius:    6px;
+    padding:          8px;
+    margin:           8px;
 }
 
 textbox {
@@ -148,16 +148,16 @@ textbox {
 
 mode-switcher {
     background-color: transparent;
-    padding:          10px;
-    margin:           10px;
+    padding:          8px;
+    margin:           8px;
 }
 
 button {
     text-color:       @normal-foreground;
-    background-color: rgba(33, 150, 243, 0.1);
-    border-radius:    6px;
-    padding:          8px;
-    margin:           0 5px;
+    background-color: rgba(20, 20, 20, 0.5);
+    border-radius:    4px;
+    padding:          6px;
+    margin:           0 3px;
 }
 
 button selected {
