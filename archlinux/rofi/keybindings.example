@@ -1,0 +1,19 @@
+# Example Hyprland keybindings for the Rofi launcher
+# Add these to your Hyprland config or adapt for your window manager
+
+# Main launcher (applications + all actions)
+bind = SUPER, SPACE, exec, ~/.config/rofi/scripts/launcher.sh
+
+# Direct Rofi modes (using the configured theme)
+bind = ALT, Tab, exec, rofi -show window -theme ~/.config/rofi/hexarchy-theme.rasi
+bind = SUPER, R, exec, rofi -show run -theme ~/.config/rofi/hexarchy-theme.rasi
+bind = SUPER, E, exec, rofi -show filebrowser -theme ~/.config/rofi/hexarchy-theme.rasi
+
+# Direct screenshot keybindings (without menu)
+bind = , Print, exec, hyprshot -m region
+bind = SHIFT, Print, exec, hyprshot -m window
+bind = CTRL, Print, exec, hyprshot -m output
+
+# Clipboard to clipboard
+bind = SUPER, Print, exec, hyprshot -m region --clipboard-only
+bind = SUPER SHIFT, Print, exec, hyprshot -m window --clipboard-only
