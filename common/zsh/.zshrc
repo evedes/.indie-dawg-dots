@@ -59,9 +59,6 @@ fi
 # ALIASES
 source $HOME/.indie-dawg-dots/common/zsh/.alias
 
-# SSH SECRETS
-[[ -f "$HOME/.ssh/load_secrets.sh" ]] && source $HOME/.ssh/load_secrets.sh
-
 # ZSH HISTORY
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=5000
