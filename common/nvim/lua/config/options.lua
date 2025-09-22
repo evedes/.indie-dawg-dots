@@ -72,8 +72,6 @@ end
 vim.opt.undofile = true
 vim.opt.undodir = undodir
 
--- Experimental features
-vim.g.experimental = { check_rtp = false, check_rtp_message = false }
 
 -- Configure completion properly
 vim.opt.completeopt = { "menu", "menuone", "noselect" }  -- Required for blink.cmp
