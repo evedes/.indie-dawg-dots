@@ -28,17 +28,9 @@ local function on_attach(client, bufnr)
     require("tiny-code-action").code_action()
   end, "vim.lsp.buf.code_action()", { "n", "x" })
 
-  keymap("grr", function()
-    require("mini.pick").builtin.lsp({ scope = "references" })
-  end, "vim.lsp.buf.references()")
-
-  keymap("gy", function()
-    require("mini.pick").builtin.lsp({ scope = "type_definition" })
-  end, "Go to type definition")
-
-  keymap("<leader>fs", function()
-    require("mini.pick").builtin.lsp({ scope = "document_symbol" })
-  end, "Document symbols")
+  keymap("grr", vim.lsp.buf.references, "Find references")
+  keymap("gy", vim.lsp.buf.type_definition, "Go to type definition")
+  keymap("<leader>fs", vim.lsp.buf.document_symbol, "Document symbols")
 
   keymap("[d", function()
     vim.diagnostic.jump({ count = -1 })
@@ -54,12 +46,8 @@ local function on_attach(client, bufnr)
   end, "Next error")
 
   if client:supports_method(methods.textDocument_definition) then
-    keymap("gd", function()
-      require("mini.pick").builtin.lsp({ scope = "definition" })
-    end, "Go to definition")
-    keymap("gD", function()
-      require("mini.pick").builtin.lsp({ scope = "definition" })
-    end, "Peek definition")
+    keymap("gd", vim.lsp.buf.definition, "Go to definition")
+    keymap("gD", vim.lsp.buf.declaration, "Go to declaration")
   end
 
   if client:supports_method(methods.textDocument_signatureHelp) then
