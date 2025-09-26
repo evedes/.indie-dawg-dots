@@ -16,43 +16,64 @@ rofi/
 
 ## Features
 
-The launcher provides integrated access to:
+The launcher provides a **unified search interface** where you can find everything in one place:
 
-### Applications
-- All installed desktop applications
-- Smart fuzzy matching for quick access
+### Combined Search (SUPER + SPACE)
+With a single keybinding, search across:
+- **Applications**: All installed desktop apps
+- **Windows**: Currently open windows (switch to any window)
+- **🎯 Actions**: Custom actions clearly marked with a target emoji
 
-### Screenshot Tools
+All actions are prefixed with "🎯 Action:" to distinguish them from regular apps:
+- Screenshot tools (region, window, fullscreen, to clipboard)
+- Power management (lock, logout, suspend, reboot, shutdown)
+- System utilities (WiFi, Bluetooth, System Monitor, Color Picker)
+- Quick links to websites (GitHub, YouTube, ChatGPT, Gmail)
+- Tools (Clipboard History, File Browser, Window Switcher)
+
+Just start typing and Rofi will search through:
+- Application names and descriptions
+- Window titles and class names
+- Action keywords (e.g., "screenshot", "shutdown", "github")
+
+### Integrated Actions
+
+#### Screenshot Tools
 - Region capture (save or clipboard)
 - Window capture (save or clipboard)
 - Fullscreen capture
 
-### Power Management
+#### Power Management
 - Lock screen
 - Logout (with confirmation)
 - Suspend
 - Reboot (with confirmation)
 - Shutdown (with confirmation)
 
-### System Tools
+#### System Tools
 - WiFi settings
 - Bluetooth management
 - System monitor
 
-### Utilities
+#### Utilities
 - Color picker
 - Clipboard history
-
-### Rofi Modes
-- Window switcher
 - File browser
-- Command runner
+- Window switcher
 
 ## Usage
 
-The launcher is triggered via Hyprland keybinding (typically `SUPER + SPACE`).
+**One keybinding to rule them all**: Press `SUPER + SPACE` and start typing.
 
-All actions are integrated into a single menu alongside regular applications, providing a unified interface for both launching apps and system actions.
+Examples:
+- Type "firefox" → Launch Firefox or switch to it if already open
+- Type "term" → Find terminal apps or switch to terminal windows
+- Type "screenshot" → Access all screenshot options
+- Type "shutdown" → Find power options
+- Type "ls" → Run the ls command directly
+- Type part of any window title → Switch to that window
+
+The combined mode intelligently searches everything at once, eliminating the need to remember different keybindings for different modes.
 
 ## Installation
 
@@ -62,10 +83,15 @@ sudo pacman -S rofi hyprshot cliphist hyprpicker
 yay -S hyprlock-git
 ```
 
-2. The launcher is configured in Hyprland's applications.conf:
-```bash
-$menu = ~/.config/rofi/scripts/launcher.sh
-```
+2. The launcher is already configured in Hyprland:
+   - `applications.conf` defines: `$menu = ~/.config/rofi/scripts/launcher.sh`
+   - `keybindings.conf` binds: `bind = $mainMod, SPACE, exec, $menu`
+   - This means `SUPER + SPACE` opens the launcher
+
+3. For additional keybindings (optional):
+   - Review `keybindings.example` for useful bindings
+   - Add desired bindings to `~/.config/hypr/keybindings.conf`
+   - Reload Hyprland config with `SUPER + SHIFT + Q` (or logout/login)
 
 ## Configuration
 
@@ -160,9 +186,33 @@ Edit `hexarchy-theme.rasi` to modify:
 
 ### Adding Custom Actions
 1. Edit `scripts/launcher.sh`
-2. Add your action in the `handle_action()` function
-3. Create a desktop entry in `init_desktop_entries()`
+2. Add your action handler in the `handle_action()` function:
+   ```bash
+   "🎯 Action: My Custom Action")
+       # Your command here
+       ;;
+   ```
+3. Create a desktop entry in `init_desktop_entries()`:
+   ```bash
+   create_desktop_entry \
+       "🎯 Action: My Custom Action" \
+       "Description" \
+       "icon-name" \
+       "Category;" \
+       "keywords;for;search;" \
+       "launcher-my-action"
+   ```
 4. For dangerous actions, add to `confirm_action()` checks
+
+### Adding Quick Links
+To add your own website shortcuts, edit the Quick Links section:
+1. Add handler in `handle_action()`:
+   ```bash
+   "🎯 Action: Open MyWebsite")
+       xdg-open "https://mywebsite.com" &
+       ;;
+   ```
+2. Add desktop entry in `init_desktop_entries()`
 
 ### Modifying Keybindings
 1. Copy `keybindings.example` to your Hyprland config directory
