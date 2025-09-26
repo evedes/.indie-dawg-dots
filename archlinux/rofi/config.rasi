@@ -1,8 +1,11 @@
 configuration {
-    modes: "drun,run,window,filebrowser";
+    modes: "drun,window,filebrowser,combi";
     font: "ZedMono Nerd Font Mono 12";
     fixed-num-lines: true;
     show-icons: true;
+
+    combi-modes: "drun,window";
+    combi-display-format: "{mode}: {text}";
 
     sort: true;
     sorting-method: "fzf";

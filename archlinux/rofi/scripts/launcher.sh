@@ -32,79 +32,93 @@ handle_action() {
 
     case "$action" in
         # Screenshot actions
-        "Screenshot: Region")
+        "🎯 Action: Screenshot Region")
             hyprshot -m region -o "${SCREENSHOT_DIR}" -f "screenshot_$(date +%Y%m%d_%H%M%S).png"
             notify-send "Screenshot" "Region saved to ${SCREENSHOT_DIR}/"
             ;;
-        "Screenshot: Window")
+        "🎯 Action: Screenshot Window")
             hyprshot -m window -o "${SCREENSHOT_DIR}" -f "screenshot_$(date +%Y%m%d_%H%M%S).png"
             notify-send "Screenshot" "Window saved to ${SCREENSHOT_DIR}/"
             ;;
-        "Screenshot: Fullscreen")
+        "🎯 Action: Screenshot Fullscreen")
             hyprshot -m output -o "${SCREENSHOT_DIR}" -f "screenshot_$(date +%Y%m%d_%H%M%S).png"
             notify-send "Screenshot" "Fullscreen saved to ${SCREENSHOT_DIR}/"
             ;;
-        "Screenshot: Region → Clipboard")
+        "🎯 Action: Screenshot Region → Clipboard")
             hyprshot -m region --clipboard-only
             notify-send "Screenshot" "Region copied to clipboard"
             ;;
-        "Screenshot: Window → Clipboard")
+        "🎯 Action: Screenshot Window → Clipboard")
             hyprshot -m window --clipboard-only
             notify-send "Screenshot" "Window copied to clipboard"
             ;;
 
         # Power actions
-        "Power: Lock Screen")
+        "🎯 Action: Lock Screen")
             hyprlock
             ;;
-        "Power: Logout")
+        "🎯 Action: Logout")
             if confirm_action "Logout"; then
                 hyprctl dispatch exit
             fi
             ;;
-        "Power: Suspend")
+        "🎯 Action: Suspend")
             systemctl suspend
             ;;
-        "Power: Reboot")
+        "🎯 Action: Reboot")
             if confirm_action "Reboot"; then
                 systemctl reboot
             fi
             ;;
-        "Power: Shutdown")
+        "🎯 Action: Shutdown")
             if confirm_action "Shutdown"; then
                 systemctl poweroff
             fi
             ;;
 
         # System actions
-        "System: WiFi Settings")
+        "🎯 Action: WiFi Settings")
             nm-connection-editor &
             ;;
-        "System: Bluetooth")
+        "🎯 Action: Bluetooth Settings")
             blueman-manager &
             ;;
-        "System: Monitor")
+        "🎯 Action: System Monitor")
             gnome-system-monitor &
             ;;
 
         # Tools
-        "Tools: Color Picker")
+        "🎯 Action: Color Picker")
             hyprpicker | wl-copy
             notify-send "Color Picker" "Color copied to clipboard"
             ;;
-        "Tools: Clipboard History")
+        "🎯 Action: Clipboard History")
             cliphist list | rofi -dmenu -theme "${THEME_PATH}" -p "Clipboard" | cliphist decode | wl-copy
             ;;
 
         # Rofi modes
-        "Window Switcher")
+        "🎯 Action: Window Switcher")
             rofi -show window -theme "${THEME_PATH}"
             ;;
-        "File Browser")
+        "🎯 Action: File Browser")
             rofi -show filebrowser -theme "${THEME_PATH}"
             ;;
-        "Run Command")
+        "🎯 Action: Run Command")
             rofi -show run -theme "${THEME_PATH}"
+            ;;
+
+        # Quick Links - Add your favorite sites here
+        "🎯 Action: Open GitHub")
+            xdg-open "https://github.com" &
+            ;;
+        "🎯 Action: Open YouTube")
+            xdg-open "https://youtube.com" &
+            ;;
+        "🎯 Action: Open ChatGPT")
+            xdg-open "https://chat.openai.com" &
+            ;;
+        "🎯 Action: Open Gmail")
+            xdg-open "https://gmail.com" &
             ;;
     esac
 }
@@ -154,7 +168,7 @@ init_desktop_entries() {
 
     # Screenshot entries
     create_desktop_entry \
-        "Screenshot: Region" \
+        "🎯 Action: Screenshot Region" \
         "Take a screenshot of a selected region" \
         "applets-screenshooter" \
         "Utility;Screenshot;" \
@@ -162,7 +176,7 @@ init_desktop_entries() {
         "launcher-screenshot-region"
 
     create_desktop_entry \
-        "Screenshot: Window" \
+        "🎯 Action: Screenshot Window" \
         "Take a screenshot of a window" \
         "applets-screenshooter" \
         "Utility;Screenshot;" \
@@ -170,7 +184,7 @@ init_desktop_entries() {
         "launcher-screenshot-window"
 
     create_desktop_entry \
-        "Screenshot: Fullscreen" \
+        "🎯 Action: Screenshot Fullscreen" \
         "Take a fullscreen screenshot" \
         "applets-screenshooter" \
         "Utility;Screenshot;" \
@@ -178,7 +192,7 @@ init_desktop_entries() {
         "launcher-screenshot-fullscreen"
 
     create_desktop_entry \
-        "Screenshot: Region → Clipboard" \
+        "🎯 Action: Screenshot Region → Clipboard" \
         "Screenshot region to clipboard" \
         "edit-copy" \
         "Utility;Screenshot;" \
@@ -186,7 +200,7 @@ init_desktop_entries() {
         "launcher-screenshot-region-clip"
 
     create_desktop_entry \
-        "Screenshot: Window → Clipboard" \
+        "🎯 Action: Screenshot Window → Clipboard" \
         "Screenshot window to clipboard" \
         "edit-copy" \
         "Utility;Screenshot;" \
@@ -195,7 +209,7 @@ init_desktop_entries() {
 
     # Power entries
     create_desktop_entry \
-        "Power: Lock Screen" \
+        "🎯 Action: Lock Screen" \
         "Lock the screen" \
         "system-lock-screen" \
         "System;" \
@@ -203,7 +217,7 @@ init_desktop_entries() {
         "launcher-lock"
 
     create_desktop_entry \
-        "Power: Logout" \
+        "🎯 Action: Logout" \
         "End the current session" \
         "system-log-out" \
         "System;" \
@@ -211,7 +225,7 @@ init_desktop_entries() {
         "launcher-logout"
 
     create_desktop_entry \
-        "Power: Suspend" \
+        "🎯 Action: Suspend" \
         "Suspend the system" \
         "system-suspend" \
         "System;" \
@@ -219,7 +233,7 @@ init_desktop_entries() {
         "launcher-suspend"
 
     create_desktop_entry \
-        "Power: Reboot" \
+        "🎯 Action: Reboot" \
         "Restart the system" \
         "system-reboot" \
         "System;" \
@@ -227,7 +241,7 @@ init_desktop_entries() {
         "launcher-reboot"
 
     create_desktop_entry \
-        "Power: Shutdown" \
+        "🎯 Action: Shutdown" \
         "Power off the system" \
         "system-shutdown" \
         "System;" \
@@ -236,7 +250,7 @@ init_desktop_entries() {
 
     # System entries
     create_desktop_entry \
-        "System: WiFi Settings" \
+        "🎯 Action: WiFi Settings" \
         "Configure WiFi connections" \
         "network-wireless" \
         "Settings;Network;" \
@@ -244,7 +258,7 @@ init_desktop_entries() {
         "launcher-wifi"
 
     create_desktop_entry \
-        "System: Bluetooth" \
+        "🎯 Action: Bluetooth Settings" \
         "Manage Bluetooth devices" \
         "bluetooth" \
         "Settings;Hardware;" \
@@ -252,7 +266,7 @@ init_desktop_entries() {
         "launcher-bluetooth"
 
     create_desktop_entry \
-        "System: Monitor" \
+        "🎯 Action: System Monitor" \
         "System resource monitor" \
         "utilities-system-monitor" \
         "System;Monitor;" \
@@ -261,7 +275,7 @@ init_desktop_entries() {
 
     # Tools entries
     create_desktop_entry \
-        "Tools: Color Picker" \
+        "🎯 Action: Color Picker" \
         "Pick colors from the screen" \
         "color-picker" \
         "Graphics;Utility;" \
@@ -269,7 +283,7 @@ init_desktop_entries() {
         "launcher-colorpicker"
 
     create_desktop_entry \
-        "Tools: Clipboard History" \
+        "🎯 Action: Clipboard History" \
         "View clipboard history" \
         "edit-paste" \
         "Utility;" \
@@ -278,7 +292,7 @@ init_desktop_entries() {
 
     # Rofi mode entries
     create_desktop_entry \
-        "Window Switcher" \
+        "🎯 Action: Window Switcher" \
         "Switch between open windows" \
         "preferences-system-windows" \
         "System;" \
@@ -286,7 +300,7 @@ init_desktop_entries() {
         "launcher-window-switcher"
 
     create_desktop_entry \
-        "File Browser" \
+        "🎯 Action: File Browser" \
         "Browse files with Rofi" \
         "system-file-manager" \
         "System;FileTools;" \
@@ -294,12 +308,45 @@ init_desktop_entries() {
         "launcher-filebrowser"
 
     create_desktop_entry \
-        "Run Command" \
+        "🎯 Action: Run Command" \
         "Run a custom command" \
         "system-run" \
         "System;" \
         "run;command;execute;terminal;" \
         "launcher-run"
+
+    # Quick Links entries
+    create_desktop_entry \
+        "🎯 Action: Open GitHub" \
+        "Open GitHub in browser" \
+        "github" \
+        "Network;WebBrowser;" \
+        "github;git;code;repository;" \
+        "launcher-github"
+
+    create_desktop_entry \
+        "🎯 Action: Open YouTube" \
+        "Open YouTube in browser" \
+        "youtube" \
+        "Network;WebBrowser;" \
+        "youtube;video;streaming;" \
+        "launcher-youtube"
+
+    create_desktop_entry \
+        "🎯 Action: Open ChatGPT" \
+        "Open ChatGPT in browser" \
+        "applications-internet" \
+        "Network;WebBrowser;" \
+        "chatgpt;ai;chat;gpt;" \
+        "launcher-chatgpt"
+
+    create_desktop_entry \
+        "🎯 Action: Open Gmail" \
+        "Open Gmail in browser" \
+        "gmail" \
+        "Network;Email;" \
+        "gmail;email;mail;google;" \
+        "launcher-gmail"
 }
 
 # ==============================================================================
@@ -316,16 +363,22 @@ main() {
     # Initialize desktop entries
     init_desktop_entries
 
-    # Launch Rofi with custom actions merged with applications
+    # Launch Rofi in combi mode - Apps, Windows, and Actions only (no commands)
     export XDG_DATA_DIRS="${TEMP_DIR}:${XDG_DATA_DIRS:-/usr/share:/usr/local/share}"
 
     rofi \
-        -modi "drun" \
-        -show drun \
+        -modi "drun,window,filebrowser" \
+        -show combi \
+        -combi-modi "drun,window" \
         -theme "${THEME_PATH}" \
         -matching fuzzy \
         -show-icons \
+        -display-drun "Apps" \
+        -display-window "Windows" \
+        -display-filebrowser "Files" \
+        -display-combi "Search" \
         -drun-display-format "{name}" \
+        -window-format "{w} | {c} | {t}" \
         -sort true \
         -drun-use-desktop-cache false \
         -drun-reload-desktop-cache true
