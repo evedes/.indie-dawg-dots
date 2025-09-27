@@ -16,14 +16,11 @@ alias host='echo $HOST'
 # INDIE-DAWG-DOTS
 alias dots='cd ~/.indie-dawg-dots && nvim .'
 
-# HYPRLAND
-alias rwaybar="killall waybar && waybar & disown"
-alias rpaper="killall hyprpaper && hyprpaper & disown"
-
 # NEOVIM
 alias v='nvim'
 alias lv='NVIM_APPNAME=lazynvim nvim'
-alias nconf='cd ~/.indie-dawg-dots/common/nvim && nvim .'
+alias lconf='cd ~/.indie-dawg-dots/lazynvim && NVIM_APPNAME=lazynvim nvim .'
+alias nconf='cd ~/.indie-dawg-dots/nvim && nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 alias t='tmux'
