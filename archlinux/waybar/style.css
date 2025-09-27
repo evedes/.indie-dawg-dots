@@ -1,11 +1,9 @@
 * {
-  font-family: "JetBrainsMonoNerdFont";
-  font-size: 16px;
+  font-family: "ZedMono Nerd Font Mono";
+  font-size: 14px;
   min-height: 20px;
 }
 
-/* Monochrome theme with transparency for universal compatibility */
-/* stylelint-disable */
 @define-color bg-dark rgba(0, 0, 0, 0.8);
 @define-color bg-lighter rgba(255, 255, 255, 0.1);
 @define-color accent rgba(135, 206, 250, 0.9);
@@ -34,9 +32,9 @@ window#waybar {
   padding: 0px 8px;
   color: @text-secondary;
   background: transparent;
-  margin: 0 1px;
+  margin: 0 4px;
   min-height: 22px;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 #workspaces button:hover {
@@ -78,7 +76,7 @@ window#waybar {
 
 #clock {
   color: @accent-bright;
-  margin-right: 8px;
+  margin-right: 24px;
   padding: 0;
   background: transparent;
   transition: all 0.3s ease;
@@ -89,10 +87,10 @@ window#waybar {
 }
 
 #custom-arch {
-  font-size: 16px;
+  font-size: 30px;
   color: @accent;
   padding: 0;
-  margin-left: 8px;
+  margin-left: 24px;
   background: transparent;
   transition: all 0.3s ease;
 }
@@ -106,123 +104,3 @@ window#waybar {
   padding: 0 2px;
   font-size: 12px;
 }
-
-/* Spotify Module Styles */
-#custom-spotify {
-  color: rgba(135, 206, 250, 0.8);
-  background: linear-gradient(90deg, rgba(135, 206, 250, 0.1), rgba(135, 206, 250, 0.05));
-  padding: 0px 6px;
-  margin: 1px 4px;
-  border-radius: 4px;
-  border: 1px solid rgba(135, 206, 250, 0.2);
-  transition: all 0.3s ease;
-  animation: subtle-glow 3s ease-in-out infinite;
-}
-
-#custom-spotify.spotify-Playing {
-  color: rgba(173, 216, 230, 0.95);
-  background: linear-gradient(90deg, rgba(135, 206, 250, 0.15), rgba(135, 206, 250, 0.1));
-  border-color: rgba(135, 206, 250, 0.4);
-  animation: playing-pulse 2s ease-in-out infinite;
-}
-
-#custom-spotify.spotify-Paused {
-  color: rgba(135, 206, 250, 0.6);
-  background: rgba(135, 206, 250, 0.05);
-  border-color: rgba(135, 206, 250, 0.15);
-}
-
-#custom-spotify.spotify-stopped {
-  color: rgba(135, 206, 250, 0.4);
-  background: transparent;
-  border-color: rgba(135, 206, 250, 0.1);
-}
-
-#custom-spotify:hover {
-  background: linear-gradient(90deg, rgba(135, 206, 250, 0.2), rgba(135, 206, 250, 0.15));
-  border-color: rgba(135, 206, 250, 0.5);
-}
-
-/* Cava Visualizer Styles */
-#custom-cava {
-  font-size: 14px;
-  color: @accent;
-  background: linear-gradient(90deg,
-    rgba(135, 206, 250, 0.05),
-    rgba(135, 206, 250, 0.1),
-    rgba(135, 206, 250, 0.05));
-  padding: 0px 4px;
-  margin: 1px 4px;
-  border-radius: 4px;
-  border: 1px solid rgba(135, 206, 250, 0.2);
-  transition: all 0.2s ease;
-}
-
-#custom-cava.cava-active {
-  color: @accent-bright;
-  background: linear-gradient(90deg,
-    rgba(135, 206, 250, 0.15),
-    rgba(135, 206, 250, 0.2),
-    rgba(135, 206, 250, 0.15));
-  border-color: @border-accent;
-  animation: visualizer-glow 0.5s ease-in-out infinite alternate;
-  text-shadow: 0 0 8px rgba(135, 206, 250, 0.4);
-}
-
-#custom-cava.cava-idle {
-  color: rgba(135, 206, 250, 0.4);
-  background: rgba(135, 206, 250, 0.02);
-  border-color: rgba(135, 206, 250, 0.1);
-}
-
-/* Animations */
-@keyframes playing-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(135, 206, 250, 0);
-  }
-  50% {
-    box-shadow: 0 0 12px 2px rgba(135, 206, 250, 0.3);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(135, 206, 250, 0);
-  }
-}
-
-@keyframes subtle-glow {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.85;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes visualizer-glow {
-  0% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Grayscale pulse animation for active visualizer (optional, can be toggled) */
-@keyframes grayscale-pulse {
-  0% { color: rgba(135, 206, 250, 0.4); }
-  14% { color: rgba(135, 206, 250, 0.6); }
-  28% { color: rgba(135, 206, 250, 0.8); }
-  42% { color: rgba(173, 216, 230, 1.0); }
-  57% { color: rgba(173, 216, 230, 0.9); }
-  71% { color: rgba(135, 206, 250, 0.7); }
-  85% { color: rgba(135, 206, 250, 0.5); }
-  100% { color: rgba(135, 206, 250, 0.4); }
-}
-
-/* Apply grayscale pulse effect to active cava bars (uncomment to enable) */
-/* #custom-cava.cava-active {
-  animation: visualizer-glow 0.5s ease-in-out infinite alternate,
-            grayscale-pulse 3s linear infinite;
-} */
