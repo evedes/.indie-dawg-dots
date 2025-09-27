@@ -1,9 +1,4 @@
 configuration {
-    modes: "drun,window,filebrowser,combi";
-    font: "ZedMono Nerd Font Mono 12";
-    fixed-num-lines: true;
-    show-icons: true;
-
     combi-modes: "drun,window";
     combi-display-format: "{mode}: {text}";
 

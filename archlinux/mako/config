@@ -2,19 +2,19 @@
 # Black theme with transparency
 
 # Global settings
-font=JetBrainsMono Nerd Font 11
-width=350
-height=100
-margin=10
-padding=15
-border-size=2
-border-radius=10
-icons=1
+font=ZedMono Nerd Font Mono 8
+width=250
+height=60
+margin=8
+padding=8
+border-size=1
+border-radius=4
+icons=0
 max-icon-size=64
 markup=1
 actions=1
 history=1
-text-color=#ffffff
+text-color=#7797D2
 default-timeout=5000
 ignore-timeout=0
 
@@ -38,19 +38,19 @@ progress-color=over #313244
 [urgency=low]
 background-color=#000000B3
 border-color=#333333
-text-color=#888888
+text-color=#7797D2
 default-timeout=3000
 
 [urgency=normal]
 background-color=#000000CC
 border-color=#333333
-text-color=#ffffff
+text-color=#7797D2
 default-timeout=5000
 
 [urgency=critical]
 background-color=#000000E6
 border-color=#ff0000
-text-color=#ff0000
+text-color=#f46364
 default-timeout=10000
 
 # App-specific rules (examples)

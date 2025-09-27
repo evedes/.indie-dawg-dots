@@ -1,5 +1,4 @@
 * {
-  /* Black color scheme with transparency */
   background:                  rgba(5, 5, 5, 0.85);
   selected-active-foreground:  #ffffff;
   separatorcolor:              rgba(50, 50, 50, 0.5);
@@ -25,9 +24,8 @@
   alternate-urgent-foreground: #ffcdd2;
   alternate-active-foreground: #ffffff;
 
-  /* Additional style variables */
-  font:                        "ZedMono Nerd Font Mono 11";
-  text-color:                  @foreground;
+  font:                        "ZedMono Nerd Font Mono Bold 9";
+  text-color:                  white;
 }
 
 element {
@@ -69,8 +67,8 @@ window {
     border:             1px;
     border-color:       @border-color;
     border-radius:      8px;
-    width:              30%;
-    height:             20%;
+    width:              24%;
+    height:             16%;
     location:           center;
     anchor:             center;
     transparency:       "real";
