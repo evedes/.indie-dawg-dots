@@ -1,7 +1,7 @@
 * {
   font-family: "ZedMono Nerd Font Mono";
-  font-size: 14px;
-  min-height: 20px;
+  font-size: 18px;
+  min-height: 24px;
 }
 
 @define-color bg-dark rgba(0, 0, 0, 0.8);
@@ -29,11 +29,11 @@ window#waybar {
 
 #workspaces button {
   border-radius: 3px;
-  padding: 0px 8px;
+  padding: 0px 10px;
   color: @text-secondary;
   background: transparent;
   margin: 0 4px;
-  min-height: 22px;
+  min-height: 26px;
   transition: all 0.5s ease;
 }
 
@@ -87,7 +87,7 @@ window#waybar {
 }
 
 #custom-arch {
-  font-size: 30px;
+  font-size: 36px;
   color: @accent;
   padding: 0;
   margin-left: 24px;
@@ -101,6 +101,6 @@ window#waybar {
 
 #custom-separator {
   color: @border-accent;
-  padding: 0 2px;
-  font-size: 12px;
+  padding: 0 4px;
+  font-size: 16px;
 }
