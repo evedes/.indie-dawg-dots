@@ -363,23 +363,19 @@ main() {
     # Initialize desktop entries
     init_desktop_entries
 
-    # Launch Rofi in combi mode - Apps, Windows, and Actions only (no commands)
+    # Launch Rofi - Apps only (simplified)
     export XDG_DATA_DIRS="${TEMP_DIR}:${XDG_DATA_DIRS:-/usr/share:/usr/local/share}"
 
     rofi \
-        -modi "drun,window,filebrowser" \
-        -show combi \
-        -combi-modi "drun,window" \
+        -modi "drun" \
+        -show drun \
         -theme "${THEME_PATH}" \
         -matching fuzzy \
         -show-icons \
         -display-drun "Apps" \
-        -display-window "Windows" \
-        -display-filebrowser "Files" \
-        -display-combi "Search" \
         -drun-display-format "{name}" \
-        -window-format "{w} | {c} | {t}" \
         -sort true \
+        -lines 6 \
         -drun-use-desktop-cache false \
         -drun-reload-desktop-cache true
 }

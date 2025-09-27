@@ -8,7 +8,6 @@ alias b='bat'
 alias aa='nvim ~/.indie-dawg-dots/common/zsh/.alias'
 alias zz='nvim ~/.indie-dawg-dots/common/zsh/.zshrc'
 alias mm='cd ~/Nextcloud/Multiverse && v -O EVERYTHING\ PLAN.md TODO\ ARCHIVE.md GET\ THINGS\ DONE.md'
-alias cc='cd ~/Nextcloud/Multiverse && v -O CREATORSGUILD-PROJECT-MANAGEMENT.md'
 
 # Hostname
 alias host='echo $HOST'
