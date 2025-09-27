@@ -1,7 +1,7 @@
 * {
   font-family: "ZedMono Nerd Font Mono";
-  font-size: 12px;
-  min-height: 18px;
+  font-size: 14px;
+  min-height: 20px;
 }
 
 @define-color bg-dark rgba(0, 0, 0, 0.92);
