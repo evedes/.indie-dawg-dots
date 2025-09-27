@@ -1,13 +1,13 @@
 * {
   font-family: "ZedMono Nerd Font Mono";
-  font-size: 18px;
-  min-height: 24px;
+  font-size: 12px;
+  min-height: 18px;
 }
 
-@define-color bg-dark rgba(0, 0, 0, 0.8);
+@define-color bg-dark rgba(0, 0, 0, 0.92);
 @define-color bg-lighter rgba(255, 255, 255, 0.1);
 @define-color accent rgba(135, 206, 250, 0.9);
-@define-color accent-bright rgba(173, 216, 230, 1.0);
+@define-color accent-bright #7B99D4;
 @define-color text-primary rgba(173, 216, 230, 0.95);
 @define-color text-secondary rgba(135, 206, 250, 0.7);
 @define-color selected rgba(135, 206, 250, 0.2);
@@ -29,8 +29,8 @@ window#waybar {
 
 #workspaces button {
   border-radius: 3px;
-  padding: 0px 10px;
-  color: @text-secondary;
+  padding: 0px 2px;
+  color: @accent-bright;
   background: transparent;
   margin: 0 4px;
   min-height: 26px;
@@ -43,7 +43,7 @@ window#waybar {
 }
 
 #workspaces button.active {
-  color: @text-primary;
+  color: @accent-bright;
   background: @selected;
   border: 1px solid @border-accent;
 }
@@ -76,7 +76,7 @@ window#waybar {
 
 #clock {
   color: @accent-bright;
-  margin-right: 24px;
+  margin-right: 16px;
   padding: 0;
   background: transparent;
   transition: all 0.3s ease;
@@ -87,9 +87,8 @@ window#waybar {
 }
 
 #custom-arch {
-  font-size: 36px;
-  color: @accent;
-  padding: 0;
+  font-size: 20px;
+  color: @accent-bright;
   margin-left: 24px;
   background: transparent;
   transition: all 0.3s ease;
