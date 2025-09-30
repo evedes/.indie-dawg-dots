@@ -38,21 +38,7 @@ return {
       },
     })
     vim.api.nvim_command("highlight StatusLineRecording guifg=#ff0000 guibg=NONE gui=bold")
-    require("mini.files").setup({
-      options = {
-        use_as_default_explorer = false, -- avoid it to open automaically when neovim starts
-      },
-    })
     require("mini.diff").setup()
-    require("mini.pick").setup({
-      options = {
-        ignorecase = true,
-      },
-      mappings = {
-        move_up = "<C-k>",
-        move_down = "<C-j>",
-      },
-    })
     require("mini.comment").setup()
     require("mini.surround").setup()
     require("mini.bufremove").setup()
@@ -163,7 +149,7 @@ return {
         -- Configure window position (bottom right)
         config = {
           width = "auto",
-          anchor = "SE",  -- Southeast (bottom-right)
+          anchor = "SE", -- Southeast (bottom-right)
           row = "auto",
           col = "auto",
         },

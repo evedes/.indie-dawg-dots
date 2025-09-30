@@ -17,3 +17,28 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertEnter" }, {
     vim.opt_local.complete = ""
   end,
 })
+
+-- Make floating windows transparent
+vim.api.nvim_create_autocmd("ColorScheme", {
+  desc = "Set transparent backgrounds for floating windows",
+  group = vim.api.nvim_create_augroup("transparent-floats", { clear = true }),
+  callback = function()
+    local highlights = {
+      "NormalFloat",
+      "FloatBorder",
+      "FloatTitle",
+      "LazyNormal",
+      "LazyButton",
+      "LazyButtonActive",
+      "SnacksNormal",
+      "SnacksNormalNC",
+      "SnacksWinBar",
+      "SnacksBackdrop",
+      "SnacksPicker",
+      "SnacksExplorer",
+    }
+    for _, group in ipairs(highlights) do
+      vim.api.nvim_set_hl(0, group, { bg = "NONE" })
+    end
+  end,
+})

@@ -44,18 +44,34 @@ keymap.set("n", "<C-A-l>", "<C-w>>", with_desc("Resize right"))
 keymap.set("n", "<C-A-k>", "<C-w>+", with_desc("Resize up"))
 keymap.set("n", "<C-A-j>", "<C-w>-", with_desc("Resize down"))
 
--- Mini Picker
-keymap.set("n", "<leader>fe", "<cmd>lua MiniFiles.open()<cr>", with_desc("Explorer"))
+-- Snacks Explorer & Picker
+keymap.set("n", "<leader>fe", function()
+  Snacks.explorer()
+end, with_desc("Explorer"))
 
 keymap.set("n", "<leader>ee", function()
-  require("mini.files").open(vim.api.nvim_buf_get_name(0))
+  Snacks.explorer({ cwd = vim.fn.expand("%:p:h") })
 end, with_desc("Current File"))
-keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", with_desc("Find Files"))
 
-keymap.set("n", "<leader>/", "<cmd>Pick grep_live<cr>", with_desc("Live Grep"))
-keymap.set("n", "<leader>bb", "<cmd>Pick buffers<cr>", with_desc("Buffers"))
-keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", with_desc("Help"))
-keymap.set("n", "<leader>cc", "<cmd>lua MiniPick.builtin.resume()<cr>", with_desc("Resume"))
+keymap.set("n", "<leader>ff", function()
+  Snacks.picker.files()
+end, with_desc("Find Files"))
+
+keymap.set("n", "<leader>/", function()
+  Snacks.picker.grep()
+end, with_desc("Live Grep"))
+
+keymap.set("n", "<leader>bb", function()
+  Snacks.picker.buffers()
+end, with_desc("Buffers"))
+
+keymap.set("n", "<leader>fh", function()
+  Snacks.picker.help()
+end, with_desc("Help"))
+
+keymap.set("n", "<leader>cc", function()
+  Snacks.picker.resume()
+end, with_desc("Resume"))
 
 -- Git
 keymap.set("n", "<leader>go", "<cmd>lua MiniDiff.toggle_overlay()<cr>", with_desc("MiniDiff"))

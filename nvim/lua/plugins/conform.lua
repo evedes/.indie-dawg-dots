@@ -10,7 +10,7 @@ return {
       jsonc = { "prettier", stop_on_first = true, name = "dprint", timeout_ms = 500 },
       less = { "prettier" },
       lua = { "stylua" },
-      markdown = { "prettier" },
+      -- markdown = { "prettier" },
       scss = { "prettier" },
       sh = { "shfmt" },
       typescript = { "prettier", name = "dprint", timeout_ms = 500, lsp_format = "fallback" },
