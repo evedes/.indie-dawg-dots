@@ -29,10 +29,6 @@ alias tl='t ls'
 alias tn='t new -s'
 alias tk='t kill-session -t'
 
-# ZELLIJ
-alias zt='$HOME/.indie-dawg-dots/common/zellij/switch-theme.sh'
-alias ztheme='zt'
-
 # GHOSTTY
 alias gt='ghostty-theme-switcher'
 alias gtheme='gt'
@@ -172,11 +168,15 @@ alias claude="$HOME/.claude/local/claude"
 alias pg_dump17='/opt/homebrew/opt/postgresql@17/bin/pg_dump'
 
 # ZELLIJ
-alias z='zellij'
+alias z='zellij --layout $HOME/.config/zellij/layouts/no-status.kdl'
+alias zn='zellij --new-session-with-layout $HOME/.config/zellij/layouts/no-status.kdl --session'
 alias zl='zellij list-sessions'
 alias za='zellij attach'
 alias zd='zellij delete-session'
-alias zn='zellij -n'
+
+# ZELLIJ THEME SWITCHER
+alias zt='$HOME/.indie-dawg-dots/common/zellij/switch-theme.sh'
+
 
 # GETZARTA
 alias zwt='./zwt'
