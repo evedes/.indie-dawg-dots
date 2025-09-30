@@ -20,6 +20,7 @@ return {
     },
     explorer = {
       enabled = true,
+      replace_netrw = false,
     },
     picker = {
       enabled = true,
@@ -32,6 +33,19 @@ return {
             ["<C-j>"] = { "list_down", mode = { "i", "n" } },
             ["<C-k>"] = { "list_up", mode = { "i", "n" } },
           },
+        },
+      },
+      -- Configure sources to include all files
+      sources = {
+        files = {
+          git = false, -- Don't use git ls-files
+          hidden = true, -- Show hidden files
+          ignored = true, -- Show ignored files
+        },
+        explorer = {
+          -- Show all files in explorer
+          hidden = true, -- Show hidden files like .env
+          ignored = true, -- Show gitignored files
         },
       },
     },
