@@ -41,14 +41,53 @@ return {
           git = false, -- Don't use git ls-files
           hidden = true, -- Show hidden files
           ignored = true, -- Show ignored files
+          exclude = {
+            ".git",
+            ".react-router",
+            ".DS_Store",
+            "node_modules",
+            ".next",
+            ".pnpm-store",
+            "dist",
+            "build",
+            "coverage",
+            ".yarn",
+            "tmp",
+            ".turbo",
+            ".cache",
+            ".vscode",
+            ".idea",
+            ".bundle",
+            "vendor",
+            "log",
+          },
         },
         explorer = {
           -- Show all files in explorer
           hidden = true, -- Show hidden files like .env
           ignored = true, -- Show gitignored files
+          exclude = {
+            ".git",
+            ".react-router",
+            ".DS_Store",
+            "node_modules",
+            ".next",
+            ".pnpm-store",
+            "dist",
+            "build",
+            "coverage",
+            ".yarn",
+            "tmp",
+            ".turbo",
+            ".cache",
+            ".vscode",
+            ".idea",
+            ".bundle",
+            "vendor",
+            "log",
+          },
         },
       },
     },
   },
 }
-
