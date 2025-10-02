@@ -20,6 +20,9 @@ This repository contains carefully crafted configuration files for:
 - 🎨 **Modern Tooling**: Latest CLI tools with sensible defaults
 - 📱 **Wayland Support**: Native Wayland clipboard integration with X11 fallback
 - 🔧 **Modular Design**: Easy to customize and extend
+- 🎯 **Enhanced Neovim**: Snacks.nvim for file navigation, mini.nvim suite, 18+ plugins
+- 🔍 **Smart File Discovery**: Explorer and picker show hidden/untracked files by default
+- 💡 **Which-Key Integration**: Mini.clue provides contextual key binding hints
 
 ## 📦 Installation
 
@@ -89,21 +92,28 @@ fnm rbenv cargo          # Node.js, Ruby, Rust toolchains
    ```bash
    # Shell configuration
    ln -sf ~/.indie-dawg-dots/.zshenv ~/.zshenv
-   ln -sf ~/.indie-dawg-dots/.config/zsh ~/.config/zsh
+   ln -sf ~/.indie-dawg-dots/common/zsh ~/.config/zsh
 
-   # Neovim
-   ln -sf ~/.indie-dawg-dots/.config/nvim ~/.config/nvim
+   # Neovim (primary configuration)
+   ln -sf ~/.indie-dawg-dots/nvim ~/.config/nvim
 
    # Git
    ln -sf ~/.indie-dawg-dots/.gitconfig ~/.gitconfig
 
    # Terminal configurations
-   ln -sf ~/.indie-dawg-dots/.config/ghostty ~/.config/ghostty
-   ln -sf ~/.indie-dawg-dots/.config/tmux ~/.config/tmux
+   ln -sf ~/.indie-dawg-dots/common/ghostty ~/.config/ghostty
+   ln -sf ~/.indie-dawg-dots/common/tmux ~/.config/tmux
+   ln -sf ~/.indie-dawg-dots/common/zellij ~/.config/zellij
 
    # Other tools
-   ln -sf ~/.indie-dawg-dots/.config/starship ~/.config/starship
+   ln -sf ~/.indie-dawg-dots/common/starship ~/.config/starship
    ln -sf ~/.indie-dawg-dots/.ripgreprc ~/.ripgreprc
+
+   # Platform-specific (Linux only)
+   # ln -sf ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
+   # ln -sf ~/.indie-dawg-dots/archlinux/waybar ~/.config/waybar
+   # ln -sf ~/.indie-dawg-dots/archlinux/rofi ~/.config/rofi
+   # ln -sf ~/.indie-dawg-dots/archlinux/mako ~/.config/mako
    ```
 
 3. **Set Zsh as default shell**
@@ -132,25 +142,41 @@ fnm rbenv cargo          # Node.js, Ruby, Rust toolchains
 
 ```
 .indie-dawg-dots/
-├── .config/
-│   ├── nvim/              # Neovim configuration (Lua)
-│   │   ├── lua/config/    # Core settings
-│   │   └── lua/plugins/   # Plugin configurations
+├── nvim/                  # Neovim configuration (primary, Lua-based)
+│   ├── lua/config/        # Core settings (options, keymaps, autocmds)
+│   ├── lua/plugins/       # Plugin configurations (18 files)
+│   └── lsp/               # Language server configurations (15 servers)
+├── lazynvim/              # Alternative LazyVim distribution configuration
+├── common/                # Cross-platform configurations
 │   ├── zsh/               # Shell configuration
 │   │   ├── .zshrc         # Main shell config
-│   │   ├── .alias         # Command aliases
-│   │   ├── .linuxrc       # Linux-specific settings
-│   │   └── .macosrc       # macOS-specific settings
+│   │   └── .alias         # Command aliases
 │   ├── ghostty/           # Terminal emulator
 │   │   ├── config.common  # Shared settings
 │   │   ├── config.macos   # macOS-specific
-│   │   └── config.linux   # Linux-specific
+│   │   ├── config.linux   # Linux-specific
+│   │   └── *-switcher     # Theme management scripts
 │   ├── tmux/              # Terminal multiplexer
-│   └── starship/          # Cross-shell prompt
+│   ├── starship/          # Cross-shell prompt
+│   ├── zellij/            # Terminal workspace manager
+│   ├── cava/              # Audio visualizer
+│   ├── emacs/             # Emacs configuration
+│   └── fontconfig/        # Font configuration
+├── archlinux/             # Linux-specific configurations
+│   ├── hypr/              # Hyprland window manager
+│   ├── waybar/            # Wayland bar
+│   ├── rofi/              # Application launcher
+│   ├── mako/              # Notification daemon
+│   ├── chromium/          # Browser config
+│   └── .linuxrc           # Linux-specific shell settings
+├── macos/                 # macOS-specific configurations
+│   └── .macosrc           # macOS-specific shell settings
+├── fonts/                 # Custom fonts (BerkeleyMono, JetBrainsMono, ZedMono)
 ├── .gitconfig             # Git configuration
-├── .zshenv               # Environment variables
-├── .ripgreprc            # Search tool config
-└── CLAUDE.md             # Comprehensive documentation
+├── .zshenv                # Environment variables
+├── .ripgreprc             # Search tool config
+├── .vimrc                 # Basic vim fallback config
+└── CLAUDE.md              # Comprehensive documentation
 ```
 
 ## 🚀 Quick Start Commands
@@ -226,16 +252,23 @@ sudo apt install git zsh neovim tmux fzf ripgrep bat xsel xclip
 
 ### Adding New Aliases
 
-Edit `.config/zsh/.alias` and reload with `r` command.
+Edit `common/zsh/.alias` and reload with `r` command.
 
 ### Modifying Neovim Plugins
 
-Add/modify files in `.config/nvim/lua/plugins/` and run `:Lazy sync` in Neovim.
+Add/modify files in `nvim/lua/plugins/` and run `:Lazy sync` in Neovim.
+
+**Current plugin highlights:**
+- **Snacks.nvim**: File explorer and fuzzy picker (shows all files including untracked)
+- **Mini.nvim**: 11+ modules for core functionality including which-key (mini.clue)
+- **Blink.cmp**: Fast completion engine
+- **Noice.nvim**: Enhanced UI for messages and notifications
+- **Flash.nvim**: Enhanced navigation and search
 
 ### Platform-Specific Configurations
 
-- **Linux**: Edit `.config/zsh/.linuxrc`
-- **macOS**: Edit `.config/zsh/.macosrc`
+- **Linux**: Edit `archlinux/.linuxrc`
+- **macOS**: Edit `macos/.macosrc`
 
 ## 🐛 Troubleshooting
 
