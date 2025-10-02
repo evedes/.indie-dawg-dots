@@ -33,7 +33,8 @@
       "Bash(ln:*)",
       "Bash(nvim:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(defaults read:*)"
+      "Bash(defaults read:*)",
+      "Bash(cat:*)"
     ],
     "deny": []
   }

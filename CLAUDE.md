@@ -35,12 +35,13 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 ### Directory Organization
 ```
 .indie-dawg-dots/
+├── nvim/             # Neovim configuration (primary, Lua-based with lazy.nvim)
+├── lazynvim/         # Alternative LazyVim distribution configuration
 ├── common/           # Cross-platform configurations
-│   ├── nvim/         # Neovim (Lua-based config with lazy.nvim)
 │   ├── zsh/          # Shell configuration and aliases
 │   ├── tmux/         # Terminal multiplexer
 │   ├── starship/     # Cross-shell prompt
-│   ├── ghostty/      # Terminal emulator
+│   ├── ghostty/      # Terminal emulator (includes theme switcher scripts)
 │   ├── zellij/       # Terminal workspace manager
 │   ├── cava/         # Audio visualizer
 │   ├── emacs/        # Emacs configuration
@@ -49,28 +50,29 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 │   ├── hypr/         # Hyprland window manager
 │   ├── waybar/       # Wayland bar configuration
 │   ├── rofi/         # Application launcher
-│   ├── yay/          # AUR helper configuration
+│   ├── mako/         # Wayland notification daemon
+│   ├── chromium/     # Chromium browser configuration
 │   └── .linuxrc      # Linux-specific shell configuration
 ├── macos/            # macOS-specific configurations
 │   └── .macosrc      # macOS-specific shell configuration
+├── fonts/            # Custom fonts (BerkeleyMono, JetBrainsMono, ZedMono Nerd Fonts)
 ├── .gitconfig        # Git configuration with custom aliases
 ├── .zshenv           # Environment variables for development tools
 ├── .ripgreprc        # Search tool configuration
 ├── .vimrc            # Basic vim configuration (fallback)
-├── fonts/            # Custom fonts directory
 └── .claude/          # Claude-specific configuration
 ```
 
 ## Detailed Configuration Guides
 
-### Neovim Configuration (`common/nvim/`)
+### Neovim Configuration (`nvim/`)
 
 #### Overview
-A modern Neovim configuration built with Lua, focusing on minimalism and efficiency using the mini.nvim plugin suite extensively.
+A modern Neovim configuration built with Lua, focusing on minimalism and efficiency. Uses Snacks.nvim for file navigation and fuzzy finding, alongside the mini.nvim plugin suite for core functionality.
 
 #### Structure
 ```
-common/nvim/
+nvim/
 ├── init.lua              # Entry point - sequential module loading
 ├── lua/
 │   ├── config/           # Core configuration modules
@@ -79,21 +81,45 @@ common/nvim/
 │   │   ├── lazy.lua      # Plugin manager bootstrap & setup
 │   │   ├── options.lua   # Neovim options (UI, editor behavior)
 │   │   └── theme-switcher.lua # Custom theme management system
-│   ├── plugins/          # Individual plugin configs (30+ files)
-│   │   ├── mini-*.lua    # Mini.nvim suite configurations
+│   ├── plugins/          # Individual plugin configs (18 files)
+│   │   ├── mini.lua      # Mini.nvim suite (11+ modules)
+│   │   ├── snacks.lua    # Snacks.nvim (explorer, picker, notifier)
 │   │   ├── conform.lua   # Code formatting setup
+│   │   ├── blink.lua     # Blink completion engine
 │   │   ├── neogit.lua    # Git integration
+│   │   ├── gitsigns.lua  # Git signs in gutter
+│   │   ├── treesitter.lua # Syntax highlighting
+│   │   ├── diffview.lua  # Git diff viewer
+│   │   ├── noice.lua     # Enhanced UI messages
+│   │   ├── flash.lua     # Enhanced navigation
 │   │   ├── obsidian.lua  # Note-taking integration
-│   │   └── ...           # Other plugin configurations
+│   │   ├── supermaven.lua # AI completion
+│   │   ├── tiny-code-action.lua # LSP code actions
+│   │   ├── markview.lua  # Markdown preview
+│   │   ├── dadbod.lua    # Database interface
+│   │   ├── autotag.lua   # HTML/JSX auto-closing
+│   │   ├── schemastore.lua # JSON schemas
+│   │   └── kanagawa-theme.lua # Kanagawa theme
 │   ├── lsp.lua           # Centralized LSP configuration & keymaps
 │   └── icons.lua         # Icon definitions for UI consistency
-├── lsp/                  # Language-specific LSP configs
-│   ├── bash.lua          # Bash LSP setup
-│   ├── typescript.lua    # TypeScript/JavaScript (vtsls)
+├── lsp/                  # Language-specific LSP configs (15 servers)
+│   ├── vtsls.lua         # TypeScript/JavaScript
 │   ├── lua.lua           # Lua LSP with Neovim API support
-│   └── ...               # 15+ language server configs
+│   ├── bash.lua          # Bash LSP setup
+│   ├── eslint.lua        # ESLint integration
+│   ├── tailwindcss.lua   # Tailwind CSS
+│   ├── html.lua          # HTML
+│   ├── css.lua           # CSS
+│   ├── json.lua          # JSON
+│   ├── yaml.lua          # YAML
+│   ├── volar.lua         # Vue
+│   ├── emmet.lua         # Emmet
+│   ├── dprint.lua        # Dprint formatter
+│   ├── stylelint.lua     # CSS linting
+│   └── clangd.lua        # C/C++
 ├── after/                # After-plugin configurations
 ├── lazy-lock.json        # Plugin version lock file
+├── theme-preference.txt  # Saved theme preference
 └── stylua.toml           # Lua formatter configuration
 ```
 
@@ -110,14 +136,18 @@ common/nvim/
 #### Key Features
 - **Plugin Manager**: lazy.nvim for fast startup times
 - **Leader Key**: Space
-- **Plugin Suite**: Heavy use of mini.nvim modules for core functionality
-- **LSP**: Integrated LSP support with custom configuration
-- **Git Integration**: Neogit, gitsigns.nvim, and diffview.nvim
-- **Completion**: Blink completion engine
+- **File Navigation**: Snacks.nvim explorer and picker (shows untracked files by default)
+- **Plugin Suite**: Heavy use of mini.nvim modules (11+ modules including mini.clue for which-key)
+- **LSP**: Integrated LSP support with 15 language servers configured (TypeScript, Lua, Bash, ESLint, HTML, CSS, JSON, YAML, Vue, Emmet, Tailwind, Dprint, Stylelint, Clangd)
+- **Git Integration**: Neogit, gitsigns.nvim, diffview.nvim, and mini.diff
+- **Completion**: Blink.cmp completion engine
 - **AI Integration**: Supermaven for AI-powered code suggestions
-- **Theme**: Kanagawa theme with custom configurations
+- **Theme**: Kanagawa theme with persistent preference saving
 - **Code Actions**: Tiny code action for minimal UI
+- **Enhanced UI**: Noice.nvim for better messages, notifications, and command line
+- **Navigation**: Flash.nvim for enhanced navigation and search
 - **Markdown**: Markview for enhanced markdown preview
+- **Database**: Dadbod for database operations
 
 #### Important Patterns
 1. **Modular Configuration**: Each major feature has its own file in `lua/config/`
@@ -144,13 +174,22 @@ common/nvim/
 - `[d` / `]d` - Navigate diagnostics
 
 ##### File Navigation
-- `<leader>fe` - Open mini.files explorer
+- `<leader>fe` - Open Snacks explorer (shows hidden/untracked files)
 - `<leader>ee` - Explorer at current file
-- `<leader>ff` - Find files (mini.pick)
-- `<leader>/` - Live grep
+- `<leader>ff` - Find files (Snacks picker, includes untracked files)
+- `<leader>/` - Live grep (Snacks)
 - `<leader>bb` - Buffer picker
 - `<leader>fh` - Help search
 - `<leader>cc` - Resume last picker
+
+##### Enhanced Navigation (Flash.nvim & Mini.nvim)
+- `s` - Flash jump to any location
+- `S` - Flash treesitter jump
+- `r` (in operator-pending) - Remote Flash
+- `R` - Treesitter search
+- `<C-s>` (in command mode) - Toggle Flash search
+- `<CR>` - Jump anywhere (mini.jump2d in normal mode)
+- `f`/`F`/`t`/`T` - Enhanced character find (mini.jump)
 
 ##### Code Formatting
 - Auto-format on save (via conform.nvim)
@@ -354,21 +393,26 @@ Tmux configuration focused on productivity with vim-like keybindings and a clean
 ### Ghostty Configuration (`common/ghostty/`)
 
 #### Overview
-Modern GPU-accelerated terminal emulator configuration with platform-specific settings.
+Modern GPU-accelerated terminal emulator configuration with platform-specific settings and custom theme management.
 
 #### File Structure
 ```
 common/ghostty/
-├── config         # Main configuration (imports platform-specific configs)
-├── config.common  # Common settings across platforms
-├── config.linux   # Linux-specific settings
-└── config.macos   # macOS-specific settings
+├── config                 # Main configuration (imports platform-specific configs)
+├── config.common          # Common settings across platforms
+├── config.linux           # Linux-specific settings
+├── config.macos           # macOS-specific settings
+├── ghostty-theme-switcher # Theme switcher utility script
+├── ghostty-theme-menu     # Interactive theme selection menu
+└── ghostty-bg-picker      # Background picker utility
 ```
 
 #### Key Features
-- **Platform-Specific Configs**: Separate files for Linux and macOS
+- **Platform-Specific Configs**: Separate files for Linux and macOS with conditional loading
 - **Common Configuration**: Shared settings in config.common
 - **Modular Design**: Main config imports platform-specific settings
+- **Theme Management**: Custom theme switcher scripts for quick theme changes
+- **Custom Keybinds**: `Shift+Enter` mapped to newline insertion
 
 ### Zellij Configuration (`common/zellij/`)
 
@@ -396,13 +440,15 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 
 ## Key Design Patterns
 
-1. **Neovim Configuration** (`common/nvim/`)
+1. **Neovim Configuration** (`nvim/`)
    - Entry point: `init.lua` loads `lua/config/`
    - Modular Lua configuration using lazy.nvim plugin manager
    - Leader key: Space
-   - Heavy use of mini.nvim plugin suite
-   - LSP support via Mason
-   - Git integration with Neogit and gitsigns
+   - Snacks.nvim for file explorer and fuzzy picker
+   - Heavy use of mini.nvim plugin suite (11+ modules including mini.clue)
+   - LSP support with 15 language servers
+   - Git integration with Neogit, gitsigns, and mini.diff
+   - Noice.nvim for enhanced UI messages and notifications
 
 2. **Shell Environment**
    - Primary shell: zsh with Zinit plugin manager
@@ -450,6 +496,25 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 - PNPM: Platform-specific homes - `~/Library/pnpm` (macOS) or `~/.local/share/pnpm` (Linux)
 
 ## Recent Updates
+
+### Neovim Plugin Updates (2025-10-03)
+- **Snacks.nvim Integration**: Replaced mini.files and mini.pick with Snacks explorer and picker
+  - Explorer and picker now show hidden and untracked files by default
+  - Configured with comprehensive file exclusion list (node_modules, .git, build artifacts, etc.)
+  - Uses "ivy" layout preset for picker
+- **Mini.nvim Enhancements**: Added mini.clue for which-key functionality
+  - Configured comprehensive key mapping hints
+  - 500ms delay before showing hints
+  - Bottom-right window placement
+- **Noice.nvim**: Enhanced UI for messages, notifications, and command line
+- **Flash.nvim**: Added for enhanced navigation and search capabilities
+- **Prettier as Default**: Updated to use Prettier by default for formatting
+- **Tailwind CSS**: Fixed unknown at-rules warnings
+
+### Ghostty Configuration (2025-09-27)
+- Added custom theme management scripts (ghostty-theme-switcher, ghostty-theme-menu, ghostty-bg-picker)
+- Enhanced platform-specific configuration files
+- Added custom keybind for Shift+Enter
 
 ### Neovim Documentation Enhancement (2025-09-15)
 - Added comprehensive Neovim commands reference
