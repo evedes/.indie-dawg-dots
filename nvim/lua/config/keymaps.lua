@@ -84,3 +84,8 @@ keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", with_desc("Open Dadbod"))
 keymap.set("n", "<leader>xq", "<cmd>copen<cr>", with_desc("Open quickfix"))
 keymap.set("n", "<leader>xc", "<cmd>cclose<cr>", with_desc("Close quickfix"))
 
+-- UI Toggles
+keymap.set("n", "<leader>ud", function()
+  vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
+end, with_desc("Toggle diagnostic virtual text"))
+
