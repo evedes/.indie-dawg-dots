@@ -58,7 +58,7 @@ nvim/
 │   │   ├── lazy.lua        # Plugin manager setup
 │   │   ├── options.lua     # Neovim options
 │   │   └── theme-switcher.lua # Custom theme management
-│   ├── plugins/            # Plugin configurations (13 files)
+│   ├── plugins/            # Plugin configurations (12 files)
 │   │   ├── mini.lua        # Mini.nvim suite (11 modules)
 │   │   ├── blink.lua       # Completion engine
 │   │   ├── conform.lua     # Code formatting
@@ -68,7 +68,6 @@ nvim/
 │   │   ├── diffview.lua    # Git diff viewer
 │   │   ├── supermaven.lua  # AI completion
 │   │   ├── tiny-code-action.lua # LSP code actions
-│   │   ├── markview.lua    # Markdown preview
 │   │   ├── dadbod.lua      # Database interface
 │   │   ├── autotag.lua     # HTML/JSX auto-closing
 │   │   └── kanagawa-theme.lua # Kanagawa theme
@@ -98,7 +97,7 @@ return {
 LSP servers are auto-loaded on BufReadPre/BufNewFile events. The `lua/lsp.lua` file sets up keymaps and handlers globally.
 
 ### Plugin Management (lazy.nvim)
-- Plugins defined in `lua/plugins/*.lua` (13 plugin files)
+- Plugins defined in `lua/plugins/*.lua` (12 plugin files)
 - Each file returns a plugin spec or array of specs
 - Lazy loading configured per plugin via:
   - `event` - Load on specific events (BufReadPre, VeryLazy, etc.)
