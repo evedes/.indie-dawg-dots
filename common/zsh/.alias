@@ -161,6 +161,7 @@ alias clauded="claude --dangerously-skip-permissions"
 
 # MACOS
 # alias claude="$HOME/.local/bin/claude"
+
 # LINUX
 alias claude="$HOME/.claude/local/claude"
 
