@@ -68,7 +68,6 @@ alias grc="git rebase --continue"
 # NPM
 alias npmg='npm list -g --depth 0'
 
-
 # PNPM
 alias pdd='pnpm dev:down'
 alias pdu='pnpm dev:up'
@@ -108,6 +107,7 @@ alias odin='ssh odin'
 alias vedesvps='ssh -i ~/.ssh/id_ed25519_vedesvps edo@vedesvps'
 alias getzartavps='ssh -i ~/.ssh/id_ed25519_getzartavps edo@getzartavps'
 alias gztunnel='ssh -i ~/.ssh/id_ed25519_getzartavps -fN -L 25060:getzartavpsdb-do-user-23476371-0.k.db.ondigitalocean.com:25060 edo@getzartavps'
+alias gzvedesvps='ssh -i ~/.ssh/id_ed25519_vedesvps -fN -L 25060:vedesvpsdb-do-user-16713563-0.e.db.ondigitalocean.com:25060 edo@vedesvps'
 alias k21='ssh edo@k21'
 alias k22='ssh edo@k22'
 alias k23='ssh edo@k23'
