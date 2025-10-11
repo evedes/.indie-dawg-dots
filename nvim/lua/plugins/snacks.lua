@@ -90,4 +90,19 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("snacks").setup(opts)
+
+    -- Set darker color for tree lines
+    local function set_tree_color()
+      vim.api.nvim_set_hl(0, "SnacksPickerTree", { fg = "#1a1a1a" })
+    end
+
+    set_tree_color()
+
+    -- Reapply after colorscheme changes
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      callback = set_tree_color,
+    })
+  end,
 }
