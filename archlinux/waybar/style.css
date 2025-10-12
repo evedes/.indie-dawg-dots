@@ -1,10 +1,10 @@
 * {
-  font-family: "ZedMono Nerd Font Mono";
-  font-size: 16px;
-  min-height: 30px;
+  font-family: "TX-02 Medium UltraCondensed";
+  font-size: 18px;
+  min-height: 35px;
 }
 
-@define-color bg-dark rgba(0, 0, 0, 0.92);
+@define-color bg-dark rgba(0, 0, 0, 0.85);
 @define-color bg-lighter rgba(255, 255, 255, 0.1);
 @define-color accent rgba(135, 206, 250, 0.9);
 @define-color accent-bright #7B99D4;
@@ -18,23 +18,21 @@ window#waybar {
   background: @bg-dark;
   border-radius: 0px;
   border-bottom: 1px solid @border-accent;
-  padding: 0;
 }
 
 #workspaces {
   padding: 0;
   background: transparent;
-  margin: 1px 8px;
+  margin: 0px 16px;
 }
 
 #workspaces button {
   border-radius: 3px;
-  padding: 0px 2px;
+  padding: 0px 3px;
   color: @accent-bright;
   background: transparent;
-  margin: 0 4px;
-  min-height: 26px;
-  transition: all 0.5s ease;
+  margin: 0 1px;
+  transition: all 0.20s ease;
 }
 
 #workspaces button:hover {
@@ -99,7 +97,7 @@ window#waybar {
 }
 
 #custom-separator {
-  color: @border-accent;
+  color: yellow;
   padding: 0 4px;
   font-size: 16px;
 }
