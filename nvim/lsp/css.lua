@@ -9,18 +9,30 @@ return {
       validate = true,
       lint = {
         unknownAtRules = "ignore", -- Ignore Tailwind's @tailwind, @apply, @layer, etc.
+        unknownProperties = "ignore", -- Ignore GTK CSS custom properties
+        propertyIgnoredDueToDisplay = "ignore",
+        compatibleVendorPrefixes = "ignore",
+        vendorPrefix = "ignore",
       },
     },
     scss = {
       validate = true,
       lint = {
         unknownAtRules = "ignore",
+        unknownProperties = "ignore",
+        propertyIgnoredDueToDisplay = "ignore",
+        compatibleVendorPrefixes = "ignore",
+        vendorPrefix = "ignore",
       },
     },
     less = {
       validate = true,
       lint = {
         unknownAtRules = "ignore",
+        unknownProperties = "ignore",
+        propertyIgnoredDueToDisplay = "ignore",
+        compatibleVendorPrefixes = "ignore",
+        vendorPrefix = "ignore",
       },
     },
   },

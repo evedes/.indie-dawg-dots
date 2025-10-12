@@ -24,7 +24,7 @@
   alternate-urgent-foreground: #ffcdd2;
   alternate-active-foreground: #ffffff;
 
-  font:                        "ZedMono Nerd Font Mono Bold 9";
+  font:                        "Berkeley Mono Medium UltraCondensed 14";
   text-color:                  white;
 }
 
