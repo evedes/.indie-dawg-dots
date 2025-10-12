@@ -184,3 +184,6 @@ alias zwt='./zwt'
 
 # YAZI
 alias y='yazi'
+
+# HYPRLAND
+alias shot='hyprshot -m region -o ~/Downloads'

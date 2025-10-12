@@ -36,3 +36,17 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     end
   end,
 })
+
+-- Disable CSS LSP diagnostics for Waybar and other GTK CSS files
+-- (GTK CSS uses @define-color and other extensions not recognized by standard CSS LSP)
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  desc = "Disable CSS LSP diagnostics for GTK CSS files (waybar, etc.)",
+  group = vim.api.nvim_create_augroup("disable-css-lsp-gtk", { clear = true }),
+  pattern = { "*/waybar/*.css", "*/gtk-*/*.css", "*/.config/gtk-*/*.css" },
+  callback = function(ev)
+    vim.defer_fn(function()
+      -- Disable diagnostics from CSS language server for this buffer
+      vim.diagnostic.enable(false, { bufnr = ev.buf })
+    end, 100)
+  end,
+})
