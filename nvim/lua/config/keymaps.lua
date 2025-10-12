@@ -44,35 +44,6 @@ keymap.set("n", "<C-A-l>", "<C-w>>", with_desc("Resize right"))
 keymap.set("n", "<C-A-k>", "<C-w>+", with_desc("Resize up"))
 keymap.set("n", "<C-A-j>", "<C-w>-", with_desc("Resize down"))
 
--- Mini.files Explorer & Mini.pick Picker
-keymap.set("n", "<leader>fe", function()
-  MiniFiles.open()
-end, with_desc("Explorer"))
-
-keymap.set("n", "<leader>ee", function()
-  MiniFiles.open(vim.fn.expand("%:p:h"))
-end, with_desc("Current File"))
-
-keymap.set("n", "<leader>ff", function()
-  MiniPick.builtin.files()
-end, with_desc("Find Files"))
-
-keymap.set("n", "<leader>/", function()
-  MiniPick.builtin.grep_live()
-end, with_desc("Live Grep"))
-
-keymap.set("n", "<leader>bb", function()
-  MiniPick.builtin.buffers()
-end, with_desc("Buffers"))
-
-keymap.set("n", "<leader>fh", function()
-  MiniPick.builtin.help()
-end, with_desc("Help"))
-
-keymap.set("n", "<leader>cc", function()
-  MiniPick.builtin.resume()
-end, with_desc("Resume"))
-
 -- Git
 keymap.set("n", "<leader>go", "<cmd>lua MiniDiff.toggle_overlay()<cr>", with_desc("MiniDiff"))
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", with_desc("Neogit"))
