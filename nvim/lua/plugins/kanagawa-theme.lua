@@ -34,21 +34,6 @@ return {
           LazyNormal = { bg = "none", fg = theme.ui.fg },
           LazyButton = { bg = "none" },
           LazyButtonActive = { bg = "none" },
-
-          -- Snacks.nvim
-          SnacksNormal = { bg = "none" },
-          SnacksNormalNC = { bg = "none" },
-          SnacksWinBar = { bg = "none" },
-          SnacksBackdrop = { bg = "none", blend = 0 },
-          SnacksNotifierInfo = { bg = "none" },
-          SnacksNotifierWarn = { bg = "none" },
-          SnacksNotifierError = { bg = "none" },
-          SnacksNotifierDebug = { bg = "none" },
-          SnacksNotifierTrace = { bg = "none" },
-
-          -- Tree indent guides - make them darker/more visible
-          SnacksIndent = { fg = theme.ui.whitespace },
-          SnacksIndentScope = { fg = theme.ui.special },
         }
       end,
       theme = "dragon", -- Set default theme variant

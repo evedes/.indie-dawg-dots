@@ -30,12 +30,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       "LazyNormal",
       "LazyButton",
       "LazyButtonActive",
-      "SnacksNormal",
-      "SnacksNormalNC",
-      "SnacksWinBar",
-      "SnacksBackdrop",
-      "SnacksPicker",
-      "SnacksExplorer",
     }
     for _, group in ipairs(highlights) do
       vim.api.nvim_set_hl(0, group, { bg = "NONE" })

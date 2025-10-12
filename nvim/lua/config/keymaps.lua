@@ -44,33 +44,33 @@ keymap.set("n", "<C-A-l>", "<C-w>>", with_desc("Resize right"))
 keymap.set("n", "<C-A-k>", "<C-w>+", with_desc("Resize up"))
 keymap.set("n", "<C-A-j>", "<C-w>-", with_desc("Resize down"))
 
--- Snacks Explorer & Picker
+-- Mini.files Explorer & Mini.pick Picker
 keymap.set("n", "<leader>fe", function()
-  Snacks.explorer()
+  MiniFiles.open()
 end, with_desc("Explorer"))
 
 keymap.set("n", "<leader>ee", function()
-  Snacks.explorer({ cwd = vim.fn.expand("%:p:h") })
+  MiniFiles.open(vim.fn.expand("%:p:h"))
 end, with_desc("Current File"))
 
 keymap.set("n", "<leader>ff", function()
-  Snacks.picker.files()
+  MiniPick.builtin.files()
 end, with_desc("Find Files"))
 
 keymap.set("n", "<leader>/", function()
-  Snacks.picker.grep()
+  MiniPick.builtin.grep_live()
 end, with_desc("Live Grep"))
 
 keymap.set("n", "<leader>bb", function()
-  Snacks.picker.buffers()
+  MiniPick.builtin.buffers()
 end, with_desc("Buffers"))
 
 keymap.set("n", "<leader>fh", function()
-  Snacks.picker.help()
+  MiniPick.builtin.help()
 end, with_desc("Help"))
 
 keymap.set("n", "<leader>cc", function()
-  Snacks.picker.resume()
+  MiniPick.builtin.resume()
 end, with_desc("Resume"))
 
 -- Git
