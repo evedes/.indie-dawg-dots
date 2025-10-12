@@ -5,6 +5,9 @@ return {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",
   },
+  keys = {
+    { "<leader>nd", "<cmd>Noice dismiss<cr>", desc = "Dismiss notifications" },
+  },
   opts = {
     lsp = {
       -- Override markdown rendering so that cmp and other plugins use Treesitter
