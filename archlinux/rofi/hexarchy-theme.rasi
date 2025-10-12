@@ -24,7 +24,7 @@
   alternate-urgent-foreground: #ffcdd2;
   alternate-active-foreground: #ffffff;
 
-  font:                        "Berkeley Mono Medium UltraCondensed 14";
+  font:                        "Berkeley Mono Medium UltraCondensed 12";
   text-color:                  white;
 }
 

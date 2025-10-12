@@ -279,7 +279,7 @@ plugins {
 load_plugins {
 }
 web_client {
-    font "ZedMono Nerd Font Mono"
+    font "Berkeley Mono Medium UltraCondensed"
 }
 
 theme "kanagawa_wave"
