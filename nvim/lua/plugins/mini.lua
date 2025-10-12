@@ -43,6 +43,42 @@ return {
     require("mini.surround").setup()
     require("mini.bufremove").setup()
 
+    require("mini.files").setup({
+      options = {
+        use_as_default_explorer = false,
+      },
+      mappings = {
+        close = "q",
+        go_in = "l",
+        go_in_plus = "L",
+        go_out = "h",
+        go_out_plus = "H",
+        reset = "<BS>",
+        reveal_cwd = "@",
+        show_help = "g?",
+        synchronize = "=",
+        trim_left = "<",
+        trim_right = ">",
+      },
+    })
+
+    -- Add Esc to close mini.files in normal mode
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "minifiles",
+      callback = function()
+        vim.keymap.set("n", "ee", function()
+          MiniFiles.close()
+        end, { buffer = true, desc = "Close mini.files" })
+      end,
+    })
+
+    require("mini.pick").setup({
+      mappings = {
+        move_down = "<C-j>",
+        move_up = "<C-k>",
+      },
+    })
+
     -- Configure mini.clue for which-key functionality
     local miniclue = require("mini.clue")
     miniclue.setup({
