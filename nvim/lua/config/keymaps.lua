@@ -60,3 +60,60 @@ keymap.set("n", "<leader>ud", function()
   vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
 end, with_desc("Toggle diagnostic virtual text"))
 
+-- File Navigation (mini.files and mini.pick)
+keymap.set("n", "<leader>fe", function()
+  MiniFiles.open()
+  -- Set up Esc to close mini.files when open
+  vim.schedule(function()
+    if vim.bo.filetype == "minifiles" then
+      keymap.set("n", "<Esc>", function()
+        MiniFiles.close()
+      end, with_desc("Close file explorer"))
+    end
+  end)
+end, with_desc("File explorer"))
+
+keymap.set("n", "<leader>ee", function()
+  MiniFiles.open(vim.fn.expand("%:p:h"))
+  -- Set up Esc to close mini.files when open
+  vim.schedule(function()
+    if vim.bo.filetype == "minifiles" then
+      keymap.set("n", "<Esc>", function()
+        MiniFiles.close()
+      end, with_desc("Close file explorer"))
+    end
+  end)
+end, with_desc("Explorer at current file"))
+
+keymap.set("n", "<leader>ff", function()
+  MiniPick.builtin.files()
+end, with_desc("Find files"))
+
+keymap.set("n", "<leader>/", function()
+  MiniPick.builtin.grep_live()
+end, with_desc("Live grep"))
+
+keymap.set("n", "<leader>bb", function()
+  MiniPick.builtin.buffers()
+end, with_desc("Buffers"))
+
+keymap.set("n", "<leader>fh", function()
+  MiniPick.builtin.help()
+end, with_desc("Help"))
+
+keymap.set("n", "<leader>cc", function()
+  MiniPick.builtin.resume()
+end, with_desc("Resume picker"))
+
+keymap.set("n", "<leader>gs", function()
+  MiniPick.builtin.git_files()
+end, with_desc("Git status files"))
+
+keymap.set("n", "<leader>fr", function()
+  MiniPick.builtin.recent()
+end, with_desc("Recent files"))
+
+keymap.set("n", "<leader>:", function()
+  MiniPick.builtin.history()
+end, with_desc("Command history"))
+

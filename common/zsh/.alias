@@ -71,6 +71,7 @@ alias npmg='npm list -g --depth 0'
 # PNPM
 alias pdd='pnpm dev:down'
 alias pdu='pnpm dev:up'
+alias pdc='pnpm dev:clean'
 
 # UTILS
 alias mb='cmatrix -C blue'

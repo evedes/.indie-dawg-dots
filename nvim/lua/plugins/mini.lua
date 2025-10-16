@@ -8,6 +8,91 @@ return {
     require("mini.pairs").setup()
     require("mini.jump").setup()
     require("mini.jump2d").setup()
+
+    -- Configure mini.files
+    require("mini.files").setup({
+      content = {
+        filter = function(fs_entry)
+          return true
+        end,
+        sort = nil,
+      },
+      mappings = {
+        close = "q",
+        go_in = "l",
+        go_in_plus = "L",
+        go_out = "h",
+        go_out_plus = "H",
+        reset = "=",
+        reveal_cwd = "@",
+        show_help = "g?",
+        synchronize = "=",
+        trim_left = "<",
+        trim_right = ">",
+      },
+      options = {
+        permanent_delete = true,
+        use_as_default_explorer = false,
+      },
+      windows = {
+        max_number = math.huge,
+        width_focus = 30,
+        width_nofocus = 30,
+        width_preview = 70,
+        preview = false,
+      },
+    })
+
+    local MiniPick = require("mini.pick")
+    MiniPick.setup({
+      delay = { async = 10, busy = 50 },
+      mappings = {
+        caret_left = "<Left>",
+        caret_right = "<Right>",
+        choose = "<CR>",
+        choose_in_vsplit = "<C-v>",
+        choose_in_split = "<C-s>",
+        choose_marked = "<M-CR>",
+        delete_char = "<BS>",
+        delete_left = "<C-u>",
+        delete_word = "<C-w>",
+        mark = "<C-Space>",
+        mark_all = "<C-a>",
+        move_down = "<Down>",
+        move_start = "<Home>",
+        move_up = "<Up>",
+        paste = "<C-r>",
+        refine = "#",
+        refine_marked = "",
+        scroll_down = "<PageDown>",
+        scroll_left = "<Left>",
+        scroll_right = "<Right>",
+        scroll_up = "<PageUp>",
+        toggle_info = "<S-Left>",
+        toggle_preview = "<S-Right>",
+      },
+      options = {
+        content_from_bottom = false,
+        use_cache = false,
+      },
+      source = {
+        show = MiniPick.default_show,
+      },
+      window = {
+        config = function()
+          local height = math.floor(0.618 * vim.o.lines)
+          return {
+            anchor = "NW",
+            height = height,
+            width = vim.o.columns,
+            row = vim.o.lines - height,
+            col = 0,
+          }
+        end,
+        prompt_prefix = "> ",
+      },
+    })
+
     require("mini.statusline").setup({
       content = {
         active = function()
