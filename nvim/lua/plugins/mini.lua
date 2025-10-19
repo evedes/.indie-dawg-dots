@@ -6,10 +6,7 @@ return {
     require("mini.ai").setup()
     require("mini.icons").setup()
     require("mini.pairs").setup()
-    require("mini.jump").setup()
-    require("mini.jump2d").setup()
 
-    -- Configure mini.files
     require("mini.files").setup({
       content = {
         filter = function(fs_entry)

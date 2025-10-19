@@ -4,18 +4,14 @@ return {
     {
       "nvim-treesitter/nvim-treesitter-context",
       opts = {
-        -- Avoid the sticky context from growing a lot.
         max_lines = 3,
-        -- Match the context lines to the source code.
         multiline_threshold = 1,
-        -- Disable it when the window is too small.
         min_window_height = 20,
       },
       keys = {
         {
           "[c",
           function()
-            -- Jump to previous change when in diffview.
             if vim.wo.diff then
               return "[c"
             else
@@ -73,8 +69,8 @@ return {
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = "<cr>",
-        node_incremental = "<cr>",
+        init_selection = "<C-Space>",
+        node_incremental = "<C-Space>",
         scope_incremental = false,
         node_decremental = "<bs>",
       },
