@@ -4,7 +4,15 @@
 return {
   cmd = { "vue-language-server", "--stdio" },
   filetypes = { "vue" },
-  root_markers = { "package.json", "vue.config.js", "nuxt.config.js", "nuxt.config.ts", "vite.config.js", "vite.config.ts", ".git" },
+  root_markers = {
+    "package.json",
+    "vue.config.js",
+    "nuxt.config.js",
+    "nuxt.config.ts",
+    "vite.config.js",
+    "vite.config.ts",
+    ".git",
+  },
   init_options = {
     typescript = {
       -- Use the TypeScript version from @vue/language-server installation
@@ -133,3 +141,4 @@ return {
     client.server_capabilities.documentRangeFormattingProvider = false
   end,
 }
+
