@@ -157,6 +157,26 @@ return {
     -- Templates and utilities
     { "<leader>oT", "<cmd>ObsidianTemplate<cr>", desc = "Insert template", ft = "markdown" },
     { "<leader>or", "<cmd>ObsidianRename<cr>", desc = "Rename note", ft = "markdown" },
+    { "<leader>oD", function()
+        local obsidian = require("obsidian")
+        local client = obsidian.get_client()
+        if not client then
+          vim.notify("Obsidian client not initialized", vim.log.levels.WARN)
+          return
+        end
+        local note = client:current_note()
+        if not note then
+          vim.notify("No note found in current buffer", vim.log.levels.WARN)
+          return
+        end
+        local confirm = vim.fn.input("Delete note '" .. note.id .. "'? (y/n): ")
+        if confirm:lower() == "y" then
+          local path = tostring(note.path)
+          vim.cmd("bdelete!")
+          vim.fn.delete(path)
+          vim.notify("Deleted note: " .. note.id, vim.log.levels.INFO)
+        end
+      end, desc = "Delete current note", ft = "markdown" },
     { "<leader>oi", "<cmd>ObsidianPasteImg<cr>", desc = "Paste image", ft = "markdown" },
     { "<leader>oe", "<cmd>ObsidianExtractNote<cr>", desc = "Extract text to new note", ft = "markdown", mode = "v" },
     { "<leader>ow", "<cmd>ObsidianWorkspace<cr>", desc = "Switch workspace" },

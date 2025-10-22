@@ -15,7 +15,7 @@ keymap.set("i", "<C-x><C-n>", "<Nop>", with_desc("Disable native completion"))
 keymap.set("i", "<C-x><C-p>", "<Nop>", with_desc("Disable native completion"))
 keymap.set("n", "x", '"_x') -- Sends the deleted char to the black hole register
 
--- Clear search highlighting
+-- Clear search highlighting and selections
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", with_desc("Clear search highlight"))
 
 -- Write & Quit
@@ -25,8 +25,8 @@ keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", with_desc("Quit vim"))
 keymap.set("n", "<leader>kk", "<cmd>bd<cr>", with_desc("Close Buffer"))
 
 -- Splits
-keymap.set("n", "ss", ":split<Return>", opts)
-keymap.set("n", "sj", ":vsplit<Return>", opts)
+keymap.set("n", "<leader>ss", ":split<Return>", opts)
+keymap.set("n", "<leader>sj", ":vsplit<Return>", opts)
 
 -- Window Navigation
 keymap.set("n", "<C-h>", "<C-w>h", with_desc("Navigate left"))
@@ -116,4 +116,3 @@ end, with_desc("Recent files"))
 keymap.set("n", "<leader>:", function()
   MiniPick.builtin.history()
 end, with_desc("Command history"))
-
