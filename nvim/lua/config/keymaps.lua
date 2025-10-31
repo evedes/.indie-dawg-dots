@@ -24,6 +24,13 @@ keymap.set("n", "<leader>q", "<cmd>q<cr>", with_desc("Quit (close this window)")
 keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", with_desc("Quit vim"))
 keymap.set("n", "<leader>kk", "<cmd>bd<cr>", with_desc("Close Buffer"))
 
+-- Tab Management
+keymap.set("n", "<leader>tn", "<cmd>tabnew<cr>", with_desc("New tab"))
+keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", with_desc("Close tab"))
+keymap.set("n", "<leader>to", "<cmd>tabonly<cr>", with_desc("Close other tabs"))
+keymap.set("n", "<leader>tN", "<cmd>tabnext<cr>", with_desc("Next tab"))
+keymap.set("n", "<leader>tP", "<cmd>tabprevious<cr>", with_desc("Previous tab"))
+
 -- Splits
 keymap.set("n", "<leader>ss", ":split<Return>", opts)
 keymap.set("n", "<leader>sj", ":vsplit<Return>", opts)
@@ -59,6 +66,15 @@ keymap.set("n", "<leader>xc", "<cmd>cclose<cr>", with_desc("Close quickfix"))
 keymap.set("n", "<leader>ud", function()
   vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
 end, with_desc("Toggle diagnostic virtual text"))
+
+-- Theme Switching
+keymap.set("n", "<leader>ut", function()
+  require("config.theme-switcher").pick_theme()
+end, with_desc("Pick theme"))
+
+keymap.set("n", "<leader>uT", function()
+  require("config.theme-switcher").cycle_theme()
+end, with_desc("Cycle theme"))
 
 -- File Navigation (mini.files and mini.pick)
 keymap.set("n", "<leader>fe", function()
