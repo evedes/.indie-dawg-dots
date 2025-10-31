@@ -6,13 +6,6 @@ local function with_desc(description)
 end
 
 keymap.set("i", "jk", "<Esc>", with_desc("Escape"))
-
--- Disable native INSERT mode completion only (keep command-line completion working)
-keymap.set("i", "<C-n>", "<Nop>", with_desc("Disable native next completion"))
-keymap.set("i", "<C-p>", "<Nop>", with_desc("Disable native prev completion"))
-keymap.set("i", "<C-x><C-o>", "<Nop>", with_desc("Disable omni completion"))
-keymap.set("i", "<C-x><C-n>", "<Nop>", with_desc("Disable native completion"))
-keymap.set("i", "<C-x><C-p>", "<Nop>", with_desc("Disable native completion"))
 keymap.set("n", "x", '"_x') -- Sends the deleted char to the black hole register
 
 -- Clear search highlighting and selections
@@ -26,7 +19,7 @@ keymap.set("n", "<leader>kk", "<cmd>bd<cr>", with_desc("Close Buffer"))
 
 -- Tab Management
 keymap.set("n", "<leader>tn", "<cmd>tabnew<cr>", with_desc("New tab"))
-keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", with_desc("Close tab"))
+keymap.set("n", "<leader>tt", "<cmd>tabclose<cr>", with_desc("Close tab"))
 keymap.set("n", "<leader>to", "<cmd>tabonly<cr>", with_desc("Close other tabs"))
 keymap.set("n", "<leader>tN", "<cmd>tabnext<cr>", with_desc("Next tab"))
 keymap.set("n", "<leader>tP", "<cmd>tabprevious<cr>", with_desc("Previous tab"))
