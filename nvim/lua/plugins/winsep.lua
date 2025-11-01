@@ -5,7 +5,7 @@ return {
     -- Highlight for Window separator
     hi = {
       bg = "NONE",
-      fg = "#7B99D4",
+      fg = "#080816",
     },
     -- Timer refresh interval for smooth appearance
     interval = 30,
