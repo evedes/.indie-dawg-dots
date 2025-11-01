@@ -10,6 +10,7 @@ keymap.set("n", "x", '"_x') -- Sends the deleted char to the black hole register
 
 -- Clear search highlighting and selections
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", with_desc("Clear search highlight"))
+keymap.set("n", "<leader>nn", "<cmd>nohlsearch<cr>", with_desc("Clear search highlight"))
 
 -- Write & Quit
 keymap.set("n", "<leader>w", "<cmd>w<cr>", with_desc("Write"))
