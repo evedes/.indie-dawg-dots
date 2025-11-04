@@ -171,6 +171,10 @@ return {
         { mode = "n", keys = "<Leader>g", desc = "+git" },
         { mode = "n", keys = "<Leader>x", desc = "+quickfix" },
         { mode = "n", keys = "<Leader>e", desc = "+explorer" },
+        { mode = "n", keys = "<Leader>m", desc = "+markdown" },
+        { mode = "n", keys = "<Leader>t", desc = "+tabs" },
+        { mode = "n", keys = "<Leader>u", desc = "+ui" },
+        { mode = "n", keys = "<Leader>n", desc = "+notifications" },
 
         -- Individual leader mappings
         { mode = "n", keys = "<Leader>w", desc = "Write" },

@@ -18,6 +18,12 @@ return {
       "lazy",
       "minifiles",
       "Trouble",
+      "NeogitStatus",
+      "NeogitCommitMessage",
+      "NeogitPopup",
+      "NeogitConsole",
+      "NeogitCommitView",
+      "NeogitDiffView",
     },
     -- Symbols for the separator line
     symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
