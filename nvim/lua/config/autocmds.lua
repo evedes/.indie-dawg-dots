@@ -18,9 +18,9 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertEnter" }, {
   end,
 })
 
--- Make floating windows transparent
+-- Make floating windows transparent and configure window separator
 vim.api.nvim_create_autocmd("ColorScheme", {
-  desc = "Set transparent backgrounds for floating windows",
+  desc = "Set transparent backgrounds for floating windows and configure window separator",
   group = vim.api.nvim_create_augroup("transparent-floats", { clear = true }),
   callback = function()
     local highlights = {
@@ -34,6 +34,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     for _, group in ipairs(highlights) do
       vim.api.nvim_set_hl(0, group, { bg = "NONE" })
     end
+
+    -- Set window separator color (subtle, dark dashed style)
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#181816", bg = "NONE" })
   end,
 })
 
