@@ -29,6 +29,17 @@ vim.opt.backspace = "indent,eol,start" -- Make backspace work as expected
 vim.opt.splitright = true -- Open new vertical splits to the right
 vim.opt.splitbelow = true -- Open new horizontal splits below
 
+-- Window separator configuration (dashed style with spacing)
+vim.opt.fillchars = {
+  vert = "┊",
+  horiz = "┄",
+  horizup = "┴",
+  horizdown = "┬",
+  vertleft = "┤",
+  vertright = "├",
+  verthoriz = "┼",
+}
+
 -- Various UI and behavior settings
 vim.opt.title = true -- Set window title
 vim.opt.smartindent = true -- Do smart indenting
