@@ -46,3 +46,6 @@ fi
 
 # PSQL
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# CLAUDE
+export PATH="$HOME/.claude/local:$PATH"
