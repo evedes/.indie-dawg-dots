@@ -1,5 +1,6 @@
 return {
   "folke/flash.nvim",
+  event = "VeryLazy", -- Load plugin early to avoid delay
   opts = {
     modes = {
       search = {
