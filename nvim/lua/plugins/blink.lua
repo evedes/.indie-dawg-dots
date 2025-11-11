@@ -86,10 +86,6 @@ return {
           module = "blink.cmp.sources.lsp",
           fallbacks = { "buffer" },
           score_offset = 100,
-          opts = {
-            trigger_characters = { ".", "/", ":", '"', "'", "<", "@" },
-            show_autosnippets = true,
-          },
         },
         path = {
           name = "Path",

@@ -82,4 +82,4 @@ has_cmd starship && eval "$(starship init zsh)"
 eval "$(mise activate zsh)"
 
 # CLAUDE
-alias claude="~/.claude/local/claude"
+# alias claude="~/.claude/local/claude"
