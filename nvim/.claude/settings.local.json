@@ -4,7 +4,9 @@
       "Bash(nvim:*)",
       "Read(//Users/edo/.indie-dawg-dots/**)",
       "WebSearch",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(sudo chown:*)",
+      "WebFetch(domain:cmp.saghen.dev)"
     ],
     "deny": []
   }
