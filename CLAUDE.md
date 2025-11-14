@@ -481,7 +481,7 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 ### Important Considerations
 
 1. **No Automated Installation**: This repository requires manual symlinking or copying of dotfiles
-2. **External Dependencies**: 
+2. **External Dependencies**:
    - Required: zsh, git, Neovim
    - Recommended: tmux, fnm, fzf, starship, ripgrep (rg), bat, lazygit, xsel/xclip, wl-clipboard
    - Optional: Zinit (will still work without it), rbenv, cargo, PostgreSQL
