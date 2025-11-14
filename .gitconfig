@@ -1,6 +1,7 @@
 [user]
 	name = Eduardo Vedes
 	email = eduardo.vedes@gmail.com
+	signingkey = ~/.ssh/id_ed25519_github.pub
 [hub]
   protocol = ssh
 [github]
@@ -15,6 +16,10 @@
 	autoSetupRemote = true
 [init]
 	defaultBranch = main
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
 [alias]
 	fixup = !git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup
 	gll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit

@@ -7,6 +7,7 @@ alias b='bat'
 
 alias aa='nvim ~/.indie-dawg-dots/common/zsh/.alias'
 alias zz='nvim ~/.indie-dawg-dots/common/zsh/.zshrc'
+alias ss='nvim ~/.secret/.alias'
 
 # Hostname
 alias host='echo $HOST'
@@ -96,11 +97,6 @@ alias rubik='ssh rubik'
 alias prometheus='ssh prometheus'
 alias alien='ssh alien'
 alias odin='ssh odin'
-alias batman='ssh -i ~/.ssh/id_ed25519_batman edo@batman'
-alias batman-tailscale='ssh -i ~/.ssh/id_ed25519_batman edo@batman-ts'
-alias vedesvps='ssh -i ~/.ssh/id_ed25519_vedesvps edo@vedesvps'
-alias vedesvps-tailscale='ssh -i ~/.ssh/id_ed25519_vedesvps edo@vedesvps-ts'
-alias vedesvps-tunnel='ssh -i ~/.ssh/id_ed25519_vedesvps -fN -L 25060:vedesvpsdb-do-user-16713563-0.e.db.ondigitalocean.com:25060 edo@vedesvps-ts'
 alias killt='lsof -ti:25060 | xargs kill -9'
 alias k21='ssh edo@k21'
 alias k22='ssh edo@k22'
@@ -150,9 +146,6 @@ alias p2t='pdftotext'
 ## CLAUDE CODE
 alias clauded="claude --dangerously-skip-permissions"
 alias ccusage="npx ccusage daily"
-
-# PSQL
-alias pg_dump17='/opt/homebrew/opt/postgresql@17/bin/pg_dump'
 
 # ZELLIJ
 alias z='zellij --layout $HOME/.config/zellij/layouts/no-status.kdl'
