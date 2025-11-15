@@ -93,10 +93,6 @@ alias speed='speedtest --secure'
 
 # MACHINES
 alias ssh='TERM=xterm-256color ssh'
-alias rubik='ssh rubik'
-alias prometheus='ssh prometheus'
-alias alien='ssh alien'
-alias odin='ssh odin'
 alias killt='lsof -ti:25060 | xargs kill -9'
 alias k21='ssh edo@k21'
 alias k22='ssh edo@k22'
@@ -139,9 +135,6 @@ alias lsize='eza -alh --icons --color=always --group-directories-first --sort=si
 
 # SPOTIFY
 alias sp='TERM=xterm-256color spotify_player'
-
-# FABRIC
-alias p2t='pdftotext'
 
 ## CLAUDE CODE
 alias clauded="claude --dangerously-skip-permissions"
