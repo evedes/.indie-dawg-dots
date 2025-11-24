@@ -61,6 +61,22 @@ keymap.set("n", "<leader>ud", function()
   vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
 end, with_desc("Toggle diagnostic virtual text"))
 
+keymap.set("n", "<leader>uf", function()
+  vim.g.autoformat = not vim.g.autoformat
+  local status = vim.g.autoformat and "enabled" or "disabled"
+  vim.notify("Auto-format " .. status, vim.log.levels.INFO)
+end, with_desc("Toggle auto-format globally"))
+
+keymap.set("n", "<leader>uF", function()
+  if vim.b.autoformat == nil then
+    vim.b.autoformat = false
+  else
+    vim.b.autoformat = not vim.b.autoformat
+  end
+  local status = vim.b.autoformat and "enabled" or "disabled"
+  vim.notify("Auto-format (buffer) " .. status, vim.log.levels.INFO)
+end, with_desc("Toggle auto-format for buffer"))
+
 -- Theme Switching
 keymap.set("n", "<leader>ut", function()
   require("config.theme-switcher").pick_theme()

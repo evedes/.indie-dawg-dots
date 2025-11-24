@@ -106,6 +106,16 @@ return {
             recording = "%#StatusLineRecording#" .. recording .. "%*"
           end
 
+          -- Format indicator
+          local autoformat = vim.b.autoformat
+          if autoformat == nil then
+            autoformat = vim.g.autoformat
+          end
+          local format_status = ""
+          if not autoformat then
+            format_status = "%#StatusLineFormatOff# FORMAT:OFF %*"
+          end
+
           return MiniStatusline.combine_groups({
             { hl = mode_hl, strings = { mode } },
             { hl = "MiniStatuslineDevinfo", strings = { git, diagnostics } },
@@ -113,6 +123,7 @@ return {
             { hl = "MiniStatuslineFilename", strings = { filename } },
             "%=", -- End left alignment
             { hl = "MiniStatuslineRecording", strings = { recording } },
+            { hl = "StatusLineFormatOff", strings = { format_status } },
             { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
             { hl = mode_hl, strings = { location } },
           })
@@ -120,6 +131,7 @@ return {
       },
     })
     vim.api.nvim_command("highlight StatusLineRecording guifg=#ff0000 guibg=NONE gui=bold")
+    vim.api.nvim_command("highlight StatusLineFormatOff guifg=#ff9e64 guibg=NONE gui=bold")
     require("mini.diff").setup()
     require("mini.comment").setup()
     require("mini.surround").setup()
