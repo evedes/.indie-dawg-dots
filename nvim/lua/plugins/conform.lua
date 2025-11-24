@@ -67,8 +67,14 @@ return {
         return nil
       end
 
-      -- Stop if we disabled auto-formatting.
-      if not vim.g.autoformat then
+      -- Check buffer-local setting first, then global setting
+      local autoformat = vim.b[bufnr].autoformat
+      if autoformat == nil then
+        autoformat = vim.g.autoformat
+      end
+
+      -- Stop if we disabled auto-formatting
+      if not autoformat then
         return nil
       end
 
