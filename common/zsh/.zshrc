@@ -58,7 +58,6 @@ fi
 
 # ALIASES
 source $HOME/.indie-dawg-dots/common/zsh/.alias
-source $HOME/.secret/.alias
 
 # ZSH HISTORY
 HISTFILE=$HOME/.zsh_history
@@ -84,3 +83,6 @@ eval "$(mise activate zsh)"
 
 # CLAUDE
 # alias claude="~/.claude/local/claude"
+
+# Added by Antigravity
+export PATH="/Users/edo/.antigravity/antigravity/bin:$PATH"

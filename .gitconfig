@@ -1,7 +1,7 @@
 [user]
 	name = Eduardo Vedes
 	email = eduardo.vedes@gmail.com
-	signingkey = ~/.ssh/id_ed25519_github.pub
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkFa+QwtOjw7Hp0AHJs8hqBO1fvfD1XBeyQxcsn4UvV
 [hub]
   protocol = ssh
 [github]
@@ -25,3 +25,5 @@
 	gll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign

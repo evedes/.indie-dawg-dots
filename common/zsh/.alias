@@ -12,6 +12,14 @@ alias ss='nvim ~/.secret/.alias'
 # Hostname
 alias host='echo $HOST'
 
+# Machines SSH
+alias rubik='ssh rubik'
+alias prometheus='ssh prometheus'
+alias alien='ssh alien'
+alias odin='ssh odin'
+alias batman='ssh batman'
+alias batman-ts='ssh batman-ts'
+
 # INDIE-DAWG-DOTS
 alias dots='cd ~/.indie-dawg-dots && nvim .'
 
@@ -21,13 +29,6 @@ alias lv='NVIM_APPNAME=lazynvim nvim'
 alias lconf='cd ~/.indie-dawg-dots/lazynvim && NVIM_APPNAME=lazynvim nvim .'
 alias nconf='cd ~/.indie-dawg-dots/nvim && nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
-
-alias t='tmux'
-alias ta='t attach -t'
-alias td='t detach'
-alias tl='t ls'
-alias tn='t new -s'
-alias tk='t kill-session -t'
 
 # GHOSTTY
 alias gt='ghostty-theme-switcher'
