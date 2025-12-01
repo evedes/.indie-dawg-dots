@@ -13,12 +13,13 @@ alias ss='nvim ~/.secret/.alias'
 alias host='echo $HOST'
 
 # Machines SSH
-alias rubik='ssh rubik'
-alias prometheus='ssh prometheus'
-alias alien='ssh alien'
-alias odin='ssh odin'
-alias batman='ssh batman'
-alias batman-ts='ssh batman-ts'
+alias rubik='ssh edo@rubik'
+alias prometheus='ssh edo@prometheus'
+alias alien='ssh edo@alien'
+alias odin='ssh edo@odin'
+alias batman='ssh edo@batman'
+alias batman-ts='ssh edo@batman-ts'
+alias mosaic='ssh ec2-user@mosaic'
 
 # INDIE-DAWG-DOTS
 alias dots='cd ~/.indie-dawg-dots && nvim .'
