@@ -7,7 +7,6 @@ local M = {}
 M.themes = {
   { name = "Kanagawa Dragon", scheme = "kanagawa", variant = "dragon" },
   { name = "Kanagawa Wave", scheme = "kanagawa", variant = "wave" },
-  { name = "Kanagawa Lotus", scheme = "kanagawa", variant = "lotus" },
   { name = "Kanagawa Paper", scheme = "kanagawa-paper", variant = nil },
 }
 
@@ -35,9 +34,9 @@ function M.apply_theme(theme)
   end
 
   if theme.variant and theme.scheme == "kanagawa" then
-    -- For kanagawa variants, update the config
+    -- For kanagawa variants, apply full config with variant
     require("kanagawa").setup({
-      compile = true,
+      compile = false, -- Disable compile to allow runtime transparent switching
       undercurl = true,
       commentStyle = { italic = true },
       functionStyle = {},
@@ -61,6 +60,9 @@ function M.apply_theme(theme)
           NormalFloat = { bg = "none" },
           FloatBorder = { bg = "none" },
           FloatTitle = { bg = "none" },
+          SignColumn = { bg = "none" },
+          StatusLine = { bg = "none" },
+          StatusLineNC = { bg = "none" },
           LazyNormal = { bg = "none", fg = theme_colors.ui.fg },
           LazyButton = { bg = "none" },
           LazyButtonActive = { bg = "none" },
@@ -69,7 +71,7 @@ function M.apply_theme(theme)
       theme = theme.variant,
       background = {
         dark = theme.variant,
-        light = "lotus",
+        light = "wave",
       },
     })
   end
