@@ -52,4 +52,4 @@ export PATH="$HOME/.claude/local:$PATH"
 
 
 # ! PASS VARIABLES
-export ANTHROPIC_API_KEY=$(op read "op://Private/Anthropic API Key/credential")
+# export ANTHROPIC_API_KEY=$(op read "op://Private/Anthropic API Key/credential")

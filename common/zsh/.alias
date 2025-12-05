@@ -96,14 +96,6 @@ alias speed='speedtest --secure'
 # MACHINES
 alias ssh='TERM=xterm-256color ssh'
 alias killt='lsof -ti:25060 | xargs kill -9'
-alias k21='ssh edo@k21'
-alias k22='ssh edo@k22'
-alias k23='ssh edo@k23'
-alias k24='ssh edo@k24'
-alias k25='ssh edo@k25'
-alias k26='ssh edo@k26'
-alias k27='ssh edo@k27'
-alias k28='ssh edo@k28'
 
 # CODEBASES
 alias at='cd ~/Work/atomize'

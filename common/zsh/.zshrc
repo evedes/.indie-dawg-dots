@@ -58,6 +58,7 @@ fi
 
 # ALIASES
 source $HOME/.indie-dawg-dots/common/zsh/.alias
+source $HOME/.secret/.alias
 
 # ZSH HISTORY
 HISTFILE=$HOME/.zsh_history
