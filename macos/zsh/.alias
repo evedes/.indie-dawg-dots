@@ -1,0 +1,149 @@
+# SYSTEM
+alias c='clear'
+alias chist='history -p'
+alias r='exec ${SHELL} -l'
+alias x='exit'
+alias b='bat'
+
+alias aa='nvim ~/.indie-dawg-dots/common/zsh/.alias'
+alias zz='nvim ~/.indie-dawg-dots/common/zsh/.zshrc'
+alias ss='nvim ~/.secret/.alias'
+
+# Hostname
+alias host='echo $HOST'
+
+# Machines SSH
+alias rubik='ssh edo@rubik'
+alias prometheus='ssh edo@prometheus'
+alias alien='ssh edo@alien'
+alias odin='ssh edo@odin'
+alias batman='ssh edo@batman'
+alias batman-ts='ssh edo@batman-ts'
+alias mosaic='ssh ec2-user@mosaic'
+
+# INDIE-DAWG-DOTS
+alias dots='cd ~/.indie-dawg-dots && nvim .'
+
+# NEOVIM
+alias v='nvim'
+alias lv='NVIM_APPNAME=lazynvim nvim'
+alias lconf='cd ~/.indie-dawg-dots/lazynvim && NVIM_APPNAME=lazynvim nvim .'
+alias nconf='cd ~/.indie-dawg-dots/nvim && nvim .'
+alias rswap='rm -rf ~/.local/state/nvim/swap/*'
+
+# GHOSTTY
+alias gt='ghostty-theme-switcher'
+alias gtheme='gt'
+alias gbg='$HOME/.config/ghostty/ghostty-bg-picker'
+alias gm='ghostty-theme-menu'
+
+# NETWORK PRIORITY
+alias isp='curl ipinfo.io | grep org'
+
+# NODE_MODULES
+alias lsnodemodules='sudo find . -name 'node_modules' -type d -prune'
+alias rmnodemodules='find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +'
+
+# GIT
+alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gsl="git stash list"
+alias gsc="git stash clear"
+alias gs="git status"
+alias gd="git diff"
+alias gb="git branch"
+alias gfo="git fetch origin"
+alias gcp="git cherry-pick"
+alias lg="lazygit"
+alias gwl="git worktree list"
+alias dlb="git branch | grep -v \* | xargs git branch -D"
+alias gloc="git ls-files | grep -v -E '(pnpm-lock\.yaml|package-lock\.json)' | xargs wc -l"
+alias grc="git rebase --continue"
+
+# NPM
+alias npmg='npm list -g --depth 0'
+
+# PNPM
+alias pdd='pnpm dev:down'
+alias pdu='pnpm dev:up'
+alias pdc='pnpm dev:clean'
+
+# UTILS
+alias mb='cmatrix -C blue'
+alias m='cmatrix'
+
+# K8s
+alias k='kubectl'
+alias mk='minikube'
+
+# DOCKER
+alias dps='docker ps --format "table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}"'
+alias dpa='docker ps -a --format "table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}"'
+alias dcd='docker compose down --remove-orphans'
+alias dcu='docker compose up'
+alias di='docker images'
+alias ddf='docker system df'
+
+export VFORMAT="ID\t{{.ID}}\nNAME\t{{.Names}}\nIMAGE\t{{.Image}}\nPORTS\t{{.Ports}}\nCOMMAND\t{{.Command}}\nCREATED\t{{.CreatedAt}}\nSTATUS\t{{.Status}}\n"
+alias dpsv='docker ps --format="$VFORMAT"'
+alias dpav='docker ps -a --format="$VFORMAT"'
+
+# VIRT MANAGER
+alias vm='virt-manager & disown'
+
+# SPEEDTEST
+alias speed='speedtest --secure'
+
+# MACHINES
+alias ssh='TERM=xterm-256color ssh'
+alias killt='lsof -ti:25060 | xargs kill -9'
+
+# CODEBASES
+alias at='cd ~/Work/atomize'
+
+alias wakerubik='wakeonlan b4:2e:99:3d:2f:40'
+
+# UTILS IP STUFF
+alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias myiplocation='curl https://ipinfo.io'
+
+# Standard eza aliases
+alias ls='eza --icons --color=always --group-directories-first'
+alias l='eza -F --icons --color=always --group-directories-first'
+alias ll='eza -alh --icons --color=always --group-directories-first'
+alias la='eza -a --icons --color=always --group-directories-first'
+alias lt='eza --tree --icons --color=always --group-directories-first'
+alias l.='eza -a | grep "^\."'
+
+# Enhanced directory listing with git
+alias lsa='eza -lah --icons --color=always --group-directories-first --git'
+alias lst='eza -lah --icons --color=always --group-directories-first --git --tree --level=2'
+alias lsg='eza -alh --icons --color=always --group-directories-first --git'
+
+# Time-based listing
+alias lsnew='eza -alh --icons --color=always --group-directories-first --sort=created'
+alias lsold='eza -alh --icons --color=always --group-directories-first --sort=created --reverse'
+alias lsmod='eza -alh --icons --color=always --group-directories-first --sort=modified'
+
+# Size-based listing
+alias lsize='eza -alh --icons --color=always --group-directories-first --sort=size --reverse'
+
+# SPOTIFY
+alias sp='TERM=xterm-256color spotify_player'
+
+## CLAUDE CODE
+alias clauded="claude --dangerously-skip-permissions"
+alias ccusage="npx ccusage daily"
+
+# ZELLIJ
+alias z='zellij --layout $HOME/.config/zellij/layouts/no-status.kdl'
+alias zn='zellij --new-session-with-layout $HOME/.config/zellij/layouts/no-status.kdl --session'
+alias zl='zellij list-sessions'
+alias za='zellij attach'
+alias zd='zellij delete-session'
+alias zt='$HOME/.indie-dawg-dots/common/zellij/switch-theme.sh'
+
+# YAZI
+alias y='yazi'
+
+# HYPRLAND
+alias shot='hyprshot -m region -o ~/Downloads'

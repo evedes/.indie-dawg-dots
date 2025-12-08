@@ -1,0 +1,99 @@
+return {
+  "nvim-treesitter/nvim-treesitter",
+  dependencies = {
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+      opts = {
+        max_lines = 3,
+        multiline_threshold = 1,
+        min_window_height = 20,
+      },
+      keys = {
+        {
+          "[c",
+          function()
+            if vim.wo.diff then
+              return "[c"
+            else
+              vim.schedule(function()
+                require("treesitter-context").go_to_context()
+              end)
+              return "<Ignore>"
+            end
+          end,
+          desc = "Jump to upper context",
+          expr = true,
+        },
+      },
+    },
+  },
+  version = false,
+  build = ":TSUpdate",
+  opts = {
+    ensure_installed = {
+      "bash",
+      "c",
+      "css",
+      "clojure",
+      "dockerfile",
+      "elixir",
+      "git_config",
+      "gitcommit",
+      "git_rebase",
+      "gitattributes",
+      "gitignore",
+      "go",
+      "html",
+      "jsdoc",
+      "json",
+      "json5",
+      "javascript",
+      "lua",
+      "markdown",
+      "markdown_inline",
+      "prisma",
+      "python",
+      "query",
+      "ruby",
+      "rust",
+      "scss",
+      "slim",
+      "tmux",
+      "tsx",
+      "typescript",
+      "vim",
+      "vimdoc",
+      "vue",
+      "yaml",
+    },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<C-Space>",
+        node_incremental = "<C-Space>",
+        scope_incremental = false,
+        node_decremental = "<bs>",
+      },
+    },
+    indent = {
+      enable = true,
+      -- Treesitter unindents Yaml lists for some reason.
+      disable = { "yaml" },
+    },
+  },
+  config = function(_, opts)
+    local toggle_inc_selection_group = vim.api.nvim_create_augroup("mariasolos/toggle_inc_selection", { clear = true })
+    vim.api.nvim_create_autocmd("CmdwinEnter", {
+      desc = "Disable incremental selection when entering the cmdline window",
+      group = toggle_inc_selection_group,
+      command = "TSBufDisable incremental_selection",
+    })
+    vim.api.nvim_create_autocmd("CmdwinLeave", {
+      desc = "Enable incremental selection when leaving the cmdline window",
+      group = toggle_inc_selection_group,
+      command = "TSBufEnable incremental_selection",
+    })
+
+    require("nvim-treesitter.configs").setup(opts)
+  end,
+}

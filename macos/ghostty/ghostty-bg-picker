@@ -1,0 +1,60 @@
+#!/bin/sh
+
+CONFIG_FILE="$HOME/.indie-dawg-dots/macos/ghostty/config.macos"
+
+# Define color options - very dark, subtle tints
+COLOR_OPTIONS="Dark Navy:#000011
+Brown:#0a0000
+Green:#000a00
+Purple:#0a000a
+Teal:#000a0a
+Red:#0a0000
+Orange:#0a0500
+Pink:#0a0008
+Gray:#050505
+Forest Green:#000800
+Maroon:#050000
+Indigo:#000015
+Olive:#050500
+Pure Black:#000000"
+
+# Use fzf to select a color (show only names)
+SELECTED=$(echo "$COLOR_OPTIONS" | fzf --prompt="Select background color: " --height=20 --reverse)
+
+if [ -z "$SELECTED" ]; then
+    echo "No color selected"
+    exit 0
+fi
+
+# Extract the color name and hex value (handle spaces in names)
+SELECTED_COLOR=$(echo "$SELECTED" | sed 's/:.*$//')
+HEX_VALUE=$(echo "$SELECTED" | sed 's/^.*://')
+
+# Update the config file
+if [ -f "$CONFIG_FILE" ]; then
+    # Create a temp file for the updated content
+    TEMP_FILE=$(mktemp)
+    
+    # Check if background line exists and update or add it
+    if grep -q "^background = " "$CONFIG_FILE"; then
+        # Replace existing background line
+        sed "s/^background = .*/background = \"$HEX_VALUE\"/" "$CONFIG_FILE" > "$TEMP_FILE"
+    else
+        # Add background line after theme line if it exists, otherwise at the end
+        if grep -q "^theme = " "$CONFIG_FILE"; then
+            awk '/^theme = / {print; print "background = \"'"$HEX_VALUE"'\""; next} 1' "$CONFIG_FILE" > "$TEMP_FILE"
+        else
+            cp "$CONFIG_FILE" "$TEMP_FILE"
+            echo "background = \"$HEX_VALUE\"" >> "$TEMP_FILE"
+        fi
+    fi
+    
+    # Move temp file to config file
+    mv "$TEMP_FILE" "$CONFIG_FILE"
+    
+    echo "Background color changed to: $SELECTED_COLOR ($HEX_VALUE)"
+    echo "Restart Ghostty for changes to take effect"
+else
+    echo "Config file not found: $CONFIG_FILE"
+    exit 1
+fi
