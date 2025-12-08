@@ -1,5 +1,0 @@
-# Linux-specific Ghostty configuration
-# Add Linux-specific options here as needed
-#
-font-size = 16
-background-opacity = 0.90

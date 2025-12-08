@@ -1,5 +1,0 @@
-# Mac specifics:
-.DS_Store
-
-# Environment files
-.env

@@ -1,0 +1,41 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Don't print a new line at the start of the prompt
+add_newline = false
+
+# Minimal format for prompt
+format = """
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$character"""
+
+# Configure hostname module (hidden by default, shows when in SSH)
+[hostname]
+ssh_only = false
+format = "[$hostname]($style) "
+style = "bold blue"
+
+# Directory configuration
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold cyan"
+
+# Git branch configuration
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = "✨ "
+style = "bold purple"
+
+# Git status configuration
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "bold red"
+
+# Character for prompt
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
