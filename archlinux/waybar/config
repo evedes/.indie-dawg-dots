@@ -26,7 +26,7 @@
     },
 
     "custom/system-stats": {
-      "exec": "/home/edo/.indie-dawg-dots/archlinux/waybar/scripts/system-stats.sh",
+      "exec": "/home/edo/.config/waybar/scripts/system-stats.sh",
       "return-type": "json",
       "interval": 5,
       "format": "{}",
@@ -49,23 +49,23 @@
     },
 
     "hyprland/workspaces": {
-      "format": "{name}",
+      "format": "{icon}",
+      "format-icons": {
+        "1": "I",
+        "2": "II",
+        "3": "III",
+        "4": "IV",
+        "5": "V",
+        "6": "VI",
+        "7": "VII",
+        "8": "VIII",
+        "9": "IX",
+        "10": "X"
+      },
       "on-scroll-up": "hyprctl dispatch workspace e+1",
       "on-scroll-down": "hyprctl dispatch workspace e-1",
       "on-click": "activate",
-      "all-outputs": false,
-      "persistent-workspaces": {
-        "1": [],
-        "2": [],
-        "3": [],
-        "4": [],
-        "5": [],
-        "6": [],
-        "7": [],
-        "8": [],
-        "9": [],
-        "10": []
-      }
+      "all-outputs": false
     },
 
 
@@ -122,7 +122,6 @@
         "default": ["", ""]
       },
       "scroll-step": 1,
-      "on-click": "pavucontrol",
       "ignored-sinks": ["Easy Effects Sink"]
     },
 

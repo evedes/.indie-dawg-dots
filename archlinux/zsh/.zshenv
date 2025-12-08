@@ -4,7 +4,6 @@
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.claude/local:$PATH"
 
 # PNPM
 export PNPM_HOME="$HOME/.local/share/pnpm"

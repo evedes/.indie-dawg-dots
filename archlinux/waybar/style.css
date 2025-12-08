@@ -1,13 +1,13 @@
 * {
   font-family: "ZedMono Nerd Font";
-  font-size: 18px;
-  min-height: 35px;
+  font-size: 19px;
+  min-height: 40px;
 }
 
 @define-color bg-dark rgba(0, 0, 0, 0.85);
 @define-color bg-lighter rgba(255, 255, 255, 0.1);
 @define-color accent rgba(135, 206, 250, 0.9);
-@define-color accent-bright #7B99D4;
+@define-color accent-bright #B4D4FF;
 @define-color text-primary rgba(173, 216, 230, 0.95);
 @define-color text-secondary rgba(135, 206, 250, 0.7);
 @define-color selected rgba(135, 206, 250, 0.2);
@@ -55,7 +55,7 @@ window#waybar {
 #network,
 #custom-ping {
   color: @accent-bright;
-  margin: 1px 4px;
+  margin: 1px 12px;
   padding: 0;
   background: transparent;
   transition: all 0.3s ease;
@@ -97,7 +97,7 @@ window#waybar {
 }
 
 #custom-separator {
-  color: yellow;
-  padding: 0 4px;
+  color: @accent-bright;
+  padding: 0 8px;
   font-size: 16px;
 }
