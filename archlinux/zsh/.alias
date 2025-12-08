@@ -5,8 +5,8 @@ alias r='exec ${SHELL} -l'
 alias x='exit'
 alias b='bat'
 
-alias aa='nvim ~/.indie-dawg-dots/common/zsh/.alias'
-alias zz='nvim ~/.indie-dawg-dots/common/zsh/.zshrc'
+alias aa='nvim ~/.indie-dawg-dots/archlinux/zsh/.alias'
+alias zz='nvim ~/.indie-dawg-dots/archlinux/zsh/.zshrc'
 alias ss='nvim ~/.secret/.alias'
 
 # Hostname
@@ -140,7 +140,7 @@ alias zn='zellij --new-session-with-layout $HOME/.config/zellij/layouts/no-statu
 alias zl='zellij list-sessions'
 alias za='zellij attach'
 alias zd='zellij delete-session'
-alias zt='$HOME/.indie-dawg-dots/common/zellij/switch-theme.sh'
+alias zt='$HOME/.indie-dawg-dots/archlinux/zellij/switch-theme.sh'
 
 # YAZI
 alias y='yazi'
