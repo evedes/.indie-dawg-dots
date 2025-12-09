@@ -100,7 +100,10 @@ function M.load_preference()
   if file then
     local index = tonumber(file:read("*a"))
     file:close()
-    return index or 1
+    -- Ensure index is within valid range
+    if index and index >= 1 and index <= #M.themes then
+      return index
+    end
   end
   return 1
 end
