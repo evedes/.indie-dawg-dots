@@ -36,7 +36,9 @@ return {
       "css",
       "clojure",
       "dockerfile",
+      "eex",
       "elixir",
+      "heex",
       "git_config",
       "gitcommit",
       "git_rebase",
@@ -65,6 +67,9 @@ return {
       "vimdoc",
       "vue",
       "yaml",
+    },
+    highlight = {
+      enable = true,
     },
     incremental_selection = {
       enable = true,
