@@ -1,0 +1,29 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("emacs-config.org"
+ (filename . "~/.emacs.d/emacs-config.org")
+ (front-context-string . "\n#+end_src\n\n* Ba")
+ (rear-context-string . "rd-escape-quit)\n")
+ (position . 182)
+ (last-modified 26951 23468 434717 0))
+("Metrics"
+ (filename . "~/Nextcloud/EmacsVerse/OrgFiles/Metrics.org")
+ (front-context-string . "* Metrics\n\n** Ve")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26951 23433 149505 0))
+("Birthdays"
+ (filename . "~/Nextcloud/EmacsVerse/OrgFiles/Birthdays.org")
+ (front-context-string . "* Birthdays\n\n** ")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26951 23411 709958 0))
+("Tasks"
+ (filename . "~/Nextcloud/EmacsVerse/OrgFiles/Tasks.org")
+ (front-context-string . "\n** XMAS\n*** TOD")
+ (rear-context-string)
+ (position . 10)
+ (last-modified 26951 23356 876881 0))
+)

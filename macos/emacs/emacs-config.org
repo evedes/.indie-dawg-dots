@@ -1,12 +1,38 @@
 #+title: Emacs Literate Config
 #+author: Eduardo Vedes
-#+PROPERTY: header-args:emacs-lisp :tangle ./init.el
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 
 * Global Keys
 
 #+begin_src emacs-lisp
 
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+#+end_src
+
+* Package Management (straight.el)
+
+#+begin_src emacs-lisp
+
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name
+          "straight/repos/straight.el/bootstrap.el"
+          (or (bound-and-true-p straight-base-dir)
+              user-emacs-directory)))
+        (bootstrap-version 7))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+  (straight-use-package 'use-package)
+
+  (setq straight-use-package-by-default t)
 
 #+end_src
 
@@ -24,6 +50,8 @@
 
 
   (setq visible-bell t)       ; Set up the visible bell
+
+  (setq use-short-answers t)    ; y/n instead of yes/no
 
   (set-frame-parameter nil 'alpha '(95 . 95))
 
@@ -78,39 +106,21 @@
   (set-face-attribute 'default nil
   		    :font "Berkeley Mono"
   		    :height 160
-  		    :weight 'light) ;; ultra-light, extra-light, light, semi-light, normal, medium, semi-bold, bold
+  		    :weight 'light)
+
+  (set-face-attribute 'fixed-pitch nil
+  		    :font "Berkeley Mono"
+  		    :height 160
+  		    :weight 'light)
+
+  (set-face-attribute 'variable-pitch nil
+  		    :font "Berkeley Mono"
+  		    :height 160
+  		    :weight 'light)
 
 #+end_src
 
-
-* Packages
-
-#+begin_src emacs-lisp
-
-    ;; Initialize package sources
-    (require 'package)
-
-    (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                             ("org" . "https://orgmode.org/elpa/")
-                             ("elpa" . "https://elpa.gnu.org/packages/")))
-
-    (package-initialize)
-    (unless package-archive-contents
-     (package-refresh-contents))
-
-    ;; Initialize use-package on non-Linux platforms
-    (unless (package-installed-p 'use-package)
-       (package-install 'use-package))
-
-    (require 'use-package)
-    (setq use-package-always-ensure t)
-
-
-
- #+end_src 
-
-
-* Ivy 
+* Ivy
 
 #+begin_src emacs-lisp
 
@@ -133,6 +143,7 @@
     (ivy-mode 1))
 
   (use-package ivy-rich
+    :after counsel
     :init
     (ivy-rich-mode 1))
 
@@ -165,7 +176,7 @@
 
 #+end_src
 
- 
+
 
 * Helpful
 
@@ -183,39 +194,40 @@
 
 #+end_src
 
-* Evil 
+* Evil
 
  #+begin_src emacs-lisp
 
-    (use-package evil
-      :init
-      (setq evil-want-integration t)
-      (setq evil-want-keybinding nil)
-      (setq evil-want-C-u-scroll t)
-      (setq evil-want-C-i-jump nil)
-      :config
-      (evil-mode 1)
-      (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-      (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+   (use-package evil
+     :init
+     (setq evil-want-integration t)
+     (setq evil-want-keybinding nil)
+     (setq evil-want-C-u-scroll t)
+     (setq evil-want-C-i-jump nil)
+     (setq evil-undo-system 'undo-redo)
+     :config
+     (evil-mode 1)
+     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+     (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
-      ;; Use visual line motions even outside of visual-line-mode buffers
-      (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-      (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+     ;; Use visual line motions even outside of visual-line-mode buffers
+     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+     (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
-      (evil-set-initial-state 'messages-buffer-mode 'normal)
-      (evil-set-initial-state 'dashboard-mode 'normal))
+     (evil-set-initial-state 'messages-buffer-mode 'normal)
+     (evil-set-initial-state 'dashboard-mode 'normal))
 
-    (use-package evil-collection
-      :after evil
-      :config
-      (evil-collection-init))
+   (use-package evil-collection
+     :after evil
+     :config
+     (evil-collection-init))
 
-    (use-package evil-escape
-      :after evil
-      :config
-      (evil-escape-mode 1)
-      (setq evil-escape-key-sequence "jk")
-      (setq evil-escape-delay 0.2))
+   (use-package evil-escape
+     :after evil
+     :config
+     (evil-escape-mode 1)
+     (setq evil-escape-key-sequence "jk")
+     (setq evil-escape-delay 0.2))
 
   #+end_src
 
@@ -261,7 +273,7 @@
 #+end_src
 
 * GIT
-  
+
   #+begin_src emacs-lisp
 
   (use-package magit
@@ -390,4 +402,4 @@
 #+end_src
 
 #+RESULTS:
-| #[nil ((add-hook 'after-save-hook #'efs/org-babel-tangle-config)) nil] | org-tempo-setup | org-bullets-mode | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | org-mode-visual-fill | org-mode-setup | #[nil ((display-line-numbers-mode 0)) nil] |
+| #[nil ((add-hook 'after-save-hook #'efs/org-babel-tangle-config)) nil] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes |
