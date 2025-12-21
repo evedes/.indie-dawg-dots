@@ -1,0 +1,74 @@
+* EMACS SETUP 
+
+** ORG MODE 
+
+#+begin_src elispt
+
+  (defun my-elisp-func ()
+    (message "Hello World!"))
+
+#+end_src
+
+* EMACS DOCS 
+
+** ORG MODE
+
+  Homepage is at [[https://orgmode.org][orgmode.org]]
+  Link to the official [[https://orgmode.org/org.html][org manual]]
+  Babel [[https://orgmode.org/worg/org-contrib/babel/languages/index.html][language support]]
+
+*** Keybindings
+
+  A brief list of useful keybindings.
+
+  | Keybinding  | Description                                     |
+  | C-RET       | introduces a new heading after the current one  |
+  | M-RET       | introduces a new heading before the current one |
+  | C-c C-l     | introduces a HTML link                          |
+  | C-c C-o     | open at point                                   |
+  | C-c C-x C-b | toggle checkbox                                 |
+  | C-c C-t     | org-todo command, toggles TODO/DONE             |
+
+** ORG AGENDA
+
+| Keybindings | Description     |
+| C-c C-s     | Schedule a task |
+|             |                 |
+
+** ORG BABEL
+
+| Keybindings | Description      |
+| C-c C-v t   | org-babel-tangle |
+|             |                  |
+
+[[https://orgmode.org/worg/org-contrib/babel/index.html][Babel: Active Code in Org]]
+[[https://orgmode.org/worg/org-contrib/babel/intro.html][Introductory Tutorial]]
+
+#+begin_src elisp
+
+  (- 10 5)
+
+#+end_src
+
+#+RESULTS:
+: 5
+
+#+begin_src elisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((elisp .t)))
+
+  (setq org-confirm-babel-evaluate nil)
+#+end_src
+
+#+RESULTS:
+
+#+begin_src elisp
+  (require 'org-tempo)
+
+  (add-to-list 'org-structure-template-alist '("el" . "src elisp"))
+
+#+end_src
+
+#+RESULTS:
+: ((el . src elisp) (el . src emacs-lisp) (sh . src shell) (a . export ascii) (c . center) (C . comment) (e . example) (E . export) (h . export html) (l . export latex) (q . quote) (s . src) (v . verse))
