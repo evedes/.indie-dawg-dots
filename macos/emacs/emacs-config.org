@@ -2,6 +2,26 @@
 #+author: Eduardo Vedes
 #+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 
+* Performance
+
+#+begin_src emacs-lisp
+
+  ;; Increase GC threshold during startup, reset after
+  (setq gc-cons-threshold (* 100 1024 1024))  ; 100MB during startup
+  (add-hook 'emacs-startup-hook
+            (lambda () (setq gc-cons-threshold (* 8 1024 1024))))  ; 8MB after
+
+  ;; Improve LSP/JSON performance
+  (setq read-process-output-max (* 1024 1024))  ; 1MB
+
+  ;; Don't compact font caches during GC
+  (setq inhibit-compacting-font-caches t)
+
+  ;; Handle long lines gracefully
+  (global-so-long-mode 1)
+
+#+end_src
+
 * Global Keys
 
 #+begin_src emacs-lisp
