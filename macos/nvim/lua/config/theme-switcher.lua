@@ -8,6 +8,9 @@ M.themes = {
   { name = "Kanagawa Dragon", scheme = "kanagawa", variant = "dragon" },
   { name = "Kanagawa Wave", scheme = "kanagawa", variant = "wave" },
   { name = "Kanagawa Paper", scheme = "kanagawa-paper", variant = nil },
+  { name = "Oxocarbon", scheme = "oxocarbon", variant = nil },
+  { name = "Blue Moon", scheme = "blue-moon", variant = nil },
+  { name = "Apprentice", scheme = "apprentice", variant = nil },
 }
 
 -- File to store theme preference
@@ -31,6 +34,12 @@ function M.apply_theme(theme)
     require("lazy").load({ plugins = { "kanagawa-paper.nvim" } })
   elseif theme.scheme == "kanagawa" then
     require("lazy").load({ plugins = { "kanagawa.nvim" } })
+  elseif theme.scheme == "oxocarbon" then
+    require("lazy").load({ plugins = { "oxocarbon.nvim" } })
+  elseif theme.scheme == "blue-moon" then
+    require("lazy").load({ plugins = { "blue-moon" } })
+  elseif theme.scheme == "apprentice" then
+    require("lazy").load({ plugins = { "apprentice.nvim" } })
   end
 
   if theme.variant and theme.scheme == "kanagawa" then
