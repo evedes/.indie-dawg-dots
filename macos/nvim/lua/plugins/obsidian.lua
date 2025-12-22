@@ -179,6 +179,8 @@ return {
       end, desc = "Delete current note", ft = "markdown" },
     { "<leader>oi", "<cmd>ObsidianPasteImg<cr>", desc = "Paste image", ft = "markdown" },
     { "<leader>oe", "<cmd>ObsidianExtractNote<cr>", desc = "Extract text to new note", ft = "markdown", mode = "v" },
+    { "<leader>oL", "<cmd>ObsidianLink<cr>", desc = "Link to existing note", ft = "markdown", mode = "v" },
+    { "<leader>oN", "<cmd>ObsidianLinkNew<cr>", desc = "Link to new note", ft = "markdown", mode = "v" },
     { "<leader>ow", "<cmd>ObsidianWorkspace<cr>", desc = "Switch workspace" },
 
     -- Checkbox toggle
