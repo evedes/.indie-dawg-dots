@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE="$HOME/.indie-dawg-dots/macos/ghostty/config.macos"
+CONFIG_FILE="$HOME/.indie-dawg-dots/macos/ghostty/config"
 
 # Get available themes from ghostty
 THEMES=$(ghostty +list-themes 2>/dev/null)

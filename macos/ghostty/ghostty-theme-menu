@@ -17,7 +17,7 @@ case "$SELECTION" in
         ~/.local/bin/ghostty-bg-picker
         ;;
     "3. Reset to Default")
-        CONFIG_FILE="$HOME/.indie-dawg-dots/macos/ghostty/config.macos"
+        CONFIG_FILE="$HOME/.indie-dawg-dots/macos/ghostty/config"
         TEMP_FILE=$(mktemp)
         sed 's/^theme = .*/theme = "Kanagawa Dragon"/' "$CONFIG_FILE" | \
         sed 's/^background = .*/background = "#001"/' > "$TEMP_FILE"

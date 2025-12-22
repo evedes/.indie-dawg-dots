@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CONFIG_FILE="$HOME/.indie-dawg-dots/macos/ghostty/config.macos"
+CONFIG_FILE="$HOME/.indie-dawg-dots/macos/ghostty/config"
 
 # Define color options - very dark, subtle tints
 COLOR_OPTIONS="Dark Navy:#000011
