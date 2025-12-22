@@ -4,10 +4,6 @@ require("config.autocmds")
 require("config.lazy")
 require("lsp")
 
--- Initialize theme switcher after plugins are loaded
-vim.api.nvim_create_autocmd("User", {
-  pattern = "VeryLazy",
-  callback = function()
-    require("config.theme-switcher").init()
-  end,
-})
+-- Initialize theme switcher immediately after lazy.nvim setup
+-- Must happen before filetype plugins (like markview) load
+require("config.theme-switcher").init()
