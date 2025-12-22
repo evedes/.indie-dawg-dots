@@ -1,4 +1,43 @@
 themes {
+    blue_moon {
+        bg "#1b1e2b"
+        fg "#a6accd"
+        black "#292d3e"
+        red "#d06178"
+        green "#b4c4b4"
+        yellow "#cfcfbf"
+        blue "#959dcb"
+        magenta "#b9a3eb"
+        cyan "#89ddff"
+        white "#fbfbfb"
+        orange "#b4b4b4"
+    }
+    oxocarbon {
+        bg "#161616"
+        fg "#d5d5d5"
+        black "#262626"
+        red "#ee5396"
+        green "#42be65"
+        yellow "#be95ff"
+        blue "#78a9ff"
+        magenta "#ff7eb6"
+        cyan "#3ddbd9"
+        white "#f2f2f2"
+        orange "#33b1ff"
+    }
+    apprentice {
+        bg "#262626"
+        fg "#bcbcbc"
+        black "#1c1c1c"
+        red "#af5f5f"
+        green "#87af87"
+        yellow "#ffffaf"
+        blue "#87afd7"
+        magenta "#8787af"
+        cyan "#5fafaf"
+        white "#fbfbfb"
+        orange "#ffa368"
+    }
     kanagawa_wave {
         bg "#223249"
         fg "#54546D"
