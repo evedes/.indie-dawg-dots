@@ -18,27 +18,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertEnter" }, {
   end,
 })
 
--- Make floating windows transparent and configure window separator
-vim.api.nvim_create_autocmd("ColorScheme", {
-  desc = "Set transparent backgrounds for floating windows and configure window separator",
-  group = vim.api.nvim_create_augroup("transparent-floats", { clear = true }),
-  callback = function()
-    local highlights = {
-      "NormalFloat",
-      "FloatBorder",
-      "FloatTitle",
-      "LazyNormal",
-      "LazyButton",
-      "LazyButtonActive",
-    }
-    for _, group in ipairs(highlights) do
-      vim.api.nvim_set_hl(0, group, { bg = "NONE" })
-    end
-
-    -- Set window separator color (subtle, dark dashed style)
-    vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#181816", bg = "NONE" })
-  end,
-})
 
 -- Disable CSS LSP diagnostics for Waybar and other GTK CSS files
 -- (GTK CSS uses @define-color and other extensions not recognized by standard CSS LSP)
