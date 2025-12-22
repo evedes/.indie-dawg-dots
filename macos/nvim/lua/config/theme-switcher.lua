@@ -28,7 +28,7 @@ function M.get_current_index()
 end
 
 -- Apply a theme
-function M.apply_theme(theme)
+function M.apply_theme(theme, silent)
   -- Ensure the plugin is loaded first
   if theme.scheme == "kanagawa-paper" then
     require("lazy").load({ plugins = { "kanagawa-paper.nvim" } })
@@ -57,10 +57,10 @@ function M.apply_theme(theme)
 
   -- Safely apply colorscheme
   local ok, err = pcall(vim.cmd.colorscheme, theme.scheme)
-  if ok then
-    vim.notify("Theme: " .. theme.name, vim.log.levels.INFO)
-  else
+  if not ok then
     vim.notify("Failed to load theme: " .. theme.name .. "\n" .. err, vim.log.levels.ERROR)
+  elseif not silent then
+    vim.notify("Theme: " .. theme.name, vim.log.levels.INFO)
   end
 end
 
@@ -116,11 +116,11 @@ function M.pick_theme()
   })
 end
 
--- Initialize with saved preference
+-- Initialize with saved preference (silent on startup)
 function M.init()
   local saved_index = M.load_preference()
   local theme = M.themes[saved_index]
-  M.apply_theme(theme)
+  M.apply_theme(theme, true)
 end
 
 return M
