@@ -1,4 +1,5 @@
 # Arch Linux Environment Variables
+export ZSH_PLATFORM="linux"
 
 # Tools
 export PATH="/usr/local/bin:$PATH"
