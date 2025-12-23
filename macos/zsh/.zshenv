@@ -1,55 +1,35 @@
-# Platform detection for environment variables
-export ZSH_PLATFORM="$(uname -s | tr '[:upper:]' '[:lower:]')"
-case "$ZSH_PLATFORM" in
-    darwin) export ZSH_PLATFORM="macos" ;;
-    linux)  export ZSH_PLATFORM="linux" ;;
-    *)      export ZSH_PLATFORM="unknown" ;;
-esac
+# macOS Environment Variables
+export ZSH_PLATFORM="macos"
 
-# Cross-platform tools
+# Homebrew (must come first)
+[[ -d "/opt/homebrew/bin" ]] && export PATH="/opt/homebrew/bin:$PATH"
+[[ -d "/opt/homebrew/share" ]] && export XDG_DATA_DIRS="/opt/homebrew/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
+
+# Tools
 export PATH="$HOME/.cargo/bin:$PATH"
-
-# local binaries
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.claude/local:$PATH"
 
-# PNPM (platform-specific home)
-if [[ "$ZSH_PLATFORM" == "macos" ]]; then
-    export PNPM_HOME="$HOME/Library/pnpm"
-else
-    export PNPM_HOME="$HOME/.local/share/pnpm"
-fi
+# PNPM
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# NEOVIM
+# PostgreSQL
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# MacTeX
+[[ -d "/Library/TeX/texbin" ]] && export PATH="/Library/TeX/texbin:$PATH"
+
+# Editor
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export NVIM_APPNAME="nvim"
 
-# RIPGREP
+# Ripgrep
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-# STARSHIP
+# Starship
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-
-# Platform-specific environment setup
-if [[ "$ZSH_PLATFORM" == "macos" ]]; then
-    # macOS specific paths (Homebrew should come first)
-    [[ -d "/opt/homebrew/bin" ]] && export PATH="/opt/homebrew/bin:$PATH"
-    [[ -d "/opt/homebrew/share" ]] && export XDG_DATA_DIRS="/opt/homebrew/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
-elif [[ "$ZSH_PLATFORM" == "linux" ]]; then
-    # Linux specific paths
-    [[ -d "/usr/local/bin" ]] && export PATH="/usr/local/bin:$PATH"
-fi
-
-# PSQL
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# CLAUDE
-export PATH="$HOME/.claude/local:$PATH"
-
-
-# ! PASS VARIABLES
-# export ANTHROPIC_API_KEY=$(op read "op://Private/Anthropic API Key/credential")
