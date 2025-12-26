@@ -15,6 +15,23 @@ M.themes = {
 
 -- File to store theme preference
 local preference_file = vim.fn.stdpath("config") .. "/theme-preference.txt"
+local transparency_file = vim.fn.stdpath("config") .. "/transparency-preference.txt"
+
+-- Transparency state
+M.transparent = false
+
+-- Highlight groups to make transparent
+local transparent_groups = {
+  "Normal",
+  "NormalNC",
+  "NormalFloat",
+  "SignColumn",
+  "EndOfBuffer",
+  "MsgArea",
+  "FloatBorder",
+  "WinBar",
+  "WinBarNC",
+}
 
 -- Get current theme index
 function M.get_current_index()
@@ -25,6 +42,50 @@ function M.get_current_index()
     end
   end
   return 1
+end
+
+-- Apply transparency to current colorscheme
+function M.apply_transparency()
+  for _, group in ipairs(transparent_groups) do
+    local hl = vim.api.nvim_get_hl(0, { name = group })
+    hl.bg = nil
+    hl.ctermbg = nil
+    vim.api.nvim_set_hl(0, group, hl)
+  end
+end
+
+-- Save transparency preference
+function M.save_transparency()
+  local file = io.open(transparency_file, "w")
+  if file then
+    file:write(M.transparent and "1" or "0")
+    file:close()
+  end
+end
+
+-- Load transparency preference
+function M.load_transparency()
+  local file = io.open(transparency_file, "r")
+  if file then
+    local value = file:read("*a")
+    file:close()
+    M.transparent = value == "1"
+  end
+end
+
+-- Toggle transparency
+function M.toggle_transparency()
+  M.transparent = not M.transparent
+  M.save_transparency()
+  if M.transparent then
+    M.apply_transparency()
+    vim.notify("Transparency: ON", vim.log.levels.INFO)
+  else
+    -- Re-apply current theme to restore backgrounds
+    local index = M.get_current_index()
+    M.apply_theme(M.themes[index], true)
+    vim.notify("Transparency: OFF", vim.log.levels.INFO)
+  end
 end
 
 -- Apply a theme
@@ -59,8 +120,14 @@ function M.apply_theme(theme, silent)
   local ok, err = pcall(vim.cmd.colorscheme, theme.scheme)
   if not ok then
     vim.notify("Failed to load theme: " .. theme.name .. "\n" .. err, vim.log.levels.ERROR)
-  elseif not silent then
-    vim.notify("Theme: " .. theme.name, vim.log.levels.INFO)
+  else
+    -- Apply transparency if enabled
+    if M.transparent then
+      M.apply_transparency()
+    end
+    if not silent then
+      vim.notify("Theme: " .. theme.name, vim.log.levels.INFO)
+    end
   end
 end
 
@@ -118,6 +185,7 @@ end
 
 -- Initialize with saved preference (silent on startup)
 function M.init()
+  M.load_transparency()
   local saved_index = M.load_preference()
   local theme = M.themes[saved_index]
   M.apply_theme(theme, true)
