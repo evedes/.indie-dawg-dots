@@ -86,6 +86,10 @@ keymap.set("n", "<leader>uT", function()
   require("config.theme-switcher").cycle_theme()
 end, with_desc("Cycle theme"))
 
+keymap.set("n", "<leader>ub", function()
+  require("config.theme-switcher").toggle_transparency()
+end, with_desc("Toggle transparent background"))
+
 -- File Navigation (mini.files and mini.pick)
 keymap.set("n", "<leader>fe", function()
   MiniFiles.open()
