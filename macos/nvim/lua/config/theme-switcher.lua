@@ -31,6 +31,14 @@ local transparent_groups = {
   "FloatBorder",
   "WinBar",
   "WinBarNC",
+  "LineNr",
+  "CursorLineNr",
+  "CursorLine",
+  "FoldColumn",
+  "Folded",
+  "GitSignsAdd",
+  "GitSignsChange",
+  "GitSignsDelete",
 }
 
 -- Get current theme index
@@ -52,6 +60,8 @@ function M.apply_transparency()
     hl.ctermbg = nil
     vim.api.nvim_set_hl(0, group, hl)
   end
+  -- Set a background for nvim-notify so it remains readable
+  vim.api.nvim_set_hl(0, "NotifyBackground", { bg = "#1a1a1a" })
 end
 
 -- Save transparency preference
