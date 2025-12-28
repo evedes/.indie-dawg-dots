@@ -55,11 +55,13 @@ return {
       sh = { "shfmt" },
       typescript = { "prettier", "dprint", lsp_format = "fallback" },
       typescriptreact = { "prettier", "dprint", lsp_format = "fallback" },
-      elixir = { "mix_format" },
+      elixir = { "mix" },
+      heex = { "mix" },
       vue = { "prettier" },
       -- For filetypes without a formatter:
       ["_"] = { "trim_whitespace", "trim_newlines" },
     },
+
     format_on_save = function(bufnr)
       -- Don't format when minifiles is open, since that triggers the "confirm without
       -- synchronization" message.
