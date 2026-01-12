@@ -32,6 +32,7 @@ alias nconf='cd ~/.indie-dawg-dots/nvim && nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 # GHOSTTY
+alias gtm='$HOME/.config/ghostty/ghostty-theme-menu'
 alias gt='$HOME/.config/ghostty/ghostty-theme-switcher'
 alias gtheme='gt'
 alias gbg='$HOME/.config/ghostty/ghostty-bg-picker'

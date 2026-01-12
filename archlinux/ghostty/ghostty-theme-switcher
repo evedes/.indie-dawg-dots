@@ -18,8 +18,8 @@ if [ -z "$SELECTED_THEME" ]; then
     exit 0
 fi
 
-# Remove " (resources)" suffix if present
-SELECTED_THEME=$(echo "$SELECTED_THEME" | sed 's/ (resources)$//')
+# Remove " (resources)" or " (user)" suffix if present
+SELECTED_THEME=$(echo "$SELECTED_THEME" | sed 's/ (resources)$//' | sed 's/ (user)$//')
 
 # Update the config file
 if [ -f "$CONFIG_FILE" ]; then
