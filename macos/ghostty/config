@@ -8,7 +8,7 @@ font-thicken = 0
 adjust-cell-height = 45%
 
 # Theme
-theme = "Black Metal (Burzum)"
+theme = "kanagawa-paper-ink"
 background = "#000015"
 background-opacity = 0.88
 background-blur-radius = 10
