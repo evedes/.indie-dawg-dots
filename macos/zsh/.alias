@@ -99,7 +99,7 @@ alias ssh='TERM=xterm-256color ssh'
 alias killt='lsof -ti:25060 | xargs kill -9'
 
 # CODEBASES
-alias at='cd ~/Work/atomize'
+alias atomize='cd ~/Work/atomize'
 
 alias wakerubik='wakeonlan b4:2e:99:3d:2f:40'
 
@@ -148,3 +148,6 @@ alias y='yazi'
 
 # HYPRLAND
 alias shot='hyprshot -m region -o ~/Downloads'
+
+# FASTFETCH
+alias ff='fastfetch'
