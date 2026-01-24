@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CONFIG_FILE="$HOME/.indie-dawg-dots/common/ghostty/config.common"
+CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/ghostty/config"
 
 # Define color options - very dark, subtle tints
 COLOR_OPTIONS="Dark Navy:#000011
