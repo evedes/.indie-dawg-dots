@@ -8,8 +8,8 @@ font-thicken = 0
 adjust-cell-height = 45%
 
 # Theme
-theme = "Kanagawa Wave"
-background = "#000015"
+theme = "kanagawa-paper-ink"
+background = "#000011"
 background-opacity = 0.90
 
 # Window

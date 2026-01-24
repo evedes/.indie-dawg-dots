@@ -26,4 +26,4 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [gpg "ssh"]
-	program = /opt/1Password/op-ssh-sign
+	program = ssh-keygen

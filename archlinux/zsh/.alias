@@ -34,7 +34,7 @@ alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 # GHOSTTY
 alias gt='ghostty-theme-switcher'
 alias gtheme='gt'
-alias gbg='$HOME/.config/ghostty/ghostty-bg-picker'
+alias gbg='ghostty-bg-picker'
 alias gm='ghostty-theme-menu'
 
 # NETWORK PRIORITY

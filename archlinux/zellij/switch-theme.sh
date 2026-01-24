@@ -6,7 +6,7 @@ set -euo pipefail
 
 # Configuration paths
 ZELLIJ_CONFIG="$HOME/.config/zellij/config.kdl"
-THEMES_KDL="$HOME/.indie-dawg-dots/common/zellij/themes/themes.kdl"
+THEMES_KDL="$HOME/.indie-dawg-dots/archlinux/zellij/themes/themes.kdl"
 
 # Check dependencies
 if ! command -v zellij >/dev/null 2>&1; then

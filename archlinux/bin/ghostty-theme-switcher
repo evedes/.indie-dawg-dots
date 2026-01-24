@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE="$HOME/.indie-dawg-dots/common/ghostty/config.common"
+CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/ghostty/config"
 
 # Get available themes from ghostty
 THEMES=$(ghostty +list-themes 2>/dev/null)
