@@ -45,3 +45,10 @@ has_cmd mise && eval "$(mise activate zsh)"
 
 # Antigravity
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+# bun completions
+[ -s "/Users/edo/.bun/_bun" ] && source "/Users/edo/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
