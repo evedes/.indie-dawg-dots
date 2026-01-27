@@ -11,6 +11,9 @@ M.themes = {
   { name = "Oxocarbon", scheme = "oxocarbon", variant = nil },
   { name = "Blue Moon", scheme = "blue-moon", variant = nil },
   { name = "Apprentice", scheme = "apprentice", variant = nil },
+  { name = "Everforest", scheme = "everforest", variant = nil },
+  { name = "Gruvbox Material", scheme = "gruvbox-material", variant = nil },
+  { name = "Melange", scheme = "melange", variant = nil },
 }
 
 -- File to store theme preference
@@ -111,6 +114,12 @@ function M.apply_theme(theme, silent)
     require("lazy").load({ plugins = { "blue-moon" } })
   elseif theme.scheme == "apprentice" then
     require("lazy").load({ plugins = { "apprentice.nvim" } })
+  elseif theme.scheme == "everforest" then
+    require("lazy").load({ plugins = { "everforest" } })
+  elseif theme.scheme == "gruvbox-material" then
+    require("lazy").load({ plugins = { "gruvbox-material" } })
+  elseif theme.scheme == "melange" then
+    require("lazy").load({ plugins = { "melange-nvim" } })
   end
 
   if theme.variant and theme.scheme == "kanagawa" then
