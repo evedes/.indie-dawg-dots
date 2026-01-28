@@ -64,6 +64,18 @@ vim.opt.splitkeep = "cursor" -- Keep cursor position when splitting
 vim.opt.mouse = "a" -- Enable mouse in all modes
 vim.opt.spell = false -- Disable spell checking
 vim.opt.formatoptions:append({ "r" }) -- Auto-insert comment leader on enter
+-- Use OSC 52 for clipboard (works over SSH/tmux/zellij)
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+  },
+}
 vim.opt.clipboard:append("unnamedplus") -- Use system clipboard
 vim.opt.nrformats:append("alpha") -- Enable increment/decrement for letters as well as numbers
 
