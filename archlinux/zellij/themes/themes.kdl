@@ -129,6 +129,19 @@ themes {
         white "#cdd6f4"
         orange "#fab387"
     }
+    nord {
+        fg "#D8DEE9"
+        bg "#2E3440"
+        black "#3B4252"
+        red "#BF616A"
+        green "#8FBCBB"
+        yellow "#D8DEE9"
+        blue "#81A1C1"
+        magenta "#B48EAD"
+        cyan "#88C0D0"
+        white "#E5E9F0"
+        orange "#5E81AC"
+    }
     gruvbox_dark {
         fg "#ebdbb2"
         bg "#282828"
