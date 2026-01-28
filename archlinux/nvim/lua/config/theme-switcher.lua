@@ -8,6 +8,11 @@ M.themes = {
   { name = "Kanagawa Dragon", scheme = "kanagawa", variant = "dragon" },
   { name = "Kanagawa Wave", scheme = "kanagawa", variant = "wave" },
   { name = "Kanagawa Paper", scheme = "kanagawa-paper", variant = nil },
+  { name = "Everforest", scheme = "everforest", variant = nil },
+  { name = "Gruvbox Material", scheme = "gruvbox-material", variant = nil },
+  { name = "Melange", scheme = "melange", variant = nil },
+  { name = "Nord", scheme = "nord", variant = nil },
+  { name = "Nordic", scheme = "nordic", variant = nil },
 }
 
 -- File to store theme preference
@@ -31,6 +36,16 @@ function M.apply_theme(theme)
     require("lazy").load({ plugins = { "kanagawa-paper.nvim" } })
   elseif theme.scheme == "kanagawa" then
     require("lazy").load({ plugins = { "kanagawa.nvim" } })
+  elseif theme.scheme == "everforest" then
+    require("lazy").load({ plugins = { "everforest" } })
+  elseif theme.scheme == "gruvbox-material" then
+    require("lazy").load({ plugins = { "gruvbox-material" } })
+  elseif theme.scheme == "melange" then
+    require("lazy").load({ plugins = { "melange-nvim" } })
+  elseif theme.scheme == "nord" then
+    require("lazy").load({ plugins = { "nord.nvim" } })
+  elseif theme.scheme == "nordic" then
+    require("lazy").load({ plugins = { "nordic.nvim" } })
   end
 
   if theme.variant and theme.scheme == "kanagawa" then
