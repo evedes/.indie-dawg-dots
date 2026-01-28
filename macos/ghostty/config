@@ -8,8 +8,8 @@ font-thicken = 0
 adjust-cell-height = 20%
 
 # Theme
-theme = "Nord"
-background = "#000000"
+theme = "Gruvbox Dark"
+background = "#0a0500"
 background-opacity = 0.80
 background-blur-radius = 10
 

@@ -77,6 +77,29 @@ keymap.set("n", "<leader>uF", function()
   vim.notify("Auto-format (buffer) " .. status, vim.log.levels.INFO)
 end, with_desc("Toggle auto-format for buffer"))
 
+-- Toggle transparent background
+keymap.set("n", "<leader>ub", function()
+  local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
+  if normal.bg then
+    -- Save current bg and make transparent
+    vim.g._saved_normal_bg = normal.bg
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+    vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none" })
+    vim.notify("Background: transparent", vim.log.levels.INFO)
+  else
+    -- Restore by reapplying colorscheme
+    local scheme = vim.g.colors_name
+    if scheme then
+      vim.cmd.colorscheme(scheme)
+    end
+    vim.notify("Background: opaque", vim.log.levels.INFO)
+  end
+end, with_desc("Toggle transparent background"))
+
 -- Theme Switching
 keymap.set("n", "<leader>ut", function()
   require("config.theme-switcher").pick_theme()
