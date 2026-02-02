@@ -23,7 +23,5 @@
 [alias]
 	fixup = !git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup
 	gll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-[url "git@github.com:"]
-	insteadOf = https://github.com/
 [gpg "ssh"]
 	program = ssh-keygen
