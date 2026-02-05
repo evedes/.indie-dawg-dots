@@ -147,8 +147,5 @@ alias zt='$HOME/.indie-dawg-dots/macos/zellij/switch-theme.sh'
 # YAZI
 alias y='yazi'
 
-# HYPRLAND
-alias shot='hyprshot -m region -o ~/Downloads'
-
 # FASTFETCH
 alias ff='fastfetch'
