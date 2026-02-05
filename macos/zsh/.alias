@@ -5,6 +5,9 @@ alias r='exec ${SHELL} -l'
 alias x='exit'
 alias b='bat'
 
+alias path='echo -e ${PATH//:/\\n}'
+alias grep='grep --color'
+
 alias aa='nvim ~/.indie-dawg-dots/macos/zsh/.alias'
 alias zz='nvim ~/.indie-dawg-dots/macos/zsh/.zshrc'
 alias ss='nvim ~/.secret/.alias'
@@ -13,11 +16,10 @@ alias ss='nvim ~/.secret/.alias'
 alias host='echo $HOST'
 
 # Machines SSH
-alias rubik='ssh edo@rubik'
-alias prometheus='ssh edo@prometheus'
-alias alien='ssh edo@alien'
 alias odin='ssh edo@odin'
-alias thor='ssh edo@thor'
+alias freya='ssh edo@freya'
+alias loki='ssh edo@loki'
+alias generic='ssh edo@generic'
 alias batman='ssh edo@batman'
 alias batman-ts='ssh edo@batman-ts'
 alias mosaic='ssh ec2-user@mosaic'
@@ -149,3 +151,6 @@ alias y='yazi'
 
 # FASTFETCH
 alias ff='fastfetch'
+
+# K8S
+alias k='kubectl'
