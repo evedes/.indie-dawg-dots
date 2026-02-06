@@ -16,6 +16,7 @@ M.themes = {
   { name = "Melange", scheme = "melange", variant = nil },
   { name = "Nord", scheme = "nord", variant = nil },
   { name = "Nordic", scheme = "nordic", variant = nil },
+  { name = "Atomize", scheme = "atomize", variant = nil },
 }
 
 -- File to store theme preference
