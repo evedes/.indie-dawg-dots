@@ -20,6 +20,7 @@ M.themes = {
   { name = "Sonoma", scheme = "sonoma", variant = nil },
   { name = "Green Forest", scheme = "green-forest", variant = nil },
   { name = "White Nord", scheme = "white-nord", variant = nil },
+  { name = "Rainbow", scheme = "rainbow", variant = nil },
 }
 
 -- File to store theme preference

@@ -1,0 +1,15 @@
+themes {
+    rainbow {
+        fg "#eae9da"
+        bg "#06091c"
+        black "#06091c"
+        red "#e13c46"
+        green "#eedb46"
+        yellow "#f6b924"
+        blue "#3377e4"
+        magenta "#b94fb3"
+        cyan "#008d91"
+        white "#d0cec0"
+        orange "#f57d00"
+    }
+}
