@@ -1,0 +1,15 @@
+themes {
+    green-forest {
+        fg "#e1ebdf"
+        bg "#030c16"
+        black "#030c16"
+        red "#d6736c"
+        green "#368c47"
+        yellow "#65a75d"
+        blue "#6b7b8b"
+        magenta "#867785"
+        cyan "#67807d"
+        white "#c7d1c5"
+        orange "#ce7d41"
+    }
+}
