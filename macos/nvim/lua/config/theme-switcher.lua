@@ -17,11 +17,13 @@ M.themes = {
   { name = "Nord", scheme = "nord", variant = nil },
   { name = "Nordic", scheme = "nordic", variant = nil },
   { name = "Atomize", scheme = "atomize", variant = nil },
+  { name = "Sonoma", scheme = "sonoma", variant = nil },
 }
 
 -- File to store theme preference
-local preference_file = vim.fn.stdpath("config") .. "/theme-preference.txt"
-local transparency_file = vim.fn.stdpath("config") .. "/transparency-preference.txt"
+local themes_dir = vim.fn.expand("$HOME/.indie-dawg-dots/macos/nvim/lua/themes")
+local preference_file = themes_dir .. "/theme-preference.txt"
+local transparency_file = themes_dir .. "/transparency-preference.txt"
 
 -- Transparency state
 M.transparent = false

@@ -16,7 +16,8 @@ M.themes = {
 }
 
 -- File to store theme preference
-local preference_file = vim.fn.stdpath("config") .. "/theme-preference.txt"
+local themes_dir = vim.fn.expand("$HOME/.indie-dawg-dots/archlinux/nvim/lua/themes")
+local preference_file = themes_dir .. "/theme-preference.txt"
 
 -- Get current theme index
 function M.get_current_index()
