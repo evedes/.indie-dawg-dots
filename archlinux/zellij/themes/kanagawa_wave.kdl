@@ -1,0 +1,15 @@
+themes {
+    kanagawa_wave {
+        bg "#223249"
+        fg "#54546D"
+        black "#181816"
+        red "#C34043"
+        green "#7B99D4"
+        yellow "#C0A36E"
+        blue "#7E9CD8"
+        magenta "#957FB8"
+        cyan "#6A9589"
+        white "#54546D"
+        orange "#FFA066"
+    }
+}

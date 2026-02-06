@@ -1,0 +1,15 @@
+themes {
+    kanagawa_lotus {
+        fg "#545464"
+        bg "#f2ecbc"
+        black "#1F1F28"
+        red "#C84053"
+        green "#6f894e"
+        yellow "#77713f"
+        blue "#4d699b"
+        magenta "#b35b79"
+        cyan "#597b75"
+        white "#545464"
+        orange "#FFA066"
+    }
+}
