@@ -1,0 +1,15 @@
+themes {
+    apprentice {
+        bg "#262626"
+        fg "#bcbcbc"
+        black "#1c1c1c"
+        red "#af5f5f"
+        green "#87af87"
+        yellow "#ffffaf"
+        blue "#87afd7"
+        magenta "#8787af"
+        cyan "#5fafaf"
+        white "#fbfbfb"
+        orange "#ffa368"
+    }
+}

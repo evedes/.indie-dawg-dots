@@ -6,7 +6,7 @@ set -euo pipefail
 
 # Configuration paths
 ZELLIJ_CONFIG="$HOME/.config/zellij/config.kdl"
-THEMES_KDL="$HOME/.indie-dawg-dots/macos/zellij/themes/themes.kdl"
+THEMES_DIR="$HOME/.indie-dawg-dots/macos/zellij/themes"
 
 # Check dependencies
 if ! command -v zellij >/dev/null 2>&1; then
@@ -19,8 +19,8 @@ if ! command -v fzf >/dev/null 2>&1; then
     exit 1
 fi
 
-if [[ ! -f "$THEMES_KDL" ]]; then
-    echo "Error: themes.kdl not found at $THEMES_KDL" >&2
+if [[ ! -d "$THEMES_DIR" ]]; then
+    echo "Error: themes directory not found at $THEMES_DIR" >&2
     exit 1
 fi
 
@@ -29,11 +29,11 @@ if [[ ! -f "$ZELLIJ_CONFIG" ]]; then
     exit 1
 fi
 
-# Extract theme names from themes.kdl
+# Extract theme names from individual .kdl files in themes directory
 get_available_themes() {
-    grep -E '^\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\{' "$THEMES_KDL" | \
-        awk '{print $1}' | \
-        sort
+    for f in "$THEMES_DIR"/*.kdl; do
+        basename "$f" .kdl
+    done | sort
 }
 
 # Get current theme from config.kdl

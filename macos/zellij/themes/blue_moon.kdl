@@ -1,0 +1,15 @@
+themes {
+    blue_moon {
+        bg "#1b1e2b"
+        fg "#a6accd"
+        black "#292d3e"
+        red "#d06178"
+        green "#b4c4b4"
+        yellow "#cfcfbf"
+        blue "#959dcb"
+        magenta "#b9a3eb"
+        cyan "#89ddff"
+        white "#fbfbfb"
+        orange "#b4b4b4"
+    }
+}
