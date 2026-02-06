@@ -131,9 +131,6 @@ alias lsmod='eza -alh --icons --color=always --group-directories-first --sort=mo
 # Size-based listing
 alias lsize='eza -alh --icons --color=always --group-directories-first --sort=size --reverse'
 
-# SPOTIFY
-alias sp='TERM=xterm-256color spotify_player'
-
 ## CLAUDE CODE
 alias clauded="claude --dangerously-skip-permissions"
 alias ccusage="npx ccusage daily"
