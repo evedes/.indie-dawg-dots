@@ -282,7 +282,7 @@ web_client {
     font "Berkeley Mono Medium UltraCondensed"
 }
 
-theme "sonoma"
+theme "green-forest"
 
 // Choose the base input mode of zellij.
 // Default: normal
