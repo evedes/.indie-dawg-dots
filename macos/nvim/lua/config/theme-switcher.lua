@@ -19,6 +19,7 @@ M.themes = {
   { name = "Atomize", scheme = "atomize", variant = nil },
   { name = "Sonoma", scheme = "sonoma", variant = nil },
   { name = "Green Forest", scheme = "green-forest", variant = nil },
+  { name = "White Nord", scheme = "white-nord", variant = nil },
 }
 
 -- File to store theme preference
