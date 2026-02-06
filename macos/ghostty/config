@@ -8,9 +8,9 @@ font-thicken = 0
 adjust-cell-height = 5%
 
 # Theme
-theme = "white-nord"
+theme = "rainbow"
 background = "#000011"
-background-opacity = 0.70
+background-opacity = 0.82
 background-blur-radius = 10
 
 # Window
