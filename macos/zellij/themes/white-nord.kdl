@@ -1,0 +1,15 @@
+themes {
+    white-nord {
+        fg "#dbebf2"
+        bg "#010b1b"
+        black "#010b1b"
+        red "#a36a67"
+        green "#cbddca"
+        yellow "#dfd7c0"
+        blue "#587ca5"
+        magenta "#936d96"
+        cyan "#c2dce8"
+        white "#c1d1d8"
+        orange "#c3a089"
+    }
+}
