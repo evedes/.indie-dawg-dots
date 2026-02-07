@@ -9,7 +9,7 @@ adjust-cell-height = 45%
 
 # Theme
 theme = "kanagawa-paper-ink"
-background = "#000000"
+background = "#000011"
 background-opacity = 0.90
 
 # Window
