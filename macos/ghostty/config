@@ -8,8 +8,8 @@ font-thicken = 0
 adjust-cell-height = 5%
 
 # Theme
-theme = "green-forest"
-background = "#000a00"
+theme = "dark-fantasy"
+background = "#0a0000"
 background-opacity = 0.77
 background-blur-radius = 10
 
