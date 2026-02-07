@@ -1,0 +1,15 @@
+themes {
+    atomize {
+        fg "#ece8d9"
+        bg "#09081b"
+        black "#09081b"
+        red "#f7a599"
+        green "#f8db67"
+        yellow "#f7d271"
+        blue "#6e93f1"
+        magenta "#d070cf"
+        cyan "#6cacf4"
+        white "#d1cebf"
+        orange "#ffb682"
+    }
+}
