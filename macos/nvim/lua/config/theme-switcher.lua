@@ -21,6 +21,7 @@ M.themes = {
   { name = "Green Forest", scheme = "green-forest", variant = nil },
   { name = "White Nord", scheme = "white-nord", variant = nil },
   { name = "Rainbow", scheme = "rainbow", variant = nil },
+  { name = "Dark Fantasy", scheme = "dark-fantasy", variant = nil },
 }
 
 -- File to store theme preference
