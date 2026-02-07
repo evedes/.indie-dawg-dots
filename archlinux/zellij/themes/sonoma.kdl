@@ -1,0 +1,15 @@
+themes {
+    sonoma {
+        fg "#e0ece0"
+        bg "#040a1c"
+        black "#040a1c"
+        red "#9d6991"
+        green "#4aae54"
+        yellow "#398b37"
+        blue "#5c78b7"
+        magenta "#9d6991"
+        cyan "#428583"
+        white "#c6d1c6"
+        orange "#ad652e"
+    }
+}

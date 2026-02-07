@@ -1,0 +1,15 @@
+themes {
+    dark-fantasy {
+        fg "#e9e9da"
+        bg "#030508"
+        black "#030508"
+        red "#f5e0de"
+        green "#e7e7d5"
+        yellow "#e7e7d5"
+        blue "#6c7886"
+        magenta "#817582"
+        cyan "#6c7886"
+        white "#cfcfc0"
+        orange "#f3e2d7"
+    }
+}
