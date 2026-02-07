@@ -18,7 +18,7 @@
   "markview.nvim": { "branch": "main", "commit": "86fcabc793e8aa361cb308e794cd0e1356fdc0e1" },
   "melange-nvim": { "branch": "master", "commit": "ce42f6b629beeaa00591ba73a77d3eeac4cf28ce" },
   "mini.nvim": { "branch": "main", "commit": "b409fd1d8b9ea7ec7c0923eb2562b52ed5d1ab0a" },
-  "neogit": { "branch": "master", "commit": "4ba620addbeeca2594c794b151e611c037973480" },
+  "neogit": { "branch": "master", "commit": "73870229977fdd8747025820e15e98cfde787b9c" },
   "noice.nvim": { "branch": "main", "commit": "7bfd942445fb63089b59f97ca487d605e715f155" },
   "nord.nvim": { "branch": "main", "commit": "07647ad23e5b7fc1599a841dcd8f173b9aeb0419" },
   "nordic.nvim": { "branch": "main", "commit": "962c717820a9d7201ef7622cf1e78bd57806bb7c" },
