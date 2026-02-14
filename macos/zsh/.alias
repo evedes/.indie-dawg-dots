@@ -44,6 +44,7 @@ alias gt='$HOME/.config/ghostty/ghostty-theme-switcher'
 alias gtheme='gt'
 alias gbg='$HOME/.config/ghostty/ghostty-bg-picker'
 alias gm='ghostty-theme-menu'
+alias ot='$HOME/.indie-dawg-dots/macos/ghostty/ghostty-opacity-toggle'
 
 # NETWORK PRIORITY
 alias isp='curl ipinfo.io | grep org'
