@@ -9,7 +9,7 @@ adjust-cell-height = 5%
 
 # Theme
 theme = "atomize"
-background = "#000011"
+background = "#000015"
 background-opacity = 0.77
 background-blur-radius = 10
 
