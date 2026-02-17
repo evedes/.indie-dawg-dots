@@ -84,6 +84,14 @@ alias m='cmatrix'
 alias k='kubectl'
 alias mk='minikube'
 
+# PYTHON
+alias pyac='source .venv/bin/activate'
+alias pyde='deactivate'
+alias pyenv='echo $VIRTUAL_ENV'
+
+# AWS
+alias aws-whoami='aws sts get-caller-identity'
+
 # DOCKER
 alias dps='docker ps --format "table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}"'
 alias dpa='docker ps -a --format "table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}"'
@@ -142,6 +150,10 @@ alias sp='TERM=xterm-256color spotify_player'
 ## CLAUDE CODE
 alias clauded="claude --dangerously-skip-permissions"
 alias ccusage="npx ccusage daily"
+
+# TMUX
+alias t='tmux'
+alias tco='v ~/.tmux.conf'
 
 # ZELLIJ
 alias z='zellij --layout $HOME/.config/zellij/layouts/no-status.kdl'
