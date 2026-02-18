@@ -33,3 +33,6 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 # Starship
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
