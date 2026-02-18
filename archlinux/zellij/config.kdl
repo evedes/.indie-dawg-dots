@@ -292,8 +292,6 @@ web_client {
     font "Berkeley Mono Medium UltraCondensed"
 }
 
-theme "atomize"
-
 // Choose the base input mode of zellij.
 // Default: normal
 //
@@ -311,7 +309,7 @@ default_shell "zsh"
 // The name of the default layout to load on startup
 // Default: "default"
 //
-// default_layout "compact"
+default_layout "no-status"
 
 // The folder in which Zellij will look for layouts
 // (Requires restart)
@@ -540,3 +538,4 @@ show_startup_tips false
 // can be useful for removing wrappers around commands
 // Note: be sure to escape backslashes and similar characters properly
 // post_command_discovery_hook "echo $RESURRECT_COMMAND | sed <your_regex_here>"
+theme "kanagawa_dragon"
