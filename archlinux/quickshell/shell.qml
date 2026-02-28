@@ -22,8 +22,6 @@ ShellRoot {
             property var screenObj: modelData
 
             screen: screenObj
-
-            // Only show on DP-1
             visible: Hyprland.monitorFor(screen)?.name === "DP-1"
 
             anchors {
