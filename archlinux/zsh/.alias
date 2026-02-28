@@ -15,11 +15,16 @@ alias host='echo $HOST'
 # Machines SSH
 alias rubik='ssh edo@rubik'
 alias prometheus='ssh edo@prometheus'
-alias alien='ssh edo@alien'
+alias freya='ssh edo@freya'
+alias freya-ts='ssh edo@freya-ts'
 alias odin='ssh edo@odin'
 alias batman='ssh edo@batman'
 alias batman-ts='ssh edo@batman-ts'
 alias mosaic='ssh ec2-user@mosaic'
+
+# Machines SSH Tunnels
+alias freya-tunnel='ssh -fN -L 4030:localhost:4030 edo@freya'
+alias kill-freya-tunnel='kill $(pgrep -f "ssh -fN -L 4030")'
 
 # INDIE-DAWG-DOTS
 alias dots='cd ~/.indie-dawg-dots && nvim .'
