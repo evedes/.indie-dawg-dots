@@ -14,6 +14,7 @@ RowLayout {
     Text {
         Layout.fillHeight: true
         verticalAlignment: Text.AlignVCenter
+        renderType: Text.NativeRendering
 
         readonly property string icon: {
             if (audioControl.service.muted) return "󰝟";
@@ -23,7 +24,7 @@ RowLayout {
             return "󰕿";
         }
 
-        text: "󰺣 " + audioControl.service.volume + "%"
+        text: icon + " " + audioControl.service.volume + "%"
         color: audioControl.service.muted ? Theme.textMuted : Theme.accentBright
         font.family: Theme.fontFamily
         font.pixelSize: Theme.fontSizePrimary

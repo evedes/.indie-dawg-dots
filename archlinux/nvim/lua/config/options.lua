@@ -64,17 +64,16 @@ vim.opt.splitkeep = "cursor" -- Keep cursor position when splitting
 vim.opt.mouse = "a" -- Enable mouse in all modes
 vim.opt.spell = false -- Disable spell checking
 vim.opt.formatoptions:append({ "r" }) -- Auto-insert comment leader on enter
--- Use OSC 52 for clipboard copy (works over SSH/tmux/zellij)
--- Paste falls back to wl-paste (Wayland) since OSC 52 paste is blocked by terminals
+-- Use wl-copy/wl-paste for Wayland clipboard
 vim.g.clipboard = {
-  name = "OSC 52",
+  name = "wl-clipboard",
   copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    ["+"] = "wl-copy",
+    ["*"] = "wl-copy --primary",
   },
   paste = {
-    ["+"] = function() return {} end,
-    ["*"] = function() return {} end,
+    ["+"] = "wl-paste --no-newline",
+    ["*"] = "wl-paste --no-newline --primary",
   },
 }
 vim.opt.clipboard:append("unnamedplus") -- Use system clipboard

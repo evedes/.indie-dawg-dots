@@ -13,4 +13,5 @@ Text {
     color: Theme.accentBright
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontSizePrimary
+    renderType: Text.NativeRendering
 }

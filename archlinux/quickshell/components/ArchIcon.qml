@@ -9,6 +9,7 @@ Text {
     color: Theme.accentBright
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontSizeIcon
+    renderType: Text.NativeRendering
     verticalAlignment: Text.AlignVCenter
     Layout.fillHeight: true
 }

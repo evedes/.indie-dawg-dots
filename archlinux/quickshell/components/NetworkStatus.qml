@@ -12,10 +12,11 @@ Text {
 
     property string ipAddress: "..."
 
-    text: "odin-bridge " + ipAddress
+    text: "󰈀 " + ipAddress
     color: Theme.accentBright
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontSizePrimary
+    renderType: Text.NativeRendering
 
     Process {
         id: ipProcess

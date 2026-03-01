@@ -3,17 +3,21 @@ import QtQuick.Layouts
 import Quickshell.Io
 import ".."
 
-RowLayout {
+Item {
     id: cava
 
-    Layout.fillHeight: true
-    Layout.rightMargin: 4
-    spacing: 2
-
     readonly property int barCount: 24
+    readonly property int barWidth: 3
+    readonly property int barSpacing: 2
+    readonly property int topPadding: Math.round((Theme.barHeight - Theme.fontSizePrimary) / 2) + 5
+    readonly property real maxBarHeight: Theme.barHeight - topPadding - 4
+
+    Layout.fillHeight: true
+    Layout.preferredWidth: barCount * (barWidth + barSpacing) - barSpacing
+    Layout.rightMargin: 4
+
     property var barValues: new Array(barCount).fill(0)
 
-    // Interpolate 8 gradient stops across all bars (same colors as ~/.config/cava)
     readonly property var barColors: {
         let colors = [];
         let stops = Theme.cavaGradient;
@@ -60,13 +64,10 @@ RowLayout {
         Rectangle {
             required property int index
 
-            Layout.fillHeight: false
-            Layout.alignment: Qt.AlignBottom
-            Layout.preferredWidth: 3
-
-            readonly property real barVal: cava.barValues[index] ?? 0
-            readonly property real maxBarHeight: Theme.barHeight - 8
-            height: Math.max(2, barVal * maxBarHeight)
+            x: index * (cava.barWidth + cava.barSpacing)
+            y: cava.topPadding
+            width: cava.barWidth
+            height: Math.max(2, (cava.barValues[index] ?? 0) * cava.maxBarHeight)
             color: cava.barColors[index] ?? Theme.accentBright
             radius: 1
 

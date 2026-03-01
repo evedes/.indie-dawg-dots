@@ -1,9 +1,9 @@
 #!/bin/bash
 killall quickshell 2>/dev/null
-killall hyprpaper 2>/dev/null
+killall swww-dameon 2>/dev/null
 killall mako 2>/dev/null
 
 sleep 0.2
-hyprpaper &
+swww-dameon &
 mako &
 quickshell &
