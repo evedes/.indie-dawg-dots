@@ -139,6 +139,11 @@ alias sp='TERM=xterm-256color spotify_player'
 alias clauded="claude --dangerously-skip-permissions"
 alias ccusage="npx ccusage daily"
 
+# TMUX
+alias t='tmux'
+alias tl='tmux ls'
+alias ta='tmux attach -t'
+
 # ZELLIJ
 alias z='zellij --layout $HOME/.config/zellij/layouts/no-status.kdl'
 alias zn='zellij --new-session-with-layout $HOME/.config/zellij/layouts/no-status.kdl --session'
