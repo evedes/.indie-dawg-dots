@@ -8,9 +8,7 @@ RowLayout {
 
     Layout.leftMargin: 16
     Layout.fillHeight: true
-    spacing: 2
-
-    readonly property var romanNumerals: ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+    spacing: 8
 
     Repeater {
         model: 10
@@ -24,28 +22,25 @@ RowLayout {
             readonly property bool isActive: Hyprland.focusedMonitor?.activeWorkspace?.id === wsId
             readonly property bool hasWindows: hyprWs !== null && hyprWs.windows > 0
 
-            Layout.fillHeight: true
-            Layout.preferredWidth: label.implicitWidth + 6
-            color: isActive ? Theme.bgSelected : "transparent"
-            border.color: isActive ? Theme.borderAccent : "transparent"
-            border.width: isActive ? 1 : 0
-            radius: 3
+            readonly property int dotSize: isActive ? 10 : hasWindows ? 7 : 5
 
-            Text {
-                id: label
-                anchors.centerIn: parent
-                text: workspaces.romanNumerals[wsButton.index]
-                color: wsButton.isActive || wsButton.hasWindows ? Theme.accentBright : Theme.textMuted
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontSizePrimary
-            }
+            Layout.alignment: Qt.AlignVCenter
+            Layout.preferredWidth: dotSize
+            Layout.preferredHeight: dotSize
+
+            radius: dotSize / 2
+            color: isActive ? Theme.accentBright : hasWindows ? "transparent" : Theme.textMuted
+            border.width: hasWindows && !isActive ? 1.5 : 0
+            border.color: Theme.accentBright
+
+            Behavior on Layout.preferredWidth { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
+            Behavior on Layout.preferredHeight { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
+            Behavior on color { ColorAnimation { duration: 150 } }
 
             MouseArea {
                 anchors.fill: parent
                 onClicked: Hyprland.dispatch("workspace " + wsButton.wsId)
             }
-
-            Behavior on color { ColorAnimation { duration: 200 } }
         }
     }
 

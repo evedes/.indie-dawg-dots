@@ -4,6 +4,7 @@ alias chist='history -p'
 alias r='exec ${SHELL} -l'
 alias x='exit'
 alias b='bat'
+alias rpass='faillock --user edo --reset'
 
 alias aa='nvim ~/.indie-dawg-dots/archlinux/zsh/.alias'
 alias zz='nvim ~/.indie-dawg-dots/archlinux/zsh/.zshrc'
@@ -143,6 +144,7 @@ alias ccusage="npx ccusage daily"
 alias t='tmux'
 alias tl='tmux ls'
 alias ta='tmux attach -t'
+alias tn='tmux new-session -A -s'
 
 # ZELLIJ
 alias z='zellij --layout $HOME/.config/zellij/layouts/no-status.kdl'
