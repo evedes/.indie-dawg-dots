@@ -42,6 +42,7 @@ alias gt='ghostty-theme-switcher'
 alias gtheme='gt'
 alias gbg='ghostty-bg-picker'
 alias gm='ghostty-theme-menu'
+alias ot='ghostty-opacity-toggle'
 
 # NETWORK PRIORITY
 alias isp='curl ipinfo.io | grep org'
