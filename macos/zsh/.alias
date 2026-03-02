@@ -156,7 +156,10 @@ alias ccusage="npx ccusage daily"
 
 # TMUX
 alias t='tmux'
-alias tco='v ~/.tmux.conf'
+alias tc='v ~/.tmux.conf'
+alias tl='tmux ls'
+alias ta='tmux attach -t'
+alias tn='tmux new-session -A -s'
 
 # ZELLIJ
 alias z='zellij --layout $HOME/.config/zellij/layouts/no-status.kdl'
