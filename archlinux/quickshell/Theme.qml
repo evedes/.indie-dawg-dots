@@ -35,6 +35,6 @@ QtObject {
     // Layout
     readonly property int barHeight: 40
     readonly property int iconSize: 28
-    readonly property int spacing: 12
+    readonly property int spacing: 16
     readonly property int spacingSmall: 8
 }
