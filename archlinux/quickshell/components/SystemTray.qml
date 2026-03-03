@@ -26,12 +26,13 @@ RowLayout {
             readonly property string appId: modelData.id ?? ""
             readonly property var nerdEntry: nerdIcons[appId] ?? null
 
+            active: nerdEntry !== null
             Layout.fillHeight: true
             Layout.preferredWidth: Theme.iconSize
             Layout.preferredHeight: Theme.iconSize
             Layout.alignment: Qt.AlignVCenter
 
-            sourceComponent: nerdEntry ? nerdComponent : imageComponent
+            sourceComponent: nerdComponent
 
             Component {
                 id: nerdComponent

@@ -22,7 +22,8 @@ ShellRoot {
             property var screenObj: modelData
 
             screen: screenObj
-            visible: Hyprland.monitorFor(screen)?.name === "DP-1"
+            // visible: Hyprland.monitorFor(screen)?.name === "DP-1"
+            visible: true
 
             anchors {
                 top: true
@@ -36,14 +37,11 @@ ShellRoot {
 
             RowLayout {
                 anchors.fill: parent
-                spacing: 0
-                // LEFT
+                spacing: 16
                 Components.ArchIcon {}
                 Components.Workspaces {}
                 Components.SystemTray {}
-                // CENTER
                 Item { Layout.fillWidth: true }
-                // RIGHT
                 Components.CavaVisualizer {}
                 Components.SystemStats {
                     service: statsService
