@@ -9,10 +9,10 @@ RowLayout {
     spacing: 16
 
     readonly property var nerdIcons: ({
-        "chrome_status_icon_1": { "icon": "\uf1ff", "color": "#5865F2" },
-        "spotify-client": { "icon": "󰓇", "color": "#1DB954" },
-        "Nextcloud": { "icon": "󰅟", "color": "#0082C9" },
-        "com.github.xeco23.WasIstLos.Tray": { "icon": "\uf232", "color": "#25D366" },
+        "chrome_status_icon_1": { "icon": "\uf1ff", "color": "#6A6A6A" },
+        "spotify-client": { "icon": "󰓇", "color": "#6A6A6A" },
+        "Nextcloud": { "icon": "󰅟", "color": "#6A6A6A" },
+        "com.github.xeco23.WasIstLos.Tray": { "icon": "\uf232", "color": "#6A6A6A" },
     })
 
     Repeater {
@@ -41,7 +41,7 @@ RowLayout {
                     text: trayLoader.nerdEntry.icon
                     color: trayLoader.nerdEntry.color
                     font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontSizeIcon
+                    font.pixelSize: Theme.fontSizePrimary
                     renderType: Text.NativeRendering
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter

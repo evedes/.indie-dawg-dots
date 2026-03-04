@@ -9,13 +9,13 @@ QtObject {
     readonly property color bgSelected: Qt.rgba(0.529, 0.808, 0.980, 0.2)
 
     // Accent
-    readonly property color accent: Qt.rgba(0.529, 0.808, 0.980, 0.9)
-    readonly property color accentBright: "#B4D4FF"
+    readonly property color accent: Qt.rgba(0.65, 0.65, 0.65, 0.9)
+    readonly property color accentBright: "#6A6A6A"
 
     // Text
-    readonly property color textPrimary: Qt.rgba(0.678, 0.847, 0.902, 0.95)
-    readonly property color textSecondary: Qt.rgba(0.529, 0.808, 0.980, 0.7)
-    readonly property color textMuted: Qt.rgba(0.529, 0.808, 0.980, 0.35)
+    readonly property color textPrimary: Qt.rgba(0.85, 0.85, 0.85, 0.95)
+    readonly property color textSecondary: Qt.rgba(0.75, 0.75, 0.75, 0.7)
+    readonly property color textMuted: Qt.rgba(0.65, 0.65, 0.65, 0.35)
 
     // Border
     readonly property color borderAccent: Qt.rgba(0.529, 0.808, 0.980, 0.15)
