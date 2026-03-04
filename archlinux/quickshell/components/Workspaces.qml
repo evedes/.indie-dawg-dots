@@ -13,7 +13,7 @@ RowLayout {
     Repeater {
         model: 10
 
-        Rectangle {
+        Text {
             id: wsButton
 
             required property int index
@@ -22,19 +22,16 @@ RowLayout {
             readonly property bool isActive: Hyprland.focusedMonitor?.activeWorkspace?.id === wsId
             readonly property bool hasWindows: hyprWs !== null && hyprWs.windows > 0
 
-            readonly property int dotSize: isActive ? 10 : hasWindows ? 7 : 5
-
             Layout.alignment: Qt.AlignVCenter
-            Layout.preferredWidth: dotSize
-            Layout.preferredHeight: dotSize
 
-            radius: dotSize / 2
-            color: isActive ? Theme.accentBright : hasWindows ? "transparent" : Theme.textMuted
-            border.width: hasWindows && !isActive ? 1.5 : 0
-            border.color: Theme.accentBright
+            text: isActive ? "[" + wsId + "]" : hasWindows ? "[" + wsId + "]" : "·"
+            color: isActive ? Theme.accentBright : hasWindows ? Theme.textSecondary : Theme.textMuted
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizeSecondary
+            font.bold: isActive
+            renderType: Text.NativeRendering
+            verticalAlignment: Text.AlignVCenter
 
-            Behavior on Layout.preferredWidth { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
-            Behavior on Layout.preferredHeight { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
             Behavior on color { ColorAnimation { duration: 150 } }
 
             MouseArea {

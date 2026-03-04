@@ -51,6 +51,7 @@ ShellRoot {
                 Components.AudioControl {
                     service: audioService
                 }
+                Components.Battery {}
                 Components.Clock {}
             }
         }
