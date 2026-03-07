@@ -402,9 +402,9 @@ common/ghostty/
 ├── config.common          # Common settings across platforms
 ├── config.linux           # Linux-specific settings
 ├── config.macos           # macOS-specific settings
-├── ghostty-theme-switcher # Theme switcher utility script
-├── ghostty-theme-menu     # Interactive theme selection menu
-└── ghostty-bg-picker      # Background picker utility
+├── ghostty-theme-switcher.sh # Theme switcher utility script
+├── ghostty-theme-menu.sh     # Interactive theme selection menu
+└── ghostty-bg-picker.sh      # Background picker utility
 ```
 
 #### Key Features
@@ -512,7 +512,7 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 - **Tailwind CSS**: Fixed unknown at-rules warnings
 
 ### Ghostty Configuration (2025-09-27)
-- Added custom theme management scripts (ghostty-theme-switcher, ghostty-theme-menu, ghostty-bg-picker)
+- Added custom theme management scripts (ghostty-theme-switcher.sh, ghostty-theme-menu.sh, ghostty-bg-picker.sh)
 - Enhanced platform-specific configuration files
 - Added custom keybind for Shift+Enter
 

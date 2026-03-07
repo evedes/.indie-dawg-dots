@@ -42,12 +42,12 @@ alias nconf='cd ~/.indie-dawg-dots/nvim && nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 # GHOSTTY
-alias gtm='$HOME/.config/ghostty/ghostty-theme-menu'
-alias gt='$HOME/.config/ghostty/ghostty-theme-switcher'
+alias gtm='$HOME/.config/ghostty/ghostty-theme-menu.sh'
+alias gt='$HOME/.config/ghostty/ghostty-theme-switcher.sh'
 alias gtheme='gt'
-alias gbg='$HOME/.config/ghostty/ghostty-bg-picker'
-alias gm='ghostty-theme-menu'
-alias ot='$HOME/.indie-dawg-dots/macos/ghostty/ghostty-opacity-toggle'
+alias gbg='$HOME/.config/ghostty/ghostty-bg-picker.sh'
+alias gm='ghostty-theme-menu.sh'
+alias ot='$HOME/.indie-dawg-dots/macos/ghostty/ghostty-opacity-toggle.sh'
 
 # NETWORK PRIORITY
 alias isp='curl ipinfo.io | grep org'

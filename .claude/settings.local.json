@@ -29,7 +29,7 @@
       "WebFetch(domain:github.com)",
       "Read(//Users/edo/.local/bin/**)",
       "Bash(echo $PATH)",
-      "Bash(~/.local/bin/ghostty-theme-switcher:*)",
+      "Bash(~/.local/bin/ghostty-theme-switcher.sh:*)",
       "Bash(ln:*)",
       "Bash(nvim:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
