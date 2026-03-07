@@ -20,7 +20,7 @@ case "$SELECTION" in
         CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/ghostty/config"
         TEMP_FILE=$(mktemp)
         sed 's/^theme = .*/theme = "Kanagawa Dragon"/' "$CONFIG_FILE" | \
-        sed 's/^background = .*/background = "#001"/' > "$TEMP_FILE"
+        sed 's/^background = .*/background = "#000000"/' > "$TEMP_FILE"
         mv "$TEMP_FILE" "$CONFIG_FILE"
         echo "Reset to default theme and background"
         echo "Restart Ghostty for changes to take effect"
