@@ -6,7 +6,7 @@ import ".."
 Item {
     id: cava
 
-    readonly property int barCount: 24
+    readonly property int barCount: 36
     readonly property int barWidth: 3
     readonly property int barSpacing: 2
     readonly property int topPadding: Math.round((Theme.barHeight - Theme.fontSizePrimary) / 2) + 5
@@ -17,6 +17,10 @@ Item {
     Layout.rightMargin: 4
 
     property var barValues: new Array(barCount).fill(0)
+    property bool hasAudio: barValues.some(v => v > 0)
+    property bool neonMode: false
+
+    visible: hasAudio
 
     readonly property var barColors: {
         let colors = [];
@@ -65,15 +69,20 @@ Item {
             required property int index
 
             x: index * (cava.barWidth + cava.barSpacing)
-            y: cava.topPadding
+            y: cava.height - height - 4
             width: cava.barWidth
             height: Math.max(2, (cava.barValues[index] ?? 0) * cava.maxBarHeight)
-            color: cava.barColors[index] ?? Theme.accentBright
+            color: cava.neonMode ? Theme.neonBlue : (cava.barColors[index] ?? Theme.accentBright)
             radius: 1
 
             Behavior on height {
                 NumberAnimation { duration: 50; easing.type: Easing.OutQuad }
             }
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: cava.neonMode = !cava.neonMode
     }
 }

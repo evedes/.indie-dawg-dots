@@ -114,7 +114,7 @@ RowLayout {
             window: network.QsWindow.window
             rect: network.mapToItem(null, 0, 0, network.width, network.height)
             edges: Edges.Bottom
-            gravity: Edges.Bottom
+            gravity: Edges.Bottom | Edges.Left | Edges.Right
         }
 
         width: popupContent.width
