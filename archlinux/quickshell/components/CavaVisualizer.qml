@@ -81,8 +81,12 @@ Item {
         }
     }
 
+    property alias hovered: cavaMouseArea.containsMouse
+
     MouseArea {
+        id: cavaMouseArea
         anchors.fill: parent
+        hoverEnabled: true
         onClicked: cava.neonMode = !cava.neonMode
     }
 }

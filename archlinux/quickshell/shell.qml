@@ -105,8 +105,8 @@ ShellRoot {
                     }
 
                     text: trackInfo
-                    visible: trackInfo !== ""
-                    color: Theme.textMuted
+                    visible: trackInfo !== "" && cavaBottom.hovered
+                    color: Theme.accentBright
                     font.family: Theme.fontFamily
                     font.pixelSize: 11
                     renderType: Text.NativeRendering
