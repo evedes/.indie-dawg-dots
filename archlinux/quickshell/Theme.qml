@@ -17,6 +17,9 @@ QtObject {
     readonly property color textSecondary: Qt.rgba(0.75, 0.75, 0.75, 0.7)
     readonly property color textMuted: Qt.rgba(0.65, 0.65, 0.65, 0.35)
 
+    // Neon
+    readonly property color neonBlue: "#00e5ff"
+
     // Border
     readonly property color borderAccent: Qt.rgba(0.529, 0.808, 0.980, 0.15)
 

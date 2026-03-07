@@ -160,5 +160,5 @@ alias y='yazi'
 
 # HYPRLAND
 alias shot='hyprshot -m region -o ~/Downloads'
-alias rdk='$HOME/.config/hypr/scripts/reload-desktop.sh'
+alias rdk='$HOME/.config/bin/reload-desktop.sh'
 alias hms='$HOME/.config/bin/hypr-monitor-switch.sh'
