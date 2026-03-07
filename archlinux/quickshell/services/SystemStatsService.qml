@@ -5,6 +5,16 @@ QtObject {
     id: statsService
 
     property int cpuPercent: 0
+    property int ramPercent: 0
+    property string ramUsed: ""
+    property string ramTotal: ""
+    property string diskUsed: ""
+    property string diskTotal: ""
+    property int diskPercent: 0
+    property string gpuName: ""
+    property int gpuFreq: 0
+    property int gpuMaxFreq: 0
+    property int gpuPercent: 0
 
     // Previous CPU jiffies for delta calculation
     property real prevIdle: 0
@@ -46,11 +56,39 @@ QtObject {
         }
     }
 
+    property Process sysInfoProcess: Process {
+        command: ["/home/edo/.indie-dawg-dots/archlinux/quickshell/scripts/system-info.sh"]
+        running: true
+
+        stdout: SplitParser {
+            onRead: data => {
+                let parts = data.trim().split("|");
+                if (parts[0] === "RAM") {
+                    statsService.ramUsed = parts[1];
+                    statsService.ramTotal = parts[2];
+                    statsService.ramPercent = parseInt(parts[3]);
+                } else if (parts[0] === "DISK") {
+                    statsService.diskUsed = parts[1];
+                    statsService.diskTotal = parts[2];
+                    statsService.diskPercent = parseInt(parts[3]);
+                } else if (parts[0] === "GPU") {
+                    statsService.gpuName = parts[1];
+                    statsService.gpuFreq = parseInt(parts[2]);
+                    statsService.gpuMaxFreq = parseInt(parts[3]);
+                    statsService.gpuPercent = parseInt(parts[4]);
+                }
+            }
+        }
+    }
+
     property Timer refreshTimer: Timer {
         interval: 5000
         running: true
         repeat: true
         triggeredOnStart: true
-        onTriggered: cpuProcess.running = true
+        onTriggered: {
+            cpuProcess.running = true;
+            sysInfoProcess.running = true;
+        }
     }
 }
