@@ -38,11 +38,11 @@ alias nconf='cd ~/.indie-dawg-dots/nvim && nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 # GHOSTTY
-alias gt='ghostty-theme-switcher'
+alias gt='ghostty-theme-switcher.sh'
 alias gtheme='gt'
-alias gbg='ghostty-bg-picker'
-alias gm='ghostty-theme-menu'
-alias ot='ghostty-opacity-toggle'
+alias gbg='ghostty-bg-picker.sh'
+alias gm='ghostty-theme-menu.sh'
+alias ot='ghostty-opacity-toggle.sh'
 
 # NETWORK PRIORITY
 alias isp='curl ipinfo.io | grep org'
@@ -161,4 +161,4 @@ alias y='yazi'
 # HYPRLAND
 alias shot='hyprshot -m region -o ~/Downloads'
 alias rdk='$HOME/.config/hypr/scripts/reload-desktop.sh'
-alias hms='$HOME/.config/scripts/hypr-monitor-switch.sh'
+alias hms='$HOME/.config/bin/hypr-monitor-switch.sh'

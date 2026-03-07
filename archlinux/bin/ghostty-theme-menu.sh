@@ -11,10 +11,10 @@ SELECTION=$(echo "$MENU_OPTIONS" | fzf --prompt="Ghostty Settings: " --height=10
 
 case "$SELECTION" in
     "1. Change Theme")
-        ~/.local/bin/ghostty-theme-switcher
+        ~/.local/bin/ghostty-theme-switcher.sh
         ;;
     "2. Change Background Color")
-        ~/.local/bin/ghostty-bg-picker
+        ~/.local/bin/ghostty-bg-picker.sh
         ;;
     "3. Reset to Default")
         CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/ghostty/config"
