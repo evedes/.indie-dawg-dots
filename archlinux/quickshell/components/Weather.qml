@@ -85,15 +85,10 @@ Item {
         visible: hoverArea.containsMouse
 
         anchor {
-            window: weather.QsWindow.window
-            rect {
-                x: weather.mapToItem(null, 0, 0).x + weather.width / 2
-                y: weather.mapToItem(null, 0, 0).y
-                width: 1
-                height: weather.height
-            }
+            item: weather
             edges: Edges.Bottom
             gravity: Edges.Bottom
+            margins.bottom: -8
         }
 
         width: popupContent.width
@@ -140,6 +135,7 @@ Item {
                 // Current conditions
                 RowLayout {
                     spacing: 16
+                    Layout.alignment: Qt.AlignBottom
 
                     Text {
                         visible: weather.temp !== ""
@@ -148,37 +144,17 @@ Item {
                         font.family: Theme.fontFamily
                         font.pixelSize: 24
                         renderType: Text.NativeRendering
+                        Layout.alignment: Qt.AlignBottom
                     }
 
-                    ColumnLayout {
-                        spacing: 2
-
-                        Text {
-                            visible: weather.feelsLike !== ""
-                            text: "Feels " + weather.feelsLike + "°C"
-                            color: Theme.textSecondary
-                            font.family: Theme.fontFamily
-                            font.pixelSize: Theme.fontSizeSecondary
-                            renderType: Text.NativeRendering
-                        }
-
-                        Text {
-                            visible: weather.humidity !== ""
-                            text: "󰢊 " + weather.humidity + "%  󰖝 " + weather.wind + "km/h"
-                            color: Theme.textSecondary
-                            font.family: Theme.fontFamily
-                            font.pixelSize: Theme.fontSizeSecondary
-                            renderType: Text.NativeRendering
-                        }
-
-                        Text {
-                            visible: weather.precipitation !== ""
-                            text: "󰖖 " + weather.precipitation + "mm"
-                            color: Theme.textPrimary
-                            font.family: Theme.fontFamily
-                            font.pixelSize: Theme.fontSizeSecondary
-                            renderType: Text.NativeRendering
-                        }
+                    Text {
+                        visible: weather.feelsLike !== ""
+                        text: "Feels " + weather.feelsLike + "°C  󰢊 " + weather.humidity + "%  󰖝 " + weather.wind + "km/h  󰖖 " + weather.precipitation + "mm"
+                        color: Theme.textSecondary
+                        font.family: Theme.fontFamily
+                        font.pixelSize: Theme.fontSizeSecondary
+                        Layout.alignment: Qt.AlignBottom
+                        renderType: Text.NativeRendering
                     }
                 }
 
@@ -255,7 +231,7 @@ Item {
                                             Layout.preferredWidth: 40
                                         }
                                         Text {
-                                            text: entry ? "󰖖" + entry.rainProb + "%" : ""
+                                            text: entry ? "󰖖  " + entry.rainProb + "%" : ""
                                             color: Theme.textPrimary
                                             font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontSizeSecondary
@@ -302,7 +278,7 @@ Item {
                                             Layout.preferredWidth: 40
                                         }
                                         Text {
-                                            text: entry ? "󰖖" + entry.rainProb + "%" : ""
+                                            text: entry ? "󰖖  " + entry.rainProb + "%" : ""
                                             color: Theme.textPrimary
                                             font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontSizeSecondary
@@ -382,7 +358,7 @@ Item {
                                     horizontalAlignment: Text.AlignRight
                                 }
                                 Text {
-                                    text: "󰖖" + dRain + "%"
+                                    text: "󰖖  " + dRain + "%"
                                     color: Theme.textPrimary
                                     font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontSizeSecondary

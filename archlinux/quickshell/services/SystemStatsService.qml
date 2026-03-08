@@ -4,6 +4,7 @@ import Quickshell.Io
 QtObject {
     id: statsService
 
+    property bool fastMode: false
     property int cpuPercent: 0
     property int ramPercent: 0
     property string ramUsed: ""
@@ -82,8 +83,8 @@ QtObject {
     }
 
     property Timer refreshTimer: Timer {
-        interval: 5000
-        running: true
+        interval: 1000
+        running: statsService.fastMode
         repeat: true
         triggeredOnStart: true
         onTriggered: {

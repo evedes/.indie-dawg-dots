@@ -11,6 +11,9 @@ has_cmd() {
 source $HOME/.indie-dawg-dots/archlinux/zsh/.alias
 source $HOME/.secret/.alias
 
+# SSH - persist keys via keychain (prompts once per boot, like macOS)
+eval $(keychain --eval --quiet ~/.ssh/id_*(N^e:'[[ $REPLY == *.pub ]]':))
+
 # Clipboard compatibility - Wayland first, then X11 fallback
 if [[ -n "$WAYLAND_DISPLAY" ]] && has_cmd wl-copy; then
     alias pbcopy='wl-copy'
