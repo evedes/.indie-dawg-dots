@@ -54,6 +54,7 @@ ShellRoot {
                 }
                 Components.Battery {}
                 Components.Weather {}
+                Components.DisplaySettings {}
                 Components.Clock {}
             }
         }

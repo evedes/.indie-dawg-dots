@@ -27,8 +27,5 @@ export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 # Archlinux Bin Directory
 export PATH="$HOME/.indie-dawg-dots/archlinux/bin:$PATH"
 
-# SSH Agent
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
 # TO REMOVE
 #. "$HOME/.cargo/env"

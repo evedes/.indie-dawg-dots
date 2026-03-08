@@ -111,15 +111,10 @@ RowLayout {
         visible: hoverArea.containsMouse
 
         anchor {
-            window: network.QsWindow.window
-            rect {
-                x: network.mapToItem(null, 0, 0).x + network.width / 2
-                y: network.mapToItem(null, 0, 0).y
-                width: 1
-                height: network.height
-            }
+            item: network
             edges: Edges.Bottom
             gravity: Edges.Bottom
+            margins.bottom: -8
         }
 
         width: popupContent.width
@@ -288,12 +283,13 @@ RowLayout {
     }
 
     Timer {
-        interval: 30000
-        running: true
+        interval: 1000
+        running: hoverArea.containsMouse
         repeat: true
         onTriggered: {
-            ipProcess.running = true;
-            detailProcess.running = true;
+            if (!detailProcess.running) {
+                detailProcess.running = true;
+            }
         }
     }
 }

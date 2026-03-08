@@ -1,15 +1,9 @@
 #!/bin/bash
 
-# Get location from IP
-loc=$(curl -s --max-time 5 "https://ipinfo.io/json" 2>/dev/null)
-lat=$(echo "$loc" | grep -oP '"loc": "\K[^,]+')
-lon=$(echo "$loc" | grep -oP '"loc": "[^,]+,\K[^"]+')
-city=$(echo "$loc" | grep -oP '"city": "\K[^"]+')
-
-if [ -z "$lat" ] || [ -z "$lon" ]; then
-    echo "ERROR|Could not determine location"
-    exit 1
-fi
+# Location: São Brás de Alportel, Portugal
+lat="37.17941"
+lon="-7.90739"
+city="São Brás de Alportel"
 
 echo "LOCATION|$city"
 

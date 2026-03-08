@@ -72,6 +72,7 @@ RowLayout {
         hoverEnabled: true
 
         onContainsMouseChanged: {
+            stats.service.fastMode = containsMouse;
             if (containsMouse && !cpuInfoProcess.running) {
                 stats.loading = true;
                 cpuInfoProcess.running = true;
@@ -84,15 +85,10 @@ RowLayout {
         visible: hoverArea.containsMouse
 
         anchor {
-            window: stats.QsWindow.window
-            rect {
-                x: stats.mapToItem(null, 0, 0).x + stats.width / 2
-                y: stats.mapToItem(null, 0, 0).y
-                width: 1
-                height: stats.height
-            }
+            item: stats
             edges: Edges.Bottom
             gravity: Edges.Bottom
+            margins.bottom: -8
         }
 
         width: popupContent.width
@@ -451,6 +447,17 @@ RowLayout {
                     procs = [];
                 }
                 stats.loading = false;
+            }
+        }
+    }
+
+    Timer {
+        interval: 1000
+        running: hoverArea.containsMouse
+        repeat: true
+        onTriggered: {
+            if (!cpuInfoProcess.running) {
+                cpuInfoProcess.running = true;
             }
         }
     }
