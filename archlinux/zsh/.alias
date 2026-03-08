@@ -153,7 +153,7 @@ alias zn='zellij --new-session-with-layout $HOME/.config/zellij/layouts/no-statu
 alias zl='zellij list-sessions'
 alias za='zellij attach'
 alias zd='zellij delete-session'
-alias zt='$HOME/.indie-dawg-dots/archlinux/zellij/switch-theme.sh'
+alias zt='$HOME/.indie-dawg-dots/archlinux/bin/switch-theme.sh'
 
 # YAZI
 alias y='yazi'

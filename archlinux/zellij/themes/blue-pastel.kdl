@@ -1,0 +1,15 @@
+themes {
+    blue-pastel {
+        fg "#e2e8f2"
+        bg "#090b0f"
+        black "#090b0f"
+        red "#6f90c6"
+        green "#90afe1"
+        yellow "#b3cffc"
+        blue "#5c80bc"
+        magenta "#7f9fd4"
+        cyan "#a2bfef"
+        white "#c8ced8"
+        orange "#d6a17d"
+    }
+}

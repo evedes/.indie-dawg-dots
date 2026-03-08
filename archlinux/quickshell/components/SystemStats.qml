@@ -85,9 +85,14 @@ RowLayout {
 
         anchor {
             window: stats.QsWindow.window
-            rect: stats.mapToItem(null, 0, 0, stats.width, stats.height)
+            rect {
+                x: stats.mapToItem(null, 0, 0).x + stats.width / 2
+                y: stats.mapToItem(null, 0, 0).y
+                width: 1
+                height: stats.height
+            }
             edges: Edges.Bottom
-            gravity: Edges.Bottom | Edges.Left | Edges.Right
+            gravity: Edges.Bottom
         }
 
         width: popupContent.width

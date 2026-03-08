@@ -21,6 +21,7 @@ Item {
     property bool loading: false
 
     ListModel { id: hourlyModel }
+    ListModel { id: dailyModel }
 
     function weatherIcon(code) {
         if (code <= 0) return "󰖙";        // clear
@@ -85,9 +86,14 @@ Item {
 
         anchor {
             window: weather.QsWindow.window
-            rect: weather.mapToItem(null, 0, 0, weather.width, weather.height)
+            rect {
+                x: weather.mapToItem(null, 0, 0).x + weather.width / 2
+                y: weather.mapToItem(null, 0, 0).y
+                width: 1
+                height: weather.height
+            }
             edges: Edges.Bottom
-            gravity: Edges.Bottom | Edges.Left | Edges.Right
+            gravity: Edges.Bottom
         }
 
         width: popupContent.width
@@ -191,60 +197,198 @@ Item {
                     renderType: Text.NativeRendering
                 }
 
-                // Hourly forecast header
-                Text {
-                    visible: hourlyModel.count > 0
-                    text: "Next 12 Hours"
-                    color: Theme.textPrimary
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontSizeSecondary
-                    font.bold: true
-                    renderType: Text.NativeRendering
-                }
+                // Forecast panels side by side
+                RowLayout {
+                    spacing: 24
+                    visible: hourlyModel.count > 0 || dailyModel.count > 0
 
-                Repeater {
-                    model: hourlyModel
-
-                    delegate: RowLayout {
-                        required property string time
-                        required property string hTemp
-                        required property int rainProb
-                        required property int hCode
-                        spacing: 8
+                    // Hourly: two columns of 6
+                    ColumnLayout {
+                        spacing: 4
 
                         Text {
-                            text: time
-                            color: Theme.textSecondary
-                            font.family: Theme.fontFamily
-                            font.pixelSize: Theme.fontSizeSecondary
-                            renderType: Text.NativeRendering
-                            Layout.preferredWidth: 50
-                        }
-
-                        Text {
-                            text: weatherIcon(hCode)
+                            text: "Next 12 Hours"
                             color: Theme.textPrimary
                             font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontSizeSecondary
+                            font.bold: true
                             renderType: Text.NativeRendering
-                            Layout.preferredWidth: 25
                         }
 
+                        RowLayout {
+                            spacing: 16
+
+                            // Left column (hours 0-6)
+                            ColumnLayout {
+                                spacing: 4
+
+                                Repeater {
+                                    model: Math.min(7, hourlyModel.count)
+
+                                    delegate: RowLayout {
+                                        required property int index
+                                        readonly property var entry: hourlyModel.get(index)
+                                        spacing: 6
+
+                                        Text {
+                                            text: entry ? entry.time : ""
+                                            color: Theme.textSecondary
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSizeSecondary
+                                            renderType: Text.NativeRendering
+                                            Layout.preferredWidth: 42
+                                        }
+                                        Text {
+                                            text: entry ? weatherIcon(entry.hCode) : ""
+                                            color: Theme.textPrimary
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSizeSecondary
+                                            renderType: Text.NativeRendering
+                                            Layout.preferredWidth: 20
+                                        }
+                                        Text {
+                                            text: entry ? entry.hTemp + "°" : ""
+                                            color: Theme.textPrimary
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSizeSecondary
+                                            renderType: Text.NativeRendering
+                                            Layout.preferredWidth: 40
+                                        }
+                                        Text {
+                                            text: entry ? "󰖖" + entry.rainProb + "%" : ""
+                                            color: Theme.textPrimary
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSizeSecondary
+                                            renderType: Text.NativeRendering
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Right column (hours 7-13)
+                            ColumnLayout {
+                                spacing: 4
+
+                                Repeater {
+                                    model: Math.max(0, Math.min(7, hourlyModel.count - 7))
+
+                                    delegate: RowLayout {
+                                        required property int index
+                                        readonly property var entry: hourlyModel.get(index + 7)
+                                        spacing: 6
+
+                                        Text {
+                                            text: entry ? entry.time : ""
+                                            color: Theme.textSecondary
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSizeSecondary
+                                            renderType: Text.NativeRendering
+                                            Layout.preferredWidth: 42
+                                        }
+                                        Text {
+                                            text: entry ? weatherIcon(entry.hCode) : ""
+                                            color: Theme.textPrimary
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSizeSecondary
+                                            renderType: Text.NativeRendering
+                                            Layout.preferredWidth: 20
+                                        }
+                                        Text {
+                                            text: entry ? entry.hTemp + "°" : ""
+                                            color: Theme.textPrimary
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSizeSecondary
+                                            renderType: Text.NativeRendering
+                                            Layout.preferredWidth: 40
+                                        }
+                                        Text {
+                                            text: entry ? "󰖖" + entry.rainProb + "%" : ""
+                                            color: Theme.textPrimary
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontSizeSecondary
+                                            renderType: Text.NativeRendering
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Vertical separator
+                    Rectangle {
+                        visible: dailyModel.count > 0
+                        Layout.fillHeight: true
+                        width: 1
+                        color: Theme.borderAccent
+                    }
+
+                    // 7-day forecast
+                    ColumnLayout {
+                        spacing: 4
+                        visible: dailyModel.count > 0
+
                         Text {
-                            text: hTemp + "°C"
+                            text: "7-Day Forecast"
                             color: Theme.textPrimary
                             font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontSizeSecondary
+                            font.bold: true
                             renderType: Text.NativeRendering
-                            Layout.preferredWidth: 55
                         }
 
-                        Text {
-                            text: "󰖖 " + rainProb + "%"
-                            color: Theme.textPrimary
-                            font.family: Theme.fontFamily
-                            font.pixelSize: Theme.fontSizeSecondary
-                            renderType: Text.NativeRendering
+                        Repeater {
+                            model: dailyModel
+
+                            delegate: RowLayout {
+                                required property string day
+                                required property string dMin
+                                required property string dMax
+                                required property int dRain
+                                required property int dCode
+                                spacing: 6
+
+                                Text {
+                                    text: day
+                                    color: Theme.textSecondary
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSizeSecondary
+                                    renderType: Text.NativeRendering
+                                    Layout.preferredWidth: 42
+                                }
+                                Text {
+                                    text: weatherIcon(dCode)
+                                    color: Theme.textPrimary
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSizeSecondary
+                                    renderType: Text.NativeRendering
+                                    Layout.preferredWidth: 20
+                                }
+                                Text {
+                                    text: dMin + "°"
+                                    color: Theme.textMuted
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSizeSecondary
+                                    renderType: Text.NativeRendering
+                                    Layout.preferredWidth: 35
+                                    horizontalAlignment: Text.AlignRight
+                                }
+                                Text {
+                                    text: dMax + "°"
+                                    color: Theme.textPrimary
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSizeSecondary
+                                    renderType: Text.NativeRendering
+                                    Layout.preferredWidth: 35
+                                    horizontalAlignment: Text.AlignRight
+                                }
+                                Text {
+                                    text: "󰖖" + dRain + "%"
+                                    color: Theme.textPrimary
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontSizeSecondary
+                                    renderType: Text.NativeRendering
+                                }
+                            }
                         }
                     }
                 }
@@ -258,6 +402,7 @@ Item {
         running: true
 
         property var hours: []
+        property var days: []
 
         stdout: SplitParser {
             onRead: data => {
@@ -282,6 +427,14 @@ Item {
                         rainProb: parseInt(parts[3]),
                         hCode: parseInt(parts[4])
                     });
+                } else if (tag === "DAY") {
+                    weatherProcess.days.push({
+                        day: parts[1],
+                        dMin: parts[2],
+                        dMax: parts[3],
+                        dRain: parseInt(parts[4]),
+                        dCode: parseInt(parts[5])
+                    });
                 }
             }
         }
@@ -292,6 +445,11 @@ Item {
                     hourlyModel.clear();
                     for (let h of hours) hourlyModel.append(h);
                     hours = [];
+                }
+                if (days.length > 0) {
+                    dailyModel.clear();
+                    for (let d of days) dailyModel.append(d);
+                    days = [];
                 }
                 weather.loading = false;
             }
