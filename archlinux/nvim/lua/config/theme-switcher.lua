@@ -8,6 +8,8 @@ M.themes = {
   { name = "Kanagawa Dragon", scheme = "kanagawa", variant = "dragon" },
   { name = "Kanagawa Wave", scheme = "kanagawa", variant = "wave" },
   { name = "Kanagawa Paper", scheme = "kanagawa-paper", variant = nil },
+  { name = "Solarized Osaka", scheme = "solarized-osaka", variant = nil },
+
 }
 
 -- File to store theme preference
