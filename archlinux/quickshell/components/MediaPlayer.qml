@@ -11,7 +11,7 @@ Text {
     verticalAlignment: Text.AlignVCenter
     elide: Text.ElideRight
 
-    color: Theme.textSecondary
+    color: Theme.neonBlue
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontSizeSecondary
 
