@@ -292,4 +292,4 @@ copy_clipboard "system"
 session_serialization true
 serialize_pane_viewport true
 show_startup_tips false
-theme "kanagawa_dragon"
+theme "blue_moon"
