@@ -58,7 +58,7 @@ apply_theme_to_sessions() {
     local theme="$1"
     
     if zellij list-sessions >/dev/null 2>&1; then
-        zellij list-sessions 2>/dev/null | grep -E '^\s*[^-]' | while read -r session_line; do
+        zellij list-sessions 2>/dev/null | sed 's/\x1b\[[0-9;]*m//g' | grep -E '^\s*[^-]' | while read -r session_line; do
             session_name=$(echo "$session_line" | awk '{print $1}')
             if [[ -n "$session_name" ]]; then
                 echo "  → Applying to session '$session_name'"
