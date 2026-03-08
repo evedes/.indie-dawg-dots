@@ -8,9 +8,9 @@ font-thicken = 0
 adjust-cell-height = 10%
 
 # Theme
-theme = "Black Metal (Burzum)"
+theme = "HaX0R Blue"
 background = "#000000"
-background-opacity = 0.80
+background-opacity = 0.60
 
 # Window
 window-save-state = always

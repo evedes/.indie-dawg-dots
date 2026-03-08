@@ -106,9 +106,10 @@ ShellRoot {
 
                     text: trackInfo
                     visible: trackInfo !== "" && cavaBottom.hovered
-                    color: Theme.accentBright
+                    color: Theme.neonBlue
                     font.family: Theme.fontFamily
                     font.pixelSize: 11
+                    font.weight: Font.DemiBold
                     renderType: Text.NativeRendering
                     elide: Text.ElideRight
                     Layout.maximumWidth: 400
