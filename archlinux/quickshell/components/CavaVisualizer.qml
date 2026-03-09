@@ -20,7 +20,7 @@ Item {
     property bool hasAudio: barValues.some(v => v > 0)
     property bool neonMode: false
 
-    visible: hasAudio
+    visible: true
 
     readonly property var barColors: {
         let colors = [];
