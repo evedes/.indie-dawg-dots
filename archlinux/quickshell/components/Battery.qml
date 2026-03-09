@@ -8,7 +8,9 @@ Text {
 
     Layout.fillHeight: true
     verticalAlignment: Text.AlignVCenter
+    visible: hasBattery
 
+    property bool hasBattery: false
     property int percent: 0
     property bool charging: false
 
@@ -41,11 +43,21 @@ Text {
 
     Timer {
         interval: 30000
-        running: true
+        running: hasBattery
         repeat: true
         triggeredOnStart: true
         onTriggered: capacityProc.running = true
     }
+
+    Process {
+        id: detectProc
+        command: ["test", "-d", "/sys/class/power_supply/BAT0"]
+        onExited: (exitCode, _exitStatus) => {
+            battery.hasBattery = (exitCode === 0);
+        }
+    }
+
+    Component.onCompleted: detectProc.running = true
 
     Process {
         id: capacityProc
