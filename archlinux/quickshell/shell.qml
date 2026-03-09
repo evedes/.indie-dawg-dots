@@ -70,7 +70,7 @@ ShellRoot {
             property var screenObj: modelData
 
             screen: screenObj
-            visible: cavaBottom.hasAudio
+            visible: true
 
             anchors {
                 bottom: true
