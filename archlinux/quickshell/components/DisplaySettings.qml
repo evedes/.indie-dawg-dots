@@ -10,8 +10,10 @@ RowLayout {
     Layout.fillHeight: true
     Layout.leftMargin: 24
     spacing: 4
-
+    property bool hasBrightness: false
     property int brightness: 100
+    property int barOpacity: Math.round(Theme.barOpacity * 100)
+    property int textBrightness: Math.round(Theme.textBrightness * 100)
     property bool popupOpen: false
 
     Text {
@@ -73,7 +75,7 @@ RowLayout {
             hoverEnabled: true
 
             onContainsMouseChanged: {
-                if (!containsMouse && !sliderMouse.pressed) {
+                if (!containsMouse && !sliderMouse.pressed && !opacitySliderMouse.pressed && !textSliderMouse.pressed) {
                     popupCloseTimer.restart();
                 } else {
                     popupCloseTimer.stop();
@@ -111,6 +113,7 @@ RowLayout {
                 }
 
                 ColumnLayout {
+                    visible: display.hasBrightness
                     spacing: 6
 
                     RowLayout {
@@ -199,6 +202,186 @@ RowLayout {
                         }
                     }
                 }
+
+                ColumnLayout {
+                    spacing: 6
+
+                    RowLayout {
+                        spacing: 8
+
+                        Text {
+                            text: "\uf79f"
+                            color: Theme.textPrimary
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontSizePrimary
+                            renderType: Text.NativeRendering
+                        }
+
+                        Text {
+                            text: "Bar Opacity"
+                            color: Theme.textSecondary
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontSizeSecondary
+                            renderType: Text.NativeRendering
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Text {
+                            text: display.barOpacity + "%"
+                            color: Theme.textPrimary
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontSizeSecondary
+                            renderType: Text.NativeRendering
+                            Layout.preferredWidth: 40
+                            horizontalAlignment: Text.AlignRight
+                        }
+                    }
+
+                    Item {
+                        Layout.preferredWidth: 220
+                        Layout.preferredHeight: 24
+
+                        Rectangle {
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: parent.width
+                            height: 4
+                            radius: 2
+                            color: Theme.bgLighter
+
+                            Rectangle {
+                                width: parent.width * (display.barOpacity / 100)
+                                height: parent.height
+                                radius: 2
+                                color: Theme.neonBlue
+                            }
+                        }
+
+                        Rectangle {
+                            x: (parent.width - width) * (display.barOpacity / 100)
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: 14
+                            height: 14
+                            radius: 7
+                            color: opacitySliderMouse.pressed ? Theme.neonBlue : Theme.textPrimary
+                            border.color: Theme.neonBlue
+                            border.width: 1
+                        }
+
+                        MouseArea {
+                            id: opacitySliderMouse
+                            anchors.fill: parent
+                            anchors.topMargin: -4
+                            anchors.bottomMargin: -4
+
+                            onPressed: (mouse) => {
+                                setOpacity(mouse.x);
+                            }
+
+                            onPositionChanged: (mouse) => {
+                                if (pressed) {
+                                    setOpacity(mouse.x);
+                                }
+                            }
+
+                            function setOpacity(mouseX) {
+                                let pct = Math.round(Math.max(0, Math.min(100, (mouseX / width) * 100)));
+                                display.barOpacity = pct;
+                                Theme.barOpacity = pct / 100;
+                            }
+                        }
+                    }
+                }
+
+                ColumnLayout {
+                    spacing: 6
+
+                    RowLayout {
+                        spacing: 8
+
+                        Text {
+                            text: "\uf031"
+                            color: Theme.textPrimary
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontSizePrimary
+                            renderType: Text.NativeRendering
+                        }
+
+                        Text {
+                            text: "Text Brightness"
+                            color: Theme.textSecondary
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontSizeSecondary
+                            renderType: Text.NativeRendering
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Text {
+                            text: display.textBrightness + "%"
+                            color: Theme.textPrimary
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontSizeSecondary
+                            renderType: Text.NativeRendering
+                            Layout.preferredWidth: 40
+                            horizontalAlignment: Text.AlignRight
+                        }
+                    }
+
+                    Item {
+                        Layout.preferredWidth: 220
+                        Layout.preferredHeight: 24
+
+                        Rectangle {
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: parent.width
+                            height: 4
+                            radius: 2
+                            color: Theme.bgLighter
+
+                            Rectangle {
+                                width: parent.width * (display.textBrightness / 100)
+                                height: parent.height
+                                radius: 2
+                                color: Theme.neonBlue
+                            }
+                        }
+
+                        Rectangle {
+                            x: (parent.width - width) * (display.textBrightness / 100)
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: 14
+                            height: 14
+                            radius: 7
+                            color: textSliderMouse.pressed ? Theme.neonBlue : Theme.textPrimary
+                            border.color: Theme.neonBlue
+                            border.width: 1
+                        }
+
+                        MouseArea {
+                            id: textSliderMouse
+                            anchors.fill: parent
+                            anchors.topMargin: -4
+                            anchors.bottomMargin: -4
+
+                            onPressed: (mouse) => {
+                                setTextBrightness(mouse.x);
+                            }
+
+                            onPositionChanged: (mouse) => {
+                                if (pressed) {
+                                    setTextBrightness(mouse.x);
+                                }
+                            }
+
+                            function setTextBrightness(mouseX) {
+                                let pct = Math.round(Math.max(10, Math.min(100, (mouseX / width) * 100)));
+                                display.textBrightness = pct;
+                                Theme.textBrightness = pct / 100;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -231,6 +414,7 @@ RowLayout {
             onRead: data => {
                 let currentMatch = data.match(/Current brightness:\s*(\d+)\s*\((\d+)%\)/);
                 if (currentMatch) {
+                    display.hasBrightness = true;
                     display.brightness = parseInt(currentMatch[2]);
                 }
             }

@@ -32,7 +32,7 @@ ShellRoot {
             }
 
             height: Theme.barHeight
-            color: Theme.bgDark
+            color: Qt.rgba(0, 0, 0, Theme.barOpacity)
             exclusionMode: ExclusionMode.Auto
 
             RowLayout {
@@ -79,7 +79,7 @@ ShellRoot {
             }
 
             height: Theme.barHeight
-            color: Theme.bgDark
+            color: Qt.rgba(0, 0, 0, Theme.barOpacity)
             exclusionMode: ExclusionMode.Auto
 
             ColumnLayout {
