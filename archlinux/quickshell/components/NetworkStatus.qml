@@ -4,12 +4,13 @@ import Quickshell
 import Quickshell.Io
 import ".."
 
-RowLayout {
+Item {
     id: network
 
     Layout.fillHeight: true
     Layout.leftMargin: 24
-    spacing: 8
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
 
     property string ipAddress: "..."
     property string barDl: ""
@@ -21,78 +22,6 @@ RowLayout {
 
     ListModel { id: addressModel }
 
-    Text {
-        id: label
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-
-        text: "󰈀 " + network.ipAddress
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-    }
-
-    Text {
-        id: dlArrow
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-        visible: network.barDl !== ""
-        text: "↓"
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-
-        ColorAnimation on color {
-            id: dlFlash
-            from: Theme.neonBlue
-            to: Theme.accentBright
-            duration: 800
-        }
-    }
-
-    Text {
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-        visible: network.barDl !== ""
-        text: network.barDl
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-    }
-
-    Text {
-        id: ulArrow
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-        visible: network.barUl !== ""
-        text: "↑"
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-
-        ColorAnimation on color {
-            id: ulFlash
-            from: Theme.neonBlue
-            to: Theme.accentBright
-            duration: 800
-        }
-    }
-
-    Text {
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-        visible: network.barUl !== ""
-        text: network.barUl
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-    }
-
     MouseArea {
         id: hoverArea
         anchors.fill: parent
@@ -103,6 +32,84 @@ RowLayout {
                 network.loading = true;
                 detailProcess.running = true;
             }
+        }
+    }
+
+    RowLayout {
+        id: row
+        anchors.fill: parent
+        spacing: 8
+
+        Text {
+            id: label
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+
+            text: "󰈀 " + network.ipAddress
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
+        }
+
+        Text {
+            id: dlArrow
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+            visible: network.barDl !== ""
+            text: "↓"
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
+
+            ColorAnimation on color {
+                id: dlFlash
+                from: Theme.neonBlue
+                to: Theme.accentBright
+                duration: 800
+            }
+        }
+
+        Text {
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+            visible: network.barDl !== ""
+            text: network.barDl
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
+        }
+
+        Text {
+            id: ulArrow
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+            visible: network.barUl !== ""
+            text: "↑"
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
+
+            ColorAnimation on color {
+                id: ulFlash
+                from: Theme.neonBlue
+                to: Theme.accentBright
+                duration: 800
+            }
+        }
+
+        Text {
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+            visible: network.barUl !== ""
+            text: network.barUl
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
         }
     }
 
@@ -284,7 +291,7 @@ RowLayout {
 
     Timer {
         interval: 1000
-        running: hoverArea.containsMouse
+        running: true
         repeat: true
         onTriggered: {
             if (!detailProcess.running) {

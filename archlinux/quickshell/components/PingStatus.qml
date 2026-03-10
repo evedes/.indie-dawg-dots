@@ -20,7 +20,7 @@ Text {
 
     Process {
         id: pingProcess
-        command: ["sh", "-c", "ping -c 1 -W 2 8.8.8.8 | grep -oP 'time=\\K[\\d.]+'"]
+        command: ["sh", "-c", "ping -c 1 -W 1 8.8.8.8 | grep -oP 'time=\\K[\\d.]+'"]
         running: true
 
         stdout: SplitParser {
@@ -32,7 +32,7 @@ Text {
     }
 
     Timer {
-        interval: 30000
+        interval: 5000
         running: true
         repeat: true
         onTriggered: pingProcess.running = true

@@ -37,6 +37,13 @@ Item {
         return "󰖙";
     }
 
+    function pad(val) {
+        let s = String(val);
+        if (s.length === 1) return "0" + s;
+        if (s.length > 1 && s[0] === "-" && s.length === 2) return "-0" + s.substring(1);
+        return s;
+    }
+
     function weatherDesc(code) {
         if (code === 0) return "Clear sky";
         if (code === 1) return "Mainly clear";
@@ -139,7 +146,7 @@ Item {
 
                     Text {
                         visible: weather.temp !== ""
-                        text: weatherIcon(weather.weatherCode) + " " + weather.temp + "°C"
+                        text: weatherIcon(weather.weatherCode) + " " + pad(weather.temp) + "°C"
                         color: Theme.textPrimary
                         font.family: Theme.fontFamily
                         font.pixelSize: 24
@@ -149,7 +156,7 @@ Item {
 
                     Text {
                         visible: weather.feelsLike !== ""
-                        text: "Feels " + weather.feelsLike + "°C  󰢊 " + weather.humidity + "%  󰖝 " + weather.wind + "km/h  󰖖 " + weather.precipitation + "mm"
+                        text: "Feels " + pad(weather.feelsLike) + "°C  󰢊 " + pad(weather.humidity) + "%  󰖝 " + pad(weather.wind) + "km/h  󰖖 " + pad(weather.precipitation) + "mm"
                         color: Theme.textSecondary
                         font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontSizeSecondary
@@ -223,7 +230,7 @@ Item {
                                             Layout.preferredWidth: 20
                                         }
                                         Text {
-                                            text: entry ? entry.hTemp + "°" : ""
+                                            text: entry ? pad(entry.hTemp) + "°" : ""
                                             color: Theme.textPrimary
                                             font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontSizeSecondary
@@ -231,7 +238,7 @@ Item {
                                             Layout.preferredWidth: 40
                                         }
                                         Text {
-                                            text: entry ? "󰖖  " + entry.rainProb + "%" : ""
+                                            text: entry ? "󰖖  " + pad(entry.rainProb) + "%" : ""
                                             color: Theme.textPrimary
                                             font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontSizeSecondary
@@ -270,7 +277,7 @@ Item {
                                             Layout.preferredWidth: 20
                                         }
                                         Text {
-                                            text: entry ? entry.hTemp + "°" : ""
+                                            text: entry ? pad(entry.hTemp) + "°" : ""
                                             color: Theme.textPrimary
                                             font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontSizeSecondary
@@ -278,7 +285,7 @@ Item {
                                             Layout.preferredWidth: 40
                                         }
                                         Text {
-                                            text: entry ? "󰖖  " + entry.rainProb + "%" : ""
+                                            text: entry ? "󰖖  " + pad(entry.rainProb) + "%" : ""
                                             color: Theme.textPrimary
                                             font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontSizeSecondary
@@ -340,7 +347,7 @@ Item {
                                     Layout.preferredWidth: 20
                                 }
                                 Text {
-                                    text: dMin + "°"
+                                    text: pad(dMin) + "°"
                                     color: Theme.textMuted
                                     font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontSizeSecondary
@@ -349,7 +356,7 @@ Item {
                                     horizontalAlignment: Text.AlignRight
                                 }
                                 Text {
-                                    text: dMax + "°"
+                                    text: pad(dMax) + "°"
                                     color: Theme.textPrimary
                                     font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontSizeSecondary
@@ -358,7 +365,7 @@ Item {
                                     horizontalAlignment: Text.AlignRight
                                 }
                                 Text {
-                                    text: "󰖖  " + dRain + "%"
+                                    text: "󰖖  " + pad(dRain) + "%"
                                     color: Theme.textPrimary
                                     font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontSizeSecondary
