@@ -16,3 +16,19 @@ if [ -n "$cur_freq" ] && [ -n "$max_freq" ] && [ "$max_freq" -gt 0 ]; then
 else
     echo "GPU|${gpu_name:-Unknown}|0|0|0"
 fi
+
+# CPU temp
+temp=""
+for z in /sys/class/thermal/thermal_zone*; do
+    t=$(cat "$z/type" 2>/dev/null)
+    if [ "$t" = "x86_pkg_temp" ] || [ "$t" = "coretemp" ]; then
+        raw=$(cat "$z/temp" 2>/dev/null)
+        temp=$((raw / 1000))
+        break
+    fi
+done
+if [ -z "$temp" ]; then
+    raw=$(cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null)
+    [ -n "$raw" ] && temp=$((raw / 1000))
+fi
+echo "CPUTEMP|${temp:-?}"

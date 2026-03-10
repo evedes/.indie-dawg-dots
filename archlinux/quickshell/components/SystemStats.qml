@@ -4,14 +4,15 @@ import Quickshell
 import Quickshell.Io
 import ".."
 
-RowLayout {
+Item {
     id: stats
 
     required property var service
 
     Layout.fillHeight: true
     Layout.leftMargin: 24
-    spacing: 16
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
 
     property string cpuTemp: ""
     property string uptime: ""
@@ -21,62 +22,84 @@ RowLayout {
     ListModel { id: coreModel }
     ListModel { id: procModel }
 
-    Text {
-        id: label
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-
-        text: "󰍛 " + stats.service.cpuPercent + "%"
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-    }
-
-    Text {
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-
-        text: "󰘚 " + stats.service.ramPercent + "%"
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-    }
-
-    Text {
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-
-        text: "󰋊 " + stats.service.diskPercent + "%"
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-    }
-
-    Text {
-        Layout.fillHeight: true
-        verticalAlignment: Text.AlignVCenter
-
-        text: "󰢮 " + stats.service.gpuPercent + "%"
-        color: Theme.accentBright
-        font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSizePrimary
-        renderType: Text.NativeRendering
-    }
-
     MouseArea {
         id: hoverArea
         anchors.fill: parent
         hoverEnabled: true
 
         onContainsMouseChanged: {
-            stats.service.fastMode = containsMouse;
             if (containsMouse && !cpuInfoProcess.running) {
                 stats.loading = true;
                 cpuInfoProcess.running = true;
             }
+        }
+    }
+
+    RowLayout {
+        id: row
+        anchors.fill: parent
+        spacing: 16
+
+        Text {
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+            visible: stats.service.cpuTemp !== ""
+
+            text: "󰔏 " + stats.service.cpuTemp + "°C"
+            color: {
+                let t = parseInt(stats.service.cpuTemp);
+                if (t >= 80) return "#e46876";
+                if (t >= 60) return "#e6c384";
+                return Theme.accentBright;
+            }
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
+        }
+
+        Text {
+            id: label
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+
+            text: "󰍛 " + stats.service.cpuPercent + "%"
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
+        }
+
+        Text {
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+
+            text: "󰘚 " + stats.service.ramPercent + "%"
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
+        }
+
+        Text {
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+
+            text: "󰋊 " + stats.service.diskPercent + "%"
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
+        }
+
+        Text {
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+
+            text: "󰢮 " + stats.service.gpuPercent + "%"
+            color: Theme.accentBright
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSizePrimary
+            renderType: Text.NativeRendering
         }
     }
 

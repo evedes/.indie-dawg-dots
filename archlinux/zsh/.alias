@@ -24,6 +24,8 @@ alias batman-ts='ssh edo@batman-ts'
 alias mosaic='ssh ec2-user@mosaic'
 
 # Machines SSH Tunnels
+alias odin-tunnel='ssh -fN -L 4030:localhost:4030 edo@odin'
+alias kill-odin-tunnel='kill $(pgrep -f "ssh -fN -L 4030")'
 alias freya-tunnel='ssh -fN -L 4030:localhost:4030 edo@freya'
 alias kill-freya-tunnel='kill $(pgrep -f "ssh -fN -L 4030")'
 

@@ -4,7 +4,6 @@ import Quickshell.Io
 QtObject {
     id: statsService
 
-    property bool fastMode: false
     property int cpuPercent: 0
     property int ramPercent: 0
     property string ramUsed: ""
@@ -16,6 +15,7 @@ QtObject {
     property int gpuFreq: 0
     property int gpuMaxFreq: 0
     property int gpuPercent: 0
+    property string cpuTemp: ""
 
     // Previous CPU jiffies for delta calculation
     property real prevIdle: 0
@@ -77,6 +77,8 @@ QtObject {
                     statsService.gpuFreq = parseInt(parts[2]);
                     statsService.gpuMaxFreq = parseInt(parts[3]);
                     statsService.gpuPercent = parseInt(parts[4]);
+                } else if (parts[0] === "CPUTEMP") {
+                    statsService.cpuTemp = parts[1];
                 }
             }
         }
@@ -84,7 +86,7 @@ QtObject {
 
     property Timer refreshTimer: Timer {
         interval: 1000
-        running: statsService.fastMode
+        running: true
         repeat: true
         triggeredOnStart: true
         onTriggered: {
