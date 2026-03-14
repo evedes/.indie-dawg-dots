@@ -9,8 +9,8 @@ adjust-cell-height = 35%
 
 # Theme
 theme = "Black Metal (Burzum)"
-background = "#000011"
-background-opacity = 0.85
+background = "#000000"
+background-opacity = 0.70
 background-blur-radius = 10
 
 # Window
