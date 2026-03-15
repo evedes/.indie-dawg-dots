@@ -1,7 +1,7 @@
 [user]
 	name = Eduardo Vedes
 	email = eduardo.vedes@gmail.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkFa+QwtOjw7Hp0AHJs8hqBO1fvfD1XBeyQxcsn4UvV
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGiE+LaNTyLQTwpkIJzK6Tov54rktE4Oyl8FfHTrH64g
 [hub]
   protocol = ssh
 [github]
