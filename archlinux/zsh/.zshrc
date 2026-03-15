@@ -44,6 +44,3 @@ has_cmd starship && eval "$(starship init zsh)"
 
 # Mise
 has_cmd mise && eval "$(mise activate zsh)"
-
-# Zinit
-source /usr/share/zinit/zinit.zsh
