@@ -44,3 +44,8 @@ has_cmd starship && eval "$(starship init zsh)"
 
 # Mise
 has_cmd mise && eval "$(mise activate zsh)"
+
+# Zinit
+source /usr/share/zinit/zinit.zsh
+# SSH AGENT (SYSTEMD)
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
