@@ -22,10 +22,11 @@ RowLayout {
             readonly property bool isActive: Hyprland.focusedMonitor?.activeWorkspace?.id === wsId
             readonly property bool hasWindows: hyprWs !== null && hyprWs.windows > 0
 
+            visible: isActive || hasWindows
             Layout.alignment: Qt.AlignVCenter
 
-            text: isActive ? "[" + wsId + "]" : hasWindows ? "[" + wsId + "]" : "·"
-            color: isActive ? Theme.accentBright : hasWindows ? Theme.textSecondary : Theme.textMuted
+            text: "[" + (wsId === 10 ? "0" : wsId) + "]"
+            color: isActive ? Theme.accentBright : Theme.textSecondary
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontSizeSecondary
             font.bold: isActive

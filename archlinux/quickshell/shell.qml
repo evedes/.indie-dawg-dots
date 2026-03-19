@@ -12,6 +12,7 @@ ShellRoot {
 
     Services.AudioService { id: audioService }
     Services.SystemStatsService { id: statsService }
+    Services.NotificationService { id: notificationService }
 
     Variants {
         model: Quickshell.screens
@@ -40,9 +41,7 @@ ShellRoot {
                 spacing: 16
                 Components.ArchIcon {}
                 Components.Workspaces {}
-                Components.Separator {}
                 Components.SystemTray {}
-                Components.Separator {}
                 Components.NetworkStatus {}
                 Item { Layout.fillWidth: true }
                 Components.SystemStats {
@@ -54,8 +53,9 @@ ShellRoot {
                 }
                 Components.Battery {}
                 Components.Weather {}
-                Components.DisplaySettings {}
-                Components.Clock {}
+                Components.DisplaySettings {
+                    notificationService: notificationService
+                }
             }
         }
     }
