@@ -29,44 +29,14 @@ return {
   },
   version = false,
   build = ":TSUpdate",
-  opts = {
-    ensure_installed = {
-      "bash",
-      "c",
-      "css",
-      "clojure",
-      "dockerfile",
-      "eex",
-      "elixir",
-      "heex",
-      "git_config",
-      "gitcommit",
-      "git_rebase",
-      "gitattributes",
-      "gitignore",
-      "go",
-      "html",
-      "jsdoc",
-      "json",
-      "json5",
-      "javascript",
-      "lua",
-      "markdown",
-      "markdown_inline",
-      "prisma",
-      "python",
-      "query",
-      "ruby",
-      "rust",
-      "scss",
-      "slim",
-      "tmux",
-      "tsx",
-      "typescript",
-      "vim",
-      "vimdoc",
-      "vue",
-      "yaml",
-    },
-  },
+  config = function()
+    require("nvim-treesitter").setup()
+
+    -- Enable treesitter highlighting for all buffers
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function(args)
+        pcall(vim.treesitter.start, args.buf)
+      end,
+    })
+  end,
 }
