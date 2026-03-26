@@ -20,9 +20,6 @@ esac
 # PostgreSQL
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
-# MacTeX
-[[ -d "/Library/TeX/texbin" ]] && export PATH="/Library/TeX/texbin:$PATH"
-
 # Editor
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
