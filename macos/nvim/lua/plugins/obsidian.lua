@@ -7,6 +7,12 @@ return {
     "nvim-lua/plenary.nvim",
   },
   opts = {
+    legacy_commands = false,
+
+    picker = {
+      name = "snacks.pick",
+    },
+
     workspaces = {
       {
         name = "Multiverse",
@@ -71,7 +77,8 @@ return {
     -- Navigation
     { "<leader>oo", "<cmd>Obsidian open<cr>", desc = "Open in Obsidian app", ft = "markdown" },
     { "<leader>oG", function()
-        local vault_name = vim.fn.fnamemodify(tostring(Obsidian.dir), ":t")
+        local client = require("obsidian").get_client()
+        local vault_name = vim.fn.fnamemodify(tostring(client.dir), ":t")
         local encoded_vault = vim.fn.substitute(vault_name, " ", "%20", "g")
         vim.ui.open("obsidian://graph?vault=" .. encoded_vault)
       end, desc = "Open Obsidian graph view" },

@@ -3,25 +3,10 @@
 
 local M = {}
 
--- Available themes with their configurations
 M.themes = {
   { name = "Kanagawa Dragon", scheme = "kanagawa", variant = "dragon" },
   { name = "Kanagawa Wave", scheme = "kanagawa", variant = "wave" },
   { name = "Kanagawa Paper", scheme = "kanagawa-paper", variant = nil },
-  { name = "Oxocarbon", scheme = "oxocarbon", variant = nil },
-  { name = "Blue Moon", scheme = "blue-moon", variant = nil },
-  { name = "Apprentice", scheme = "apprentice", variant = nil },
-  { name = "Everforest", scheme = "everforest", variant = nil },
-  { name = "Gruvbox Material", scheme = "gruvbox-material", variant = nil },
-  { name = "Melange", scheme = "melange", variant = nil },
-  { name = "Nord", scheme = "nord", variant = nil },
-  { name = "Nordic", scheme = "nordic", variant = nil },
-  { name = "Atomize", scheme = "atomize", variant = nil },
-  { name = "Sonoma", scheme = "sonoma", variant = nil },
-  { name = "Green Forest", scheme = "green-forest", variant = nil },
-  { name = "White Nord", scheme = "white-nord", variant = nil },
-  { name = "Rainbow", scheme = "rainbow", variant = nil },
-  { name = "Dark Fantasy", scheme = "dark-fantasy", variant = nil },
 }
 
 -- File to store theme preference
@@ -117,22 +102,6 @@ function M.apply_theme(theme, silent)
     require("lazy").load({ plugins = { "kanagawa-paper.nvim" } })
   elseif theme.scheme == "kanagawa" then
     require("lazy").load({ plugins = { "kanagawa.nvim" } })
-  elseif theme.scheme == "oxocarbon" then
-    require("lazy").load({ plugins = { "oxocarbon.nvim" } })
-  elseif theme.scheme == "blue-moon" then
-    require("lazy").load({ plugins = { "blue-moon" } })
-  elseif theme.scheme == "apprentice" then
-    require("lazy").load({ plugins = { "apprentice.nvim" } })
-  elseif theme.scheme == "everforest" then
-    require("lazy").load({ plugins = { "everforest" } })
-  elseif theme.scheme == "gruvbox-material" then
-    require("lazy").load({ plugins = { "gruvbox-material" } })
-  elseif theme.scheme == "melange" then
-    require("lazy").load({ plugins = { "melange-nvim" } })
-  elseif theme.scheme == "nord" then
-    require("lazy").load({ plugins = { "nord.nvim" } })
-  elseif theme.scheme == "nordic" then
-    require("lazy").load({ plugins = { "nordic.nvim" } })
   end
 
   if theme.variant and theme.scheme == "kanagawa" then
