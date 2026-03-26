@@ -47,3 +47,10 @@ has_cmd mise && eval "$(mise activate zsh)"
 
 # SSH AGENT (SYSTEMD)
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+# bun completions
+[ -s "/home/edo/.bun/_bun" ] && source "/home/edo/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
