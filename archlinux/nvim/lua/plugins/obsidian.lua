@@ -1,5 +1,5 @@
 return {
-  "epwalsh/obsidian.nvim",
+  "obsidian-nvim/obsidian.nvim",
   version = "*",
   lazy = true,
   ft = "markdown",
@@ -7,6 +7,12 @@ return {
     "nvim-lua/plenary.nvim",
   },
   opts = {
+    legacy_commands = false,
+
+    picker = {
+      name = "mini.pick",
+    },
+
     workspaces = {
       {
         name = "Multiverse",
@@ -23,29 +29,8 @@ return {
     },
 
     completion = {
-      nvim_cmp = false,
+      blink = true,
       min_chars = 2,
-    },
-
-    mappings = {
-      ["gf"] = {
-        action = function()
-          return require("obsidian").util.gf_passthrough()
-        end,
-        opts = { noremap = false, expr = true, buffer = true },
-      },
-      ["<leader>ch"] = {
-        action = function()
-          return require("obsidian").util.toggle_checkbox()
-        end,
-        opts = { buffer = true },
-      },
-      ["<cr>"] = {
-        action = function()
-          return require("obsidian").util.smart_action()
-        end,
-        opts = { buffer = true, expr = true },
-      }
     },
 
     new_notes_location = "current_dir",
@@ -84,104 +69,59 @@ return {
       substitutions = {},
     },
 
-    ui = {
-      enable = false,
-      update_debounce = 200,
-      max_file_length = 5000,
-      checkboxes = {
-        [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-        ["x"] = { char = "", hl_group = "ObsidianDone" },
-        [">"] = { char = "", hl_group = "ObsidianRightArrow" },
-        ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
-        ["!"] = { char = "", hl_group = "ObsidianImportant" },
-      },
-      bullets = { char = "•", hl_group = "ObsidianBullet" },
-      external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
-      reference_text = { hl_group = "ObsidianRefText" },
-      highlight_text = { hl_group = "ObsidianHighlightText" },
-      tags = { hl_group = "ObsidianTag" },
-      block_ids = { hl_group = "ObsidianBlockID" },
-      hl_groups = {
-        ObsidianTodo = { bold = true, fg = "#f78c6c" },
-        ObsidianDone = { bold = true, fg = "#89ddff" },
-        ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
-        ObsidianTilde = { bold = true, fg = "#ff5370" },
-        ObsidianImportant = { bold = true, fg = "#d73128" },
-        ObsidianBullet = { bold = true, fg = "#89ddff" },
-        ObsidianRefText = { underline = true, fg = "#c792ea" },
-        ObsidianExtLinkIcon = { fg = "#c792ea" },
-        ObsidianTag = { italic = true, fg = "#89ddff" },
-        ObsidianBlockID = { italic = true, fg = "#89ddff" },
-        ObsidianHighlightText = { bg = "#75662e" },
-      },
-    },
-
     attachments = {
       img_folder = "assets/imgs",
-      img_text_func = function(client, path)
-        path = client:vault_relative_path(path) or path
-        return string.format("![%s](%s)", path.name, path)
-      end,
     },
   },
   keys = {
     -- Navigation
-    { "<leader>oo", "<cmd>ObsidianOpen<cr>", desc = "Open in Obsidian app", ft = "markdown" },
+    { "<leader>oo", "<cmd>Obsidian open<cr>", desc = "Open in Obsidian app", ft = "markdown" },
     { "<leader>oG", function()
-        local obsidian = require("obsidian")
-        local client = obsidian.get_client()
-        if not client then
-          vim.notify("Obsidian client not initialized. Make sure you're in a workspace.", vim.log.levels.WARN)
-          return
-        end
+        local client = require("obsidian").get_client()
         local vault_name = vim.fn.fnamemodify(tostring(client.dir), ":t")
         local encoded_vault = vim.fn.substitute(vault_name, " ", "%20", "g")
         vim.fn.system("xdg-open 'obsidian://graph?vault=" .. encoded_vault .. "'")
       end, desc = "Open Obsidian graph view" },
-    { "<leader>ob", "<cmd>ObsidianBacklinks<cr>", desc = "Show backlinks", ft = "markdown" },
-    { "<leader>ol", "<cmd>ObsidianLinks<cr>", desc = "Show links", ft = "markdown" },
-    { "<leader>og", "<cmd>ObsidianFollowLink<cr>", desc = "Follow link under cursor", ft = "markdown" },
+    { "<leader>ob", "<cmd>Obsidian backlinks<cr>", desc = "Show backlinks", ft = "markdown" },
+    { "<leader>ol", "<cmd>Obsidian links<cr>", desc = "Show links", ft = "markdown" },
+    { "<leader>og", "<cmd>Obsidian follow_link<cr>", desc = "Follow link under cursor", ft = "markdown" },
 
     -- Search and finding
-    { "<leader>of", "<cmd>ObsidianQuickSwitch<cr>", desc = "Quick switch notes" },
-    { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "Search notes" },
-    { "<leader>oq", "<cmd>ObsidianTags<cr>", desc = "Search tags" },
+    { "<leader>of", "<cmd>Obsidian quick_switch<cr>", desc = "Quick switch notes" },
+    { "<leader>os", "<cmd>Obsidian search<cr>", desc = "Search notes" },
+    { "<leader>oq", "<cmd>Obsidian tags<cr>", desc = "Search tags" },
 
     -- Note creation
-    { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "Create new note" },
-    { "<leader>od", "<cmd>ObsidianDailies<cr>", desc = "Open daily note" },
-    { "<leader>oy", "<cmd>ObsidianYesterday<cr>", desc = "Open yesterday's daily" },
-    { "<leader>ot", "<cmd>ObsidianToday<cr>", desc = "Open today's daily" },
-    { "<leader>om", "<cmd>ObsidianTomorrow<cr>", desc = "Open tomorrow's daily" },
+    { "<leader>on", "<cmd>Obsidian new<cr>", desc = "Create new note" },
+    { "<leader>od", "<cmd>Obsidian dailies<cr>", desc = "Open daily note" },
+    { "<leader>oy", "<cmd>Obsidian yesterday<cr>", desc = "Open yesterday's daily" },
+    { "<leader>ot", "<cmd>Obsidian today<cr>", desc = "Open today's daily" },
+    { "<leader>om", "<cmd>Obsidian tomorrow<cr>", desc = "Open tomorrow's daily" },
 
     -- Templates and utilities
-    { "<leader>oT", "<cmd>ObsidianTemplate<cr>", desc = "Insert template", ft = "markdown" },
-    { "<leader>or", "<cmd>ObsidianRename<cr>", desc = "Rename note", ft = "markdown" },
+    { "<leader>oT", "<cmd>Obsidian template<cr>", desc = "Insert template", ft = "markdown" },
+    { "<leader>or", "<cmd>Obsidian rename<cr>", desc = "Rename note", ft = "markdown" },
     { "<leader>oD", function()
-        local obsidian = require("obsidian")
-        local client = obsidian.get_client()
-        if not client then
-          vim.notify("Obsidian client not initialized", vim.log.levels.WARN)
+        local buf_path = vim.api.nvim_buf_get_name(0)
+        if buf_path == "" then
+          vim.notify("No file in current buffer", vim.log.levels.WARN)
           return
         end
-        local note = client:current_note()
-        if not note then
-          vim.notify("No note found in current buffer", vim.log.levels.WARN)
-          return
-        end
-        local confirm = vim.fn.input("Delete note '" .. note.id .. "'? (y/n): ")
+        local filename = vim.fn.fnamemodify(buf_path, ":t:r")
+        local confirm = vim.fn.input("Delete note '" .. filename .. "'? (y/n): ")
         if confirm:lower() == "y" then
-          local path = tostring(note.path)
           vim.cmd("bdelete!")
-          vim.fn.delete(path)
-          vim.notify("Deleted note: " .. note.id, vim.log.levels.INFO)
+          vim.fn.delete(buf_path)
+          vim.notify("Deleted note: " .. filename, vim.log.levels.INFO)
         end
       end, desc = "Delete current note", ft = "markdown" },
-    { "<leader>oi", "<cmd>ObsidianPasteImg<cr>", desc = "Paste image", ft = "markdown" },
-    { "<leader>oe", "<cmd>ObsidianExtractNote<cr>", desc = "Extract text to new note", ft = "markdown", mode = "v" },
-    { "<leader>ow", "<cmd>ObsidianWorkspace<cr>", desc = "Switch workspace" },
+    { "<leader>oi", "<cmd>Obsidian paste_img<cr>", desc = "Paste image", ft = "markdown" },
+    { "<leader>oe", "<cmd>Obsidian extract_note<cr>", desc = "Extract text to new note", ft = "markdown", mode = "v" },
+    { "<leader>oL", "<cmd>Obsidian link<cr>", desc = "Link to existing note", ft = "markdown", mode = "v" },
+    { "<leader>oN", "<cmd>Obsidian link_new<cr>", desc = "Link to new note", ft = "markdown", mode = "v" },
+    { "<leader>ow", "<cmd>Obsidian workspace<cr>", desc = "Switch workspace" },
 
     -- Checkbox toggle
-    { "<leader>oc", "<cmd>ObsidianToggleCheckbox<cr>", desc = "Toggle checkbox", ft = "markdown" },
+    { "<leader>oc", "<cmd>Obsidian toggle_checkbox<cr>", desc = "Toggle checkbox", ft = "markdown" },
   },
 }
