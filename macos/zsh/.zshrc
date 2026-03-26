@@ -42,9 +42,3 @@ has_cmd starship && eval "$(starship init zsh)"
 
 # Mise
 has_cmd mise && eval "$(mise activate zsh)"
-
-# Antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
-
-# Opencode
-export PATH=/Users/edo/.opencode/bin:$PATH
