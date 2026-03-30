@@ -52,7 +52,6 @@ return {
         auto_show_delay_ms = 200,
       },
       trigger = {
-        signature_help = { enabled = true },
         show_on_insert_on_trigger_character = true,
       },
       list = {
