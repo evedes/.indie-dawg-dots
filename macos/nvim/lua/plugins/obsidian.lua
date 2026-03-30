@@ -10,7 +10,7 @@ return {
     legacy_commands = false,
 
     picker = {
-      name = "snacks.pick",
+      name = "mini.pick",
     },
 
     workspaces = {
@@ -46,21 +46,23 @@ return {
       return tostring(os.time()) .. "-" .. suffix
     end,
 
-    note_frontmatter_func = function(note)
-      if note.title then
-        note:add_alias(note.title)
-      end
-
-      local out = { id = note.id, aliases = note.aliases, tags = note.tags }
-
-      if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-        for k, v in pairs(note.metadata) do
-          out[k] = v
+    frontmatter = {
+      func = function(note)
+        if note.title then
+          note:add_alias(note.title)
         end
-      end
 
-      return out
-    end,
+        local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+
+        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+          for k, v in pairs(note.metadata) do
+            out[k] = v
+          end
+        end
+
+        return out
+      end,
+    },
 
     templates = {
       folder = "templates",
@@ -70,7 +72,7 @@ return {
     },
 
     attachments = {
-      img_folder = "assets/imgs",
+      folder = "assets/imgs",
     },
   },
   keys = {
