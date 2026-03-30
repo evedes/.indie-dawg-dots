@@ -9,7 +9,7 @@ adjust-cell-height = 35%
 
 # Theme
 theme = "Kanagawa Dragon"
-background = "#000000"
+background = "#000011"
 background-opacity = 0.80
 
 # Window
