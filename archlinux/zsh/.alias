@@ -98,6 +98,7 @@ alias dpav='docker ps -a --format="$VFORMAT"'
 
 # VIRT MANAGER
 alias vm='virt-manager & disown'
+alias virt-manager='/usr/bin/python3 /usr/bin/virt-manager'
 
 # SPEEDTEST
 alias speed='speedtest --secure'
