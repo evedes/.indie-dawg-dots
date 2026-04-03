@@ -27,5 +27,5 @@ export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 # Archlinux Bin Directory
 export PATH="$HOME/.indie-dawg-dots/archlinux/bin:$PATH"
 
-# TO REMOVE
-#. "$HOME/.cargo/env"
+# Fix black screen issues (steam) on Hyprland
+SDL_VIDEODRIVER=wayland

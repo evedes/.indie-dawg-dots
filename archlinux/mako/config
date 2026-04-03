@@ -1,26 +1,27 @@
 # Mako notification daemon configuration
-# Black theme with transparency
+# Styled to match quickshell toolbar theme
 
 # Global settings
-font=ZedMono Nerd Font Mono 8
-width=250
+font=ZedMono Nerd Font 12
+width=400
 height=60
 margin=8
-padding=8
+padding=12
 border-size=1
-border-radius=4
+border-radius=8
 icons=0
 max-icon-size=64
 markup=1
 actions=1
 history=1
-text-color=#7797D2
+text-color=#A5A5A5E6
 default-timeout=5000
 ignore-timeout=0
 
-# Black with transparency (RGBA format)
-background-color=#000000CC
-border-color=#333333
+# Background: rgba(0, 0, 0, 0.85) matching quickshell
+background-color=#000000D9
+# Border: rgba(0.529, 0.808, 0.980, 0.15) matching quickshell border-accent
+border-color=#87CEFA26
 
 # Positioning
 anchor=top-right
@@ -31,26 +32,26 @@ format=<b>%s</b>\n%b
 max-visible=5
 sort=-time
 
-# Progress bar
-progress-color=over #313244
+# Progress bar - quickshell neon blue
+progress-color=over #3293F4
 
 # Urgency levels
 [urgency=low]
-background-color=#000000B3
-border-color=#333333
-text-color=#7797D2
+background-color=#000000D9
+border-color=#87CEFA26
+text-color=#BFBFBFB3
 default-timeout=3000
 
 [urgency=normal]
-background-color=#000000CC
-border-color=#333333
-text-color=#7797D2
+background-color=#000000D9
+border-color=#87CEFA26
+text-color=#A5A5A5E6
 default-timeout=5000
 
 [urgency=critical]
 background-color=#000000E6
-border-color=#ff0000
-text-color=#f46364
+border-color=#E46876
+text-color=#E46876
 default-timeout=10000
 
 # App-specific rules (examples)
