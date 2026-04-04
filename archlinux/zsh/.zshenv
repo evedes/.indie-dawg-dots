@@ -23,9 +23,3 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 # Starship
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-
-# Archlinux Bin Directory
-export PATH="$HOME/.indie-dawg-dots/archlinux/bin:$PATH"
-
-# Fix black screen issues (steam) on Hyprland
-SDL_VIDEODRIVER=wayland
