@@ -34,7 +34,7 @@ alias dots='cd ~/.indie-dawg-dots && nvim .'
 
 # NEOVIM
 alias v='nvim'
-alias lv='NVIM_APPNAME=lazynvim nvim'
+alias nnvim='NVIM_APPNAME=new-nvim nvim'
 alias lconf='cd ~/.indie-dawg-dots/lazynvim && NVIM_APPNAME=lazynvim nvim .'
 alias nconf='cd ~/.indie-dawg-dots/nvim && nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
