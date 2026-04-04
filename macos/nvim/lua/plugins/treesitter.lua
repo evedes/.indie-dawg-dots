@@ -57,6 +57,7 @@ return {
       "prisma",
       "python",
       "query",
+      "regex",
       "ruby",
       "rust",
       "scss",
