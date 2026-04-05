@@ -27,9 +27,10 @@ return {
   },
   before_init = function(params, config)
     -- Set the workspace folder setting for correct search of tsconfig.json files etc.
+    local root = vim.uri_to_fname(params.rootUri)
     config.settings.workspaceFolder = {
-      uri = params.rootPath,
-      name = vim.fn.fnamemodify(params.rootPath, ":t"),
+      uri = params.rootUri,
+      name = vim.fn.fnamemodify(root, ":t"),
     }
   end,
   ---@type table<string, lsp.Handler>

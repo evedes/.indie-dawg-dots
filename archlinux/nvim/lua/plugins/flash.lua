@@ -1,53 +1,16 @@
-return {
-  "folke/flash.nvim",
-  event = "VeryLazy", -- Load plugin early to avoid delay
-  opts = {
-    modes = {
-      search = {
-        enabled = true,
-      },
-    },
-  },
-  keys = {
-    {
-      "s",
-      mode = { "n", "x", "o" },
-      function()
-        require("flash").jump()
-      end,
-      desc = "Flash",
-    },
-    {
-      "S",
-      mode = { "n", "x", "o" },
-      function()
-        require("flash").treesitter()
-      end,
-      desc = "Flash Treesitter",
-    },
-    {
-      "r",
-      mode = "o",
-      function()
-        require("flash").remote()
-      end,
-      desc = "Remote Flash",
-    },
-    {
-      "R",
-      mode = { "o", "x" },
-      function()
-        require("flash").treesitter_search()
-      end,
-      desc = "Treesitter Search",
-    },
-    {
-      "<c-s>",
-      mode = { "c" },
-      function()
-        require("flash").toggle()
-      end,
-      desc = "Toggle Flash Search",
-    },
-  },
+vim.pack.add {
+  "https://github.com/folke/flash.nvim",
 }
+
+require("flash").setup({
+  modes = {
+    search = {
+      enabled = true,
+    },
+  },
+})
+
+-- Keymaps (no s/S — using / with flash search instead)
+vim.keymap.set("o", "r", function() require("flash").remote() end, { desc = "Remote Flash" })
+vim.keymap.set({ "o", "x" }, "R", function() require("flash").treesitter_search() end, { desc = "Treesitter Search" })
+vim.keymap.set("c", "<C-s>", function() require("flash").toggle() end, { desc = "Toggle Flash Search" })

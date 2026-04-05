@@ -1,22 +1,17 @@
-return {
-  "OXY2DEV/markview.nvim",
-  ft = "markdown",
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter",
-    "nvim-tree/nvim-web-devicons",
-  },
-  opts = {
-    modes = { "n", "no", "c" }, -- Normal, no-op, command modes
-    hybrid_modes = { "n" }, -- Only show in normal mode
-    callbacks = {
-      on_enable = function(_, win)
-        vim.wo[win].conceallevel = 2
-        vim.wo[win].concealcursor = "c"
-      end,
-    },
-  },
-  keys = {
-    { "<leader>mt", "<cmd>Markview toggle<cr>", desc = "Toggle Markview", ft = "markdown" },
-    { "<leader>ms", "<cmd>Markview splitToggle<cr>", desc = "Toggle Markview (split)", ft = "markdown" },
-  },
+vim.pack.add {
+	"https://github.com/OXY2DEV/markview.nvim",
 }
+
+require("markview").setup({
+	modes = { "n", "no", "c" },
+	hybrid_modes = { "n" },
+	callbacks = {
+		on_enable = function(_, win)
+			vim.wo[win].conceallevel = 2
+			vim.wo[win].concealcursor = "c"
+		end,
+	},
+})
+
+-- Keymaps
+vim.keymap.set("n", "<leader>mt", "<CMD>Markview toggle<CR>", { desc = "Toggle Markview" })
