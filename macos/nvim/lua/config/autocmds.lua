@@ -1,6 +1,6 @@
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking text",
-  group = vim.api.nvim_create_augroup("auto-format", { clear = true }),
+  group = vim.api.nvim_create_augroup("yank-highlight", { clear = true }),
   callback = function()
     vim.highlight.on_yank()
   end,
@@ -18,6 +18,16 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertEnter" }, {
   end,
 })
 
+-- Custom split divider color
+vim.api.nvim_create_autocmd("ColorScheme", {
+  desc = "Set split divider color",
+  group = vim.api.nvim_create_augroup("custom-winseparator", { clear = true }),
+  callback = function()
+    local bg = vim.o.background
+    local fg = bg == "light" and "#c8c093" or "#393836"
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = fg })
+  end,
+})
 
 -- Disable CSS LSP diagnostics for Waybar and other GTK CSS files
 -- (GTK CSS uses @define-color and other extensions not recognized by standard CSS LSP)

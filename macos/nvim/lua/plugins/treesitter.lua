@@ -27,10 +27,11 @@ return {
       },
     },
   },
+  branch = "main",
   version = false,
   build = ":TSUpdate",
-  opts = {
-    ensure_installed = {
+  config = function()
+    require("nvim-treesitter").install({
       "bash",
       "c",
       "css",
@@ -69,38 +70,12 @@ return {
       "vimdoc",
       "vue",
       "yaml",
-    },
-    highlight = {
-      enable = true,
-    },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = "<C-Space>",
-        node_incremental = "<C-Space>",
-        scope_incremental = false,
-        node_decremental = "<bs>",
-      },
-    },
-    indent = {
-      enable = true,
-      -- Treesitter unindents Yaml lists for some reason.
-      disable = { "yaml" },
-    },
-  },
-  config = function(_, opts)
-    local toggle_inc_selection_group = vim.api.nvim_create_augroup("mariasolos/toggle_inc_selection", { clear = true })
-    vim.api.nvim_create_autocmd("CmdwinEnter", {
-      desc = "Disable incremental selection when entering the cmdline window",
-      group = toggle_inc_selection_group,
-      command = "TSBufDisable incremental_selection",
-    })
-    vim.api.nvim_create_autocmd("CmdwinLeave", {
-      desc = "Enable incremental selection when leaving the cmdline window",
-      group = toggle_inc_selection_group,
-      command = "TSBufEnable incremental_selection",
     })
 
-    require("nvim-treesitter.configs").setup(opts)
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function()
+        pcall(vim.treesitter.start)
+      end,
+    })
   end,
 }

@@ -40,6 +40,16 @@ return {
       },
     })
 
+    -- Close mini.files with Esc (set once via autocmd, not on every open)
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "MiniFilesBufferCreate",
+      callback = function(args)
+        vim.keymap.set("n", "<Esc>", function()
+          MiniFiles.close()
+        end, { buffer = args.data.buf_id, desc = "Close file explorer" })
+      end,
+    })
+
     local MiniPick = require("mini.pick")
     MiniPick.setup({
       delay = { async = 10, busy = 50 },
@@ -130,8 +140,17 @@ return {
         end,
       },
     })
-    vim.api.nvim_command("highlight StatusLineRecording guifg=#ff0000 guibg=NONE gui=bold")
-    vim.api.nvim_command("highlight StatusLineFormatOff guifg=#ff9e64 guibg=NONE gui=bold")
+    vim.api.nvim_set_hl(0, "StatusLineRecording", { fg = "#ff0000", bold = true })
+    vim.api.nvim_set_hl(0, "StatusLineFormatOff", { fg = "#ff9e64", bold = true })
+
+    -- Re-apply custom statusline highlights on colorscheme change
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = vim.api.nvim_create_augroup("statusline-highlights", { clear = true }),
+      callback = function()
+        vim.api.nvim_set_hl(0, "StatusLineRecording", { fg = "#ff0000", bold = true })
+        vim.api.nvim_set_hl(0, "StatusLineFormatOff", { fg = "#ff9e64", bold = true })
+      end,
+    })
     require("mini.diff").setup()
     require("mini.comment").setup()
     require("mini.surround").setup()
@@ -226,7 +245,7 @@ return {
 
         -- g mappings
         { mode = "n", keys = "gd", desc = "Go to definition" },
-        { mode = "n", keys = "gD", desc = "Go to definition (picker)" },
+        { mode = "n", keys = "gD", desc = "Go to declaration" },
         { mode = "n", keys = "grr", desc = "Find references" },
         { mode = "n", keys = "gra", desc = "Code action" },
         { mode = "n", keys = "gy", desc = "Go to type definition" },
