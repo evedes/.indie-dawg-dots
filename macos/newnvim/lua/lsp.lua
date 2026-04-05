@@ -18,8 +18,9 @@ local function on_attach(client, bufnr)
   end
 
   -- Custom keymaps (not covered by Neovim 0.12 built-in defaults)
-  keymap("gy", vim.lsp.buf.type_definition, "Go to type definition")
   keymap("<leader>fs", vim.lsp.buf.document_symbol, "Document symbols")
+
+  keymap("gl", vim.diagnostic.open_float, "Show diagnostic message")
 
   keymap("[e", function()
     vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
@@ -28,7 +29,7 @@ local function on_attach(client, bufnr)
     vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
   end, "Next error")
 
-  if client:supports_method(methods.textDocument_definition) then
+  if client:supports_method(methods.textDocument_declaration) then
     keymap("gD", vim.lsp.buf.declaration, "Go to declaration")
   end
 
