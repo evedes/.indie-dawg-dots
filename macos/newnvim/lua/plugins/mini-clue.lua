@@ -40,6 +40,9 @@ miniclue.setup({
 		{ mode = "n", keys = "<Leader>k", desc = "+Close" },
 		{ mode = "n", keys = "<Leader>s", desc = "+Splits" },
 		{ mode = "n", keys = "<Leader>u", desc = "+Toggle" },
+		{ mode = "n", keys = "<Leader>gh", desc = "+Hunks" },
+		{ mode = "n", keys = "<Leader>m", desc = "+Markdown" },
+		{ mode = "n", keys = "<Leader>o", desc = "+Obsidian" },
 
 		-- LSP (Neovim 0.12 built-in defaults)
 		{ mode = "n", keys = "gd", desc = "Go to definition" },
@@ -60,6 +63,10 @@ miniclue.setup({
 		{ mode = "n", keys = "]c", desc = "Next context/diff" },
 		{ mode = "n", keys = "]d", desc = "Next diagnostic" },
 		{ mode = "n", keys = "]e", desc = "Next error" },
+		{ mode = "n", keys = "[h", desc = "Previous hunk" },
+		{ mode = "n", keys = "]h", desc = "Next hunk" },
+		{ mode = "n", keys = "[H", desc = "First hunk" },
+		{ mode = "n", keys = "]H", desc = "Last hunk" },
 		{ mode = "n", keys = "[q", desc = "Previous quickfix" },
 		{ mode = "n", keys = "]q", desc = "Next quickfix" },
 	},
