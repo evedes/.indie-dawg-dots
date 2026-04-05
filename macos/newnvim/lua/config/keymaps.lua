@@ -13,8 +13,8 @@ keymap.set("i", "jk", "<Esc>", with_desc("Escape"))
 
 -- Write & Quit Keybinds
 keymap.set("n", "<leader>w", "<CMD>w<CR>", with_desc("Write"))
-keymap.set("n", "<leader>q", "<CMD>w<CR>", with_desc("Quit (close this buffer)"))
-keymap.set("n", "<leader>Q", "<CMD>w<CR>", with_desc("Quit vim"))
+keymap.set("n", "<leader>q", "<CMD>q<CR>", with_desc("Quit (close this window)"))
+keymap.set("n", "<leader>Q", "<CMD>qa!<CR>", with_desc("Quit vim"))
 
 -- Buffers
 keymap.set("n", "<leader>kk", "<CMD>w<CR>", with_desc("Close buffer"))

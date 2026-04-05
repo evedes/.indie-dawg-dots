@@ -32,6 +32,13 @@ miniclue.setup({
 		miniclue.gen_clues.windows(),
 		miniclue.gen_clues.z(),
 		{ mode = "n", keys = "<Leader>b", desc = "+Buffers" },
+		{ mode = "n", keys = "<Leader>c", desc = "+Code" },
+		{ mode = "n", keys = "<Leader>e", desc = "+Explorer" },
+		{ mode = "n", keys = "<Leader>f", desc = "+Find" },
+		{ mode = "n", keys = "<Leader>g", desc = "+Git" },
+		{ mode = "n", keys = "<Leader>k", desc = "+Close" },
+		{ mode = "n", keys = "<Leader>s", desc = "+Splits" },
+		{ mode = "n", keys = "<Leader>u", desc = "+Toggle" },
 	},
 	window = {
 		delay = 500,

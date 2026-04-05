@@ -1,0 +1,67 @@
+-- Install with: npm i -g @vtsls/language-server
+
+---@type vim.lsp.Config
+return {
+  cmd = { "vtsls", "--stdio" },
+  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+  root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
+  settings = {
+    vtsls = {
+      enableMoveToFileCodeAction = true,
+      autoUseWorkspaceTsdk = true,
+      experimental = {
+        completion = {
+          enableServerSideFuzzyMatch = true,
+        },
+      },
+    },
+    typescript = {
+      updateImportsOnFileMove = { enabled = "always" },
+      suggest = {
+        completeFunctionCalls = true,
+        autoImports = true,
+        includeCompletionsForModuleExports = true,
+        includeCompletionsForImportStatements = true,
+        includeCompletionsWithSnippetText = true,
+        includeAutomaticOptionalChainCompletions = true,
+      },
+      preferences = {
+        includePackageJsonAutoImports = "auto",
+        importModuleSpecifier = "shortest",
+        jsxAttributeCompletionStyle = "auto",
+      },
+      inlayHints = {
+        enumMemberValues = { enabled = true },
+        functionLikeReturnTypes = { enabled = true },
+        parameterNames = { enabled = "literals" },
+        parameterTypes = { enabled = true },
+        propertyDeclarationTypes = { enabled = true },
+        variableTypes = { enabled = false },
+      },
+    },
+    javascript = {
+      updateImportsOnFileMove = { enabled = "always" },
+      suggest = {
+        completeFunctionCalls = true,
+        autoImports = true,
+        includeCompletionsForModuleExports = true,
+        includeCompletionsForImportStatements = true,
+        includeCompletionsWithSnippetText = true,
+        includeAutomaticOptionalChainCompletions = true,
+      },
+      preferences = {
+        includePackageJsonAutoImports = "auto",
+        importModuleSpecifier = "shortest",
+        jsxAttributeCompletionStyle = "auto",
+      },
+      inlayHints = {
+        enumMemberValues = { enabled = true },
+        functionLikeReturnTypes = { enabled = true },
+        parameterNames = { enabled = "literals" },
+        parameterTypes = { enabled = true },
+        propertyDeclarationTypes = { enabled = true },
+        variableTypes = { enabled = false },
+      },
+    },
+  },
+}
