@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "beacon.nvim": {
+      "rev": "098ff96c33874339d5e61656f3050dbd587d6bd5",
+      "src": "https://github.com/danilamihailov/beacon.nvim"
+    },
     "blink.cmp": {
       "rev": "b4b7cbb52bab6c716b317433fa9348a070cccee5",
       "src": "https://github.com/saghen/blink.cmp"
@@ -39,6 +43,10 @@
     "mini.ai": {
       "rev": "43eb2074843950a3a25aae56a5f41362ec043bfa",
       "src": "https://github.com/nvim-mini/mini.ai"
+    },
+    "mini.animate": {
+      "rev": "0f2117aa519ec238846223d581272a9205fef7c2",
+      "src": "https://github.com/nvim-mini/mini.animate"
     },
     "mini.clue": {
       "rev": "f8a11789cf34a7bae396dc0f828d06cdb5066793",

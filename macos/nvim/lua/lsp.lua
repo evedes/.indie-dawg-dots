@@ -1,8 +1,6 @@
 local diagnostic_icons = require("icons").diagnostics
 local methods = vim.lsp.protocol.Methods
 
-local M = {}
-
 -- Disable inlay hints initially (and enable if needed with my ToggleInlayHints command).
 vim.g.inlay_hints = false
 
@@ -10,11 +8,6 @@ vim.g.inlay_hints = false
 ---@param client vim.lsp.Client
 ---@param bufnr integer
 local function on_attach(client, bufnr)
-  -- Disable LSP's native completion in favor of blink.cmp
-  vim.bo[bufnr].omnifunc = nil
-  vim.bo[bufnr].completefunc = nil
-  vim.bo[bufnr].tagfunc = nil
-
   ---@param lhs string
   ---@param rhs string|function
   ---@param desc string
@@ -24,20 +17,11 @@ local function on_attach(client, bufnr)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
   end
 
-  keymap("gra", function()
-    require("tiny-code-action").code_action()
-  end, "vim.lsp.buf.code_action()", { "n", "x" })
-
-  keymap("grr", vim.lsp.buf.references, "Find references")
-  keymap("gy", vim.lsp.buf.type_definition, "Go to type definition")
+  -- Custom keymaps (not covered by Neovim 0.12 built-in defaults)
   keymap("<leader>fs", vim.lsp.buf.document_symbol, "Document symbols")
 
-  keymap("[d", function()
-    vim.diagnostic.jump({ count = -1 })
-  end, "Previous diagnostic")
-  keymap("]d", function()
-    vim.diagnostic.jump({ count = 1 })
-  end, "Next diagnostic")
+  keymap("gl", vim.diagnostic.open_float, "Show diagnostic message")
+
   keymap("[e", function()
     vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
   end, "Previous error")
@@ -45,20 +29,12 @@ local function on_attach(client, bufnr)
     vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
   end, "Next error")
 
-  if client:supports_method(methods.textDocument_definition) then
-    keymap("gd", vim.lsp.buf.definition, "Go to definition")
+  if client:supports_method(methods.textDocument_declaration) then
     keymap("gD", vim.lsp.buf.declaration, "Go to declaration")
   end
 
   if client:supports_method(methods.textDocument_signatureHelp) then
-    keymap("<C-k>", function()
-      -- Close the completion menu first (if open).
-      if require("blink.cmp.completion.windows.menu").win:is_open() then
-        require("blink.cmp").hide()
-      end
-
-      vim.lsp.buf.signature_help()
-    end, "Signature help", "i")
+    keymap("<C-k>", vim.lsp.buf.signature_help, "Signature help", "i")
   end
 
   if client:supports_method(methods.textDocument_documentHighlight) then
@@ -81,8 +57,6 @@ local function on_attach(client, bufnr)
     local inlay_hints_group = vim.api.nvim_create_augroup("edo/toggle_inlay_hints", { clear = false })
 
     if vim.g.inlay_hints then
-      -- Initial inlay hint display.
-      -- Idk why but without the delay inlay hints aren't displayed at the very start.
       vim.defer_fn(function()
         local mode = vim.api.nvim_get_mode().mode
         vim.lsp.inlay_hint.enable(mode == "n" or mode == "v", { bufnr = bufnr })
@@ -91,7 +65,7 @@ local function on_attach(client, bufnr)
 
     vim.api.nvim_create_autocmd("InsertEnter", {
       group = inlay_hints_group,
-      desc = "Enable inlay hints",
+      desc = "Hide inlay hints in insert mode",
       buffer = bufnr,
       callback = function()
         if vim.g.inlay_hints then
@@ -102,7 +76,7 @@ local function on_attach(client, bufnr)
 
     vim.api.nvim_create_autocmd("InsertLeave", {
       group = inlay_hints_group,
-      desc = "Disable inlay hints",
+      desc = "Show inlay hints in normal mode",
       buffer = bufnr,
       callback = function()
         if vim.g.inlay_hints then
@@ -119,23 +93,17 @@ local function on_attach(client, bufnr)
         return
       end
 
-      client:request(vim.lsp.protocol.Methods.workspace_executeCommand, {
+      client:request(methods.workspace_executeCommand, {
         command = "eslint.applyAllFixes",
         arguments = {
           {
             uri = vim.uri_from_bufnr(bufnr),
-            version = vim.lsp.util.buf_versions[bufnr],
+            version = vim.b[bufnr].changedtick,
           },
         },
       }, nil, bufnr)
     end, { desc = "Fix all ESLint errors", buffer = bufnr })
   end
-end
-
--- Define the diagnostic signs.
-for severity, icon in pairs(diagnostic_icons) do
-  local hl = "DiagnosticSign" .. severity:sub(1, 1) .. severity:sub(2):lower()
-  vim.fn.sign_define(hl, { text = icon, texthl = hl })
 end
 
 -- Diagnostic configuration.
@@ -144,7 +112,6 @@ vim.diagnostic.config({
     prefix = "",
     spacing = 2,
     format = function(diagnostic)
-      -- Use shorter, nicer names for some sources:
       local special_sources = {
         ["Lua Diagnostics."] = "lua",
         ["Lua Syntax Check."] = "lua",
@@ -163,14 +130,12 @@ vim.diagnostic.config({
   },
   float = {
     source = "if_many",
-    -- Show severity icons as prefixes.
     prefix = function(diag)
       local level = vim.diagnostic.severity[diag.severity]
       local prefix = string.format(" %s ", diagnostic_icons[level])
       return prefix, "Diagnostic" .. level:gsub("^%l", string.upper)
     end,
   },
-  -- Disable signs in the gutter.
   signs = false,
 })
 
@@ -206,25 +171,10 @@ vim.lsp.buf.signature_help = function()
   })
 end
 
--- Update mappings when registering dynamic capabilities.
-local register_capability = vim.lsp.handlers[methods.client_registerCapability]
-vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
-  local client = vim.lsp.get_client_by_id(ctx.client_id)
-  if not client then
-    return
-  end
-
-  on_attach(client, vim.api.nvim_get_current_buf())
-
-  return register_capability(err, res, ctx)
-end
-
 vim.api.nvim_create_autocmd("LspAttach", {
   desc = "Configure LSP keymaps",
   callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-
-    -- I don't think this can happen but it's a wild world out there.
+    local client = vim.lsp.get_clients({ id = args.data.client_id })[1]
     if not client then
       return
     end
@@ -234,17 +184,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- Set up LSP servers.
-vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
-  once = true,
-  callback = function()
-    local server_configs = vim
-      .iter(vim.api.nvim_get_runtime_file("lsp/*.lua", true))
-      :map(function(file)
-        return vim.fn.fnamemodify(file, ":t:r")
-      end)
-      :totable()
-    vim.lsp.enable(server_configs)
-  end,
-})
-
-return M
+local server_configs = vim
+  .iter(vim.api.nvim_get_runtime_file("lsp/*.lua", true))
+  :map(function(file)
+    return vim.fn.fnamemodify(file, ":t:r")
+  end)
+  :totable()
+vim.lsp.enable(server_configs)

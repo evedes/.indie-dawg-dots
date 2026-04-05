@@ -1,128 +1,46 @@
-local opts = { noremap = true, silent = true }
+-- Keymap Options and Auxiliar Functions
 local keymap = vim.keymap
-
 local function with_desc(description)
-  return vim.tbl_extend("force", opts, { desc = description })
+  return { silent = true, desc = description }
 end
 
-keymap.set("i", "jk", "<Esc>", with_desc("Escape"))
+-- Registers
 keymap.set("n", "x", '"_x') -- Sends the deleted char to the black hole register
 
--- Clear search highlighting and selections
-keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", with_desc("Clear search highlight"))
-keymap.set("n", "<leader>nn", "<cmd>nohlsearch<cr>", with_desc("Clear search highlight"))
+-- Auxiliar Keybinds
+keymap.set("i", "jk", "<Esc>", with_desc("Escape"))
+keymap.set("n", "<Esc>", "<CMD>nohlsearch<CR>", with_desc("Clear search highlight"))
 
--- Write & Quit
-keymap.set("n", "<leader>w", "<cmd>w<cr>", with_desc("Write"))
-keymap.set("n", "<leader>q", "<cmd>q<cr>", with_desc("Quit (close this window)"))
-keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", with_desc("Quit vim"))
-keymap.set("n", "<leader>kk", "<cmd>bd<cr>", with_desc("Close Buffer"))
+-- Write & Quit Keybinds
+keymap.set("n", "<leader>w", "<CMD>w<CR>", with_desc("Write"))
+keymap.set("n", "<leader>q", "<CMD>q<CR>", with_desc("Quit (close this window)"))
+keymap.set("n", "<leader>Q", "<CMD>qa!<CR>", with_desc("Quit vim"))
 
--- Tab Management
-keymap.set("n", "<leader>tn", "<cmd>tabnew<cr>", with_desc("New tab"))
-keymap.set("n", "<leader>tt", "<cmd>tabclose<cr>", with_desc("Close tab"))
-keymap.set("n", "<leader>to", "<cmd>tabonly<cr>", with_desc("Close other tabs"))
-keymap.set("n", "<leader>tN", "<cmd>tabnext<cr>", with_desc("Next tab"))
-keymap.set("n", "<leader>tP", "<cmd>tabprevious<cr>", with_desc("Previous tab"))
+-- Buffers
+keymap.set("n", "<leader>kk", "<CMD>bdelete<CR>", with_desc("Close buffer"))
 
 -- Splits
-keymap.set("n", "<leader>ss", ":split<Return>", opts)
-keymap.set("n", "<leader>sj", ":vsplit<Return>", opts)
+keymap.set("n", "<leader>ss", "<CMD>split<CR>", with_desc("Horizontal split"))
+keymap.set("n", "<leader>sj", "<CMD>vsplit<CR>", with_desc("Vertical split"))
 
--- Window Navigation is handled by vim-tmux-navigator plugin (lua/plugins/tmux-navigator.lua)
+-- Built-in tools
+keymap.set("n", "<leader>uu", "<CMD>Undotree<CR>", with_desc("Undo tree"))
+keymap.set("n", "<leader>ud", "<CMD>DiffTool<CR>", with_desc("Diff tool"))
 
--- Indent while remaining in visual mode.
-keymap.set("v", "<", "<gv", with_desc("Shift left"))
-keymap.set("v", ">", ">gv", with_desc("Shift right"))
+-- Toggles
+keymap.set("n", "<leader>uf", function()
+  vim.g.autoformat = not vim.g.autoformat
+  vim.notify("Autoformat " .. (vim.g.autoformat and "enabled" or "disabled"))
+end, with_desc("Toggle autoformat"))
+
+keymap.set("n", "<leader>ui", function()
+  vim.g.inlay_hints = not vim.g.inlay_hints
+  vim.lsp.inlay_hint.enable(vim.g.inlay_hints)
+  vim.notify("Inlay hints " .. (vim.g.inlay_hints and "enabled" or "disabled"))
+end, with_desc("Toggle inlay hints"))
 
 -- Resize window
 keymap.set("n", "<C-A-h>", "<C-w><", with_desc("Resize left"))
 keymap.set("n", "<C-A-l>", "<C-w>>", with_desc("Resize right"))
 keymap.set("n", "<C-A-k>", "<C-w>+", with_desc("Resize up"))
 keymap.set("n", "<C-A-j>", "<C-w>-", with_desc("Resize down"))
-
--- Git
-keymap.set("n", "<leader>go", "<cmd>lua MiniDiff.toggle_overlay()<cr>", with_desc("MiniDiff"))
-keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", with_desc("Neogit"))
-
--- Dadbod
-keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", with_desc("Open Dadbod"))
-
--- Quickfix Navigation
-keymap.set("n", "<leader>xq", "<cmd>copen<cr>", with_desc("Open quickfix"))
-keymap.set("n", "<leader>xc", "<cmd>cclose<cr>", with_desc("Close quickfix"))
-
--- UI Toggles
-keymap.set("n", "<leader>ud", function()
-  vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
-end, with_desc("Toggle diagnostic virtual text"))
-
-keymap.set("n", "<leader>uf", function()
-  vim.g.autoformat = not vim.g.autoformat
-  local status = vim.g.autoformat and "enabled" or "disabled"
-  vim.notify("Auto-format " .. status, vim.log.levels.INFO)
-end, with_desc("Toggle auto-format globally"))
-
-keymap.set("n", "<leader>uF", function()
-  if vim.b.autoformat == nil then
-    vim.b.autoformat = false
-  else
-    vim.b.autoformat = not vim.b.autoformat
-  end
-  local status = vim.b.autoformat and "enabled" or "disabled"
-  vim.notify("Auto-format (buffer) " .. status, vim.log.levels.INFO)
-end, with_desc("Toggle auto-format for buffer"))
-
--- Theme Switching
-keymap.set("n", "<leader>ut", function()
-  require("config.theme-switcher").pick_theme()
-end, with_desc("Pick theme"))
-
-keymap.set("n", "<leader>uT", function()
-  require("config.theme-switcher").cycle_theme()
-end, with_desc("Cycle theme"))
-
-keymap.set("n", "<leader>ub", function()
-  require("config.theme-switcher").toggle_transparency()
-end, with_desc("Toggle transparent background"))
-
--- File Navigation (mini.files and mini.pick)
-keymap.set("n", "<leader>fe", function()
-  MiniFiles.open()
-end, with_desc("File explorer"))
-
-keymap.set("n", "<leader>ee", function()
-  MiniFiles.open(vim.fn.expand("%:p:h"))
-end, with_desc("Explorer at current file"))
-
-keymap.set("n", "<leader>ff", function()
-  MiniPick.builtin.files()
-end, with_desc("Find files"))
-
-keymap.set("n", "<leader>/", function()
-  MiniPick.builtin.grep_live()
-end, with_desc("Live grep"))
-
-keymap.set("n", "<leader>bb", function()
-  MiniPick.builtin.buffers()
-end, with_desc("Buffers"))
-
-keymap.set("n", "<leader>fh", function()
-  MiniPick.builtin.help()
-end, with_desc("Help"))
-
-keymap.set("n", "<leader>cc", function()
-  MiniPick.builtin.resume()
-end, with_desc("Resume picker"))
-
-keymap.set("n", "<leader>gs", function()
-  MiniPick.builtin.git_files()
-end, with_desc("Git status files"))
-
-keymap.set("n", "<leader>fr", function()
-  MiniPick.builtin.recent()
-end, with_desc("Recent files"))
-
-keymap.set("n", "<leader>:", function()
-  MiniPick.builtin.history()
-end, with_desc("Command history"))
