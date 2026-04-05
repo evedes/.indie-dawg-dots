@@ -1,14 +1,10 @@
 require("config.options")
 require("config.keymaps")
+require("config.autocmds")
+require("config.colorscheme")
 
-vim.pack.add {
-	"https://github.com/rebelot/kanagawa.nvim",
-}
-
-vim.cmd.colorscheme('kanagawa')
-
-for name, type in vim.fs.dir(vim.fn.stdpath("config") .. "/lua/packages") do
+for name, type in vim.fs.dir(vim.fn.stdpath("config") .. "/lua/plugins") do
 	if type == "file" and name:match("%.lua$") then
-		require("packages." .. name:gsub("%.lua$", ""))
+		require("plugins." .. name:gsub("%.lua$", ""))
 	end
 end
