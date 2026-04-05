@@ -4,6 +4,7 @@
 return {
   cmd = { "yaml-language-server", "--stdio" },
   filetypes = { "yaml" },
+  root_markers = { ".git" },
   settings = {
     yaml = {
       -- Using the schemastore plugin for schemas.

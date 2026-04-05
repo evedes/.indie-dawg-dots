@@ -59,7 +59,8 @@ function M.apply_transparency()
     vim.api.nvim_set_hl(0, group, hl)
   end
   -- Set a background for nvim-notify so it remains readable
-  vim.api.nvim_set_hl(0, "NotifyBackground", { bg = "#1a1a1a" })
+  local bg = vim.o.background == "light" and "#e0e0e0" or "#1a1a1a"
+  vim.api.nvim_set_hl(0, "NotifyBackground", { bg = bg })
 end
 
 -- Save transparency preference
