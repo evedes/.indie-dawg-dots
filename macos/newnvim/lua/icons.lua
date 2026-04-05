@@ -1,10 +1,10 @@
 local M = {}
 
 M.diagnostics = {
-  ERROR = " ",
-  WARN = " ",
-  HINT = "󰌵 ",
-  INFO = " ",
+  ERROR = "\u{f058b}",
+  WARN = "\u{f0026}",
+  HINT = "\u{f0335}",
+  INFO = "\u{f058f}",
 }
 
 return M

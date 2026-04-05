@@ -1,7 +1,22 @@
 vim.pack.add {
 	"https://github.com/nvim-mini/mini.pick",
 }
-require("mini.pick").setup()
+require("mini.pick").setup({
+	mappings = {
+		move_down = "<C-j>",
+		move_up = "<C-k>",
+	},
+	window = {
+		config = function()
+			return {
+				anchor = "NW",
+				row = math.floor(vim.o.lines * 0.5) - 1,
+				col = 0,
+				width = vim.o.columns,
+			}
+		end,
+	},
+})
 
 -- Keymaps
 vim.keymap.set("n", "<leader>ff", function() MiniPick.builtin.files() end, { desc = "Find files" })
