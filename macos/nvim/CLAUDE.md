@@ -33,7 +33,8 @@ This is the Neovim configuration within the `indie-dawg-dots` dotfiles repositor
 - **Delete surrounding**: `sd`
 - **Replace surrounding**: `sr`
 - **Jump to char**: `f`/`F`/`t`/`T` (enhanced with mini.jump)
-- **Jump anywhere**: `<CR>` in normal mode (mini.jump2d)
+- **Flash jump**: `s` to jump to any location (flash.nvim)
+- **Flash treesitter**: `S` to jump by treesitter node
 
 ## Architecture & Structure
 
@@ -44,7 +45,7 @@ This is the Neovim configuration within the `indie-dawg-dots` dotfiles repositor
    - `config.autocmds` - Autocommands
    - `config.lazy` - Plugin manager bootstrap
    - `lsp` - LSP configuration and keymaps
-2. Theme switcher initializes after VeryLazy event
+2. Theme switcher initializes immediately after lazy.nvim setup (before filetype plugins)
 3. Plugins load on-demand based on events/commands
 
 ### Directory Structure
@@ -58,26 +59,34 @@ nvim/
 │   │   ├── lazy.lua        # Plugin manager setup
 │   │   ├── options.lua     # Neovim options
 │   │   └── theme-switcher.lua # Custom theme management
-│   ├── plugins/            # Plugin configurations (12 files)
-│   │   ├── mini.lua        # Mini.nvim suite (11 modules)
+│   ├── plugins/            # Plugin configurations (20 files)
+│   │   ├── mini.lua        # Mini.nvim suite (12 modules)
 │   │   ├── blink.lua       # Completion engine
 │   │   ├── conform.lua     # Code formatting
 │   │   ├── neogit.lua      # Git integration
 │   │   ├── gitsigns.lua    # Git signs in gutter
 │   │   ├── treesitter.lua  # Syntax highlighting
 │   │   ├── diffview.lua    # Git diff viewer
+│   │   ├── flash.lua       # Enhanced navigation
+│   │   ├── noice.lua       # Enhanced UI messages
 │   │   ├── supermaven.lua  # AI completion
 │   │   ├── tiny-code-action.lua # LSP code actions
 │   │   ├── dadbod.lua      # Database interface
 │   │   ├── autotag.lua     # HTML/JSX auto-closing
-│   │   └── kanagawa-theme.lua # Kanagawa theme
+│   │   ├── obsidian.lua    # Note-taking integration
+│   │   ├── markview.lua    # Markdown preview
+│   │   ├── tmux-navigator.lua # Tmux/window navigation
+│   │   ├── schemastore.lua # JSON/YAML schemas
+│   │   ├── beacon.lua      # Cursor beacon
+│   │   ├── indent-blankline.lua # Indent guides
+│   │   └── markdown-preview.lua # Markdown live preview
 │   ├── lsp.lua            # Centralized LSP setup
 │   └── icons.lua          # UI icon definitions
 ├── lsp/                   # Language server configs
 │   ├── vtsls.lua         # TypeScript/JavaScript
 │   ├── lua.lua           # Lua with Neovim API
 │   ├── eslint.lua        # ESLint integration
-│   └── ...               # 14 language servers
+│   └── ...               # 15 language servers total
 ├── lazy-lock.json        # Plugin version lock
 └── stylua.toml          # Lua formatter config
 ```
@@ -97,7 +106,7 @@ return {
 LSP servers are auto-loaded on BufReadPre/BufNewFile events. The `lua/lsp.lua` file sets up keymaps and handlers globally.
 
 ### Plugin Management (lazy.nvim)
-- Plugins defined in `lua/plugins/*.lua` (12 plugin files)
+- Plugins defined in `lua/plugins/*.lua` (20 plugin files)
 - Each file returns a plugin spec or array of specs
 - Lazy loading configured per plugin via:
   - `event` - Load on specific events (BufReadPre, VeryLazy, etc.)
@@ -105,12 +114,10 @@ LSP servers are auto-loaded on BufReadPre/BufNewFile events. The `lua/lsp.lua` f
   - `ft` - Load on filetypes
   - `keys` - Load on keymaps
 
-### Mini.nvim Modules (11 active)
+### Mini.nvim Modules (12 active)
 - `mini.ai` - Enhanced text objects
 - `mini.icons` - Icon provider
 - `mini.pairs` - Auto-close brackets/quotes
-- `mini.jump` - Enhanced f/F/t/T motions
-- `mini.jump2d` - Jump anywhere with 2 chars
 - `mini.statusline` - Status line
 - `mini.files` - File explorer
 - `mini.diff` - Git diff visualization
@@ -118,6 +125,7 @@ LSP servers are auto-loaded on BufReadPre/BufNewFile events. The `lua/lsp.lua` f
 - `mini.comment` - Comment code (gcc/gc)
 - `mini.surround` - Surround operations (sa/sd/sr)
 - `mini.bufremove` - Better buffer deletion
+- `mini.clue` - Which-key hints for key mappings
 
 ### Code Formatting (conform.nvim)
 Configured in `lua/plugins/conform.lua`:
@@ -126,9 +134,9 @@ Configured in `lua/plugins/conform.lua`:
   - JavaScript/TypeScript: prettier, dprint (fallback)
   - Lua: stylua
   - Shell: shfmt
-  - Markdown: prettier
+  - CSS/HTML/SCSS/Vue: prettier
   - Elixir: mix_format
-  - Vue: prettier
+  - Markdown: disabled (conflicts with Obsidian/markview)
 
 ### Completion (blink.cmp)
 - Sources: LSP, path, snippets, buffer

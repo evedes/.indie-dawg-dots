@@ -15,8 +15,18 @@ return {
   },
   init_options = {
     typescript = {
-      -- Use the TypeScript version from @vue/language-server installation
-      tsdk = "/opt/homebrew/lib/node_modules/@vue/language-server/node_modules/typescript/lib",
+      -- Dynamically resolve TypeScript from @vue/language-server installation
+      tsdk = (function()
+        local handle = io.popen("npm root -g 2>/dev/null")
+        if handle then
+          local global_root = handle:read("*l")
+          handle:close()
+          if global_root then
+            return global_root .. "/@vue/language-server/node_modules/typescript/lib"
+          end
+        end
+        return "/opt/homebrew/lib/node_modules/@vue/language-server/node_modules/typescript/lib"
+      end)(),
     },
     vue = {
       hybridMode = false,
