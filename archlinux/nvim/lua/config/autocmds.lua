@@ -1,6 +1,6 @@
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking text",
-  group = vim.api.nvim_create_augroup("auto-format", { clear = true }),
+  group = vim.api.nvim_create_augroup("yank-highlight", { clear = true }),
   callback = function()
     vim.highlight.on_yank()
   end,
@@ -35,8 +35,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       vim.api.nvim_set_hl(0, group, { bg = "NONE" })
     end
 
-    -- Set window separator color (subtle, dark dashed style)
-    vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#181816", bg = "NONE" })
+    -- Set window separator color (adaptive to light/dark background)
+    local bg = vim.o.background
+    local fg = bg == "light" and "#c8c093" or "#181816"
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = fg, bg = "NONE" })
   end,
 })
 

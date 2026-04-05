@@ -19,6 +19,7 @@ return {
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
+        -- Not using nvim-cmp (using blink.cmp), but this override is harmless
         ["cmp.entry.get_documentation"] = true,
       },
       -- Disable LSP progress as you already have mini.nvim

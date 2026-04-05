@@ -29,11 +29,7 @@ keymap.set("n", "<leader>tP", "<cmd>tabprevious<cr>", with_desc("Previous tab"))
 keymap.set("n", "<leader>ss", ":split<Return>", opts)
 keymap.set("n", "<leader>sj", ":vsplit<Return>", opts)
 
--- Window Navigation
-keymap.set("n", "<C-h>", "<C-w>h", with_desc("Navigate left"))
-keymap.set("n", "<C-j>", "<C-w>j", with_desc("Navigate down"))
-keymap.set("n", "<C-k>", "<C-w>k", with_desc("Navigate up"))
-keymap.set("n", "<C-l>", "<C-w>l", with_desc("Navigate right"))
+-- Window Navigation is handled by vim-tmux-navigator plugin (lua/plugins/tmux-navigator.lua)
 
 -- Indent while remaining in visual mode.
 keymap.set("v", "<", "<gv", with_desc("Shift left"))
@@ -112,26 +108,10 @@ end, with_desc("Cycle theme"))
 -- File Navigation (mini.files and mini.pick)
 keymap.set("n", "<leader>fe", function()
   MiniFiles.open()
-  -- Set up Esc to close mini.files when open
-  vim.schedule(function()
-    if vim.bo.filetype == "minifiles" then
-      keymap.set("n", "<Esc>", function()
-        MiniFiles.close()
-      end, with_desc("Close file explorer"))
-    end
-  end)
 end, with_desc("File explorer"))
 
 keymap.set("n", "<leader>ee", function()
   MiniFiles.open(vim.fn.expand("%:p:h"))
-  -- Set up Esc to close mini.files when open
-  vim.schedule(function()
-    if vim.bo.filetype == "minifiles" then
-      keymap.set("n", "<Esc>", function()
-        MiniFiles.close()
-      end, with_desc("Close file explorer"))
-    end
-  end)
 end, with_desc("Explorer at current file"))
 
 keymap.set("n", "<leader>ff", function()

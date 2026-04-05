@@ -6,4 +6,5 @@
 return {
   cmd = { "dprint", "lsp" },
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc", "graphql" },
+  root_markers = { "dprint.json", ".dprint.json", ".git" },
 }

@@ -17,7 +17,7 @@ return {
     },
     appearance = {
       nerd_font_variant = "normal",
-      use_nvim_cmp_as_default = true,
+      use_nvim_cmp_as_default = false,
       kind_icons = {
         Text = "󰉿",
         Method = "󰊕",

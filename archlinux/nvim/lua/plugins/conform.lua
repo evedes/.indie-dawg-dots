@@ -50,7 +50,9 @@ return {
       jsonc = { "prettier", "dprint" },
       less = { "prettier" },
       lua = { "stylua" },
-      -- markdown = { "prettier" },
+      -- markdown = { "prettier" }, -- Disabled: conflicts with Obsidian/markview workflows
+      css = { "prettier" },
+      html = { "prettier" },
       scss = { "prettier" },
       sh = { "shfmt" },
       typescript = { "prettier", "dprint", lsp_format = "fallback" },
