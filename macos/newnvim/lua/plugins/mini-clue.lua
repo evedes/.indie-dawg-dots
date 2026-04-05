@@ -34,7 +34,7 @@ miniclue.setup({
 		{ mode = "n", keys = "<Leader>b", desc = "+Buffers" },
 	},
 	window = {
-		delay = 250,
+		delay = 500,
 		config = {
 			anchor = "SE",
 			row = "auto",
