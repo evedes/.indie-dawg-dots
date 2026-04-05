@@ -25,7 +25,7 @@ return {
             return global_root .. "/@vue/language-server/node_modules/typescript/lib"
           end
         end
-        return "/usr/lib/node_modules/@vue/language-server/node_modules/typescript/lib"
+        return "/opt/homebrew/lib/node_modules/@vue/language-server/node_modules/typescript/lib"
       end)(),
     },
     vue = {

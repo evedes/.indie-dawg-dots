@@ -39,8 +39,6 @@ alias dots='cd ~/.indie-dawg-dots && nvim .'
 # NEOVIM
 alias v='nvim'
 alias vv='nvim .'
-alias lv='NVIM_APPNAME=lazyvim nvim .'
-alias nv='NVIM_APPNAME=newnvim nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 # GHOSTTY

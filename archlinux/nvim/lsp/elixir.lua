@@ -1,7 +1,6 @@
 -- Install with
+-- mac: brew install elixir-ls
 -- Arch: yay -S elixir-ls
--- macOS: brew install elixir-ls
--- Or via Mason: :MasonInstall elixir-ls
 
 ---@type vim.lsp.Config
 return {
