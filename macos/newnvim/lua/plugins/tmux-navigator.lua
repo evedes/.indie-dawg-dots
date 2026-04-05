@@ -1,5 +1,8 @@
+-- Prevent plugin from creating its own default mappings
+vim.g.tmux_navigator_no_mappings = 1
+
 vim.pack.add {
-	"https://github.com/christoomey/vim-tmux-navigator",
+  "https://github.com/christoomey/vim-tmux-navigator",
 }
 
 -- Keymaps

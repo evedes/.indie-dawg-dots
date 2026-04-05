@@ -3,17 +3,30 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- Leader key configurations
-vim.g.mapleader = " " -- Set space as the leader key
-vim.g.maplocalleader = "," -- Set comma as the local leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
--- Line numbering settings
-vim.opt.relativenumber = true -- Show relative line numbers
-vim.opt.number = true -- Show current line number
+-- Line numbering
+vim.opt.relativenumber = true
+vim.opt.number = true
+vim.opt.cursorline = true
+vim.opt.signcolumn = "yes"
 
--- Clipboard
-vim.opt.clipboard = "unnamedplus" -- Use system clipboard for yank/paste
+-- Search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.hlsearch = true
 
--- Global status line (single statusbar across all panes)
+-- Editing
+vim.opt.clipboard = "unnamedplus"
+vim.opt.undofile = true
+vim.opt.wrap = false
+vim.opt.scrolloff = 8
+vim.opt.updatetime = 250
+
+-- Splits
+vim.opt.splitbelow = true
+vim.opt.splitright = true
 vim.opt.laststatus = 3
 
 -- Native auto-completion (Neovim 0.12)
