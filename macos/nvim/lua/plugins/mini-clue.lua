@@ -43,6 +43,11 @@ miniclue.setup({
     { mode = "n", keys = "<Leader>o", desc = "+Obsidian" },
     { mode = "n", keys = "<Leader>s", desc = "+Splits" },
     { mode = "n", keys = "<Leader>u", desc = "+Toggle" },
+    { mode = "n", keys = "<Leader>x", desc = "+Quickfix" },
+    { mode = "n", keys = "<Leader>xq", desc = "Toggle quickfix list" },
+    { mode = "n", keys = "<Leader>xd", desc = "Diagnostics to quickfix" },
+    { mode = "n", keys = "<Leader>xc", desc = "Clear quickfix list" },
+    { mode = "n", keys = "<Leader>xs", desc = "Search results to quickfix" },
 
     -- LSP (Neovim 0.12 built-in defaults)
     { mode = "n", keys = "gd", desc = "Go to definition" },
