@@ -39,6 +39,39 @@ keymap.set("n", "<leader>ui", function()
   vim.notify("Inlay hints " .. (vim.g.inlay_hints and "enabled" or "disabled"))
 end, with_desc("Toggle inlay hints"))
 
+-- Quickfix
+keymap.set("n", "]q", "<CMD>cnext<CR>zz", with_desc("Next quickfix item"))
+keymap.set("n", "[q", "<CMD>cprev<CR>zz", with_desc("Prev quickfix item"))
+keymap.set("n", "<leader>xq", function()
+  local wins = vim.fn.getwininfo()
+  for _, win in ipairs(wins) do
+    if win.quickfix == 1 then
+      vim.cmd("cclose")
+      return
+    end
+  end
+  vim.cmd("copen")
+end, with_desc("Toggle quickfix list"))
+
+keymap.set("n", "<leader>xc", function()
+  vim.fn.setqflist({})
+  vim.cmd("cclose")
+end, with_desc("Clear quickfix list"))
+
+keymap.set("n", "<leader>xs", function()
+  local pattern = vim.fn.getreg("/")
+  if pattern == "" then
+    vim.notify("No search pattern", vim.log.levels.WARN)
+    return
+  end
+  vim.cmd("silent! vimgrep /" .. pattern .. "/gj %")
+  vim.cmd("copen")
+end, with_desc("Search results to quickfix"))
+
+keymap.set("n", "<leader>xd", function()
+  vim.diagnostic.setqflist()
+end, with_desc("Diagnostics to quickfix"))
+
 -- Resize window
 keymap.set("n", "<C-A-h>", "<C-w><", with_desc("Resize left"))
 keymap.set("n", "<C-A-l>", "<C-w>>", with_desc("Resize right"))
