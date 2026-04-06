@@ -17,6 +17,7 @@ newnvim/
 │   │   ├── mini-files.lua      # File explorer
 │   │   ├── mini-pick.lua       # Fuzzy finder
 │   │   ├── mini-clue.lua       # Which-key style hints
+│   │   ├── noice.lua           # Enhanced UI (messages, cmdline, notifications)
 │   │   ├── mini-diff.lua       # Inline diff overlay
 │   │   ├── neogit.lua          # Git interface
 │   │   ├── diffview.lua        # Side-by-side diff viewer
