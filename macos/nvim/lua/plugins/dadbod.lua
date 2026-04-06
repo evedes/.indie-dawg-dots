@@ -5,3 +5,5 @@ vim.pack.add {
 }
 
 vim.g.db_ui_use_nerd_fonts = 1
+
+vim.keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", { desc = "Dadbod UI" })
