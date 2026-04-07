@@ -140,7 +140,7 @@ alias lsize='eza -alh --icons --color=always --group-directories-first --sort=si
 alias sp='TERM=xterm-256color spotify_player'
 
 ## CLAUDE CODE
-alias clauded="claude --dangerously-skip-permissions"
+alias cc="claude --dangerously-skip-permissions"
 alias ccusage="npx ccusage daily"
 
 # TMUX
