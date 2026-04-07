@@ -14,10 +14,9 @@ newnvim/
 │   │   ├── autocmds.lua        # Autocommands (yank highlight)
 │   │   └── colorscheme.lua     # Theme setup (kanagawa)
 │   ├── plugins/                # One file per plugin (auto-loaded by init.lua)
-│   │   ├── mini-files.lua      # File explorer
-│   │   ├── mini-pick.lua       # Fuzzy finder
-│   │   ├── mini-clue.lua       # Which-key style hints
-│   │   ├── noice.lua           # Enhanced UI (messages, cmdline, notifications)
+│   │   ├── snacks.lua          # Explorer, picker, notifier, bigfile, quickfile
+│   │   ├── blink-cmp.lua       # Completion engine (Rust matcher) + LSP capabilities
+│   │   ├── which-key.lua       # Keymap hints / leader group descriptions
 │   │   ├── mini-diff.lua       # Inline diff overlay
 │   │   ├── neogit.lua          # Git interface
 │   │   ├── diffview.lua        # Side-by-side diff viewer
@@ -48,12 +47,13 @@ newnvim/
    ```
 3. It will be auto-loaded on next restart. No changes to `init.lua` needed.
 
-## Adding a Clue Group
+## Adding a which-key Group
 
-To add a description for a `<leader>` key group in mini.clue, add an entry to the `clues` table in `lua/plugins/mini-clue.lua`:
+To add a description for a `<leader>` key group, add an entry to the `add()` call in `lua/plugins/which-key.lua`:
 ```lua
-{ mode = "n", keys = "<Leader>x", desc = "+GroupName" },
+{ "<leader>x", group = "GroupName" },
 ```
+which-key automatically picks up `desc` fields from `vim.keymap.set(...)` calls, so individual mappings don't need to be registered manually.
 
 ## Leader Key
 
