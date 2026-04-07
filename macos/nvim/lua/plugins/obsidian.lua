@@ -7,7 +7,7 @@ require("obsidian").setup({
 	legacy_commands = false,
 
 	picker = {
-		name = "mini.pick",
+		name = "snacks.pick",
 	},
 
 	workspaces = {

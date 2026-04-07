@@ -29,8 +29,8 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.laststatus = 3
 
--- Native auto-completion (Neovim 0.12)
-vim.o.autocomplete = true
+-- Completion handled by blink.cmp; disable Neovim 0.12 native autocomplete
+vim.o.autocomplete = false
 vim.o.pumborder = "rounded"
 vim.o.completeopt = "menuone,noselect,fuzzy"
 
