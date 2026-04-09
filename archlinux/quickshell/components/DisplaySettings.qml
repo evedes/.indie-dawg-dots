@@ -139,8 +139,8 @@ RowLayout {
             margins.bottom: -16
         }
 
-        width: popupContent.width
-        height: popupContent.height
+        implicitWidth: popupContent.width
+        implicitHeight: popupContent.height
         color: "transparent"
 
         onVisibleChanged: {
@@ -530,8 +530,8 @@ RowLayout {
             margins.bottom: -16
         }
 
-        width: notifRect.width
-        height: notifRect.height
+        implicitWidth: notifRect.width
+        implicitHeight: notifRect.height
         color: "transparent"
 
         MouseArea {

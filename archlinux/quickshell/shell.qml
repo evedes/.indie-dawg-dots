@@ -32,7 +32,7 @@ ShellRoot {
                 right: true
             }
 
-            height: Theme.barHeight
+            implicitHeight: Theme.barHeight
             color: Qt.rgba(0, 0, 0, Theme.barOpacity)
             exclusionMode: ExclusionMode.Auto
 
@@ -78,7 +78,7 @@ ShellRoot {
                 right: true
             }
 
-            height: Theme.barHeight
+            implicitHeight: Theme.barHeight
             color: Qt.rgba(0, 0, 0, Theme.barOpacity)
             exclusionMode: ExclusionMode.Auto
 

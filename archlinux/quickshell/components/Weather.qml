@@ -98,8 +98,8 @@ Item {
             margins.bottom: -8
         }
 
-        width: popupContent.width
-        height: popupContent.height
+        implicitWidth: popupContent.width
+        implicitHeight: popupContent.height
         color: "transparent"
 
         Rectangle {
