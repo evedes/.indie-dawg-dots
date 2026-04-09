@@ -35,13 +35,13 @@ QtObject {
 
     // Fonts
     readonly property string fontFamily: "ZedMono Nerd Font"
-    readonly property int fontSizePrimary: 18
-    readonly property int fontSizeSecondary: 16
-    readonly property int fontSizeIcon: 24
+    readonly property int fontSizePrimary: 14
+    readonly property int fontSizeSecondary: 12
+    readonly property int fontSizeIcon: 12
 
     // Layout
-    readonly property int barHeight: 40
+    readonly property int barHeight: 32
     readonly property int iconSize: 28
     readonly property int spacing: 16
-    readonly property int spacingSmall: 8
+    readonly property int spacingSmall: 12
 }
