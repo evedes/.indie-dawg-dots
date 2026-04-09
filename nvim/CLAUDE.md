@@ -17,6 +17,7 @@ newnvim/
 │   │   ├── snacks.lua          # Explorer, picker, notifier, bigfile, quickfile
 │   │   ├── blink-cmp.lua       # Completion engine (Rust matcher) + LSP capabilities
 │   │   ├── which-key.lua       # Keymap hints / leader group descriptions
+│   │   ├── ui2.lua             # Built-in UI2 (messages, cmdline, pager)
 │   │   ├── mini-diff.lua       # Inline diff overlay
 │   │   ├── neogit.lua          # Git interface
 │   │   ├── diffview.lua        # Side-by-side diff viewer
