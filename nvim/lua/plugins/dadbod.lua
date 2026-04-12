@@ -6,6 +6,14 @@ vim.pack.add {
 
 vim.g.db_ui_use_nerd_fonts = 1
 
+-- Reduce tree indentation to 2 characters (drawer uses shiftwidth for indent)
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "dbui",
+	callback = function()
+		vim.bo.shiftwidth = 2
+	end,
+})
+
 vim.keymap.set("n", "<leader>D", "<cmd>DBUI<cr>", { desc = "Dadbod UI" })
 
 -- Close snacks explorer when DBUI opens to avoid two sidebars at once.
