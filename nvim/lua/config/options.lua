@@ -19,6 +19,21 @@ vim.opt.hlsearch = true
 
 -- Editing
 vim.opt.clipboard = "unnamedplus"
+
+-- Use OSC 52 for clipboard over SSH (terminal handles the paste to local clipboard)
+if os.getenv("SSH_TTY") then
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
+end
 vim.opt.undofile = true
 vim.opt.wrap = false
 vim.opt.scrolloff = 8
