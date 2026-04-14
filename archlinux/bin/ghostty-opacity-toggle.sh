@@ -28,4 +28,8 @@ else
     NEW="1"
 fi
 
-sed -i "s/^background-opacity = .*/background-opacity = $NEW/" "$CONFIG_FILE"
+CONTENT=$(sed "s/^background-opacity = .*/background-opacity = $NEW/" "$CONFIG_FILE")
+printf '%s\n' "$CONTENT" > "$CONFIG_FILE"
+
+# Reload Ghostty config via DBus
+busctl --user call com.mitchellh.ghostty /com/mitchellh/ghostty org.gtk.Actions Activate "sava{sv}" "reload-config" 0 0 2>/dev/null
