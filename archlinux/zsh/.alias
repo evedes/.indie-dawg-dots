@@ -40,7 +40,6 @@ alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 # GHOSTTY
 alias gt='ghostty-theme-switcher.sh'
-alias gtheme='gt'
 alias gbg='ghostty-bg-picker.sh'
 alias gm='ghostty-theme-menu.sh'
 alias ot='ghostty-opacity-toggle.sh'
