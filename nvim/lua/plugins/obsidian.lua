@@ -22,7 +22,7 @@ require("obsidian").setup({
 		date_format = "%Y-%m-%d",
 		alias_format = "%B %-d, %Y",
 		default_tags = { "daily-notes" },
-		template = nil,
+		template = "daily.md",
 	},
 
 	new_notes_location = "current_dir",
