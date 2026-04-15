@@ -95,6 +95,9 @@ alias pyenv='echo $VIRTUAL_ENV'
 # AWS
 alias aws-whoami='aws sts get-caller-identity'
 
+# MULTIVERSE
+alias mm='cd $HOME/Nextcloud/Multiverse && nvim .'
+
 # DOCKER
 alias dps='docker ps --format "table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}"'
 alias dpa='docker ps -a --format "table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}"'
