@@ -39,10 +39,10 @@ alias nnvim='NVIM_APPNAME=new-nvim nvim'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 # GHOSTTY
-alias gt='ghostty-theme-switcher.sh'
-alias gbg='ghostty-bg-picker.sh'
-alias gm='ghostty-theme-menu.sh'
-alias ot='ghostty-opacity-toggle.sh'
+alias gt='~/.config/bin/ghostty-theme-switcher'
+alias gbg='~/.config/bin/ghostty-bg-picker'
+alias gm='~/.config/bin/ghostty-theme-menu'
+alias ot='~/.config/bin/ghostty-opacity-toggle'
 
 # NETWORK PRIORITY
 alias isp='curl ipinfo.io | grep org'
@@ -154,12 +154,12 @@ alias zn='zellij --new-session-with-layout $HOME/.config/zellij/layouts/no-statu
 alias zl='zellij list-sessions'
 alias za='zellij attach'
 alias zd='zellij delete-session'
-alias zt='$HOME/.indie-dawg-dots/archlinux/bin/switch-theme.sh'
+alias zt='$HOME/.indie-dawg-dots/archlinux/bin/switch-theme'
 
 # YAZI
 alias y='yazi'
 
 # HYPRLAND
 alias shot='hyprshot -m region -o ~/Downloads'
-alias rdk='$HOME/.config/bin/reload-desktop.sh'
-alias hms='$HOME/.config/bin/hypr-monitor-switch.sh'
+alias rdk='$HOME/.config/bin/reload-desktop'
+alias hms='$HOME/.config/bin/hypr-monitor-switch'
