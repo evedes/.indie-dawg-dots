@@ -8,8 +8,8 @@ font-thicken = 0
 adjust-cell-height = 35%
 
 # Theme
-theme = "Black Metal (Burzum)"
-background = "#000000"
+theme = "Catppuccin Mocha"
+# background = "#000000"
 background-opacity = 0.86
 background-blur-radius = 10
 
