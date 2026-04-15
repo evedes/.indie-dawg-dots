@@ -3,7 +3,7 @@ vim.pack.add {
   "https://github.com/catppuccin/nvim"
 }
 
--- vim.cmd.colorscheme("kanagawa-dragon") -- try wave also
-vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("kanagawa-dragon") -- try wave also
+-- vim.cmd.colorscheme("catppuccin-mocha")
 
 
