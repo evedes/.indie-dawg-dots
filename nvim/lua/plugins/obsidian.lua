@@ -103,6 +103,84 @@ vim.keymap.set("v", "<leader>oe", "<CMD>Obsidian extract_note<CR>", { desc = "Ex
 vim.keymap.set("v", "<leader>oL", "<CMD>Obsidian link<CR>", { desc = "Link to existing note" })
 vim.keymap.set("v", "<leader>oN", "<CMD>Obsidian link_new<CR>", { desc = "Link to new note" })
 
+-- Weekly notes: obsidian.nvim has no native weekly-note feature, so compute
+-- the ISO week from a date offset and render the template inline.
+local function iso_week_info(offset)
+	offset = offset or 0
+	local t = os.time() + offset * 7 * 86400
+	local dow = tonumber(os.date("%u", t)) -- 1=Mon .. 7=Sun
+	local monday = t - (dow - 1) * 86400
+	local sunday = monday + 6 * 86400
+	return {
+		id = os.date("%G-W%V", t),
+		week = os.date("%V", t),
+		year = os.date("%G", t),
+		start_date = os.date("%Y-%m-%d", monday),
+		end_date = os.date("%Y-%m-%d", sunday),
+		prev_id = os.date("%G-W%V", t - 7 * 86400),
+		next_id = os.date("%G-W%V", t + 7 * 86400),
+	}
+end
+
+local function weekly_template(info)
+	return {
+		"---",
+		"id: " .. info.id,
+		"aliases:",
+		"  - Week " .. info.week .. ", " .. info.year,
+		"  - " .. info.id,
+		"tags:",
+		"  - weekly",
+		"---",
+		"",
+		"# Week " .. info.week .. " — " .. info.start_date .. " to " .. info.end_date,
+		"",
+		"Prev: [[" .. info.prev_id .. "]] · Next: [[" .. info.next_id .. "]]",
+		"",
+		"## Priorities (3-5 max)",
+		"",
+		"- [ ]",
+		"",
+		"## Work (Mindera)",
+		"",
+		"Pulls from [[mindera]] / [[dunelm-weekly-summaries]]",
+		"",
+		"-",
+		"",
+		"## Personal",
+		"",
+		"- Calisthenics planned:",
+		"- Life admin due this week (from [[get-things-done]]):",
+		"  - [ ]",
+		"",
+		"## Captures to process (Sunday)",
+		"",
+		"Pull captures from this week's dailies and from [[fleeting-notes]]. Promote → permanent note, link to a MOC, or delete.",
+		"",
+		"## Retrospective (fill Sunday)",
+		"",
+		"- Shipped:",
+		"- Slipped:",
+		"- Next week's seed:",
+		"",
+	}
+end
+
+local function open_weekly_note(offset)
+	local info = iso_week_info(offset)
+	local weekly_dir = tostring(Obsidian.dir) .. "/weekly"
+	vim.fn.mkdir(weekly_dir, "p")
+	local path = weekly_dir .. "/" .. info.id .. ".md"
+	if vim.fn.filereadable(path) == 0 then
+		vim.fn.writefile(weekly_template(info), path)
+	end
+	vim.cmd("edit " .. vim.fn.fnameescape(path))
+end
+
+vim.keymap.set("n", "<leader>oW", function()
+	open_weekly_note(vim.v.count) -- count prefix = weeks ahead; 0 = this week
+end, { desc = "Open weekly note (count = weeks ahead)" })
+
 -- Delete current note
 vim.keymap.set("n", "<leader>oD", function()
 	local buf_path = vim.api.nvim_buf_get_name(0)
@@ -121,8 +199,7 @@ end, { desc = "Delete current note" })
 
 -- Open Obsidian graph view
 vim.keymap.set("n", "<leader>oG", function()
-	local client = require("obsidian").get_client()
-	local vault_name = vim.fn.fnamemodify(tostring(client.dir), ":t")
+	local vault_name = vim.fn.fnamemodify(tostring(Obsidian.dir), ":t")
 	local encoded_vault = vim.fn.substitute(vault_name, " ", "%20", "g")
 	vim.ui.open("obsidian://graph?vault=" .. encoded_vault)
 end, { desc = "Open Obsidian graph view" })
