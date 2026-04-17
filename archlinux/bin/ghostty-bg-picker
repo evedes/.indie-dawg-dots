@@ -3,7 +3,8 @@
 CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/ghostty/config"
 
 # Define color options - very dark, subtle tints
-COLOR_OPTIONS="Dark Navy:#000011
+COLOR_OPTIONS="Reset (theme default):reset
+Dark Navy:#000011
 Brown:#0a0000
 Green:#000a00
 Purple:#0a000a
@@ -34,7 +35,16 @@ HEX_VALUE=$(echo "$SELECTED" | sed 's/^.*://')
 if [ -f "$CONFIG_FILE" ]; then
     # Create a temp file for the updated content
     TEMP_FILE=$(mktemp)
-    
+
+    if [ "$HEX_VALUE" = "reset" ]; then
+        # Remove any existing background line to fall back to theme default
+        sed '/^background = /d' "$CONFIG_FILE" > "$TEMP_FILE"
+        mv "$TEMP_FILE" "$CONFIG_FILE"
+        echo "Background color reset to theme default"
+        echo "Restart Ghostty for changes to take effect"
+        exit 0
+    fi
+
     # Check if background line exists and update or add it
     if grep -q "^background = " "$CONFIG_FILE"; then
         # Replace existing background line
@@ -48,10 +58,10 @@ if [ -f "$CONFIG_FILE" ]; then
             echo "background = \"$HEX_VALUE\"" >> "$TEMP_FILE"
         fi
     fi
-    
+
     # Move temp file to config file
     mv "$TEMP_FILE" "$CONFIG_FILE"
-    
+
     echo "Background color changed to: $SELECTED_COLOR ($HEX_VALUE)"
     echo "Restart Ghostty for changes to take effect"
 else
