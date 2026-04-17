@@ -1,62 +1,56 @@
 # indie-dawg-dots
 
-A cross-platform dotfiles collection designed for keyboard-driven development workflows. Fully separated configurations for macOS and Arch Linux.
+A cross-platform dotfiles collection designed for keyboard-driven development workflows. Shared Neovim configuration with separate platform directories for macOS and Arch Linux.
 
 ## Overview
 
 This repository contains configuration files for:
 
-- **Shell Environment**: Zsh with Zinit plugin management
-- **Editor**: Neovim with Lua configuration and mini.nvim plugin suite
+- **Shell Environment**: Zsh
+- **Editor**: Neovim 0.12+ with Lua configuration (uses native `vim.pack.add`, no plugin manager)
 - **Terminal**: Ghostty, tmux, zellij
 - **Development Tools**: Git, Starship prompt, ripgrep, fzf, and more
 
 ## Architecture
 
-Each platform has its own complete, self-contained configuration. No shared files - duplication is intentional for independence and simplicity.
+Neovim is shared across platforms at the repository root. Everything else lives in a platform-specific directory (`archlinux/` or `macos/`). Duplication across platforms is intentional for independence and simplicity.
 
 ```
 .indie-dawg-dots/
-├── archlinux/             # Complete Arch Linux configuration
-│   ├── nvim/              # Neovim (Lua-based with lazy.nvim)
-│   ├── zsh/               # Shell configuration (.zshrc, .alias)
-│   ├── tmux/              # Terminal multiplexer
-│   ├── ghostty/           # Terminal emulator
-│   ├── starship/          # Cross-shell prompt
-│   ├── zellij/            # Terminal workspace manager
-│   ├── fonts/             # Nerd Fonts
-│   ├── hypr/              # Hyprland window manager
-│   ├── waybar/            # Wayland bar
-│   ├── rofi/              # Application launcher
-│   ├── mako/              # Notification daemon
-│   ├── chromium/          # Browser config
-│   ├── cava/              # Audio visualizer
-│   ├── emacs/             # Emacs configuration
-│   ├── fontconfig/        # Font configuration
-│   ├── .gitconfig         # Git configuration
-│   ├── .gitignore         # Global gitignore
-│   ├── .zshenv            # Environment variables
-│   ├── .ripgreprc         # Search tool config
-│   ├── .vimrc             # Vim fallback config
-│   └── .linuxrc           # Linux-specific shell settings
+├── nvim/                  # Shared Neovim configuration (Neovim 0.12+ native packages)
 │
-├── macos/                 # Complete macOS configuration
-│   ├── nvim/              # Neovim (Lua-based with lazy.nvim)
-│   ├── zsh/               # Shell configuration (.zshrc, .alias)
-│   ├── tmux/              # Terminal multiplexer
-│   ├── ghostty/           # Terminal emulator
-│   ├── starship/          # Cross-shell prompt
-│   ├── zellij/            # Terminal workspace manager
-│   ├── fonts/             # Nerd Fonts
+├── archlinux/             # Arch Linux configuration
+│   ├── bin/               # Custom scripts (ghostty theme switcher, monitor switch, etc.)
 │   ├── cava/              # Audio visualizer
-│   ├── emacs/             # Emacs configuration
 │   ├── fontconfig/        # Font configuration
+│   ├── fonts/             # Nerd Fonts
+│   ├── ghostty/           # Terminal emulator
+│   ├── hypr/              # Hyprland window manager
+│   ├── mako/              # Notification daemon
+│   ├── quickshell/        # Wayland shell (QML)
+│   ├── starship/          # Cross-shell prompt
+│   ├── tmux/              # Terminal multiplexer
+│   ├── udev/              # Custom udev rules
+│   ├── zellij/            # Terminal workspace manager
+│   ├── zsh/               # Shell configuration (.zshrc, .zshenv, .alias)
 │   ├── .gitconfig         # Git configuration
 │   ├── .gitignore         # Global gitignore
-│   ├── .zshenv            # Environment variables
 │   ├── .ripgreprc         # Search tool config
-│   ├── .vimrc             # Vim fallback config
-│   └── .macosrc           # macOS-specific shell settings
+│   └── .vimrc             # Vim fallback config
+│
+├── macos/                 # macOS configuration
+│   ├── bin/               # Custom scripts
+│   ├── cava/              # Audio visualizer
+│   ├── fonts/             # Nerd Fonts
+│   ├── ghostty/           # Terminal emulator
+│   ├── starship/          # Cross-shell prompt
+│   ├── tmux/              # Terminal multiplexer
+│   ├── zellij/            # Terminal workspace manager
+│   ├── zsh/               # Shell configuration (.zshrc, .zshenv, .alias)
+│   ├── .gitconfig         # Git configuration
+│   ├── .gitignore         # Global gitignore
+│   ├── .ripgreprc         # Search tool config
+│   └── .vimrc             # Vim fallback config
 │
 ├── CLAUDE.md              # Comprehensive documentation
 ├── LICENSE
@@ -69,13 +63,14 @@ Each platform has its own complete, self-contained configuration. No shared file
 
 ```bash
 # macOS (via Homebrew)
-brew install git zsh neovim tmux fzf starship ripgrep bat lazygit zinit fnm
+brew install git zsh neovim tmux fzf starship ripgrep bat lazygit mise
 
 # Arch Linux
-sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard
+sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise
 yay -S lazygit-bin
-git clone https://github.com/zdharma-continuum/zinit.git ~/.local/share/zinit
 ```
+
+Neovim **0.12 or newer** is required (the config uses the native `vim.pack.add` API).
 
 ### Setup (macOS)
 
@@ -84,11 +79,10 @@ git clone https://github.com/evedes/indie-dawg-dots.git ~/.indie-dawg-dots
 cd ~/.indie-dawg-dots
 
 # Shell
-ln -sf ~/.indie-dawg-dots/macos/.zshenv ~/.zshenv
-ln -sf ~/.indie-dawg-dots/macos/zsh ~/.config/zsh
+ln -sf ~/.indie-dawg-dots/macos/zsh/.zshenv ~/.zshenv
 
-# Neovim
-ln -sf ~/.indie-dawg-dots/macos/nvim ~/.config/nvim
+# Neovim (shared)
+ln -sf ~/.indie-dawg-dots/nvim ~/.config/nvim
 
 # Git
 ln -sf ~/.indie-dawg-dots/macos/.gitconfig ~/.gitconfig
@@ -114,11 +108,10 @@ git clone https://github.com/evedes/indie-dawg-dots.git ~/.indie-dawg-dots
 cd ~/.indie-dawg-dots
 
 # Shell
-ln -sf ~/.indie-dawg-dots/archlinux/.zshenv ~/.zshenv
-ln -sf ~/.indie-dawg-dots/archlinux/zsh ~/.config/zsh
+ln -sf ~/.indie-dawg-dots/archlinux/zsh/.zshenv ~/.zshenv
 
-# Neovim
-ln -sf ~/.indie-dawg-dots/archlinux/nvim ~/.config/nvim
+# Neovim (shared)
+ln -sf ~/.indie-dawg-dots/nvim ~/.config/nvim
 
 # Git
 ln -sf ~/.indie-dawg-dots/archlinux/.gitconfig ~/.gitconfig
@@ -130,11 +123,10 @@ ln -sf ~/.indie-dawg-dots/archlinux/tmux ~/.config/tmux
 ln -sf ~/.indie-dawg-dots/archlinux/zellij ~/.config/zellij
 ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 
-# Hyprland (optional)
+# Hyprland stack (optional)
 ln -sf ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
-ln -sf ~/.indie-dawg-dots/archlinux/waybar ~/.config/waybar
-ln -sf ~/.indie-dawg-dots/archlinux/rofi ~/.config/rofi
 ln -sf ~/.indie-dawg-dots/archlinux/mako ~/.config/mako
+ln -sf ~/.indie-dawg-dots/archlinux/quickshell ~/.config/quickshell
 
 # Other
 ln -sf ~/.indie-dawg-dots/archlinux/.ripgreprc ~/.ripgreprc
@@ -155,12 +147,12 @@ Once installed:
 
 ## Customization
 
-Each platform is independent. Edit files directly in the platform directory:
+Edit files directly in the relevant directory:
 
+- **Neovim (shared)**: `nvim/lua/plugins/`, `nvim/lua/config/`
 - **Aliases**: `{platform}/zsh/.alias`
 - **Shell config**: `{platform}/zsh/.zshrc`
-- **Neovim plugins**: `{platform}/nvim/lua/plugins/`
-- **Platform-specific shell**: `archlinux/.linuxrc` or `macos/.macosrc`
+- **Environment vars**: `{platform}/zsh/.zshenv`
 
 ## Troubleshooting
 
