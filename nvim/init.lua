@@ -19,7 +19,10 @@ for name, type in vim.fs.dir(vim.fn.stdpath("config") .. "/lua/plugins") do
   if type == "file" and name:match("%.lua$") then
     local module = name:gsub("%.lua$", "")
     if not deferred[module] then
-      require("plugins." .. module)
+      local ok, err = pcall(require, "plugins." .. module)
+      if not ok then
+        vim.notify("Failed to load " .. module .. ": " .. err, vim.log.levels.WARN)
+      end
     end
   end
 end

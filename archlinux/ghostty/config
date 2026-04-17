@@ -9,8 +9,8 @@ adjust-cell-height = 20%
 
 # Theme
 theme = "Black Metal (Burzum)"
-background = "#000000"
-background-opacity = 0.80
+background = "#000011"
+background-opacity = 1
 
 # Window
 window-save-state = always
