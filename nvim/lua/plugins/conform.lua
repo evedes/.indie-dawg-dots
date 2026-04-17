@@ -56,6 +56,7 @@ require("conform").setup({
 		typescriptreact = { "prettier", "dprint", lsp_format = "fallback" },
 		elixir = { "mix" },
 		heex = { "mix" },
+		rust = { "rustfmt", lsp_format = "fallback" },
 		vue = { "prettier" },
 		["_"] = { "trim_whitespace", "trim_newlines" },
 	},
