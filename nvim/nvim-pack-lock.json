@@ -29,6 +29,10 @@
       "rev": "aef7f5cec0a40dbe7f3304214850c472e2264b10",
       "src": "https://github.com/rebelot/kanagawa.nvim"
     },
+    "markdown-preview.nvim": {
+      "rev": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
+      "src": "https://github.com/iamcco/markdown-preview.nvim"
+    },
     "markview.nvim": {
       "rev": "1861f959599ae03cfd59f56222a542035b0cd947",
       "src": "https://github.com/OXY2DEV/markview.nvim"
