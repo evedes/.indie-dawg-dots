@@ -8,8 +8,8 @@ font-thicken = 0
 adjust-cell-height = 30%
 
 # Theme
-theme = "kanagawa-paper-ink"
-background-opacity = 0.86
+theme = "Kanagawa Dragon"
+background-opacity = 1
 background-blur-radius = 10
 
 # Window
