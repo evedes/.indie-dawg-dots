@@ -1,0 +1,6 @@
+{
+    "Fenced Code Block": {
+        "prefix": "fen",
+        "body": ["```${1:lang}", "$0", "```"]
+    }
+}
