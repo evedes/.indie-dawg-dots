@@ -14,6 +14,13 @@ require("blink.cmp").setup({
 	},
 	sources = {
 		default = { "lsp", "path", "snippets", "buffer" },
+		providers = {
+			snippets = {
+				opts = {
+					search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+				},
+			},
+		},
 	},
 	signature = { enabled = true },
 	fuzzy = { implementation = "prefer_rust_with_warning" },
