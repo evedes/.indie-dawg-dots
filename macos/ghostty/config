@@ -9,7 +9,7 @@ adjust-cell-height = 35%
 
 # Theme
 theme = "Oxocarbon"
-background-opacity = 1
+background-opacity = 0.86
 background-blur-radius = 10
 
 # Window
