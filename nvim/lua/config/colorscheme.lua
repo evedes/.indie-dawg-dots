@@ -1,18 +1,20 @@
 vim.pack.add {
   "https://github.com/rebelot/kanagawa.nvim",
   "https://github.com/catppuccin/nvim",
-  "https://github.com/thesimonho/kanagawa-paper.nvim"
+  "https://github.com/thesimonho/kanagawa-paper.nvim",
+  "https://github.com/nyoom-engineering/oxocarbon.nvim"
 }
 
 local themes = {
   "kanagawa-dragon",
   "kanagawa-wave",
   "kanagawa-lotus",
+  "kanagawa-paper",
   "catppuccin-mocha",
   "catppuccin-macchiato",
   "catppuccin-frappe",
   "catppuccin-latte",
-  "kanagawa-paper"
+  "oxocarbon"
 }
 
 local default_theme = "kanagawa-dragon"
