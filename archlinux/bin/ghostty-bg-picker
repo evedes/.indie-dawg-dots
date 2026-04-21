@@ -3,7 +3,7 @@
 CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/ghostty/config"
 
 # Define color options - very dark, subtle tints
-COLOR_OPTIONS="Reset (theme default):reset
+COLOR_OPTIONS="Remove Background:REMOVE
 Dark Navy:#000011
 Brown:#0a0000
 Green:#000a00
@@ -33,36 +33,28 @@ HEX_VALUE=$(echo "$SELECTED" | sed 's/^.*://')
 
 # Update the config file
 if [ -f "$CONFIG_FILE" ]; then
-    # Create a temp file for the updated content
     TEMP_FILE=$(mktemp)
 
-    if [ "$HEX_VALUE" = "reset" ]; then
-        # Remove any existing background line to fall back to theme default
-        sed '/^background = /d' "$CONFIG_FILE" > "$TEMP_FILE"
+    if [ "$HEX_VALUE" = "REMOVE" ]; then
+        # Remove the background line
+        grep -v "^background = " "$CONFIG_FILE" > "$TEMP_FILE"
         mv "$TEMP_FILE" "$CONFIG_FILE"
-        echo "Background color reset to theme default"
-        echo "Restart Ghostty for changes to take effect"
-        exit 0
-    fi
-
-    # Check if background line exists and update or add it
-    if grep -q "^background = " "$CONFIG_FILE"; then
-        # Replace existing background line
-        sed "s/^background = .*/background = \"$HEX_VALUE\"/" "$CONFIG_FILE" > "$TEMP_FILE"
+        echo "Background color removed (using theme default)"
     else
-        # Add background line after theme line if it exists, otherwise at the end
-        if grep -q "^theme = " "$CONFIG_FILE"; then
-            awk '/^theme = / {print; print "background = \"'"$HEX_VALUE"'\""; next} 1' "$CONFIG_FILE" > "$TEMP_FILE"
+        # Check if background line exists and update or add it
+        if grep -q "^background = " "$CONFIG_FILE"; then
+            sed "s/^background = .*/background = \"$HEX_VALUE\"/" "$CONFIG_FILE" > "$TEMP_FILE"
         else
-            cp "$CONFIG_FILE" "$TEMP_FILE"
-            echo "background = \"$HEX_VALUE\"" >> "$TEMP_FILE"
+            if grep -q "^theme = " "$CONFIG_FILE"; then
+                awk '/^theme = / {print; print "background = \"'"$HEX_VALUE"'\""; next} 1' "$CONFIG_FILE" > "$TEMP_FILE"
+            else
+                cp "$CONFIG_FILE" "$TEMP_FILE"
+                echo "background = \"$HEX_VALUE\"" >> "$TEMP_FILE"
+            fi
         fi
+        mv "$TEMP_FILE" "$CONFIG_FILE"
+        echo "Background color changed to: $SELECTED_COLOR ($HEX_VALUE)"
     fi
-
-    # Move temp file to config file
-    mv "$TEMP_FILE" "$CONFIG_FILE"
-
-    echo "Background color changed to: $SELECTED_COLOR ($HEX_VALUE)"
     echo "Restart Ghostty for changes to take effect"
 else
     echo "Config file not found: $CONFIG_FILE"

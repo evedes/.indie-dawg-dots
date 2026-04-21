@@ -8,8 +8,7 @@ font-thicken = 0
 adjust-cell-height = 35%
 
 # Theme
-theme = "kanagawa-paper-ink"
-background = "#000a0a"
+theme = "Oxocarbon"
 background-opacity = 1
 background-blur-radius = 10
 
