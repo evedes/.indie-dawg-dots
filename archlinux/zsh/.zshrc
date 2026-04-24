@@ -11,17 +11,9 @@ has_cmd() {
 source $HOME/.indie-dawg-dots/archlinux/zsh/.alias
 source $HOME/.secret/.alias
 
-# Clipboard compatibility - Wayland first, then X11 fallback
-if [[ -n "$WAYLAND_DISPLAY" ]] && has_cmd wl-copy; then
-    alias pbcopy='wl-copy'
-    alias pbpaste='wl-paste'
-elif has_cmd xsel; then
-    alias pbcopy='xsel --clipboard --input'
-    alias pbpaste='xsel --clipboard --output'
-elif has_cmd xclip; then
-    alias pbcopy='xclip -selection clipboard'
-    alias pbpaste='xclip -selection clipboard -o'
-fi
+# Copy / Past
+alias pbcopy='wl-copy'
+alias pbpaste='wl-paste'
 
 # History
 HISTFILE=$HOME/.zsh_history
@@ -38,6 +30,29 @@ bindkey -e
 
 # FZF
 has_cmd fzf && source <(fzf --zsh)
+
+# Zinit
+ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
+[[ ! -f $ZINIT_HOME/zinit.zsh ]] && ZINIT_HOME="/usr/share/zinit"
+[[ ! -f $ZINIT_HOME/zinit.zsh ]] && ZINIT_HOME="/usr/share/zsh/plugins/zinit"
+if [[ -f $ZINIT_HOME/zinit.zsh ]]; then
+    source "$ZINIT_HOME/zinit.zsh"
+
+    zinit light zsh-users/zsh-autosuggestions
+    zinit light zsh-users/zsh-completions
+    zinit light zdharma-continuum/fast-syntax-highlighting
+
+    autoload -Uz compinit && compinit
+    zinit cdreplay -q
+
+    zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+    zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+    zstyle ':completion:*' menu no
+
+    bindkey '^[[A' history-search-backward
+    bindkey '^[[B' history-search-forward
+    bindkey '^ ' autosuggest-accept
+fi
 
 # Starship
 has_cmd starship && eval "$(starship init zsh)"
