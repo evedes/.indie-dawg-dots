@@ -9,7 +9,7 @@ adjust-cell-height = 30%
 
 # Theme
 theme = "kanagawa-paper-ink"
-background-opacity = 1
+background-opacity = 0.70
 background-blur-radius = 10
 
 # Window
