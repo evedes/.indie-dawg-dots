@@ -26,3 +26,6 @@ export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
 # Rust
 . "$HOME/.cargo/env"
+
+# Libvirt
+export LIBVIRT_DEFAULT_URI="qemu:///system"
