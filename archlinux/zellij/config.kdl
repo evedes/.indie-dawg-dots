@@ -286,10 +286,10 @@ web_client {
 
 default_shell "zsh"
 default_layout "no-status"
-pane_frames false
+pane_frames true
 scroll_buffer_size 50000
 copy_clipboard "system"
 session_serialization true
 serialize_pane_viewport true
 show_startup_tips false
-theme "kanagawa_dragon"
+theme "kanagawa_wave"
