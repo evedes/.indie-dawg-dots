@@ -18,10 +18,12 @@ alias rubik='ssh edo@rubik'
 alias prometheus='ssh edo@prometheus'
 alias freya='ssh edo@freya'
 alias freya-ts='ssh edo@freya-ts'
+alias hel='ssh edo@hel'
 alias odin='ssh edo@odin'
+alias mimir='ssh edo@mimir'
 alias batman='ssh edo@batman'
 alias batman-ts='ssh edo@batman-ts'
-alias mosaic='ssh ec2-user@mosaic'
+alias k21='ssh edo@k21'
 
 # Machines SSH Tunnels
 alias odin-tunnel='ssh -fN -L 4030:localhost:4030 edo@odin'
