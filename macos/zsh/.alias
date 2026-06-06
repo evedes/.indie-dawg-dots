@@ -26,7 +26,7 @@ alias freya-ts='ssh edo@freya-ts'
 alias hel='ssh edo@hel'
 alias batman='ssh edo@batman'
 alias batman-ts='ssh edo@batman-ts'
-alias mosaic='ssh ec2-user@mosaic'
+alias mimir='ssh edo@mimir'
 alias k21='ssh edo@k21'
 
 # Machines SSH Tunnels
