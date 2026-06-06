@@ -192,6 +192,14 @@ hl.config({
     },
 })
 
+-- For WoW
+  hl.config({
+      render = {
+          direct_scanout = 2,
+      },
+  })
+
+
 -- See https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/ for more
 hl.config({
     scrolling = {
@@ -311,6 +319,24 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 -- and https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/
 
 -- Example window rules that are useful
+
+hl.window_rule({
+    name = "wow-game",
+    match = {
+        class = "steam_app_2894584976",
+        title = "World of Warcraft",
+    },
+
+    workspace = "9",
+    fullscreen = true,
+    content = "game",
+    idle_inhibit = "fullscreen",
+    no_anim = true,
+    no_blur = true,
+    no_shadow = true,
+    opaque = true,
+    confine_pointer = true,
+})
 
 local suppressMaximizeRule = hl.window_rule({
     -- Ignore maximize requests from all apps. You'll probably like this.
