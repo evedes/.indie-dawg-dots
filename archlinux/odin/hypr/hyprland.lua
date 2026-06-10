@@ -53,9 +53,10 @@ local menu        = "vicinae"
 
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 
-hl.on("hyprland.start", function () 
+hl.on("hyprland.start", function ()
    hl.exec_cmd("awww-daemon")
    hl.exec_cmd("quickshell 2>/dev/null &")
+   hl.exec_cmd("xembedsniproxy")  -- bridge legacy XEmbed tray icons (Wine/Battle.net) into SNI so quickshell shows them
    hl.exec_cmd("systemctl --user start hyprpolkit agent")
    hl.exec_cmd("vicinae server")
    hl.exec_cmd("gnome-keyring-daemon --start --components=secrets,ssh")
@@ -259,6 +260,8 @@ local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(mainMod .. "+ SHIFT + Q", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+-- Panic button: tear down a stuck WoW / Battle.net / Proton session (see ~/.local/bin/wow-kill)
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("wow-kill"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("vicinae toggle"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
