@@ -36,13 +36,13 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 ```
 .indie-dawg-dots/
 ├── nvim/             # Neovim configuration (primary, Lua-based with lazy.nvim)
+├── zellij/           # Terminal workspace manager (shared across platforms)
 ├── lazynvim/         # Alternative LazyVim distribution configuration
 ├── common/           # Cross-platform configurations
 │   ├── zsh/          # Shell configuration and aliases
 │   ├── tmux/         # Terminal multiplexer
 │   ├── starship/     # Cross-shell prompt
 │   ├── ghostty/      # Terminal emulator (includes theme switcher scripts)
-│   ├── zellij/       # Terminal workspace manager
 │   ├── cava/         # Audio visualizer
 │   ├── emacs/        # Emacs configuration
 │   └── fontconfig/   # Font configuration
@@ -414,13 +414,15 @@ common/ghostty/
 - **Theme Management**: Custom theme switcher scripts for quick theme changes
 - **Custom Keybinds**: `Shift+Enter` mapped to newline insertion
 
-### Zellij Configuration (`common/zellij/`)
+### Zellij Configuration (`zellij/`)
 
 #### Overview
-Terminal workspace manager similar to tmux but with a modern design philosophy and built-in features.
+Terminal workspace manager similar to tmux but with a modern design philosophy and built-in features. Shared across platforms at the repository root (like `nvim/`) — clipboard copying uses OSC 52 (`copy_clipboard "system"`), which works on both Linux and macOS.
 
-#### Main Configuration File
+#### Main Configuration Files
 - `config.kdl`: KDL format configuration file with custom keybindings and settings
+- `themes/`: Kanagawa theme variants (dragon, wave, lotus)
+- `switch-theme.sh`: FZF-based theme picker (aliased as `zt` on macOS; Arch machines use their own `bin/switch-theme`)
 
 #### Key Features
 - **Mode-Based Operation**: Different modes for different actions (normal, pane, tab, etc.)

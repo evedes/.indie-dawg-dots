@@ -13,11 +13,12 @@ This repository contains configuration files for:
 
 ## Architecture
 
-Neovim is shared across platforms at the repository root. Everything else lives in a platform-specific directory (`archlinux/` or `macos/`). Duplication across platforms is intentional for independence and simplicity.
+Neovim and Zellij are shared across platforms at the repository root. Everything else lives in a platform-specific directory (`archlinux/` or `macos/`). Duplication across platforms is intentional for independence and simplicity.
 
 ```
 .indie-dawg-dots/
 ├── nvim/                  # Shared Neovim configuration (Neovim 0.12+ native packages)
+├── zellij/                # Shared Zellij configuration (terminal workspace manager)
 │
 ├── archlinux/             # Arch Linux configuration
 │   ├── bin/               # Custom scripts (ghostty theme switcher, monitor switch, etc.)
@@ -31,7 +32,6 @@ Neovim is shared across platforms at the repository root. Everything else lives 
 │   ├── starship/          # Cross-shell prompt
 │   ├── tmux/              # Terminal multiplexer
 │   ├── udev/              # Custom udev rules
-│   ├── zellij/            # Terminal workspace manager
 │   ├── zsh/               # Shell configuration (.zshrc, .zshenv, .alias)
 │   ├── .gitconfig         # Git configuration
 │   ├── .gitignore         # Global gitignore
@@ -45,7 +45,6 @@ Neovim is shared across platforms at the repository root. Everything else lives 
 │   ├── ghostty/           # Terminal emulator
 │   ├── starship/          # Cross-shell prompt
 │   ├── tmux/              # Terminal multiplexer
-│   ├── zellij/            # Terminal workspace manager
 │   ├── zsh/               # Shell configuration (.zshrc, .zshenv, .alias)
 │   ├── .gitconfig         # Git configuration
 │   ├── .gitignore         # Global gitignore
@@ -91,7 +90,7 @@ ln -sf ~/.indie-dawg-dots/macos/.gitignore ~/.gitignore
 # Terminal tools
 ln -sf ~/.indie-dawg-dots/macos/ghostty ~/.config/ghostty
 ln -sf ~/.indie-dawg-dots/macos/tmux ~/.config/tmux
-ln -sf ~/.indie-dawg-dots/macos/zellij ~/.config/zellij
+ln -sf ~/.indie-dawg-dots/zellij ~/.config/zellij
 ln -sf ~/.indie-dawg-dots/macos/starship ~/.config/starship
 
 # Other
@@ -120,7 +119,7 @@ ln -sf ~/.indie-dawg-dots/archlinux/.gitignore ~/.gitignore
 # Terminal tools
 ln -sf ~/.indie-dawg-dots/archlinux/ghostty ~/.config/ghostty
 ln -sf ~/.indie-dawg-dots/archlinux/tmux ~/.config/tmux
-ln -sf ~/.indie-dawg-dots/archlinux/zellij ~/.config/zellij
+ln -sf ~/.indie-dawg-dots/zellij ~/.config/zellij
 ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 
 # Hyprland stack (optional)
