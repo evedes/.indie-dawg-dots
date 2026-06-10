@@ -158,8 +158,8 @@ alias ta='tmux attach -t'
 alias tn='tmux new-session -A -s'
 
 # ZELLIJ
-alias z='zellij --layout $HOME/.config/zellij/layouts/no-status.kdl'
-alias zn='zellij --new-session-with-layout $HOME/.config/zellij/layouts/no-status.kdl --session'
+alias z='zellij'
+alias zn='zellij --session'
 alias zl='zellij list-sessions'
 alias za='zellij attach'
 alias zd='zellij delete-session'
