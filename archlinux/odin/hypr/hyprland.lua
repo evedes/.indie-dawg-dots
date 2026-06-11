@@ -175,16 +175,20 @@ hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 1.21, bezier = "
 hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "zoomFactor",    enabled = true,  speed = 7,    bezier = "quick" })
 
+-- DP-1: workspaces 1-4 (number keys SUPER+1/2/3/4)
 hl.workspace_rule({ workspace = "1", monitor = "DP-1", persistent = true })
 hl.workspace_rule({ workspace = "2", monitor = "DP-1", persistent = true })
-hl.workspace_rule({ workspace = "3", monitor = "DP-2", persistent = true })
-hl.workspace_rule({ workspace = "4", monitor = "DP-2", persistent = true })
-hl.workspace_rule({ workspace = "5", monitor = "DP-2", persistent = true })
-hl.workspace_rule({ workspace = "6", monitor = "DP-2", persistent = true })
+hl.workspace_rule({ workspace = "3", monitor = "DP-1", persistent = true })
+hl.workspace_rule({ workspace = "4", monitor = "DP-1", persistent = true })
+-- HDMI-A-1 (TV): workspace 5 (key SUPER+t)
+hl.workspace_rule({ workspace = "5", monitor = "HDMI-A-1", persistent = true })
+-- WoW lands here on demand (see window rule below); pinned to DP-1, not persistent
+hl.workspace_rule({ workspace = "6", monitor = "DP-1" })
+-- DP-2: workspaces 7-10 (keys SUPER+7/8/9/0)
 hl.workspace_rule({ workspace = "7", monitor = "DP-2", persistent = true })
-hl.workspace_rule({ workspace = "8", monitor = "DP-1", persistent = true })
-hl.workspace_rule({ workspace = "9", monitor = "DP-1", persistent = true })
-hl.workspace_rule({ workspace = "10", monitor = "HDMI-A-1", persistent = true })
+hl.workspace_rule({ workspace = "8", monitor = "DP-2", persistent = true })
+hl.workspace_rule({ workspace = "9", monitor = "DP-2", persistent = true })
+hl.workspace_rule({ workspace = "10", monitor = "DP-2", persistent = true })
 
 
 hl.config({
@@ -279,12 +283,24 @@ hl.bind(mainMod .. " + SHIFT + l", hl.dsp.window.move({ direction = "right" }))
 hl.bind(mainMod .. " + SHIFT + k",    hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. " + SHIFT + j",  hl.dsp.window.move({ direction = "down" }))
 
--- Switch workspaces with mainMod + [0-9]
--- Move active window to a workspace with mainMod + SHIFT + [0-9]
-for i = 1, 10 do
-    local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}))
-    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
+-- Switch workspaces by monitor-grouped keys; SHIFT moves the active window there.
+--   DP-1:  SUPER+1/2/3/4   -> workspaces 1-4
+--   DP-2:  SUPER+7/8/9/0   -> workspaces 7-10
+--   TV:    SUPER+t         -> workspace 5
+local workspaceKeys = {
+    { key = "1", ws = 1 },  -- DP-1
+    { key = "2", ws = 2 },
+    { key = "3", ws = 3 },
+    { key = "4", ws = 4 },
+    { key = "7", ws = 7 },  -- DP-2
+    { key = "8", ws = 8 },
+    { key = "9", ws = 9 },
+    { key = "0", ws = 10 },
+    { key = "t", ws = 5 },  -- HDMI-A-1 (TV)
+}
+for _, m in ipairs(workspaceKeys) do
+    hl.bind(mainMod .. " + " .. m.key,           hl.dsp.focus({ workspace = m.ws }))
+    hl.bind(mainMod .. " + SHIFT + " .. m.key,   hl.dsp.window.move({ workspace = m.ws }))
 end
 
 -- Example special workspace (scratchpad)
@@ -330,7 +346,7 @@ hl.window_rule({
         title = "World of Warcraft",
     },
 
-    workspace = "9",
+    workspace = "6",
     fullscreen = true,
     content = "game",
     idle_inhibit = "fullscreen",
