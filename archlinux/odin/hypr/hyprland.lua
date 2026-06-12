@@ -175,9 +175,34 @@ hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 1.21, bezier = "
 hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "zoomFactor",    enabled = true,  speed = 7,    bezier = "quick" })
 
--- Workspaces use Hyprland defaults: one global set, created on demand, not
--- pinned to monitors. SUPER+[0-9] switches; focus follows a workspace to
--- whichever monitor currently holds it.
+-- Workspaces are pinned to monitors:
+--   DP-1     : 1, 2, 5, 6, 7, 8, 9
+--   DP-2     : 3, 4
+--   HDMI-A-1 : 10  (SUPER+0)
+-- SUPER+[0-9] switches to a workspace and focuses the monitor that holds it.
+local workspaceMonitors = {
+    ["1"]  = "DP-1",
+    ["2"]  = "DP-1",
+    ["3"]  = "DP-2",
+    ["4"]  = "DP-2",
+    ["5"]  = "DP-1",
+    ["6"]  = "DP-1",
+    ["7"]  = "DP-1",
+    ["8"]  = "DP-1",
+    ["9"]  = "DP-1",
+    ["10"] = "HDMI-A-1",
+}
+
+-- First workspace listed for each monitor becomes that monitor's default.
+local monitorDefault = { ["DP-1"] = "1", ["DP-2"] = "3", ["HDMI-A-1"] = "10" }
+
+for ws, mon in pairs(workspaceMonitors) do
+    hl.workspace_rule({
+        workspace = ws,
+        monitor   = mon,
+        default   = (monitorDefault[mon] == ws),
+    })
+end
 
 
 hl.config({
