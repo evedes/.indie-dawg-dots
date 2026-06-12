@@ -19,7 +19,7 @@ hl.monitor({
     output   = "DP-1",
     mode     = "3840x2160@60",
     position = "0x0",
-    scale    = "1",
+    scale    = "1.25",  -- native 4K, logical 3072x1728
 })
 
 hl.monitor({
@@ -32,8 +32,8 @@ hl.monitor({
 hl.monitor({
     output   = "HDMI-A-1",
     mode     = "3840x2160@60",
-    position = "-6400x0",
-    scale    = "1",
+    position = "-4480x0",  -- re-anchored for scale 2 (logical 1920 wide) to stay flush with DP-2
+    scale    = "2",  -- native 4K, logical 1920x1080, integer = pixel-perfect
 })
 
 
