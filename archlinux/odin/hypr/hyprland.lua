@@ -218,6 +218,17 @@ hl.config({
       },
   })
 
+-- XWayland apps (Steam, Battle.net, WoW, etc.) don't understand fractional
+-- scaling. On the 1.25-scaled DP-1 they would render at the logical resolution
+-- and get bitmap-upscaled to native 4K -> blurry/pixelized. force_zero_scaling
+-- makes them render at native pixel density instead (crisp). Toolkit UIs may
+-- look slightly small on DP-1; set GDK_SCALE/QT_SCALE_FACTOR per-app if needed.
+  hl.config({
+      xwayland = {
+          force_zero_scaling = true,
+      },
+  })
+
 
 -- See https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/ for more
 hl.config({

@@ -28,7 +28,6 @@ Neovim and Zellij are shared across platforms at the repository root. Everything
 │   ├── ghostty/           # Terminal emulator
 │   ├── hypr/              # Hyprland window manager
 │   ├── mako/              # Notification daemon
-│   ├── quickshell/        # Wayland shell (QML)
 │   ├── starship/          # Cross-shell prompt
 │   ├── tmux/              # Terminal multiplexer
 │   ├── udev/              # Custom udev rules
@@ -125,7 +124,10 @@ ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 # Hyprland stack (optional)
 ln -sf ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
 ln -sf ~/.indie-dawg-dots/archlinux/mako ~/.config/mako
-ln -sf ~/.indie-dawg-dots/archlinux/quickshell ~/.config/quickshell
+
+# Quickshell lives in its own repo — clone it, then link it
+# git clone <quickshell-repo-url> ~/.quickshell
+ln -sfn ~/.quickshell ~/.config/quickshell
 
 # Other
 ln -sf ~/.indie-dawg-dots/archlinux/.ripgreprc ~/.ripgreprc
