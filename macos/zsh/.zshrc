@@ -20,6 +20,7 @@ zinit light zsh-users/zsh-completions
 # Aliases
 source $HOME/.indie-dawg-dots/macos/zsh/.alias
 source $HOME/.secret/.alias
+source $HOME/.secret/.env
 
 # History
 HISTFILE=$HOME/.zsh_history

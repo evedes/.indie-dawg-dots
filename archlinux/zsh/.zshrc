@@ -10,6 +10,7 @@ has_cmd() {
 # Aliases
 source $HOME/.indie-dawg-dots/archlinux/zsh/.alias
 source $HOME/.secret/.alias
+source $HOME/.secret/.env
 
 # Copy / Past
 alias pbcopy='wl-copy'
@@ -42,6 +43,14 @@ if [[ -f $ZINIT_HOME/zinit.zsh ]]; then
     zinit light zsh-users/zsh-completions
     zinit light zdharma-continuum/fast-syntax-highlighting
 
+    # Load a few important annexes, without Turbo
+    # (this is currently required for annexes)
+    zinit light-mode for \
+        zdharma-continuum/zinit-annex-as-monitor \
+        zdharma-continuum/zinit-annex-bin-gem-node \
+        zdharma-continuum/zinit-annex-patch-dl \
+        zdharma-continuum/zinit-annex-rust
+
     autoload -Uz compinit && compinit
     zinit cdreplay -q
 
@@ -69,13 +78,3 @@ export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-### End of Zinit's installer chunk
