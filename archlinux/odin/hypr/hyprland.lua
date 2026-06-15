@@ -402,6 +402,18 @@ hl.window_rule({
 -- })
 -- overlayLayerRule:set_enabled(false)
 
+-- Frosted glass behind the Quickshell bar. Matches the layer-shell namespace
+-- set in ~/.quickshell/shell.qml (WlrLayershell.namespace = "quickshell:bar").
+-- ignore_alpha keeps fully-transparent regions clear; the bar's own tint
+-- (Theme.barOpacity) controls how much of the blur shows through — lower it via
+-- the bar's cog menu for a stronger glass effect.
+hl.layer_rule({
+    name  = "frost-quickshell-bar",
+    match = { namespace = "^quickshell:bar$" },
+    blur  = true,
+    ignore_alpha = 0.2,
+})
+
 -- Hyprland-run windowrule
 hl.window_rule({
     name  = "move-hyprland-run",
