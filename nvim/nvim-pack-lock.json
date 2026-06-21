@@ -121,6 +121,10 @@
       "rev": "f808500883ffc552b53a421139cc1915955759b7",
       "src": "https://github.com/nyoom-engineering/nyoom.nvim"
     },
+    "obsidian.nvim": {
+      "rev": "c18b19a08035b57092384f6d28f113bae725baa1",
+      "src": "git@github.com:obsidian-nvim/obsidian.nvim"
+    },
     "oxocarbon.nvim": {
       "rev": "a7ba74849a00546a311f8c146320b433900393e7",
       "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
