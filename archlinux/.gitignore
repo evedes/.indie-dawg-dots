@@ -2,3 +2,5 @@
 .DS_Store
 # Environment files
 .env
+
+**/.claude/settings.local.json
