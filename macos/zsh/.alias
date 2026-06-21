@@ -176,6 +176,7 @@ alias zl='zellij list-sessions'
 alias za='zellij attach'
 alias zd='zellij delete-session'
 alias zt='$HOME/.indie-dawg-dots/zellij/switch-theme.sh'
+alias zam='za MULTIVERSE'
 
 # YAZI
 alias y='yazi'
