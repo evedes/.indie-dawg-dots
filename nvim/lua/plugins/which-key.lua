@@ -19,7 +19,6 @@ require("which-key").add({
 	{ "<leader>g", group = "Git" },
 	{ "<leader>k", group = "Close" },
 	{ "<leader>m", group = "Markdown" },
-	{ "<leader>o", group = "Obsidian" },
 	{ "<leader>s", group = "Splits" },
 	{ "<leader>u", group = "Toggle" },
 	{ "<leader>x", group = "Quickfix" },

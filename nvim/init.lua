@@ -8,7 +8,6 @@ require("lsp")
 
 -- Plugins that can be deferred (not needed at first draw)
 local deferred = {
-  ["obsidian"] = true,
   ["dadbod"] = true,
   ["diffview"] = true,
   ["neogit"] = true,
