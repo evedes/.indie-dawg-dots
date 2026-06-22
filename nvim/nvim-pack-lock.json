@@ -89,6 +89,10 @@
       "rev": "2715e04bea3ec9244f15b421dc5b18c0fe326210",
       "src": "https://github.com/nvim-mini/mini.surround"
     },
+    "mkdnflow.nvim": {
+      "rev": "f20732686f70f60f18f09f4befe984ae63a99201",
+      "src": "https://github.com/jakewvincent/mkdnflow.nvim"
+    },
     "neogit": {
       "rev": "5a7fca171e3ad07380745d573d791e95268b8f3f",
       "src": "https://github.com/NeogitOrg/neogit"
