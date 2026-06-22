@@ -1,4 +1,4 @@
-# newnvim
+# neovim
 
 Minimal Neovim configuration for macOS using Neovim 0.12+ native package management (`vim.pack.add`). No lazy.nvim or other plugin managers.
 
@@ -18,6 +18,7 @@ newnvim/
 │   │   ├── blink-cmp.lua       # Completion engine (Rust matcher) + LSP capabilities
 │   │   ├── which-key.lua       # Keymap hints / leader group descriptions
 │   │   ├── ui2.lua             # Built-in UI2 (messages, cmdline, pager)
+│   │   ├── mkdnflow.lua        # Markdown notebook navigation, links, backlinks, todos
 │   │   ├── mini-diff.lua       # Inline diff overlay
 │   │   ├── neogit.lua          # Git interface
 │   │   ├── diffview.lua        # Side-by-side diff viewer
@@ -59,6 +60,17 @@ which-key automatically picks up `desc` fields from `vim.keymap.set(...)` calls,
 ## Leader Key
 
 Space. Local leader is comma.
+
+## Markdown Workflow
+
+- `mkdnflow.nvim` handles Markdown notebook navigation and editing.
+- `<CR>` follows or creates Markdown links; `<BS>` / `<Del>` move back and forward through mkdnflow history.
+- `<Tab>` / `<S-Tab>` jump between links; `]]` / `[[` jump between headings.
+- `<leader>ml` creates a Markdown link from text/selection; `<leader>mL` creates one from the clipboard.
+- `<leader>mb` opens backlinks; `<leader>mB` refreshes backlinks.
+- `<leader>mx` toggles Markdown task status.
+- `<leader>mr` renames/moves the current source and updates links.
+- Markdown link creation is configured for flat kebab-case `.md` files to match the Multiverse vault.
 
 ## Pre-Commit Rule
 
