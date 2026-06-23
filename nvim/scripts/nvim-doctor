@@ -10,16 +10,16 @@
 #   nvim-doctor list       list every managed tool and its install recipe
 #
 # Cross-platform: detects macOS (brew) vs Arch Linux (pacman/yay); npm/cargo/
-# rustup based tools work on both. Keep this list in sync with
-# `lua/dotfiles/health.lua`.
+# rustup based tools work on both. Written for bash 3.2 (stock macOS) and up —
+# no associative arrays. Keep this list in sync with `lua/dotfiles/health.lua`.
 
 set -uo pipefail
 
 # ----------------------------------------------------------------------------
 # Presentation
 # ----------------------------------------------------------------------------
-if [[ -t 1 ]]; then
-	GREEN=$'\e[32m' RED=$'\e[31m' YELLOW=$'\e[33m' BOLD=$'\e[1m' DIM=$'\e[2m' RESET=$'\e[0m'
+if [ -t 1 ]; then
+	GREEN=$'\033[32m' RED=$'\033[31m' YELLOW=$'\033[33m' BOLD=$'\033[1m' DIM=$'\033[2m' RESET=$'\033[0m'
 else
 	GREEN='' RED='' YELLOW='' BOLD='' DIM='' RESET=''
 fi
@@ -38,64 +38,64 @@ esac
 NPM="npm install -g"
 
 # ----------------------------------------------------------------------------
-# Tool registry
-#   register <binary> <group> <description> <arch-cmd> <mac-cmd>
+# Tool registry — one record per line: "binary|group|description|arch|mac"
 #   group ∈ LSP | FORMATTER | CLI
+# npm-based tools use the same recipe on both platforms.
 # ----------------------------------------------------------------------------
-TOOLS=()
-declare -A G_GROUP G_DESC G_ARCH G_MAC
-register() {
-	TOOLS+=("$1")
-	G_GROUP[$1]=$2
-	G_DESC[$1]=$3
-	G_ARCH[$1]=$4
-	G_MAC[$1]=$5
+TOOLS=(
+	# --- LSP servers ---
+	"vtsls|LSP|TypeScript/JavaScript|$NPM @vtsls/language-server|$NPM @vtsls/language-server"
+	"vue-language-server|LSP|Vue (volar)|$NPM @vue/language-server typescript|$NPM @vue/language-server typescript"
+	"lua-language-server|LSP|Lua|sudo pacman -S --needed --noconfirm lua-language-server|brew install lua-language-server"
+	"bash-language-server|LSP|Bash|$NPM bash-language-server|$NPM bash-language-server"
+	"vscode-eslint-language-server|LSP|ESLint|$NPM vscode-langservers-extracted|$NPM vscode-langservers-extracted"
+	"vscode-css-language-server|LSP|CSS|$NPM vscode-langservers-extracted|$NPM vscode-langservers-extracted"
+	"vscode-html-language-server|LSP|HTML|$NPM vscode-langservers-extracted|$NPM vscode-langservers-extracted"
+	"vscode-json-language-server|LSP|JSON|$NPM vscode-langservers-extracted|$NPM vscode-langservers-extracted"
+	"yaml-language-server|LSP|YAML|$NPM yaml-language-server|$NPM yaml-language-server"
+	"tailwindcss-language-server|LSP|Tailwind CSS|$NPM @tailwindcss/language-server|$NPM @tailwindcss/language-server"
+	"emmet-ls|LSP|Emmet|$NPM emmet-ls|$NPM emmet-ls"
+	"stylelint-lsp|LSP|Stylelint|$NPM stylelint-lsp|$NPM stylelint-lsp"
+	"rust-analyzer|LSP|Rust|sudo pacman -S --needed --noconfirm rust-analyzer|brew install rust-analyzer"
+	"clangd|LSP|C/C++|sudo pacman -S --needed --noconfirm clang|brew install llvm"
+	"elixir-ls|LSP|Elixir|yay -S --needed --noconfirm elixir-ls|brew install elixir-ls"
+	"dprint|LSP|dprint (json/graphql LSP)|sudo pacman -S --needed --noconfirm dprint|brew install dprint"
+	# --- Formatters ---
+	"stylua|FORMATTER|Lua formatter|sudo pacman -S --needed --noconfirm stylua|brew install stylua"
+	"prettier|FORMATTER|JS/TS/CSS/HTML formatter|$NPM prettier|$NPM prettier"
+	"shfmt|FORMATTER|Shell formatter|sudo pacman -S --needed --noconfirm shfmt|brew install shfmt"
+	"rustfmt|FORMATTER|Rust formatter|rustup component add rustfmt|rustup component add rustfmt"
+	"mix|FORMATTER|Elixir (mix format)|sudo pacman -S --needed --noconfirm elixir|brew install elixir"
+	# --- CLI tools ---
+	"rg|CLI|ripgrep (picker grep)|sudo pacman -S --needed --noconfirm ripgrep|brew install ripgrep"
+	"fd|CLI|fd (file finding)|sudo pacman -S --needed --noconfirm fd|brew install fd"
+	"git|CLI|git (plugin fetching)|sudo pacman -S --needed --noconfirm git|brew install git"
+)
+
+GROUP_ORDER="LSP FORMATTER CLI"
+
+group_label() {
+	case "$1" in
+	LSP) echo "LSP servers" ;;
+	FORMATTER) echo "Formatters" ;;
+	CLI) echo "CLI tools" ;;
+	*) echo "$1" ;;
+	esac
 }
-
-declare -A GROUP_LABEL=([LSP]="LSP servers" [FORMATTER]="Formatters" [CLI]="CLI tools")
-
-# --- LSP servers ---
-register vtsls LSP "TypeScript/JavaScript" "$NPM @vtsls/language-server" "$NPM @vtsls/language-server"
-register vue-language-server LSP "Vue (volar)" "$NPM @vue/language-server typescript" "$NPM @vue/language-server typescript"
-register lua-language-server LSP "Lua" "sudo pacman -S --needed --noconfirm lua-language-server" "brew install lua-language-server"
-register bash-language-server LSP "Bash" "$NPM bash-language-server" "$NPM bash-language-server"
-register vscode-eslint-language-server LSP "ESLint" "$NPM vscode-langservers-extracted" "$NPM vscode-langservers-extracted"
-register vscode-css-language-server LSP "CSS" "$NPM vscode-langservers-extracted" "$NPM vscode-langservers-extracted"
-register vscode-html-language-server LSP "HTML" "$NPM vscode-langservers-extracted" "$NPM vscode-langservers-extracted"
-register vscode-json-language-server LSP "JSON" "$NPM vscode-langservers-extracted" "$NPM vscode-langservers-extracted"
-register yaml-language-server LSP "YAML" "$NPM yaml-language-server" "$NPM yaml-language-server"
-register tailwindcss-language-server LSP "Tailwind CSS" "$NPM @tailwindcss/language-server" "$NPM @tailwindcss/language-server"
-register emmet-ls LSP "Emmet" "$NPM emmet-ls" "$NPM emmet-ls"
-register stylelint-lsp LSP "Stylelint" "$NPM stylelint-lsp" "$NPM stylelint-lsp"
-register rust-analyzer LSP "Rust" "sudo pacman -S --needed --noconfirm rust-analyzer" "brew install rust-analyzer"
-register clangd LSP "C/C++" "sudo pacman -S --needed --noconfirm clang" "brew install llvm"
-register elixir-ls LSP "Elixir" "yay -S --needed --noconfirm elixir-ls" "brew install elixir-ls"
-register dprint LSP "dprint (json/graphql LSP)" "sudo pacman -S --needed --noconfirm dprint" "brew install dprint"
-
-# --- Formatters ---
-register stylua FORMATTER "Lua formatter" "sudo pacman -S --needed --noconfirm stylua" "brew install stylua"
-register prettier FORMATTER "JS/TS/CSS/HTML formatter" "$NPM prettier" "$NPM prettier"
-register shfmt FORMATTER "Shell formatter" "sudo pacman -S --needed --noconfirm shfmt" "brew install shfmt"
-register rustfmt FORMATTER "Rust formatter" "rustup component add rustfmt" "rustup component add rustfmt"
-register mix FORMATTER "Elixir (mix format)" "sudo pacman -S --needed --noconfirm elixir" "brew install elixir"
-
-# --- CLI tools ---
-register rg CLI "ripgrep (picker grep)" "sudo pacman -S --needed --noconfirm ripgrep" "brew install ripgrep"
-register fd CLI "fd (file finding)" "sudo pacman -S --needed --noconfirm fd" "brew install fd"
-register git CLI "git (plugin fetching)" "sudo pacman -S --needed --noconfirm git" "brew install git"
 
 # ----------------------------------------------------------------------------
 # Helpers
 # ----------------------------------------------------------------------------
 have() { command -v "$1" >/dev/null 2>&1; }
 
-cmd_for() {
-	if [[ $OS == mac ]]; then echo "${G_MAC[$1]}"; else echo "${G_ARCH[$1]}"; fi
+# Pick the platform-appropriate recipe (field 4 = arch, field 5 = mac).
+recipe_for() {
+	if [ "$OS" = mac ]; then echo "$2"; else echo "$1"; fi
 }
 
 header() {
 	local os_label="$OS"
-	[[ -z $os_label ]] && os_label="unknown"
+	[ -z "$os_label" ] && os_label="unknown"
 	echo "${BOLD}nvim-doctor${RESET} ${DIM}(platform: ${os_label})${RESET}"
 	if have nvim; then
 		echo "${DIM}$(nvim --version | head -n1)${RESET}"
@@ -110,22 +110,25 @@ header() {
 # ----------------------------------------------------------------------------
 cmd_check() {
 	header
-	local missing=0
-	for group in LSP FORMATTER CLI; do
-		echo "${BOLD}${GROUP_LABEL[$group]}${RESET}"
-		for bin in "${TOOLS[@]}"; do
-			[[ ${G_GROUP[$bin]} == "$group" ]] || continue
+	local missing=0 group record bin g desc
+	for group in $GROUP_ORDER; do
+		echo "${BOLD}$(group_label "$group")${RESET}"
+		for record in "${TOOLS[@]}"; do
+			IFS='|' read -r bin g desc _ _ <<EOF
+$record
+EOF
+			[ "$g" = "$group" ] || continue
 			if have "$bin"; then
-				printf "  ${GREEN}✓${RESET} %-32s ${DIM}%s${RESET}\n" "$bin" "${G_DESC[$bin]}"
+				printf "  ${GREEN}✓${RESET} %-32s ${DIM}%s${RESET}\n" "$bin" "$desc"
 			else
 				missing=$((missing + 1))
-				printf "  ${RED}✗${RESET} %-32s ${YELLOW}MISSING${RESET} ${DIM}— %s${RESET}\n" "$bin" "${G_DESC[$bin]}"
+				printf "  ${RED}✗${RESET} %-32s ${YELLOW}MISSING${RESET} ${DIM}— %s${RESET}\n" "$bin" "$desc"
 			fi
 		done
 		echo
 	done
 
-	if [[ $missing -eq 0 ]]; then
+	if [ "$missing" -eq 0 ]; then
 		echo "${GREEN}${BOLD}All expected tools are installed.${RESET}"
 	else
 		echo "${YELLOW}${BOLD}${missing} tool(s) missing.${RESET} Run ${BOLD}nvim-doctor install${RESET} to install them."
@@ -135,17 +138,8 @@ cmd_check() {
 
 cmd_install() {
 	header
-	local missing=()
-	for bin in "${TOOLS[@]}"; do
-		have "$bin" || missing+=("$bin")
-	done
 
-	if [[ ${#missing[@]} -eq 0 ]]; then
-		echo "${GREEN}Nothing to do — all tools already installed.${RESET}"
-		return 0
-	fi
-
-	if [[ $OS != mac && $OS != arch ]]; then
+	if [ "$OS" != mac ] && [ "$OS" != arch ]; then
 		echo "${YELLOW}Unrecognized platform — only npm/cargo/rustup recipes are likely to work.${RESET}"
 		echo
 	fi
@@ -154,47 +148,62 @@ cmd_install() {
 		echo
 	fi
 
-	echo "${BOLD}Installing ${#missing[@]} missing tool(s)…${RESET}"
-	echo
+	local record bin g desc arch mac cmd ran="" failed="" installed_any=0
+	for record in "${TOOLS[@]}"; do
+		IFS='|' read -r bin g desc arch mac <<EOF
+$record
+EOF
+		have "$bin" && continue # already present (possibly via a shared package)
 
-	declare -A ran
-	local failed=()
-	for bin in "${missing[@]}"; do
-		have "$bin" && continue # may have come in via a shared package
-
-		local cmd
-		cmd=$(cmd_for "$bin")
-		if [[ -z $cmd ]]; then
+		cmd=$(recipe_for "$arch" "$mac")
+		if [ -z "$cmd" ]; then
 			echo "${YELLOW}• $bin — no recipe for this platform, skipping${RESET}"
-			failed+=("$bin")
+			failed="$failed $bin"
 			continue
 		fi
 
-		if [[ -z ${ran[$cmd]:-} ]]; then
+		# Run each distinct recipe only once (shared npm packages, etc.).
+		case "
+$ran" in
+		*"
+$cmd"*) ;;
+		*)
 			echo "${BOLD}• $bin${RESET} ${DIM}→ ${cmd}${RESET}"
-			ran[$cmd]=1
+			ran="$ran
+$cmd"
+			installed_any=1
 			eval "$cmd" || echo "${RED}  command failed${RESET}"
-		fi
+			;;
+		esac
 
-		have "$bin" || failed+=("$bin")
+		have "$bin" || failed="$failed $bin"
 	done
 
+	if [ "$installed_any" -eq 0 ] && [ -z "$failed" ]; then
+		echo "${GREEN}Nothing to do — all tools already installed.${RESET}"
+		return 0
+	fi
+
 	echo
-	if [[ ${#failed[@]} -eq 0 ]]; then
+	if [ -z "$failed" ]; then
 		echo "${GREEN}${BOLD}All missing tools installed.${RESET}"
 	else
-		echo "${YELLOW}${BOLD}Still missing:${RESET} ${failed[*]}"
+		echo "${YELLOW}${BOLD}Still missing:${RESET}${failed}"
 		echo "${DIM}Install manually — see the comment at the top of the matching nvim/lsp/*.lua file.${RESET}"
 		return 1
 	fi
 }
 
 cmd_list() {
-	for group in LSP FORMATTER CLI; do
-		echo "${BOLD}${GROUP_LABEL[$group]}${RESET}"
-		for bin in "${TOOLS[@]}"; do
-			[[ ${G_GROUP[$bin]} == "$group" ]] || continue
-			printf "  %-32s ${DIM}%s${RESET}\n" "$bin" "$(cmd_for "$bin")"
+	local group record bin g desc arch mac
+	for group in $GROUP_ORDER; do
+		echo "${BOLD}$(group_label "$group")${RESET}"
+		for record in "${TOOLS[@]}"; do
+			IFS='|' read -r bin g desc arch mac <<EOF
+$record
+EOF
+			[ "$g" = "$group" ] || continue
+			printf "  %-32s ${DIM}%s${RESET}\n" "$bin" "$(recipe_for "$arch" "$mac")"
 		done
 		echo
 	done
@@ -208,7 +217,7 @@ check | "") cmd_check ;;
 install) cmd_install ;;
 list) cmd_list ;;
 -h | --help | help)
-	sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//'
+	sed -n '3,14p' "$0" | sed 's/^# \{0,1\}//'
 	;;
 *)
 	echo "Unknown command: $1" >&2
