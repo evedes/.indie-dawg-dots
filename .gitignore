@@ -1,3 +1,4 @@
 # Chromium browser profile data (runtime/cache) — keep only the launch flags config
 archlinux/chromium/*
 !archlinux/chromium/chromium-flags.conf
+docs/*

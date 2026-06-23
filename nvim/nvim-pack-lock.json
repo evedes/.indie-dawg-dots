@@ -145,6 +145,10 @@
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"
     },
+    "solarized-osaka.nvim": {
+      "rev": "a261ee90fb3e5e82660567e4874d384e996afa4f",
+      "src": "git@github.com:craftzdog/solarized-osaka.nvim"
+    },
     "supermaven-nvim": {
       "rev": "07d20fce48a5629686aefb0a7cd4b25e33947d50",
       "src": "https://github.com/supermaven-inc/supermaven-nvim"
