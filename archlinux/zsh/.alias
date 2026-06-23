@@ -156,6 +156,7 @@ alias t='tmux'
 alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tn='tmux new-session -A -s'
+alias tam='tmux attach -t MULTIVERSE'
 
 # ZELLIJ
 alias z='zellij'

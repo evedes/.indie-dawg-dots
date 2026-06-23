@@ -12,7 +12,10 @@ newnvim/
 │   │   ├── options.lua         # Vim options (leader, numbers, clipboard, netrw disabled)
 │   │   ├── keymaps.lua         # Global keymaps (not plugin-specific)
 │   │   ├── autocmds.lua        # Autocommands (yank highlight)
+│   │   ├── commands.lua        # Non-plugin user commands (:DotfilesHealth)
 │   │   └── colorscheme.lua     # Theme setup (kanagawa)
+│   ├── dotfiles/
+│   │   └── health.lua          # `:checkhealth dotfiles` — verifies external tools
 │   ├── plugins/                # One file per plugin (auto-loaded by init.lua)
 │   │   ├── snacks.lua          # Explorer, picker, notifier, bigfile, quickfile
 │   │   ├── blink-cmp.lua       # Completion engine (Rust matcher) + LSP capabilities
@@ -24,6 +27,9 @@ newnvim/
 │   │   ├── diffview.lua        # Side-by-side diff viewer
 │   │   └── tmux-navigator.lua  # Tmux pane navigation
 │   └── lsp.lua                 # LSP configuration
+├── lsp/                        # Per-server vim.lsp.Config files (auto-enabled)
+├── scripts/
+│   └── nvim-doctor             # Check/install external tools (cross-platform)
 └── after/ftplugin/             # Filetype-specific settings
 ```
 
@@ -57,6 +63,24 @@ To add a description for a `<leader>` key group, add an entry to the `add()` cal
 ```
 which-key automatically picks up `desc` fields from `vim.keymap.set(...)` calls, so individual mappings don't need to be registered manually.
 
+## Health Check & Tool Install
+
+The config expects a set of external tools (language servers, formatters, ripgrep/fd). Two ways to verify and install them:
+
+- **In-editor**: `:checkhealth dotfiles` (or `:DotfilesHealth`) reports which expected tools are present/missing. Defined in `lua/dotfiles/health.lua`.
+- **Terminal**: `scripts/nvim-doctor` checks and installs.
+  - `nvim-doctor` / `nvim-doctor check` — report installed vs missing.
+  - `nvim-doctor install` — install everything missing (auto-detects macOS/brew vs Arch/pacman/yay; uses npm/cargo/rustup where appropriate).
+  - `nvim-doctor list` — list every managed tool and its install recipe.
+
+The tool list is duplicated in `lua/dotfiles/health.lua` and `scripts/nvim-doctor`; keep the two in sync when adding/removing a server or formatter.
+
+## Formatting
+
+- `conform.nvim` formats on save (toggle `vim.g.autoformat`). Formatters per filetype live in `lua/plugins/conform.lua`.
+- **JS/TS/JSON use Prettier only** — `dprint` was removed as a JS/TS/JSON formatter to keep formatting deterministic (no two formatters competing in one chain). The `dprint` LSP (`lsp/dprint.lua`) is still enabled for json/graphql.
+- `<leader>up` toggles Prettier's built-in default args (used only when no project Prettier config is found).
+
 ## Leader Key
 
 Space. Local leader is comma.
@@ -81,3 +105,4 @@ Before creating a commit, review and update this CLAUDE.md to reflect any struct
 - Neovim >= 0.12 (for `vim.pack.add`)
 - Git (for plugin fetching)
 - ripgrep (for mini.pick grep)
+- Language servers + formatters listed by `scripts/nvim-doctor` (install with `nvim-doctor install`)
