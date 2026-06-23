@@ -22,6 +22,7 @@ newnvim/
 │   │   ├── which-key.lua       # Keymap hints / leader group descriptions
 │   │   ├── ui2.lua             # Built-in UI2 (messages, cmdline, pager)
 │   │   ├── mkdnflow.lua        # Markdown notebook navigation, links, backlinks, todos
+│   │   ├── multiverse.lua      # Snacks pickers scoped to the Multiverse notes vault
 │   │   ├── mini-diff.lua       # Inline diff overlay
 │   │   ├── neogit.lua          # Git interface
 │   │   ├── diffview.lua        # Side-by-side diff viewer
@@ -95,6 +96,17 @@ Space. Local leader is comma.
 - `<leader>mx` toggles Markdown task status.
 - `<leader>mr` renames/moves the current source and updates links.
 - Markdown link creation is configured for flat kebab-case `.md` files to match the Multiverse vault.
+
+## Multiverse Vault Pickers
+
+`lua/plugins/multiverse.lua` adds Snacks pickers hard-scoped to the notes vault (`~/Nextcloud/Multiverse`), so notes are reachable from any project without changing the session's cwd. The `<leader>n` keys take `cwd` as a one-off argument — they do not `cd` the session.
+
+- `<leader>nf` — find a note by filename.
+- `<leader>n/` — live grep across all notes.
+- `<leader>nr` — recently edited notes, sorted by mtime (catches notes changed outside Neovim via a custom finder).
+- `<leader>nb` — backlinks: grep the vault for links to the current note (picker-based, preferred over mkdnflow's `<leader>mb`).
+
+snacks is `require`d lazily inside each mapping because this file may load before `snacks.lua` adds snacks to the pack path (plugins are auto-required in alphabetical order).
 
 ## Pre-Commit Rule
 
