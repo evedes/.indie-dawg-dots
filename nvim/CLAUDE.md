@@ -27,6 +27,8 @@ newnvim/
 │   │   ├── neogit.lua          # Git interface
 │   │   ├── diffview.lua        # Side-by-side diff viewer
 │   │   └── tmux-navigator.lua  # Tmux pane navigation
+│   ├── util/
+│   │   └── lazy.lua            # on_filetype(): defer a plugin's load to the first matching buffer
 │   └── lsp.lua                 # LSP configuration
 ├── lsp/                        # Per-server vim.lsp.Config files (auto-enabled)
 ├── scripts/
@@ -40,6 +42,7 @@ newnvim/
 - **Plugin keymaps live with their plugin**: Each plugin file in `lua/plugins/` contains its own keymaps. Only general-purpose keymaps go in `config/keymaps.lua`.
 - **Colorscheme loads before plugins**: `config/colorscheme.lua` is required explicitly in `init.lua` before the plugins loop to ensure highlight groups are available.
 - **No lazy.nvim**: Uses Neovim 0.12's built-in `vim.pack.add` for plugin management.
+- **Filetype-deferred plugins**: Plugins that only matter for specific buffers wrap their whole body (including `vim.pack.add`) in `require("util.lazy").on_filetype(fts, fn)`, so they don't load on unrelated startups. The helper runs `fn` once on the first matching buffer, on the next tick via `vim.schedule` (filetype detection runs inside a `vim._with` textlock where `vim.pack.add` is disallowed). Currently used by `mkdnflow.lua` (`markdown`) and `autotag.lua` (web/markup filetypes). `markview.lua` and `markdown-preview.lua` are left eager — they're already effectively lazy (≈0 ms startup cost).
 - **`with_desc()` helper** in `keymaps.lua`: Returns merged options table with description for mini.clue integration.
 
 ## Adding a Plugin
