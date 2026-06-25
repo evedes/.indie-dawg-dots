@@ -1,9 +1,9 @@
-vim.pack.add {
+vim.pack.add({
   "https://github.com/rebelot/kanagawa.nvim",
   "https://github.com/catppuccin/nvim",
   "https://github.com/thesimonho/kanagawa-paper.nvim",
-  "https://github.com/nyoom-engineering/oxocarbon.nvim"
-}
+  "https://github.com/nyoom-engineering/oxocarbon.nvim",
+})
 
 local themes = {
   "kanagawa-dragon",
@@ -14,7 +14,8 @@ local themes = {
   "catppuccin-macchiato",
   "catppuccin-frappe",
   "catppuccin-latte",
-  "oxocarbon"
+  "oxocarbon",
+  "sourcerer",
 }
 
 local default_theme = "kanagawa-dragon"
@@ -24,7 +25,9 @@ local state = { theme = default_theme, transparent = false }
 
 local function load_state()
   local f = io.open(state_file, "r")
-  if not f then return end
+  if not f then
+    return
+  end
   local content = f:read("*a")
   f:close()
   local ok, decoded = pcall(vim.json.decode, content)
@@ -36,7 +39,9 @@ end
 
 local function save_state()
   local f = io.open(state_file, "w")
-  if not f then return end
+  if not f then
+    return
+  end
   f:write(vim.json.encode(state))
   f:close()
 end
@@ -51,7 +56,9 @@ local transparent_groups = {
 }
 
 local function apply_transparency()
-  if not state.transparent then return end
+  if not state.transparent then
+    return
+  end
   for _, group in ipairs(transparent_groups) do
     vim.api.nvim_set_hl(0, group, { bg = "NONE", ctermbg = "NONE" })
   end
@@ -64,7 +71,9 @@ vim.cmd.colorscheme(state.theme)
 
 vim.keymap.set("n", "<leader>ut", function()
   vim.ui.select(themes, { prompt = "Select theme" }, function(choice)
-    if not choice then return end
+    if not choice then
+      return
+    end
     state.theme = choice
     vim.cmd.colorscheme(choice)
     save_state()
