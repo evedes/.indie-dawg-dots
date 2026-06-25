@@ -6,6 +6,9 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
+-- True color (24-bit) — required for colorschemes to render exact hex values
+vim.opt.termguicolors = true
+
 -- Line numbering
 vim.opt.relativenumber = true
 vim.opt.number = true
