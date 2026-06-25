@@ -8,7 +8,7 @@ font-thicken = 0
 adjust-cell-height = 35%
 
 # Theme
-theme = "Kanagawa Dragon"
+theme = "sourcerer"
 background-opacity = 1
 background-blur-radius = 10
 
