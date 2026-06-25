@@ -168,6 +168,7 @@ alias tc='v ~/.tmux.conf'
 alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tn='tmux new-session -A -s'
+alias tam='ta MULTIVERSE'
 
 # ZELLIJ
 alias z='zellij'
