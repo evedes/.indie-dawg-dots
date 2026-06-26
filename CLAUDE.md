@@ -35,248 +35,173 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 ### Directory Organization
 ```
 .indie-dawg-dots/
-├── nvim/             # Neovim configuration (primary, Lua-based with lazy.nvim)
-├── zellij/           # Terminal workspace manager (shared across platforms)
-├── lazynvim/         # Alternative LazyVim distribution configuration
-├── common/           # Cross-platform configurations
-│   ├── zsh/          # Shell configuration and aliases
+├── nvim/             # Shared Neovim config (Lua, native vim.pack.add — no plugin manager)
+├── zellij/           # Shared Zellij config (terminal workspace manager)
+├── archlinux/        # Arch Linux platform configs
+│   ├── zsh/          # Shell config (.zshrc, .zshenv, .alias)
 │   ├── tmux/         # Terminal multiplexer
 │   ├── starship/     # Cross-shell prompt
-│   ├── ghostty/      # Terminal emulator (includes theme switcher scripts)
+│   ├── mako/         # Notification daemon
+│   ├── fontconfig/   # Font configuration
+│   ├── gtk-3.0/, gtk-4.0/   # GTK theming
 │   ├── cava/         # Audio visualizer
-│   ├── emacs/        # Emacs configuration
-│   └── fontconfig/   # Font configuration
-├── archlinux/        # Linux-specific configurations
-│   ├── hypr/         # Hyprland window manager
-│   ├── waybar/       # Wayland bar configuration
-│   ├── rofi/         # Application launcher
-│   ├── mako/         # Wayland notification daemon
-│   ├── chromium/     # Chromium browser configuration
-│   └── .linuxrc      # Linux-specific shell configuration
-├── macos/            # macOS-specific configurations
-│   └── .macosrc      # macOS-specific shell configuration
-├── fonts/            # Custom fonts (BerkeleyMono, JetBrainsMono, ZedMono Nerd Fonts)
-├── .gitconfig        # Git configuration with custom aliases
-├── .zshenv           # Environment variables for development tools
-├── .ripgreprc        # Search tool configuration
-├── .vimrc            # Basic vim configuration (fallback)
-└── .claude/          # Claude-specific configuration
+│   ├── …             # Other machine-specific dirs (chromium, udev, fonts, etc.)
+│   └── .gitconfig, .gitignore, .ripgreprc, .vimrc
+├── macos/            # macOS platform configs
+│   ├── zsh/          # Shell config (.zshrc, .zshenv, .alias)
+│   ├── tmux/         # Terminal multiplexer
+│   ├── ghostty/      # Terminal emulator (includes theme switcher scripts)
+│   ├── starship/     # Cross-shell prompt
+│   ├── cava/         # Audio visualizer
+│   ├── bin/          # Custom scripts
+│   ├── fonts/        # Nerd Fonts
+│   └── .gitconfig, .gitignore, .ripgreprc, .vimrc
+├── CLAUDE.md         # This documentation
+├── README.md         # Overview and install instructions
+├── LICENSE
+└── .claude/          # Claude Code configuration
 ```
+
+> **Layout note:** `nvim/` and `zellij/` are shared across platforms
+> at the repository root. Everything else is duplicated under `archlinux/` and
+> `macos/` — duplication is intentional for per-platform independence. There is
+> no `common/` directory.
 
 ## Detailed Configuration Guides
 
 ### Neovim Configuration (`nvim/`)
 
 #### Overview
-A modern Neovim configuration built with Lua, focusing on minimalism and efficiency. Uses Snacks.nvim for file navigation and fuzzy finding, alongside the mini.nvim plugin suite for core functionality.
+A modern, minimal Neovim configuration (Neovim 0.12+) written in Lua with **no plugin manager** — plugins are managed by the built-in `vim.pack` API. Each plugin lives in its own file under `lua/plugins/` that calls `vim.pack.add({ "<url>" })` and then configures itself. LSP uses the **native** `vim.lsp` API (`vim.lsp.enable`), not Mason or nvim-lspconfig.
 
 #### Structure
 ```
 nvim/
-├── init.lua              # Entry point - sequential module loading
+├── init.lua              # Entry point: loads config.*, lsp, then every lua/plugins/*.lua
+├── nvim-pack-lock.json   # vim.pack lockfile (pinned plugin commits)
 ├── lua/
-│   ├── config/           # Core configuration modules
-│   │   ├── autocmds.lua  # Autocommands (yank highlight, terminal settings)
-│   │   ├── keymaps.lua   # Global key mappings
-│   │   ├── lazy.lua      # Plugin manager bootstrap & setup
-│   │   ├── options.lua   # Neovim options (UI, editor behavior)
-│   │   └── theme-switcher.lua # Custom theme management system
-│   ├── plugins/          # Individual plugin configs (18 files)
-│   │   ├── mini.lua      # Mini.nvim suite (11+ modules)
-│   │   ├── snacks.lua    # Snacks.nvim (explorer, picker, notifier)
-│   │   ├── conform.lua   # Code formatting setup
-│   │   ├── blink.lua     # Blink completion engine
-│   │   ├── neogit.lua    # Git integration
-│   │   ├── gitsigns.lua  # Git signs in gutter
-│   │   ├── treesitter.lua # Syntax highlighting
-│   │   ├── diffview.lua  # Git diff viewer
-│   │   ├── noice.lua     # Enhanced UI messages
-│   │   ├── flash.lua     # Enhanced navigation
-│   │   ├── obsidian.lua  # Note-taking integration
-│   │   ├── supermaven.lua # AI completion
-│   │   ├── tiny-code-action.lua # LSP code actions
-│   │   ├── markview.lua  # Markdown preview
-│   │   ├── dadbod.lua    # Database interface
-│   │   ├── autotag.lua   # HTML/JSX auto-closing
-│   │   ├── schemastore.lua # JSON schemas
-│   │   └── kanagawa-theme.lua # Kanagawa theme
-│   ├── lsp.lua           # Centralized LSP configuration & keymaps
-│   └── icons.lua         # Icon definitions for UI consistency
-├── lsp/                  # Language-specific LSP configs (15 servers)
-│   ├── vtsls.lua         # TypeScript/JavaScript
-│   ├── lua.lua           # Lua LSP with Neovim API support
-│   ├── bash.lua          # Bash LSP setup
-│   ├── eslint.lua        # ESLint integration
-│   ├── tailwindcss.lua   # Tailwind CSS
-│   ├── html.lua          # HTML
-│   ├── css.lua           # CSS
-│   ├── json.lua          # JSON
-│   ├── yaml.lua          # YAML
-│   ├── volar.lua         # Vue
-│   ├── emmet.lua         # Emmet
-│   ├── dprint.lua        # Dprint formatter
-│   ├── stylelint.lua     # CSS linting
-│   └── clangd.lua        # C/C++
-├── after/                # After-plugin configurations
-├── lazy-lock.json        # Plugin version lock file
-├── theme-preference.txt  # Saved theme preference
-└── stylua.toml           # Lua formatter configuration
+│   ├── config/
+│   │   ├── options.lua       # Vim options; leader = Space
+│   │   ├── keymaps.lua       # Global keymaps
+│   │   ├── autocmds.lua      # Autocommands
+│   │   ├── commands.lua      # User commands (e.g. ToggleInlayHints)
+│   │   └── colorscheme.lua   # Theme list, picker, transparency, persistence
+│   ├── plugins/          # One file per plugin; each calls vim.pack.add + setup
+│   ├── lsp.lua           # Native LSP: on_attach keymaps, diagnostics, vim.lsp.enable
+│   ├── icons.lua         # Shared icon definitions
+│   ├── util/lazy.lua     # FileType-deferred load helper (NOT a plugin manager)
+│   └── dotfiles/health.lua   # :checkhealth dotfiles
+├── lsp/                  # One file per language server (native vim.lsp config)
+├── after/ftplugin/       # Per-filetype overrides (lua, markdown, typescript)
+├── colors/sourcerer.lua  # Custom colorscheme
+├── snippets/             # Snippet definitions (markdown.json, package.json)
+└── scripts/nvim-doctor   # Standalone health/diagnostic script
 ```
 
-#### Initialization Flow
-1. `init.lua` loads modules in sequence:
-   - `config.options` - Sets vim options
-   - `config.keymaps` - Defines global keybindings
-   - `config.autocmds` - Sets up autocommands
-   - `config.lazy` - Bootstraps and configures lazy.nvim
-   - `lsp` - Initializes LSP configuration
-2. After VeryLazy event: `config.theme-switcher` initializes
-3. Plugins load on-demand based on events/commands/filetypes
+#### Plugin Management (`vim.pack`, no manager)
+- Neovim's **built-in** `vim.pack` handles install/update; there is no lazy.nvim,
+  packer, or similar. Plugin commits are pinned in `nvim-pack-lock.json`.
+- `init.lua` iterates `lua/plugins/*.lua` and `require`s each. A small set is
+  deferred until after first render via `vim.schedule` (`dadbod`, `diffview`,
+  `neogit`, `markview`).
+- `lua/util/lazy.lua` provides `on_filetype()` — a self-deleting `FileType`
+  autocmd that defers a plugin's load until a matching buffer opens. Despite the
+  filename, it is **not** a plugin manager.
+- Plugins install under `vim.fn.stdpath("data")/site/pack/core/opt`.
+
+#### Initialization Flow (`init.lua`)
+1. `vim.loader.enable()` — byte-compiled module cache for fast startup
+2. `require` in order: `config.options`, `config.keymaps`, `config.autocmds`,
+   `config.commands`, `config.colorscheme`, then `lsp`
+3. Load every non-deferred `lua/plugins/*.lua` (failures reported via `vim.notify`)
+4. After first render, `vim.schedule` loads the deferred plugins
 
 #### Key Features
-- **Plugin Manager**: lazy.nvim for fast startup times
-- **Leader Key**: Space
-- **File Navigation**: Snacks.nvim explorer and picker (shows untracked files by default)
-- **Plugin Suite**: Heavy use of mini.nvim modules (11+ modules including mini.clue for which-key)
-- **LSP**: Integrated LSP support with 15 language servers configured (TypeScript, Lua, Bash, ESLint, HTML, CSS, JSON, YAML, Vue, Emmet, Tailwind, Dprint, Stylelint, Clangd)
-- **Git Integration**: Neogit, gitsigns.nvim, diffview.nvim, and mini.diff
-- **Completion**: Blink.cmp completion engine
-- **AI Integration**: Supermaven for AI-powered code suggestions
-- **Theme**: Kanagawa theme with persistent preference saving
-- **Code Actions**: Tiny code action for minimal UI
-- **Enhanced UI**: Noice.nvim for better messages, notifications, and command line
-- **Navigation**: Flash.nvim for enhanced navigation and search
-- **Markdown**: Markview for enhanced markdown preview
-- **Database**: Dadbod for database operations
+- **Leader key**: Space (`vim.g.mapleader`)
+- **File navigation / fuzzy find**: Snacks.nvim (explorer + picker, "ivy" layout,
+  shows hidden files; dynamic explorer width)
+- **Completion**: blink.cmp
+- **mini.nvim suite**: ai, surround, pairs, move, diff, icons, indentscope,
+  cursorword, statusline (the statusline is mini.statusline — no Noice/lualine)
+- **Which-key**: which-key.nvim ("modern" preset, 500ms delay)
+- **Git**: Neogit, gitsigns.nvim, mini.diff, diffview.nvim
+- **Navigation**: flash.nvim; `<C-h/j/k/l>` window/pane motion via
+  vim-tmux-navigator (seamless with tmux panes)
+- **AI**: supermaven-nvim
+- **Markdown / notes**: markview.nvim, markdown-preview.nvim, mkdnflow.nvim, plus
+  a local `multiverse` integration for the personal knowledge vault
+- **Eye candy**: tiny-glimmer, smear-cursor, ui2
+- **Treesitter**: nvim-treesitter (+ treesitter-context), nvim-ts-autotag
+- **Database**: vim-dadbod (+ dadbod-ui, dadbod-completion)
 
-#### Important Patterns
-1. **Modular Configuration**: Each major feature has its own file in `lua/config/`
-2. **Lazy Loading**: Plugins are loaded on-demand where possible
-3. **Minimal Dependencies**: Prefer mini.nvim modules over separate plugins
+#### Themes (`lua/config/colorscheme.lua`)
+- Available: kanagawa (dragon/wave/lotus), kanagawa-paper, catppuccin
+  (mocha/macchiato/frappe/latte), oxocarbon, and the local `sourcerer`
+- Default: `kanagawa-dragon`; theme choice + transparency persist to
+  `stdpath("data")/theme-preference.json`
+- `<leader>ut` — pick theme · `<leader>ub` — toggle transparent background
 
-#### Common Neovim Commands
+#### LSP (native `vim.lsp` — `lua/lsp.lua` + `lsp/`)
+- **No Mason, no nvim-lspconfig.** Each file in `lsp/` is a native server config;
+  `lua/lsp.lua` discovers them via `vim.api.nvim_get_runtime_file("lsp/*.lua")`
+  and enables them with `vim.lsp.enable(...)`.
+- Servers configured (16): bash, clangd, css, dprint, elixir, emmet, eslint,
+  html, json, lua, rust, stylelint, tailwindcss, volar, vtsls, yaml
+- Install the server binaries yourself (system package manager / language
+  toolchain) — there is no in-editor installer.
+- `LspAttach` sets buffer-local keymaps. Beyond Neovim 0.12's built-in LSP
+  defaults (`grr`, `gra`, `grn`, `gd`, `K`, …), custom maps include:
+  - `<leader>fs` — document symbols
+  - `gl` — diagnostic float · `gD` — go to declaration
+  - `[e` / `]e` — previous / next **error**
+  - `<C-k>` (insert mode) — signature help
+  - `<leader>ce` — ESLint "fix all" (only when the eslint client is attached)
+- Diagnostics: severity-sorted virtual text, custom float prefix, signs disabled.
+  Inlay hints are off by default (toggle via a user command).
 
-##### Plugin Management (lazy.nvim)
-- `:Lazy` - Open lazy.nvim UI
-- `:Lazy sync` - Install, update, and clean plugins
-- `:Lazy update` - Update plugins only
-- `:Lazy restore` - Restore plugins from lock file
-- `:Lazy profile` - Profile plugin load times
+#### Formatting
+- `conform.nvim` handles formatting (incl. format-on-save). Formatter binaries
+  (stylua, prettier/dprint, shfmt, …) are installed via the system package
+  manager — not Mason.
 
-##### LSP Commands
-- `:Mason` - Open Mason UI to manage language servers
-- `:LspInfo` - Show active LSP servers
-- `:LspStop` / `:LspStart` - Control LSP servers
-- `gd` / `gD` - Go to definition (with picker for multiple)
-- `grr` - Find references
-- `gra` - Code actions (tiny UI)
-- `gy` - Type definition
-- `[d` / `]d` - Navigate diagnostics
-
-##### File Navigation
-- `<leader>fe` - Open Snacks explorer (shows hidden/untracked files)
-- `<leader>ee` - Explorer at current file
-- `<leader>ff` - Find files (Snacks picker, includes untracked files)
-- `<leader>/` - Live grep (Snacks)
-- `<leader>bb` - Buffer picker
-- `<leader>fh` - Help search
-- `<leader>cc` - Resume last picker
-
-##### Enhanced Navigation (Flash.nvim & Mini.nvim)
-- `s` - Flash jump to any location
-- `S` - Flash treesitter jump
-- `r` (in operator-pending) - Remote Flash
-- `R` - Treesitter search
-- `<C-s>` (in command mode) - Toggle Flash search
-- `<CR>` - Jump anywhere (mini.jump2d in normal mode)
-- `f`/`F`/`t`/`T` - Enhanced character find (mini.jump)
-
-##### Code Formatting
-- Auto-format on save (via conform.nvim)
-- `:ConformInfo` - Show formatter info for current buffer
-- Formatters configured: Prettier, dprint, stylua, shfmt, mix_format
-
-##### Git Integration
-- `<leader>gg` - Open Neogit
-- `<leader>go` - Toggle diff overlay (mini.diff)
-- `:DiffviewOpen` - Open diffview
-- `:Gitsigns` commands for hunk operations
-
-##### Theme Management
-- `<leader>ut` - Open theme picker
-- `<leader>uT` - Cycle through themes
-- Themes: Kanagawa (dragon/wave/lotus), Catppuccin (mocha/macchiato/frappe/latte)
-
-#### Common Development Tasks
-
-##### Adding a Plugin
-1. Create a new file in `lua/plugins/` or edit existing plugin file
-2. Follow the lazy.nvim specification format:
-   ```lua
-   return {
-     "author/plugin-name",
-     event = "BufReadPre", -- or cmd, keys, ft for lazy loading
-     opts = {}, -- or config = function() end
-   }
-   ```
-3. Run `:Lazy sync` to install
-
-##### Modifying Keymaps
-- Main keymaps: `lua/config/keymaps.lua`
-- Plugin-specific: In respective plugin files under `lua/plugins/`
-- Use `with_desc()` helper for consistent descriptions
-
-##### Adding LSP Support for a Language
-1. Create a new file in `lsp/` directory (e.g., `lsp/rust.lua`)
-2. Follow existing LSP configuration pattern
-3. Install server via `:Mason` or configure in the file
-4. LSP will auto-load on next restart
-
-##### Customizing Formatters
-1. Edit `lua/plugins/conform.lua`
-2. Add language to `formatters_by_ft` table
-3. Install formatter if needed (via Mason or system package manager)
+#### Common Tasks
+- **Add a plugin**: create `lua/plugins/<name>.lua` with
+  `vim.pack.add({ "https://github.com/owner/repo" })` followed by its setup; it
+  loads on next launch (add the module name to the `deferred` table in
+  `init.lua` to defer it past first render).
+- **Update plugins**: `:lua vim.pack.update()` (rewrites `nvim-pack-lock.json`).
+- **Add an LSP server**: drop a native `lsp/<name>.lua` config — it's discovered
+  and enabled automatically. Install the server binary separately.
+- **Add a theme**: add the repo to `vim.pack.add` and the name to the `themes`
+  list in `lua/config/colorscheme.lua`.
 
 #### Debugging & Troubleshooting
-
-##### Health Check
-- `:checkhealth` - Full system diagnostic
-- `:checkhealth lazy` - Check lazy.nvim status
-- `:checkhealth lsp` - Check LSP configuration
-
-##### Plugin Issues
-- `:Lazy log` - View plugin update log
-- `:Lazy profile` - Identify slow plugins
-- `:messages` - View Neovim messages/errors
-
-##### LSP Debugging
-- `:LspInfo` - Current buffer LSP status
-- `:LspLog` - View LSP log file
-- `vim.lsp.set_log_level("debug")` - Enable debug logging
-
-##### Performance
-- `nvim --startuptime startup.log` - Profile startup time
-- `:InspectTree` - Inspect treesitter parse tree
-- `:Inspect` - Inspect highlight groups under cursor
+- `:checkhealth` — full diagnostics; `:checkhealth dotfiles` — this config's own
+  checks (`lua/dotfiles/health.lua`); `scripts/nvim-doctor` — standalone check
+- `:messages` — notifications/errors (plugin load failures surface here)
+- `nvim --startuptime startup.log` — profile startup
+- `:Inspect` / `:InspectTree` — highlight and treesitter inspection
+- `:LspInfo`, `:LspLog` — LSP status and logs
 
 #### Dependencies
-- Neovim >= 0.10.0 (required for some mini.nvim features)
-- Git (for plugin management)
-- Node.js (for many LSP servers and formatters)
-- Ripgrep (for search features)
-- fd (optional, for better file finding)
-- Lua formatter: stylua (install via cargo or Mason)
-- C compiler (for treesitter parser compilation)
+- **Neovim 0.12+** (required for `vim.pack` and native LSP defaults)
+- Git (used by `vim.pack` to clone/update plugins)
+- Node.js (many LSP servers and formatters)
+- Ripgrep (Snacks grep / pickers); fd (optional, faster file finding)
+- A C compiler (treesitter parser compilation)
+- LSP server binaries and formatters installed via the system package manager
+- stylua (Lua formatting)
 
-### Zsh Configuration (`common/zsh/`, `archlinux/`, `macos/`)
+### Zsh Configuration (`archlinux/zsh/`, `macos/zsh/`)
 
 #### Overview
-A cross-platform Zsh configuration designed to work seamlessly on both macOS and Linux (especially Arch Linux).
+A cross-platform Zsh configuration designed to work seamlessly on both macOS and Linux (especially Arch Linux). The shell config is duplicated per platform under `{platform}/zsh/`.
 
 #### File Structure
 ```
-common/zsh/
+{platform}/zsh/          # archlinux/zsh/ and macos/zsh/
 ├── .zshrc       # Main interactive shell configuration
+├── .zshenv      # Environment variables / PATH (non-interactive)
 └── .alias       # Shell aliases and functions
 
 archlinux/
@@ -361,10 +286,10 @@ brew install zinit
 2. Use platform detection for conditional logic
 3. Test on both platforms if possible
 
-### Tmux Configuration (`common/tmux/`)
+### Tmux Configuration (`archlinux/tmux/`, `macos/tmux/`)
 
 #### Overview
-Tmux configuration focused on productivity with vim-like keybindings and a clean interface.
+Tmux configuration focused on productivity with vim-like keybindings and a clean interface. Duplicated per platform under `{platform}/tmux/`.
 
 #### Main Configuration File
 - `.tmux.conf`: Contains all tmux settings, keybindings, and plugin configurations
@@ -390,14 +315,14 @@ Tmux configuration focused on productivity with vim-like keybindings and a clean
 - Shell aliases provide quick access
 - Color scheme likely matches overall terminal theme
 
-### Ghostty Configuration (`common/ghostty/`)
+### Ghostty Configuration (`{platform}/ghostty/`)
 
 #### Overview
-Modern GPU-accelerated terminal emulator configuration with platform-specific settings and custom theme management.
+Modern GPU-accelerated terminal emulator configuration with platform-specific settings and custom theme management. Lives under each platform directory (e.g. `macos/ghostty/`).
 
 #### File Structure
 ```
-common/ghostty/
+{platform}/ghostty/
 ├── config                 # Main configuration (imports platform-specific configs)
 ├── config.common          # Common settings across platforms
 ├── config.linux           # Linux-specific settings
@@ -443,20 +368,22 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 ## Key Design Patterns
 
 1. **Neovim Configuration** (`nvim/`)
-   - Entry point: `init.lua` loads `lua/config/`
-   - Modular Lua configuration using lazy.nvim plugin manager
+   - Entry point: `init.lua` loads `lua/config/*`, `lsp`, then every `lua/plugins/*.lua`
+   - No plugin manager — native `vim.pack` (lockfile `nvim-pack-lock.json`)
    - Leader key: Space
    - Snacks.nvim for file explorer and fuzzy picker
-   - Heavy use of mini.nvim plugin suite (11+ modules including mini.clue)
-   - LSP support with 15 language servers
-   - Git integration with Neogit, gitsigns, and mini.diff
-   - Noice.nvim for enhanced UI messages and notifications
+   - Heavy use of the mini.nvim suite (ai, surround, pairs, move, diff, icons,
+     indentscope, cursorword, statusline)
+   - which-key.nvim for keybinding hints
+   - Native LSP (`vim.lsp.enable`) with 16 language servers — no Mason
+   - Git integration with Neogit, gitsigns, mini.diff, and diffview
+   - mini.statusline for the statusline; `<C-hjkl>` via vim-tmux-navigator
 
 2. **Shell Environment**
    - Primary shell: zsh with Zinit plugin manager
-   - Aliases defined in `common/zsh/.alias`
-   - Environment variables and PATH exports in `.zshenv` (cross-platform, non-interactive)
-   - Interactive shell configuration in `common/zsh/.zshrc` (plugins, completions, keybindings)
+   - Aliases defined in `{platform}/zsh/.alias`
+   - Environment variables and PATH exports in `{platform}/zsh/.zshenv` (non-interactive)
+   - Interactive shell configuration in `{platform}/zsh/.zshrc` (plugins, completions, keybindings)
    - Platform-specific configurations in `macos/.macosrc` and `archlinux/.linuxrc`
    - FZF integration for fuzzy finding
    - **Zinit paths**: Checks multiple locations on Linux (`/usr/share/zinit/`, `~/.local/share/zinit/zinit.git/`, `/usr/share/zsh/plugins/zinit/`)
@@ -500,6 +427,10 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 ## Recent Updates
 
 ### Neovim Plugin Updates (2025-10-03)
+> **Partially superseded:** the config later moved to native `vim.pack` (no
+> lazy.nvim) and replaced `mini.clue` with `which-key.nvim` and `Noice.nvim`
+> with `mini.statusline`. Snacks remains the explorer/picker. See the current
+> **Neovim Configuration** section above.
 - **Snacks.nvim Integration**: Replaced mini.files and mini.pick with Snacks explorer and picker
   - Explorer and picker now show hidden and untracked files by default
   - Configured with comprehensive file exclusion list (node_modules, .git, build artifacts, etc.)
@@ -531,6 +462,10 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 - Updated configuration guides for better clarity
 
 ### Directory Structure Reorganization (2025-09-02)
+> **Superseded:** the `common/` directory described below was later removed.
+> Cross-platform tools (`nvim`, `zellij`) now live at the repository
+> root; everything else is duplicated per platform under `archlinux/` and
+> `macos/`. See the current **Directory Organization** tree above.
 - Reorganized dotfiles into three main directories: `common/`, `archlinux/`, and `macos/`
 - Moved cross-platform configurations to `common/` directory
 - Separated platform-specific configurations into dedicated folders
@@ -578,6 +513,9 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 - Verify command caching is working with `typeset -p _cmd_cache`
 
 ### Neovim Issues
-- Run `:checkhealth` to diagnose configuration problems
-- Use `:Lazy` to manage plugins and check for errors
-- Verify LSP servers are installed with `:Mason`
+- Run `:checkhealth` (and `:checkhealth dotfiles`) to diagnose problems
+- Manage plugins with native `vim.pack` — `:lua vim.pack.update()`; check
+  `:messages` for plugin load failures
+- LSP servers are native (`lsp/*.lua` + `vim.lsp.enable`); there is no Mason —
+  install server binaries via the system package manager and confirm with
+  `:LspInfo` / `:LspLog`
