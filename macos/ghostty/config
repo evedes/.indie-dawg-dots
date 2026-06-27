@@ -8,8 +8,8 @@ font-thicken = 0
 adjust-cell-height = 35%
 
 # Theme
-theme = "sourcerer"
-background-opacity = 0.86
+theme = "Kanagawa Wave"
+background-opacity = 1
 background-blur-radius = 10
 
 # Window
