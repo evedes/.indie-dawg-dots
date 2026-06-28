@@ -101,6 +101,20 @@ Diagnostics are configured in `lua/lsp.lua`. Three display modes cycle via `<lea
 
 Space. Local leader is comma.
 
+## Git Workflow
+
+The Git stack is split by granularity — each tool owns a layer, so don't add overlapping git plugins; extend the matching one.
+
+| Tool | Role | Keymaps |
+| --- | --- | --- |
+| `gitsigns.nvim` | Per-hunk / per-line: stage, reset, preview, blame + gutter signs | `]h` / `[h`, `<leader>gs` / `gr` / `gS` / `gu` / `gp` / `gb` |
+| `diffview.nvim` | Full-file / multi-file review and history | `<leader>gd` (open), `gh` (file history), `gx` (close) |
+| `neogit` | Magit-style status, staging, committing | `<leader>gg` |
+| `mini.diff` | Inline working-tree overlay in the buffer | `<leader>go` |
+| built-in `:DiffTool` | Ad-hoc local diff (`:DiffTool {file}`) | `<leader>ud` |
+
+Use `gitsigns` for quick in-buffer hunk actions, `diffview` to review a changeset or history before committing, `neogit` for the staging/commit flow, and `mini.diff` to see line-level changes overlaid on the file.
+
 ## Markdown Workflow
 
 The Markdown stack is split three ways — each job has exactly one owner. Before adding a Markdown plugin, check it doesn't overlap one of these roles; extend the existing one instead.
