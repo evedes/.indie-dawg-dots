@@ -159,6 +159,23 @@ alias sp='TERM=xterm-256color spotify_player'
 alias cc="claude --dangerously-skip-permissions"
 alias ccusage="npx ccusage daily"
 
+# GLM coder (z.ai) — Option A of the "Opus architect / GLM coder" workflow.
+# Architect/plan in a normal `cc` (Opus) session, then implement here on GLM.
+# Requires: export ZAI_API_KEY=... in ~/.secret/.env (sourced, uncommitted).
+glm() {
+  if [[ -z "$ZAI_API_KEY" ]]; then
+    print -u2 "glm: ZAI_API_KEY not set — add 'export ZAI_API_KEY=...' to ~/.secret/.env"
+    return 1
+  fi
+  ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" \
+  ANTHROPIC_AUTH_TOKEN="$ZAI_API_KEY" \
+  ANTHROPIC_DEFAULT_OPUS_MODEL="GLM-5.2" \
+  ANTHROPIC_DEFAULT_SONNET_MODEL="GLM-5.2" \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL="GLM-4.5-Air" \
+  API_TIMEOUT_MS="3000000" \
+  claude --dangerously-skip-permissions "$@"
+}
+
 # CODEX
 alias cco="codex --sandbox danger-full-access --ask-for-approval never"
 
