@@ -107,31 +107,57 @@ local function on_attach(client, bufnr)
 end
 
 -- Diagnostic configuration.
+-- Display modes (cycle with `:DiagnosticMode` or `<leader>uD`):
+--   inline (default) — virtual text inline, no gutter signs
+--   quiet             — gutter signs only, no inline text
+--   float             — nothing inline; use `gl` for an on-demand float
+local severity = vim.diagnostic.severity
+
+local inline_virtual_text = {
+  prefix = "",
+  spacing = 2,
+  format = function(diagnostic)
+    local special_sources = {
+      ["Lua Diagnostics."] = "lua",
+      ["Lua Syntax Check."] = "lua",
+    }
+
+    local message = diagnostic_icons[severity[diagnostic.severity]]
+    if diagnostic.source then
+      message = string.format("%s %s", message, special_sources[diagnostic.source] or diagnostic.source)
+    end
+    if diagnostic.code then
+      message = string.format("%s[%s]", message, diagnostic.code)
+    end
+
+    return message .. " "
+  end,
+}
+
+-- Gutter glyphs used only in `quiet` mode (signs are off by default).
+local sign_icons = {
+  [severity.ERROR] = diagnostic_icons.ERROR,
+  [severity.WARN] = diagnostic_icons.WARN,
+  [severity.HINT] = diagnostic_icons.HINT,
+  [severity.INFO] = diagnostic_icons.INFO,
+}
+
+-- Each mode pins `virtual_text` and `signs`; the `float` config and other keys
+-- keep their defaults. The severity-sort handler below is mode-agnostic.
+local diagnostic_modes = {
+  inline = { virtual_text = inline_virtual_text, signs = false },
+  quiet = { virtual_text = false, signs = { text = sign_icons } },
+  float = { virtual_text = false, signs = false },
+}
+
+vim.g.diagnostic_mode = "inline"
+
 vim.diagnostic.config({
-  virtual_text = {
-    prefix = "",
-    spacing = 2,
-    format = function(diagnostic)
-      local special_sources = {
-        ["Lua Diagnostics."] = "lua",
-        ["Lua Syntax Check."] = "lua",
-      }
-
-      local message = diagnostic_icons[vim.diagnostic.severity[diagnostic.severity]]
-      if diagnostic.source then
-        message = string.format("%s %s", message, special_sources[diagnostic.source] or diagnostic.source)
-      end
-      if diagnostic.code then
-        message = string.format("%s[%s]", message, diagnostic.code)
-      end
-
-      return message .. " "
-    end,
-  },
+  virtual_text = inline_virtual_text,
   float = {
     source = "if_many",
     prefix = function(diag)
-      local level = vim.diagnostic.severity[diag.severity]
+      local level = severity[diag.severity]
       local prefix = string.format(" %s ", diagnostic_icons[level])
       return prefix, "Diagnostic" .. level:gsub("^%l", string.upper)
     end,
@@ -140,6 +166,7 @@ vim.diagnostic.config({
 })
 
 -- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.
+-- Mode-agnostic: toggling `virtual_text` re-renders through this wrapped handler.
 local show_handler = vim.diagnostic.handlers.virtual_text.show
 assert(show_handler)
 local hide_handler = vim.diagnostic.handlers.virtual_text.hide
@@ -152,6 +179,48 @@ vim.diagnostic.handlers.virtual_text = {
   end,
   hide = hide_handler,
 }
+
+---Apply a diagnostic display mode, re-rendering diagnostics through the config.
+---@param name "inline"|"quiet"|"float"
+local function apply_diagnostic_mode(name)
+  local mode = diagnostic_modes[name]
+  if not mode then
+    vim.notify("Unknown diagnostic mode: " .. name, vim.log.levels.ERROR)
+    return
+  end
+  vim.g.diagnostic_mode = name
+  vim.diagnostic.config({ virtual_text = mode.virtual_text, signs = mode.signs })
+  vim.notify("Diagnostics: " .. name, vim.log.levels.INFO)
+end
+
+-- Cycle inline → quiet → float → inline.
+local function cycle_diagnostic_mode()
+  local order = { "inline", "quiet", "float" }
+  local current = vim.g.diagnostic_mode or "inline"
+  local idx = 1
+  for i, name in ipairs(order) do
+    if name == current then
+      idx = i
+      break
+    end
+  end
+  apply_diagnostic_mode(order[(idx % #order) + 1])
+end
+
+-- `:DiagnosticMode` cycles; `:DiagnosticMode {inline|quiet|float}` sets one directly.
+vim.api.nvim_create_user_command("DiagnosticMode", function(opts)
+  if #opts.fargs == 0 then
+    cycle_diagnostic_mode()
+  else
+    apply_diagnostic_mode(opts.fargs[1])
+  end
+end, {
+  desc = "Cycle or set diagnostic display mode (inline|quiet|float)",
+  nargs = "?",
+  complete = function()
+    return { "inline", "quiet", "float" }
+  end,
+})
 
 local hover = vim.lsp.buf.hover
 ---@diagnostic disable-next-line: duplicate-set-field

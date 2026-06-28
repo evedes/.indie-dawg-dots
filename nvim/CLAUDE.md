@@ -85,6 +85,18 @@ The tool list is duplicated in `lua/dotfiles/health.lua` and `scripts/nvim-docto
 - **JS/TS/JSON use Prettier only** — `dprint` was removed as a JS/TS/JSON formatter to keep formatting deterministic (no two formatters competing in one chain). The `dprint` LSP (`lsp/dprint.lua`) is still enabled for json/graphql.
 - `<leader>up` toggles Prettier's built-in default args (used only when no project Prettier config is found).
 
+## Diagnostics
+
+Diagnostics are configured in `lua/lsp.lua`. Three display modes cycle via `<leader>uD` or `:DiagnosticMode` (or `:DiagnosticMode {mode}` to set one directly):
+
+| Mode | Virtual text | Gutter signs | Use when |
+| --- | --- | --- | --- |
+| `inline` (default) | on (icon + source + code) | off | everyday coding |
+| `quiet` | off | on (gutter glyphs) | reading prose, focused work |
+| `float` | off | off | use `gl` on demand only |
+
+`gl` opens the diagnostic float in any mode; `[e`/`]e` jump between errors; `<leader>xd` sends diagnostics to the quickfix list.
+
 ## Leader Key
 
 Space. Local leader is comma.

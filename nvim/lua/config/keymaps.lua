@@ -39,6 +39,8 @@ keymap.set("n", "<leader>ui", function()
   vim.notify("Inlay hints " .. (vim.g.inlay_hints and "enabled" or "disabled"))
 end, with_desc("Toggle inlay hints"))
 
+keymap.set("n", "<leader>uD", "<CMD>DiagnosticMode<CR>", with_desc("Cycle diagnostic mode"))
+
 -- Quickfix
 keymap.set("n", "]q", "<CMD>cnext<CR>zz", with_desc("Next quickfix item"))
 keymap.set("n", "[q", "<CMD>cprev<CR>zz", with_desc("Prev quickfix item"))
