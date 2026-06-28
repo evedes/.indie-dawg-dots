@@ -1,6 +1,9 @@
-vim.pack.add {
-	"https://github.com/sindrets/diffview.nvim",
-}
+-- Role: full-file / multi-file Git review and history. Use to review a
+-- changeset or file history before committing; per-hunk work is gitsigns.
+-- (See CLAUDE.md → "Git Workflow".)
+vim.pack.add({
+  "https://github.com/sindrets/diffview.nvim",
+})
 
 require("diffview").setup()
 

@@ -1,3 +1,7 @@
+-- Role: per-hunk / per-line Git — stage, reset, preview, blame, gutter signs.
+-- Quick in-buffer git actions live here; review/history is diffview,
+-- staging/commit is neogit, inline overlay is mini.diff.
+-- (See CLAUDE.md → "Git Workflow".)
 vim.pack.add({
   "https://github.com/lewis6991/gitsigns.nvim",
 })
