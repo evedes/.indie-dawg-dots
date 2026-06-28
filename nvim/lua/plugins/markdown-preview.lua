@@ -1,25 +1,24 @@
+-- Role: browser preview of the current Markdown buffer. Owns external/WYSIWYG
+-- rendering; in-editor rendering is markview, navigation is mkdnflow.
+-- (See CLAUDE.md → "Markdown Workflow".)
+--
 -- Requires Node.js on PATH for the `app/` install step.
 
 vim.api.nvim_create_autocmd("PackChanged", {
-	callback = function(ev)
-		if
-			ev.data.spec.name == "markdown-preview.nvim"
-			and (ev.data.kind == "install" or ev.data.kind == "update")
-		then
-			vim.notify("Building markdown-preview.nvim...", vim.log.levels.INFO)
-			local result = vim
-				.system({ "npx", "--yes", "yarn", "install" }, { cwd = ev.data.path .. "/app" })
-				:wait()
-			if result.code ~= 0 then
-				vim.notify("markdown-preview.nvim build failed:\n" .. (result.stderr or ""), vim.log.levels.ERROR)
-			end
-		end
-	end,
+  callback = function(ev)
+    if ev.data.spec.name == "markdown-preview.nvim" and (ev.data.kind == "install" or ev.data.kind == "update") then
+      vim.notify("Building markdown-preview.nvim...", vim.log.levels.INFO)
+      local result = vim.system({ "npx", "--yes", "yarn", "install" }, { cwd = ev.data.path .. "/app" }):wait()
+      if result.code ~= 0 then
+        vim.notify("markdown-preview.nvim build failed:\n" .. (result.stderr or ""), vim.log.levels.ERROR)
+      end
+    end
+  end,
 })
 
-vim.pack.add {
-	"https://github.com/iamcco/markdown-preview.nvim",
-}
+vim.pack.add({
+  "https://github.com/iamcco/markdown-preview.nvim",
+})
 
 vim.g.mkdp_filetypes = { "markdown" }
 vim.g.mkdp_auto_close = 1
