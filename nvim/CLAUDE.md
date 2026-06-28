@@ -91,7 +91,16 @@ Space. Local leader is comma.
 
 ## Markdown Workflow
 
-- `mkdnflow.nvim` handles Markdown notebook navigation and editing.
+The Markdown stack is split three ways — each job has exactly one owner. Before adding a Markdown plugin, check it doesn't overlap one of these roles; extend the existing one instead.
+
+| Plugin | Role | Owns |
+| --- | --- | --- |
+| `mkdnflow.nvim` | Navigation & editing | links, backlinks, todos, heading/link jumps, move/rename source |
+| `markview.nvim` | In-editor rendering | how Markdown *looks* while editing (headings, lists, tables, code via conceal) |
+| `markdown-preview.nvim` | Browser preview | external/WYSIWYG rendering in a browser tab |
+
+Navigation & editing (`mkdnflow.nvim`):
+
 - `<CR>` follows or creates Markdown links; `<BS>` / `<Del>` move back and forward through mkdnflow history.
 - `<Tab>` / `<S-Tab>` jump between links; `]]` / `[[` jump between headings.
 - `<leader>ml` creates a Markdown link from text/selection; `<leader>mL` creates one from the clipboard.
@@ -99,6 +108,11 @@ Space. Local leader is comma.
 - `<leader>mx` toggles Markdown task status.
 - `<leader>mr` renames/moves the current source and updates links.
 - Markdown link creation is configured for flat kebab-case `.md` files to match the Multiverse vault.
+
+Rendering & preview:
+
+- `<leader>mt` toggles in-editor rendering (`markview.nvim`).
+- `<leader>mp` toggles browser preview (`markdown-preview.nvim`).
 
 ## Multiverse Vault Pickers
 

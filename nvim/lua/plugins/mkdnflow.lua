@@ -1,3 +1,7 @@
+-- Role: Markdown navigation & editing — links, backlinks, todos, heading/link
+-- jumps, move/rename source. Owns all navigation; don't add it elsewhere.
+-- (See CLAUDE.md → "Markdown Workflow".)
+--
 -- Deferred: mkdnflow only matters in Markdown buffers, so load it on the first
 -- one. Its setup() ends with `doautocmd FileType`, which re-fires for the
 -- triggering buffer and attaches mkdnflow's maps/conceal to it.
