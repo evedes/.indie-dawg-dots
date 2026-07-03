@@ -60,24 +60,31 @@ TOOLS=(
 	"clangd|LSP|C/C++|sudo pacman -S --needed --noconfirm clang|brew install llvm"
 	"elixir-ls|LSP|Elixir|yay -S --needed --noconfirm elixir-ls|brew install elixir-ls"
 	"dprint|LSP|dprint (json/graphql LSP)|sudo pacman -S --needed --noconfirm dprint|brew install dprint"
+	"basedpyright-langserver|LSP|Python (basedpyright)|pipx install basedpyright|pipx install basedpyright"
+	"ruff|LSP|Python linter/formatter (ruff)|sudo pacman -S --needed --noconfirm ruff|brew install ruff"
 	# --- Formatters ---
 	"stylua|FORMATTER|Lua formatter|sudo pacman -S --needed --noconfirm stylua|brew install stylua"
 	"prettier|FORMATTER|JS/TS/CSS/HTML formatter|$NPM prettier|$NPM prettier"
 	"shfmt|FORMATTER|Shell formatter|sudo pacman -S --needed --noconfirm shfmt|brew install shfmt"
 	"rustfmt|FORMATTER|Rust formatter|rustup component add rustfmt|rustup component add rustfmt"
 	"mix|FORMATTER|Elixir (mix format)|sudo pacman -S --needed --noconfirm elixir|brew install elixir"
+	# --- Jupyter (Python notebooks) ---
+	"jupytext|JUPYTER|Notebook <-> text (.ipynb editing)|pipx install jupytext|pipx install jupytext"
+	"jupyter|JUPYTER|Jupyter + kernel (molten)|pipx install jupyterlab|pipx install jupyterlab"
+	"magick|JUPYTER|ImageMagick (image.nvim rendering)|sudo pacman -S --needed --noconfirm imagemagick|brew install imagemagick"
 	# --- CLI tools ---
 	"rg|CLI|ripgrep (picker grep)|sudo pacman -S --needed --noconfirm ripgrep|brew install ripgrep"
 	"fd|CLI|fd (file finding)|sudo pacman -S --needed --noconfirm fd|brew install fd"
 	"git|CLI|git (plugin fetching)|sudo pacman -S --needed --noconfirm git|brew install git"
 )
 
-GROUP_ORDER="LSP FORMATTER CLI"
+GROUP_ORDER="LSP FORMATTER JUPYTER CLI"
 
 group_label() {
 	case "$1" in
 	LSP) echo "LSP servers" ;;
 	FORMATTER) echo "Formatters" ;;
+	JUPYTER) echo "Jupyter" ;;
 	CLI) echo "CLI tools" ;;
 	*) echo "$1" ;;
 	esac

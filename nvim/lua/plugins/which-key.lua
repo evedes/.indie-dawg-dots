@@ -17,6 +17,7 @@ require("which-key").add({
   { "<leader>e", group = "Explorer" },
   { "<leader>f", group = "Find" },
   { "<leader>g", group = "Git" },
+  { "<leader>j", group = "Jupyter" },
   { "<leader>k", group = "Close" },
   { "<leader>m", group = "Markdown" },
   { "<leader>n", group = "Notes" },

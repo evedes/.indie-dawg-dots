@@ -21,6 +21,14 @@
       "rev": "8d82c240f190fc33723d48c308ccc1ed8baad69d",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
+    "image.nvim": {
+      "rev": "88351f1f7d9dbae286e671ce3690a49660dd8a5c",
+      "src": "https://github.com/3rd/image.nvim"
+    },
+    "jupytext.nvim": {
+      "rev": "c8baf3ad344c59b3abd461ecc17fc16ec44d0f7b",
+      "src": "https://github.com/GCBallesteros/jupytext.nvim"
+    },
     "kanagawa-paper.nvim": {
       "rev": "3a024e8fd7105ee9416aafcdb0a7787be1795d68",
       "src": "https://github.com/thesimonho/kanagawa-paper.nvim"
@@ -92,6 +100,10 @@
     "mkdnflow.nvim": {
       "rev": "f20732686f70f60f18f09f4befe984ae63a99201",
       "src": "https://github.com/jakewvincent/mkdnflow.nvim"
+    },
+    "molten-nvim": {
+      "rev": "c1db39e78fe18559d8f2204bf5c4d476bdc80d3e",
+      "src": "https://github.com/benlubas/molten-nvim"
     },
     "neogit": {
       "rev": "5a7fca171e3ad07380745d573d791e95268b8f3f",
