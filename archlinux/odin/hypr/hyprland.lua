@@ -377,7 +377,7 @@ hl.window_rule({
 		title = "World of Warcraft",
 	},
 
-	workspace = "6",
+	workspace = "9",
 	fullscreen = true,
 	content = "game",
 	idle_inhibit = "fullscreen",
@@ -386,6 +386,28 @@ hl.window_rule({
 	no_shadow = true,
 	opaque = true,
 	confine_pointer = true,
+})
+
+-- Pin the Steam client to workspace 8. Anchored ^steam$ so it does NOT also
+-- match game windows like steam_app_2894584976 (WoW) above.
+hl.window_rule({
+	name = "steam-client",
+	match = {
+		class = "^steam$",
+	},
+
+	workspace = "8",
+})
+
+-- Pin the Battle.net launcher to workspace 8. Battle.net runs under Wine, so
+-- verify its class with `hyprctl clients` and adjust if it differs on Odin.
+hl.window_rule({
+	name = "battlenet-launcher",
+	match = {
+		class = "^battle.net.exe$",
+	},
+
+	workspace = "8",
 })
 
 local suppressMaximizeRule = hl.window_rule({
