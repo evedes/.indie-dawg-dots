@@ -48,6 +48,7 @@ require("conform").setup({
     jsonc = { "prettier" },
     less = { "prettier" },
     lua = { "stylua" },
+    python = { "ruff_organize_imports", "ruff_format" },
     css = { "prettier" },
     html = { "prettier" },
     scss = { "prettier" },

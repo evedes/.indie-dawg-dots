@@ -26,6 +26,16 @@ local groups = {
       { bin = "clangd", desc = "C/C++" },
       { bin = "elixir-ls", desc = "Elixir" },
       { bin = "dprint", desc = "dprint LSP (json/graphql)" },
+      { bin = "basedpyright-langserver", desc = "Python (basedpyright)" },
+      { bin = "ruff", desc = "Python linter/formatter (ruff)" },
+    },
+  },
+  {
+    name = "Jupyter",
+    tools = {
+      { bin = "jupytext", desc = "Notebook <-> text (.ipynb editing)" },
+      { bin = "jupyter", desc = "Jupyter + kernel (molten)" },
+      { bin = "magick", desc = "ImageMagick (image.nvim rendering)" },
     },
   },
   {

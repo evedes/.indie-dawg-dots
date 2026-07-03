@@ -6,6 +6,15 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
+-- Python provider host (molten + other remote plugins). Homebrew's python3 is
+-- PEP 668 externally-managed and can't host pynvim, so point Neovim at a
+-- dedicated venv: python3 -m venv ~/.venvs/neovim &&
+--   ~/.venvs/neovim/bin/pip install pynvim jupyter_client ipykernel
+local nvim_py = vim.fn.expand("~/.venvs/neovim/bin/python")
+if vim.fn.executable(nvim_py) == 1 then
+  vim.g.python3_host_prog = nvim_py
+end
+
 -- True color (24-bit) — required for colorschemes to render exact hex values
 vim.opt.termguicolors = true
 

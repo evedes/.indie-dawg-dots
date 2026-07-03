@@ -26,6 +26,9 @@ newnvim/
 │   │   ├── mini-diff.lua       # Inline diff overlay
 │   │   ├── neogit.lua          # Git interface
 │   │   ├── diffview.lua        # Side-by-side diff viewer
+│   │   ├── molten.lua          # Jupyter kernel: run cells, inline outputs/plots
+│   │   ├── jupytext.lua        # Edit .ipynb as `# %%` percent Python cells
+│   │   ├── image.lua           # In-terminal image rendering (molten outputs)
 │   │   └── tmux-navigator.lua  # Tmux pane navigation
 │   ├── util/
 │   │   └── lazy.lua            # on_filetype(): defer a plugin's load to the first matching buffer
@@ -140,6 +143,37 @@ Rendering & preview:
 - `<leader>mt` toggles in-editor rendering (`markview.nvim`).
 - `<leader>mp` toggles browser preview (`markdown-preview.nvim`).
 
+## Python & Jupyter
+
+Python uses the native LSP + conform stack; notebooks add three plugins on top.
+
+| Layer | Owner | Notes |
+| --- | --- | --- |
+| LSP (types, completion) | `lsp/basedpyright.lua` | `typeCheckingMode = "standard"`; import-organize delegated to ruff |
+| Lint + code actions | `lsp/ruff.lua` | ruff's built-in server (`ruff server`); hover disabled so basedpyright wins |
+| Format on save | `lua/plugins/conform.lua` | `python = { "ruff_organize_imports", "ruff_format" }` |
+| Notebook editing | `lua/plugins/jupytext.lua` | opens `.ipynb` as `# %%` percent Python cells (full LSP) |
+| Cell execution | `lua/plugins/molten.lua` | live Jupyter kernel; inline text + image/plot outputs |
+| Image rendering | `lua/plugins/image.lua` | kitty graphics (Ghostty); `magick_cli` processor (needs ImageMagick) |
+
+Molten keymaps are **buffer-local to `python` buffers** under `<leader>j`:
+
+- `<leader>jr` run cell (in place) · `<leader>jj` run cell + advance to next cell (Jupyter's Shift+Enter) · `<leader>ji` init kernel · `<leader>jl` run line · `<leader>jv` run selection (visual) · `<leader>je` run (operator).
+- `<leader>jc` re-run cell · `<leader>jo` enter output window (scroll) · `<leader>jt` toggle compact inline (virtual-text) output for all cells at once · `<leader>jd` delete cell · `<leader>jb` open output in browser.
+- `<leader>jx` interrupt · `<leader>jR` restart kernel.
+- `<leader>jE` / `<leader>jI` export/import outputs to/from the `.ipynb`.
+
+`<leader>jr` / `<leader>jj` find the enclosing `# %%` cell and evaluate its range via `MoltenEvaluateVisual` (molten has no native run-cell for arbitrary percent files). `jr` restores the cursor (run in place); `jj` moves to the next cell.
+
+**One-time setup** (molten is a Neovim *remote* Python plugin):
+
+1. Install the Python host deps into a dedicated venv (Homebrew's python3 is PEP 668 externally-managed and can't host pynvim; `config/options.lua` points `g:python3_host_prog` at `~/.venvs/neovim/bin/python`): `python3 -m venv ~/.venvs/neovim && ~/.venvs/neovim/bin/pip install pynvim jupyter_client ipykernel`.
+2. Register the kernel from that venv: `~/.venvs/neovim/bin/python -m ipykernel install --user`.
+3. `:UpdateRemotePlugins` then restart — registers the `:Molten*` commands.
+4. `nvim-doctor install` covers the CLI side: basedpyright, ruff, jupytext, jupyterlab, ImageMagick.
+
+**tmux/zellij caveat:** inline images need the kitty graphics protocol. Works in Ghostty directly and in tmux with `set -g allow-passthrough on`; Zellij does not forward it.
+
 ## Multiverse Vault Pickers
 
 `lua/plugins/multiverse.lua` adds Snacks pickers hard-scoped to the notes vault (`~/Nextcloud/Multiverse`), so notes are reachable from any project without changing the session's cwd. The `<leader>n` keys take `cwd` as a one-off argument — they do not `cd` the session.
@@ -161,3 +195,4 @@ Before creating a commit, review and update this CLAUDE.md to reflect any struct
 - Git (for plugin fetching)
 - ripgrep (for mini.pick grep)
 - Language servers + formatters listed by `scripts/nvim-doctor` (install with `nvim-doctor install`)
+- Jupyter (optional): `pynvim` + `jupyter_client` + `ipykernel` in the Neovim Python host, plus ImageMagick for inline plots (see "Python & Jupyter")
