@@ -136,6 +136,23 @@ ln -sf ~/.indie-dawg-dots/archlinux/.ripgreprc ~/.ripgreprc
 chsh -s $(which zsh)
 ```
 
+### Claude Code global config (shared, both platforms)
+
+The global `~/.claude` config — `CLAUDE.md`, `settings.json`, and the custom
+`skills/` and `commands/` (`/new-note`, `/update-docs`, `/check`, `/commit`) —
+lives in `claude/` and is symlinked into place by a script:
+
+```bash
+# After installing Claude Code and authenticating once (`claude`)
+~/.indie-dawg-dots/claude/install.sh
+```
+
+The script is idempotent and only links user-authored config. It never touches
+credentials (`~/.claude/.credentials.json`) or `~/.claude.json` — those are
+machine-local and are recreated when you authenticate, so they are **not** synced.
+Note: `/new-note` writes to `~/Nextcloud/Multiverse`, so that vault must be present
+on the machine for note capture to work.
+
 ## Quick Commands
 
 Once installed:

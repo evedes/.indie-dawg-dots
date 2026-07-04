@@ -1,0 +1,5 @@
+{
+  "tui": "default",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark-daltonized"
+}
