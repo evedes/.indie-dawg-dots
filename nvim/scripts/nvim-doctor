@@ -37,6 +37,13 @@ esac
 
 NPM="npm install -g"
 
+# pipx installs its shims under ~/.local/bin, which isn't always on PATH in a
+# non-login shell. Add it so freshly-installed tools are found by `have`.
+case ":$PATH:" in
+*":$HOME/.local/bin:"*) ;;
+*) PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
 # Molten (Jupyter cell execution) is a Neovim *remote* Python plugin: it needs a
 # dedicated host venv (Homebrew's python3 is PEP 668 externally-managed and can't
 # host pynvim). config/options.lua points g:python3_host_prog here.
@@ -137,6 +144,26 @@ pyhost_install() {
 	pyhost_ok
 }
 
+# Some recipes install via pipx (PEP 668 isolation for Python CLI apps). pipx
+# itself isn't a managed tool, so bootstrap it on demand via the platform
+# package manager, falling back to `pip install --user pipx`.
+ensure_pipx() {
+	have pipx && return 0
+	echo "${DIM}  pipx not found — bootstrapping it first${RESET}"
+	case "$OS" in
+	arch) sudo pacman -S --needed --noconfirm python-pipx ;;
+	mac) brew install pipx ;;
+	esac
+	if ! have pipx; then
+		local py
+		for py in python3 python; do
+			have "$py" && break
+		done
+		have "$py" && "$py" -m pip install --user --quiet pipx >/dev/null 2>&1
+	fi
+	have pipx
+}
+
 # Pick the platform-appropriate recipe (field 4 = arch, field 5 = mac).
 recipe_for() {
 	if [ "$OS" = mac ]; then echo "$2"; else echo "$1"; fi
@@ -231,7 +258,14 @@ $cmd"*) ;;
 			ran="$ran
 $cmd"
 			installed_any=1
-			eval "$cmd" || echo "${RED}  command failed${RESET}"
+			case "$cmd" in
+			pipx\ *)
+				if ensure_pipx; then eval "$cmd" || echo "${RED}  command failed${RESET}"; else
+					echo "${RED}  pipx unavailable — skipping${RESET}"
+				fi
+				;;
+			*) eval "$cmd" || echo "${RED}  command failed${RESET}" ;;
+			esac
 			;;
 		esac
 
