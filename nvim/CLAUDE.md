@@ -167,10 +167,12 @@ Molten keymaps are **buffer-local to `python` buffers** under `<leader>j`:
 
 **One-time setup** (molten is a Neovim *remote* Python plugin):
 
-1. Install the Python host deps into a dedicated venv (Homebrew's python3 is PEP 668 externally-managed and can't host pynvim; `config/options.lua` points `g:python3_host_prog` at `~/.venvs/neovim/bin/python`): `python3 -m venv ~/.venvs/neovim && ~/.venvs/neovim/bin/pip install pynvim jupyter_client ipykernel`.
-2. Register the kernel from that venv: `~/.venvs/neovim/bin/python -m ipykernel install --user`.
-3. `:UpdateRemotePlugins` then restart — registers the `:Molten*` commands.
-4. `nvim-doctor install` covers the CLI side: basedpyright, ruff, jupytext, jupyterlab, ImageMagick.
+1. `nvim-doctor install` does the heavy lifting:
+   - CLI side: basedpyright, ruff, jupytext, jupyterlab, ImageMagick.
+   - Host venv: creates the dedicated venv (Homebrew's python3 is PEP 668 externally-managed and can't host pynvim; `config/options.lua` points `g:python3_host_prog` at `~/.venvs/neovim/bin/python`), installs `pynvim jupyter_client ipykernel` into it, and registers the kernel (`ipykernel install --user`). `:checkhealth dotfiles` / `nvim-doctor check` both report this venv under "Jupyter host venv".
+2. `:UpdateRemotePlugins` then restart — registers the `:Molten*` commands. This is the one step `nvim-doctor` can't do (it must run inside nvim); the installer prints a reminder.
+
+To bootstrap the venv by hand instead: `python3 -m venv ~/.venvs/neovim && ~/.venvs/neovim/bin/pip install pynvim jupyter_client ipykernel && ~/.venvs/neovim/bin/python -m ipykernel install --user`.
 
 **tmux/zellij caveat:** inline images need the kitty graphics protocol. Works in Ghostty directly and in tmux with `set -g allow-passthrough on`; Zellij does not forward it.
 
