@@ -84,7 +84,7 @@ TOOLS=(
 	"mix|FORMATTER|Elixir (mix format)|sudo pacman -S --needed --noconfirm elixir|brew install elixir"
 	# --- Jupyter (Python notebooks) ---
 	"jupytext|JUPYTER|Notebook <-> text (.ipynb editing)|pipx install jupytext|pipx install jupytext"
-	"jupyter|JUPYTER|Jupyter + kernel (molten)|pipx install jupyterlab|pipx install jupyterlab"
+	"jupyter|JUPYTER|Jupyter + kernel (molten)|pipx install --include-deps --force jupyterlab|pipx install --include-deps --force jupyterlab"
 	"magick|JUPYTER|ImageMagick (image.nvim rendering)|sudo pacman -S --needed --noconfirm imagemagick|brew install imagemagick"
 	# --- CLI tools ---
 	"rg|CLI|ripgrep (picker grep)|sudo pacman -S --needed --noconfirm ripgrep|brew install ripgrep"
