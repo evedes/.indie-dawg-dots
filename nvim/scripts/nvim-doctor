@@ -37,6 +37,13 @@ esac
 
 NPM="npm install -g"
 
+# Molten (Jupyter cell execution) is a Neovim *remote* Python plugin: it needs a
+# dedicated host venv (Homebrew's python3 is PEP 668 externally-managed and can't
+# host pynvim). config/options.lua points g:python3_host_prog here.
+PY_HOST_VENV="$HOME/.venvs/neovim"
+PY_HOST="$PY_HOST_VENV/bin/python"
+PY_HOST_PKGS="pynvim jupyter_client ipykernel"
+
 # ----------------------------------------------------------------------------
 # Tool registry — one record per line: "binary|group|description|arch|mac"
 #   group ∈ LSP | FORMATTER | CLI
@@ -95,6 +102,41 @@ group_label() {
 # ----------------------------------------------------------------------------
 have() { command -v "$1" >/dev/null 2>&1; }
 
+# Is the Molten host venv present with pynvim importable?
+pyhost_ok() {
+	[ -x "$PY_HOST" ] && "$PY_HOST" -c "import pynvim" >/dev/null 2>&1
+}
+
+# Create the host venv, install the remote-plugin deps, register the kernel.
+pyhost_install() {
+	local py
+	for py in python3 python; do
+		have "$py" && break
+	done
+	if ! have "$py"; then
+		echo "${RED}  python3 not found — cannot build the Molten host venv${RESET}"
+		return 1
+	fi
+	if [ ! -x "$PY_HOST" ]; then
+		echo "${DIM}  creating venv at ${PY_HOST_VENV}${RESET}"
+		"$py" -m venv "$PY_HOST_VENV" || {
+			echo "${RED}  venv creation failed${RESET}"
+			return 1
+		}
+	fi
+	echo "${DIM}  pip install ${PY_HOST_PKGS}${RESET}"
+	"$PY_HOST" -m pip install --quiet --upgrade pip >/dev/null 2>&1
+	# shellcheck disable=SC2086
+	"$PY_HOST" -m pip install --quiet $PY_HOST_PKGS || {
+		echo "${RED}  pip install failed${RESET}"
+		return 1
+	}
+	echo "${DIM}  registering ipykernel (--user)${RESET}"
+	"$PY_HOST" -m ipykernel install --user >/dev/null 2>&1 ||
+		echo "${YELLOW}  ipykernel registration failed — register manually${RESET}"
+	pyhost_ok
+}
+
 # Pick the platform-appropriate recipe (field 4 = arch, field 5 = mac).
 recipe_for() {
 	if [ "$OS" = mac ]; then echo "$2"; else echo "$1"; fi
@@ -134,6 +176,16 @@ EOF
 		done
 		echo
 	done
+
+	# Molten host venv (not a PATH binary — probed separately).
+	echo "${BOLD}Jupyter host venv${RESET}"
+	if pyhost_ok; then
+		printf "  ${GREEN}✓${RESET} %-32s ${DIM}%s${RESET}\n" "pynvim" "Molten host (${PY_HOST_VENV})"
+	else
+		missing=$((missing + 1))
+		printf "  ${RED}✗${RESET} %-32s ${YELLOW}MISSING${RESET} ${DIM}— %s${RESET}\n" "pynvim" "Molten host venv (${PY_HOST_VENV})"
+	fi
+	echo
 
 	if [ "$missing" -eq 0 ]; then
 		echo "${GREEN}${BOLD}All expected tools are installed.${RESET}"
@@ -186,6 +238,15 @@ $cmd"
 		have "$bin" || failed="$failed $bin"
 	done
 
+	# Molten host venv — bootstrapped separately (not a PATH binary).
+	if pyhost_ok; then
+		: # already set up
+	else
+		echo "${BOLD}• pynvim${RESET} ${DIM}→ ${PY_HOST_VENV} (${PY_HOST_PKGS})${RESET}"
+		installed_any=1
+		pyhost_install || failed="$failed pynvim"
+	fi
+
 	if [ "$installed_any" -eq 0 ] && [ -z "$failed" ]; then
 		echo "${GREEN}Nothing to do — all tools already installed.${RESET}"
 		return 0
@@ -194,6 +255,9 @@ $cmd"
 	echo
 	if [ -z "$failed" ]; then
 		echo "${GREEN}${BOLD}All missing tools installed.${RESET}"
+		if have nvim; then
+			echo "${DIM}Molten host venv ready — run ${BOLD}:UpdateRemotePlugins${RESET}${DIM} in nvim, then restart.${RESET}"
+		fi
 	else
 		echo "${YELLOW}${BOLD}Still missing:${RESET}${failed}"
 		echo "${DIM}Install manually — see the comment at the top of the matching nvim/lsp/*.lua file.${RESET}"
@@ -214,6 +278,9 @@ EOF
 		done
 		echo
 	done
+	echo "${BOLD}Jupyter host venv${RESET}"
+	printf "  %-32s ${DIM}%s${RESET}\n" "pynvim" "python3 -m venv ${PY_HOST_VENV} && pip install ${PY_HOST_PKGS}"
+	echo
 }
 
 # ----------------------------------------------------------------------------

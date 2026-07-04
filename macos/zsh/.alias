@@ -28,6 +28,7 @@ alias batman='ssh edo@batman'
 alias batman-ts='ssh edo@batman-ts'
 alias mimir='ssh edo@mimir'
 alias k21='ssh edo@k21'
+alias thor='ssh edo@thor'
 
 # Machines SSH Tunnels
 alias odin-tunnel='ssh -fN -L 4030:localhost:4030 edo@odin'
