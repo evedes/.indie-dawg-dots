@@ -82,6 +82,22 @@ function M.check()
     end
   end
 
+  -- Molten host venv: not a PATH binary, so probe pynvim in the host python.
+  -- Kept in sync with the `pyhost_*` helpers in `nvim/scripts/nvim-doctor`.
+  health.start("Jupyter host venv")
+  local host = vim.g.python3_host_prog
+  local pynvim_ok = false
+  if host and vim.fn.executable(host) == 1 then
+    vim.fn.system({ host, "-c", "import pynvim" })
+    pynvim_ok = vim.v.shell_error == 0
+  end
+  if pynvim_ok then
+    health.ok(string.format("%-32s %s", "pynvim", "Molten host (" .. host .. ")"))
+  else
+    missing = missing + 1
+    health.warn(string.format("%-32s %s", "pynvim", "MISSING — Molten host venv (run `nvim-doctor install`)"))
+  end
+
   health.start("Summary")
   if missing == 0 then
     health.ok("All expected tools are installed")
