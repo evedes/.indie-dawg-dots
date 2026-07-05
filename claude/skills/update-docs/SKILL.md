@@ -1,7 +1,6 @@
 ---
 name: update-docs
 description: Update this repository's CLAUDE.md (and README if it documents structure) to reflect recent code changes, after implementing a feature or fix. Diff-driven and surgical — only touches what actually changed. Works in any repo.
-disable-model-invocation: true
 allowed-tools: Read, Edit, Write, Grep, Glob, Bash, Agent
 ---
 

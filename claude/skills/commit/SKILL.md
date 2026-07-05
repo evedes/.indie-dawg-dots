@@ -1,4 +1,5 @@
 ---
+name: commit
 description: Validate, then create a git commit (never push). Runs the quality gate, stages the specific changed files, and writes a conventional commit following the project's own convention.
 allowed-tools: Bash, Read, Edit, Glob, Grep, SlashCommand
 ---
