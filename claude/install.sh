@@ -2,8 +2,8 @@
 #
 # Install global Claude Code config from this dotfiles repo into ~/.claude.
 #
-# Symlinks only the user-authored config (CLAUDE.md, settings.json, skills/,
-# commands/). It never touches machine-local state or secrets — credentials
+# Symlinks only the user-authored config (CLAUDE.md, settings.json, skills/).
+# It never touches machine-local state or secrets — credentials
 # (~/.claude/.credentials.json) and ~/.claude.json are created locally when you
 # run `claude` and authenticate, and must NOT be copied between machines.
 #
@@ -52,7 +52,6 @@ link() {
 link CLAUDE.md
 link settings.json
 link skills
-link commands
 
 echo "✓ Claude config linked."
 

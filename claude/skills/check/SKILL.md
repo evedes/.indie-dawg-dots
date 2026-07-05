@@ -1,4 +1,5 @@
 ---
+name: check
 description: Run the project's full quality gate (types → lint → format), auto-detecting the stack. Fix errors at each step before proceeding.
 allowed-tools: Bash, Read, Edit, Glob, Grep
 ---
