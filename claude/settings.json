@@ -1,5 +1,6 @@
 {
   "tui": "default",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark-daltonized"
+  "theme": "dark-daltonized",
+  "model": "claude-fable-5[1m]"
 }
