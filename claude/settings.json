@@ -1,6 +1,16 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(ccimg)"
+    ]
+  },
+  "model": "claude-fable-5[1m]",
   "tui": "default",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-daltonized",
-  "model": "claude-fable-5[1m]"
+  "voiceEnabled": true
 }
