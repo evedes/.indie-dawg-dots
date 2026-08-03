@@ -9,7 +9,8 @@ adjust-cell-height = 35%
 
 # Theme
 theme = "Kanagawa Wave"
-background-opacity = 1
+background = "#000000"
+background-opacity = 0.92
 background-blur-radius = 10
 
 # Window
