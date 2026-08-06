@@ -19,7 +19,7 @@ alias prometheus='ssh edo@prometheus'
 alias freya='ssh edo@freya'
 alias freya-ts='ssh edo@freya-ts'
 alias odin='ssh edo@odin'
-alias mimir='ssh edo@mimir'
+alias saga='ssh edo@saga'
 alias thor='ssh edo@thor'
 
 alias batman='ssh edo@batman'
