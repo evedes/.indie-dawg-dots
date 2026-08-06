@@ -166,6 +166,28 @@ glm() {
   claude --dangerously-skip-permissions "$@"
 }
 
+# SOL coder (OpenAI Codex sub) — same pattern as glm(), but via a local
+# Anthropic→OpenAI translating proxy (OpenAI has no native Anthropic endpoint).
+# Requires: raine/claude-code-proxy installed, one-time login:
+#   claude-code-proxy codex auth login   (reuses Codex CLI OAuth)
+sol() {
+  if ! command -v claude-code-proxy >/dev/null; then
+    print -u2 "sol: claude-code-proxy not installed — see https://github.com/raine/claude-code-proxy"
+    return 1
+  fi
+  if ! pgrep -fx 'claude-code-proxy serve' >/dev/null; then
+    claude-code-proxy serve &>/dev/null &
+    sleep 1
+  fi
+  ANTHROPIC_BASE_URL="http://127.0.0.1:18765" \
+  ANTHROPIC_AUTH_TOKEN="unused" \
+  ANTHROPIC_DEFAULT_OPUS_MODEL="gpt-5.6-sol" \
+  ANTHROPIC_DEFAULT_SONNET_MODEL="gpt-5.6-sol" \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL="gpt-5.6-luna" \
+  API_TIMEOUT_MS="3000000" \
+  claude --dangerously-skip-permissions "$@"
+}
+
 # CODEX
 alias cco="codex --sandbox danger-full-access --ask-for-approval never"
 
