@@ -295,6 +295,8 @@ hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
 -- Panic button: tear down a stuck WoW / Battle.net / Proton session (see ~/.local/bin/wow-kill)
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("wow-kill"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+-- Toggle fullscreen (handy when WoW drops out of fullscreen)
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("vicinae toggle"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
@@ -377,8 +379,12 @@ hl.window_rule({
 		title = "World of Warcraft",
 	},
 
-	workspace = "9",
 	fullscreen = true,
+	-- Wine/Proton fake "exclusive fullscreen" and drop it whenever the window
+	-- loses focus, which yanked WoW back to windowed. Ignore the client's
+	-- fullscreen requests and keep the compositor-side fullscreen from the
+	-- rule above (SUPER+F still toggles it manually).
+	suppress_event = "fullscreen",
 	content = "game",
 	idle_inhibit = "fullscreen",
 	no_anim = true,
