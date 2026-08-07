@@ -1,9 +1,4 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(ccimg)"
-    ]
-  },
   "model": "claude-fable-5[1m]",
   "tui": "default",
   "voice": {
@@ -12,5 +7,7 @@
   },
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-daltonized",
-  "voiceEnabled": true
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true
+  }
 }
