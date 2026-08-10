@@ -53,6 +53,7 @@ local groups = {
     tools = {
       { bin = "rg", desc = "ripgrep (picker grep)" },
       { bin = "fd", desc = "fd (file finding)" },
+      { bin = "dict", desc = "Dictionary lookup (keywordprg)" },
       { bin = "git", desc = "git (plugin fetching)" },
     },
   },
