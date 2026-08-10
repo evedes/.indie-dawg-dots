@@ -89,6 +89,7 @@ TOOLS=(
 	# --- CLI tools ---
 	"rg|CLI|ripgrep (picker grep)|sudo pacman -S --needed --noconfirm ripgrep|brew install ripgrep"
 	"fd|CLI|fd (file finding)|sudo pacman -S --needed --noconfirm fd|brew install fd"
+	"dict|CLI|Dictionary lookup (keywordprg)|sudo pacman -S --needed --noconfirm dictd|brew install dict"
 	"git|CLI|git (plugin fetching)|sudo pacman -S --needed --noconfirm git|brew install git"
 )
 

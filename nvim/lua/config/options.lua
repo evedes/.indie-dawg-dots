@@ -18,6 +18,9 @@ end
 -- True color (24-bit) — required for colorschemes to render exact hex values
 vim.opt.termguicolors = true
 
+-- Dictionary
+vim.opt.keywordprg = "dict"
+
 -- Line numbering
 vim.opt.relativenumber = true
 vim.opt.number = true
