@@ -196,6 +196,6 @@ Before creating a commit, review and update this CLAUDE.md to reflect any struct
 - Neovim >= 0.12 (for `vim.pack.add`)
 - Git (for plugin fetching)
 - ripgrep (for mini.pick grep)
-- dict (for dictionary lookup with `keywordprg`)
+- dict (`K` opens a scrollable dictionary tab; use normal motions to navigate and `q` to close)
 - Language servers + formatters listed by `scripts/nvim-doctor` (install with `nvim-doctor install`)
 - Jupyter (optional): `pynvim` + `jupyter_client` + `ipykernel` in the Neovim Python host, plus ImageMagick for inline plots (see "Python & Jupyter")

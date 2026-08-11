@@ -19,7 +19,7 @@ end
 vim.opt.termguicolors = true
 
 -- Dictionary
-vim.opt.keywordprg = "dict"
+vim.opt.keywordprg = ":Dictionary"
 
 -- Line numbering
 vim.opt.relativenumber = true
