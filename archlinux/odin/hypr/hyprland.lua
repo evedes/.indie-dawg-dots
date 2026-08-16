@@ -57,7 +57,8 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("systemctl --user start hyprpolkit agent")
 	hl.exec_cmd("vicinae server")
 	hl.exec_cmd("gnome-keyring-daemon --start --components=secrets,ssh")
-	hl.exec_cmd("nextcloud --background")
+	-- Delay so the keyring (credentials) and quickshell tray are up first
+	hl.exec_cmd("sh -c 'sleep 3; nextcloud --background'")
 end)
 
 -------------------------------
@@ -108,7 +109,9 @@ hl.config({
 		resize_on_border = false,
 
 		-- Please see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Tearing/ before you turn this on
-		allow_tearing = false,
+		-- Global opt-in only: tearing is additionally gated per-window by the
+		-- `immediate` rule, which is set solely on the WoW rule below.
+		allow_tearing = true,
 
 		layout = "dwindle",
 	},
@@ -176,6 +179,14 @@ hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almo
 hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" })
+
+-- Window movement (dragging, SUPER+SHIFT+h/j/k/l, cross-monitor moves).
+-- Without this, moves inherit `windows` (speed 4.79 on the soft `easy`
+-- spring), which settles in ~0.5s -- very draggy across monitors. This
+-- spring is critically damped (dampening = 2*sqrt(stiffness*mass)) so it
+-- snaps into place in ~0.13s with no bounce.
+hl.curve("snappy", { type = "spring", mass = 1, stiffness = 900, dampening = 60 })
+hl.animation({ leaf = "windowsMove", enabled = true, speed = 1.3, spring = "snappy" })
 
 -- Workspaces are pinned to monitors:
 --   DP-1     : 1, 2, 5, 6, 7, 8, 9
@@ -387,6 +398,10 @@ hl.window_rule({
 	suppress_event = "fullscreen",
 	content = "game",
 	idle_inhibit = "fullscreen",
+	-- Allow tearing for this window (needs general.allow_tearing above). All
+	-- monitors here are 60Hz, so this only helps when WoW pushes past 60fps;
+	-- drop it if you ever see tearing artifacts you dislike.
+	immediate = true,
 	no_anim = true,
 	no_blur = true,
 	no_shadow = true,
@@ -413,7 +428,7 @@ hl.window_rule({
 		class = "^battle.net.exe$",
 	},
 
-	workspace = "8",
+	workspace = "9",
 })
 
 local suppressMaximizeRule = hl.window_rule({
