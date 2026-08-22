@@ -24,9 +24,17 @@ alias odin='ssh edo@odin'
 alias freya='ssh edo@freya'
 alias freya-ts='ssh edo@freya-ts'
 alias saga='ssh edo@saga'
-alias k21='ssh edo@k21'
 alias batman='ssh edo@batman'
 alias batman-ts='ssh edo@batman-ts'
+
+alias k21='ssh edo@k21'
+alias k22='ssh edo@k22'
+alias k23='ssh edo@k23'
+alias k24='ssh edo@k24'
+alias k25='ssh edo@k25'
+alias k26='ssh edo@k26'
+alias k27='ssh edo@k27'
+alias k28='ssh edo@k28'
 
 # Machines SSH Tunnels
 alias odin-tunnel='ssh -fN -L 4030:localhost:4030 edo@odin'
