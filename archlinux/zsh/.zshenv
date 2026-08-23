@@ -29,3 +29,6 @@ export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
 # Libvirt
 export LIBVIRT_DEFAULT_URI="qemu:///system"
+
+# Nvim is a Debug build; keep it from writing a 250GB nvim.log
+export NVIM_LOG_LEVEL=WARN
