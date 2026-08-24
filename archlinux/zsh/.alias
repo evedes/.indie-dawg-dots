@@ -164,6 +164,23 @@ glm() {
   claude --dangerously-skip-permissions "$@"
 }
 
+# DeepSeek coder — same pattern as glm(), via DeepSeek's native Anthropic-compatible endpoint.
+# deepseek-v4-pro for Opus/Sonnet tiers, deepseek-v4-flash (= deepseek-chat) for Haiku.
+# Requires: DEEPSEEK_API_KEY=... in ~/.secret/.env (sourced, uncommitted).
+dsk() {
+  if [[ -z "$DEEPSEEK_API_KEY" ]]; then
+    print -u2 "dsk: DEEPSEEK_API_KEY not set — add 'DEEPSEEK_API_KEY=...' to ~/.secret/.env"
+    return 1
+  fi
+  ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
+  ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY" \
+  ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-v4-pro" \
+  ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-v4-pro" \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash" \
+  API_TIMEOUT_MS="3000000" \
+  claude --dangerously-skip-permissions "$@"
+}
+
 # SOL coder (OpenAI Codex sub) — same pattern as glm(), but via a local
 # Anthropic→OpenAI translating proxy (OpenAI has no native Anthropic endpoint).
 # Requires: raine/claude-code-proxy installed, one-time login:
