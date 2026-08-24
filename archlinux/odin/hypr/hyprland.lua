@@ -428,7 +428,7 @@ hl.window_rule({
 		class = "^battle.net.exe$",
 	},
 
-	workspace = "9",
+	workspace = "8",
 })
 
 local suppressMaximizeRule = hl.window_rule({
