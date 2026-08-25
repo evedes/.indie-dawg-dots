@@ -8,7 +8,7 @@ font-thicken = 0
 adjust-cell-height = 30%
 
 # Theme
-theme = "kanagawa-paper-ink"
+theme = "Kanagawa Wave"
 background-opacity = 0.92
 background-blur-radius = 10
 
