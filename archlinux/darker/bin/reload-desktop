@@ -2,8 +2,10 @@
 killall quickshell 2>/dev/null
 killall awww-daemon 2>/dev/null
 killall mako 2>/dev/null
+killall nextcloud-desktop 2>/dev/null
 
 sleep 0.2
 quickshell &
 awww-daemon &
 mako &
+nextcloud-desktop &
