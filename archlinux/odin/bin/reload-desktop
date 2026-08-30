@@ -1,7 +1,4 @@
-#!/bin/bash
-killall quickshell 2>/dev/null
-killall awww-daemon 2>/dev/null
+#!/usr/bin/env bash
+set -euo pipefail
 
-sleep 0.2
-quickshell &
-awww-daemon &
+systemctl --user restart quickshell.service awww-daemon.service

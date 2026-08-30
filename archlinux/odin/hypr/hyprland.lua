@@ -15,24 +15,32 @@
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 hl.monitor({
-	output = "DP-1",
+	output = "desc:LG Electronics LG HDR 4K 203NTDVF0314",
 	mode = "3840x2160@60",
 	position = "0x0",
 	scale = "1.25", -- native 4K, logical 3072x1728
 })
 
 hl.monitor({
-	output = "DP-2",
+	output = "desc:Dell Inc. DELL U2520D BD0P823",
 	mode = "2560x1440@59.95",
 	position = "-2560x360",
 	scale = "1",
 })
 
 hl.monitor({
-	output = "HDMI-A-1",
+	output = "desc:Hisense Electric Co. Ltd. HISENSE 0x00000001",
 	mode = "3840x2160@60",
 	position = "-4480x0", -- re-anchored for scale 2 (logical 1920 wide) to stay flush with DP-2
 	scale = "2", -- native 4K, logical 1920x1080, integer = pixel-perfect
+})
+
+-- Sensible placement for temporary or replacement displays.
+hl.monitor({
+	output = "",
+	mode = "preferred",
+	position = "auto",
+	scale = "1",
 })
 
 ---------------------
@@ -48,17 +56,14 @@ local menu = "vicinae"
 ---- AUTOSTART ----
 -------------------
 
--- See https://wiki.hypr.land/Configuring/Basics/Autostart/
-
+-- This login path does not activate graphical-session.target automatically.
+-- Use it as the lifecycle boundary for desktop application user services.
 hl.on("hyprland.start", function()
-	hl.exec_cmd("awww-daemon")
-	hl.exec_cmd("quickshell 2>/dev/null &")
-	hl.exec_cmd("xembedsniproxy") -- bridge legacy XEmbed tray icons (Wine/Battle.net) into SNI so quickshell shows them
-	hl.exec_cmd("systemctl --user start hyprpolkit agent")
-	hl.exec_cmd("vicinae server")
-	hl.exec_cmd("gnome-keyring-daemon --start --components=secrets,ssh")
-	-- Delay so the keyring (credentials) and quickshell tray are up first
-	hl.exec_cmd("sh -c 'sleep 3; nextcloud --background'")
+	hl.exec_cmd("systemctl --user start graphical-session.target")
+end)
+
+hl.on("hyprland.shutdown", function()
+	hl.exec_cmd("systemctl --user stop graphical-session.target")
 end)
 
 -------------------------------
@@ -78,15 +83,8 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -- Please note permission changes here require a Hyprland restart and are not applied on-the-fly
 -- for security reasons
 
--- hl.config({
---   ecosystem = {
---     enforce_permissions = true,
---   },
--- })
-
--- hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
--- hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
--- hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
+hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
+hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
 
 -----------------------
 ---- LOOK AND FEEL ----
@@ -149,12 +147,17 @@ hl.config({
 		-- lose its target and report "no such file" even though it's there.
 		-- Reload manually with `hyprctl reload` (bound to SUPER+SHIFT+R below).
 		disable_autoreload = true,
+		force_default_wallpaper = -1,
+		disable_hyprland_logo = true,
+	},
+
+	ecosystem = {
+		enforce_permissions = true,
 	},
 })
 
 -- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
 hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
-hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36, 1 } } })
 hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
 hl.curve("almostLinear", { type = "bezier", points = { { 0.5, 0.5 }, { 0.75, 1 } } })
 hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
@@ -189,12 +192,6 @@ hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" 
 hl.curve("snappy", { type = "spring", mass = 1, stiffness = 900, dampening = 60 })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 1.3, spring = "snappy" })
 
-hl.config({
-	master = {
-		new_status = "master",
-	},
-})
-
 -- For WoW
 hl.config({
 	render = {
@@ -210,24 +207,6 @@ hl.config({
 hl.config({
 	xwayland = {
 		force_zero_scaling = true,
-	},
-})
-
--- See https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/ for more
-hl.config({
-	scrolling = {
-		fullscreen_on_one_column = true,
-	},
-})
-
-----------------
-----  MISC  ----
-----------------
-
-hl.config({
-	misc = {
-		force_default_wallpaper = -1, -- Set to 0 or 1 to disable the anime mascot wallpapers
-		disable_hyprland_logo = true, -- If true disables the random hyprland logo / anime girl background. :(
 	},
 })
 
@@ -253,11 +232,6 @@ hl.gesture({
 	action = "workspace",
 })
 
-hl.device({
-	name = "epic-mouse-v1",
-	sensitivity = -0.5,
-})
-
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
@@ -266,11 +240,10 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
-local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
--- closeWindowBind:set_enabled(false)
+hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(
 	mainMod .. "+ SHIFT + Q",
-	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
+	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit")
 )
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 -- Manual config reload (autoreload is disabled in misc above)
@@ -280,7 +253,8 @@ hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("wow-kill"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 -- Toggle fullscreen (handy when WoW drops out of fullscreen)
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("vicinae toggle"))
+hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu .. " toggle"))
+hl.bind("CTRL + " .. mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
@@ -340,6 +314,16 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+-- Screenshots: region to clipboard, full desktop to clipboard, or region to file.
+hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("grim - | wl-copy"))
+hl.bind(
+	"SHIFT + Print",
+	hl.dsp.exec_cmd(
+		[[sh -c 'mkdir -p "$HOME/Pictures/Screenshots"; geometry=$(slurp -d) || exit; grim -g "$geometry" "$HOME/Pictures/Screenshots/$(date +%Y%m%d-%H%M%S).png"']]
+	)
+)
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
