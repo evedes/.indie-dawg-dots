@@ -281,6 +281,10 @@ hl.bind(mainMod .. " + SHIFT + j", hl.dsp.window.move({ workspace = "r+1" }))
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "r+1" }))
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "r-1" }))
 
+-- Screenshot palette; SUPER+SHIFT+1/2 are intentionally left available.
+hl.bind(mainMod .. " + SHIFT + 3", hl.dsp.exec_cmd("hyprshot -z -m region --clipboard-only"))
+hl.bind(mainMod .. " + SHIFT + 4", hl.dsp.exec_cmd('hyprshot -z -m region -o "$HOME/Downloads"'))
+
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
