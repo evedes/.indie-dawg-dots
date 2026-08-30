@@ -64,7 +64,7 @@ Neovim and Zellij are shared across platforms at the repository root. Everything
 brew install git zsh neovim tmux fzf starship ripgrep bat lazygit mise
 
 # Arch Linux
-sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise
+sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise hypridle hyprlock
 yay -S lazygit-bin
 ```
 
@@ -124,6 +124,11 @@ ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 # Hyprland stack (optional)
 ln -sf ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
 ln -sf ~/.indie-dawg-dots/archlinux/mako ~/.config/mako
+
+# Session services used by the Hyprland configuration
+systemctl --user link ~/.indie-dawg-dots/archlinux/odin/systemd/user/*.service
+systemctl --user enable awww-daemon.service quickshell.service xembedsniproxy.service vicinae.service hypridle.service
+systemctl --user add-wants graphical-session.target plasma-polkit-agent.service com.nextcloud.desktopclient.nextcloud.service
 
 # Quickshell lives in its own repo — clone it, then link it
 # git clone <quickshell-repo-url> ~/.quickshell
