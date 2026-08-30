@@ -14,6 +14,7 @@ require("which-key").add({
   -- Leader groups
   { "<leader>b", group = "Buffers" },
   { "<leader>c", group = "Code" },
+  { "<leader>d", group = "Debug" },
   { "<leader>e", group = "Explorer" },
   { "<leader>f", group = "Find" },
   { "<leader>g", group = "Git" },
@@ -22,6 +23,7 @@ require("which-key").add({
   { "<leader>m", group = "Markdown" },
   { "<leader>n", group = "Notes" },
   { "<leader>s", group = "Splits" },
+  { "<leader>t", group = "Test" },
   { "<leader>u", group = "Toggle" },
   { "<leader>x", group = "Quickfix" },
 

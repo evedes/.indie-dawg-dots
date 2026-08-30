@@ -175,47 +175,19 @@ hl.animation({ leaf = "layersIn", enabled = true, speed = 4, bezier = "easeOutQu
 hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear", style = "fade" })
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 1.79, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
+-- Pop!_OS-style vertical workspace stack, matching CTRL+SUPER+K/J navigation.
+hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
+hl.animation({ leaf = "workspacesIn", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
+hl.animation({ leaf = "workspacesOut", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
 hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" })
 
--- Window movement (dragging, SUPER+SHIFT+h/j/k/l, cross-monitor moves).
+-- Window movement (dragging and SUPER+SHIFT+h/l cross-monitor moves).
 -- Without this, moves inherit `windows` (speed 4.79 on the soft `easy`
 -- spring), which settles in ~0.5s -- very draggy across monitors. This
 -- spring is critically damped (dampening = 2*sqrt(stiffness*mass)) so it
 -- snaps into place in ~0.13s with no bounce.
 hl.curve("snappy", { type = "spring", mass = 1, stiffness = 900, dampening = 60 })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 1.3, spring = "snappy" })
-
--- Workspaces are pinned to monitors:
---   DP-1     : 1, 2, 5, 6, 7, 8, 9
---   DP-2     : 3, 4
---   HDMI-A-1 : 10  (SUPER+0)
--- SUPER+[0-9] switches to a workspace and focuses the monitor that holds it.
-local workspaceMonitors = {
-	["1"] = "DP-1",
-	["2"] = "DP-1",
-	["3"] = "DP-2",
-	["4"] = "DP-2",
-	["5"] = "DP-1",
-	["6"] = "DP-1",
-	["7"] = "DP-1",
-	["8"] = "DP-1",
-	["9"] = "DP-1",
-	["10"] = "HDMI-A-1",
-}
-
--- First workspace listed for each monitor becomes that monitor's default.
-local monitorDefault = { ["DP-1"] = "1", ["DP-2"] = "3", ["HDMI-A-1"] = "10" }
-
-for ws, mon in pairs(workspaceMonitors) do
-	hl.workspace_rule({
-		workspace = ws,
-		monitor = mon,
-		default = (monitorDefault[mon] == ws),
-	})
-end
 
 hl.config({
 	master = {
@@ -312,33 +284,28 @@ hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("vicinae toggle"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
--- Move focus with mainMod + arrow keys
+-- Move focus with SUPER+H/J/K/L.
 hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
 
--- Move windows around with mainMod + SHIFT + arrow keys
+-- Move windows horizontally across monitors with SUPER+SHIFT+h/l.
+-- SUPER+SHIFT+k/j moves windows through the vertical workspace stack below.
 hl.bind(mainMod .. " + SHIFT + h", hl.dsp.window.move({ direction = "left" }))
 hl.bind(mainMod .. " + SHIFT + l", hl.dsp.window.move({ direction = "right" }))
-hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.move({ direction = "up" }))
-hl.bind(mainMod .. " + SHIFT + j", hl.dsp.window.move({ direction = "down" }))
-
--- Switch workspaces with mainMod + [0-9]; SHIFT moves the active window there.
--- Key 0 maps to workspace 10.
-for i = 1, 10 do
-	local key = i % 10 -- 10 maps to key 0
-	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
-end
 
 -- Example special workspace (scratchpad)
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
--- Scroll through existing workspaces with mainMod + scroll
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+-- Navigate the focused monitor's stack; SHIFT moves the active window through it.
+hl.bind("CTRL + " .. mainMod .. " + k", hl.dsp.focus({ workspace = "r-1" }))
+hl.bind("CTRL + " .. mainMod .. " + j", hl.dsp.focus({ workspace = "r+1" }))
+hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.move({ workspace = "r-1" }))
+hl.bind(mainMod .. " + SHIFT + j", hl.dsp.window.move({ workspace = "r+1" }))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "r+1" }))
+hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "r-1" }))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
@@ -390,6 +357,9 @@ hl.window_rule({
 		title = "World of Warcraft",
 	},
 
+	-- Do not pin the game to the launcher's workspace; open it on whichever
+	-- workspace is active when its window appears.
+	workspace = "unset",
 	fullscreen = true,
 	-- Wine/Proton fake "exclusive fullscreen" and drop it whenever the window
 	-- loses focus, which yanked WoW back to windowed. Ignore the client's
@@ -407,28 +377,6 @@ hl.window_rule({
 	no_shadow = true,
 	opaque = true,
 	confine_pointer = true,
-})
-
--- Pin the Steam client to workspace 8. Anchored ^steam$ so it does NOT also
--- match game windows like steam_app_2894584976 (WoW) above.
-hl.window_rule({
-	name = "steam-client",
-	match = {
-		class = "^steam$",
-	},
-
-	workspace = "8",
-})
-
--- Pin the Battle.net launcher to workspace 8. Battle.net runs under Wine, so
--- verify its class with `hyprctl clients` and adjust if it differs on Odin.
-hl.window_rule({
-	name = "battlenet-launcher",
-	match = {
-		class = "^battle.net.exe$",
-	},
-
-	workspace = "8",
 })
 
 local suppressMaximizeRule = hl.window_rule({

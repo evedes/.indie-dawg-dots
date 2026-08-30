@@ -51,6 +51,7 @@ require("conform").setup({
     python = { "ruff_organize_imports", "ruff_format" },
     css = { "prettier" },
     html = { "prettier" },
+    java = { lsp_format = "fallback" },
     scss = { "prettier" },
     sh = { "shfmt" },
     typescript = { "prettier", lsp_format = "fallback" },
