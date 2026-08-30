@@ -51,12 +51,20 @@ PY_HOST_VENV="$HOME/.venvs/neovim"
 PY_HOST="$PY_HOST_VENV/bin/python"
 PY_HOST_PKGS="pynvim jupyter_client ipykernel"
 
+# Java extension bundles used by nvim-jdtls for debugging and tests.
+JAVA_TOOLS="$HOME/.local/share/nvim/java"
+JAVA_DEBUG="$JAVA_TOOLS/java-debug"
+JAVA_TEST="$JAVA_TOOLS/vscode-java-test"
+
 # ----------------------------------------------------------------------------
 # Tool registry — one record per line: "binary|group|description|arch|mac"
 #   group ∈ LSP | FORMATTER | CLI
 # npm-based tools use the same recipe on both platforms.
 # ----------------------------------------------------------------------------
 TOOLS=(
+	# --- Java ---
+	"java|JAVA|JDK 21+ (JDTLS runtime)|sudo pacman -S --needed --noconfirm jdk21-openjdk|brew install openjdk"
+	"jdtls|JAVA|Eclipse Java language server|yay -S --needed --noconfirm jdtls|brew install jdtls"
 	# --- LSP servers ---
 	"vtsls|LSP|TypeScript/JavaScript|$NPM @vtsls/language-server|$NPM @vtsls/language-server"
 	"vue-language-server|LSP|Vue (volar)|$NPM @vue/language-server typescript|$NPM @vue/language-server typescript"
@@ -93,10 +101,11 @@ TOOLS=(
 	"git|CLI|git (plugin fetching)|sudo pacman -S --needed --noconfirm git|brew install git"
 )
 
-GROUP_ORDER="LSP FORMATTER JUPYTER CLI"
+GROUP_ORDER="JAVA LSP FORMATTER JUPYTER CLI"
 
 group_label() {
 	case "$1" in
+	JAVA) echo "Java" ;;
 	LSP) echo "LSP servers" ;;
 	FORMATTER) echo "Formatters" ;;
 	JUPYTER) echo "Jupyter" ;;
@@ -143,6 +152,34 @@ pyhost_install() {
 	"$PY_HOST" -m ipykernel install --user >/dev/null 2>&1 ||
 		echo "${YELLOW}  ipykernel registration failed — register manually${RESET}"
 	pyhost_ok
+}
+
+java_debug_ok() {
+	find "$JAVA_DEBUG/com.microsoft.java.debug.plugin/target" -name 'com.microsoft.java.debug.plugin-*.jar' -print -quit 2>/dev/null | grep -q .
+}
+
+java_test_ok() {
+	find "$JAVA_TEST/server" -name 'com.microsoft.java.test.plugin-*.jar' -print -quit 2>/dev/null | grep -q .
+}
+
+java_extensions_install() {
+	mkdir -p "$JAVA_TOOLS" || return 1
+	if ! java_debug_ok; then
+		if [ -d "$JAVA_DEBUG/.git" ]; then
+			git -C "$JAVA_DEBUG" pull --ff-only || return 1
+		else
+			git clone --depth 1 https://github.com/microsoft/java-debug.git "$JAVA_DEBUG" || return 1
+		fi
+		(cd "$JAVA_DEBUG" && ./mvnw clean install -DskipTests) || return 1
+	fi
+	if ! java_test_ok; then
+		if [ -d "$JAVA_TEST/.git" ]; then
+			git -C "$JAVA_TEST" pull --ff-only || return 1
+		else
+			git clone --depth 1 https://github.com/microsoft/vscode-java-test.git "$JAVA_TEST" || return 1
+		fi
+		(cd "$JAVA_TEST" && npm install && npm run build-plugin) || return 1
+	fi
 }
 
 # Some recipes install via pipx (PEP 668 isolation for Python CLI apps). pipx
@@ -204,6 +241,21 @@ EOF
 		done
 		echo
 	done
+
+	echo "${BOLD}Java extensions${RESET}"
+	if java_debug_ok; then
+		printf "  ${GREEN}✓${RESET} %-32s ${DIM}%s${RESET}\n" "java-debug" "Java debug adapter"
+	else
+		missing=$((missing + 1))
+		printf "  ${RED}✗${RESET} %-32s ${YELLOW}MISSING${RESET} ${DIM}— %s${RESET}\n" "java-debug" "Java debug adapter"
+	fi
+	if java_test_ok; then
+		printf "  ${GREEN}✓${RESET} %-32s ${DIM}%s${RESET}\n" "vscode-java-test" "JUnit/TestNG runner"
+	else
+		missing=$((missing + 1))
+		printf "  ${RED}✗${RESET} %-32s ${YELLOW}MISSING${RESET} ${DIM}— %s${RESET}\n" "vscode-java-test" "JUnit/TestNG runner"
+	fi
+	echo
 
 	# Molten host venv (not a PATH binary — probed separately).
 	echo "${BOLD}Jupyter host venv${RESET}"
@@ -273,6 +325,14 @@ $cmd"
 		have "$bin" || failed="$failed $bin"
 	done
 
+	if java_debug_ok && java_test_ok; then
+		: # already installed
+	else
+		echo "${BOLD}• Java extensions${RESET} ${DIM}→ ${JAVA_TOOLS}${RESET}"
+		installed_any=1
+		java_extensions_install || failed="$failed java-extensions"
+	fi
+
 	# Molten host venv — bootstrapped separately (not a PATH binary).
 	if pyhost_ok; then
 		: # already set up
@@ -315,6 +375,10 @@ EOF
 	done
 	echo "${BOLD}Jupyter host venv${RESET}"
 	printf "  %-32s ${DIM}%s${RESET}\n" "pynvim" "python3 -m venv ${PY_HOST_VENV} && pip install ${PY_HOST_PKGS}"
+	echo
+	echo "${BOLD}Java extensions${RESET}"
+	printf "  %-32s ${DIM}%s${RESET}\n" "java-debug" "git clone + ./mvnw clean install → ${JAVA_DEBUG}"
+	printf "  %-32s ${DIM}%s${RESET}\n" "vscode-java-test" "git clone + npm install/build-plugin → ${JAVA_TEST}"
 	echo
 }
 

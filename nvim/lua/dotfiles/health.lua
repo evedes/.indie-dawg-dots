@@ -8,6 +8,13 @@ local M = {}
 -- `bin` is the executable probed with vim.fn.executable().
 local groups = {
   {
+    name = "Java",
+    tools = {
+      { bin = "java", desc = "JDK 21+ (JDTLS runtime)" },
+      { bin = "jdtls", desc = "Eclipse Java language server" },
+    },
+  },
+  {
     name = "LSP servers",
     tools = {
       { bin = "vtsls", desc = "TypeScript/JavaScript (vtsls)" },
@@ -80,6 +87,30 @@ function M.check()
         missing = missing + 1
         health.warn(string.format("%-32s %s", tool.bin, "MISSING — " .. tool.desc))
       end
+    end
+  end
+
+  health.start("Java extensions")
+  local java_tools = vim.fn.stdpath("data") .. "/java"
+  local java_extensions = {
+    {
+      name = "java-debug",
+      pattern = java_tools
+        .. "/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
+      desc = "Java debug adapter",
+    },
+    {
+      name = "vscode-java-test",
+      pattern = java_tools .. "/vscode-java-test/server/com.microsoft.java.test.plugin-*.jar",
+      desc = "JUnit/TestNG runner",
+    },
+  }
+  for _, extension in ipairs(java_extensions) do
+    if #vim.fn.glob(extension.pattern, false, true) > 0 then
+      health.ok(string.format("%-32s %s", extension.name, extension.desc))
+    else
+      missing = missing + 1
+      health.warn(string.format("%-32s MISSING — %s", extension.name, extension.desc))
     end
   end
 

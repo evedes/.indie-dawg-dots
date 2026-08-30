@@ -19,6 +19,8 @@ newnvim/
 │   ├── plugins/                # One file per plugin (auto-loaded by init.lua)
 │   │   ├── snacks.lua          # Explorer, picker, notifier, bigfile, quickfile
 │   │   ├── blink-cmp.lua       # Completion engine (Rust matcher) + LSP capabilities
+│   │   ├── java.lua            # JDTLS, Java refactors, test/debug bundle integration
+│   │   ├── dap.lua             # Debug adapter client + shared debug keymaps
 │   │   ├── which-key.lua       # Keymap hints / leader group descriptions
 │   │   ├── ui2.lua             # Built-in UI2 (messages, cmdline, pager)
 │   │   ├── mkdnflow.lua        # Markdown notebook navigation, links, backlinks, todos
@@ -175,6 +177,39 @@ Molten keymaps are **buffer-local to `python` buffers** under `<leader>j`:
 To bootstrap the venv by hand instead: `python3 -m venv ~/.venvs/neovim && ~/.venvs/neovim/bin/pip install pynvim jupyter_client ipykernel && ~/.venvs/neovim/bin/python -m ipykernel install --user`.
 
 **tmux/zellij caveat:** inline images need the kitty graphics protocol. Works in Ghostty directly and in tmux with `set -g allow-passthrough on`; Zellij does not forward it.
+
+## Java & Spring Boot
+
+Java uses `nvim-jdtls` instead of the generic `lsp/*.lua` path because JDTLS
+needs one persistent data directory per project and optional extension bundles.
+`lua/plugins/java.lua` loads on the first Java buffer, detects Maven/Gradle/Git
+roots, and starts or attaches JDTLS with a stable cache workspace. Maven and
+Gradle source downloads, CodeLens, signature help, and interactive build-file
+refreshes are enabled. Formatting is delegated to JDTLS through conform.nvim.
+
+The toolchain is installed and checked by `nvim-doctor` / `:checkhealth
+dotfiles`: JDK 21+, JDTLS, Microsoft java-debug, and vscode-java-test. JDTLS
+itself requires Java 21+, but Maven/Gradle may target another installed JDK.
+Debug/test bundles are built under `~/.local/share/nvim/java`; they never touch
+the application repository. Run `nvim-doctor install` before opening the first
+Java project.
+
+Java buffer mappings:
+
+- `<leader>co` organize imports; `<leader>cv` extract variable; `<leader>ck`
+  extract constant; visual `<leader>cm` extract method.
+- `<leader>tc` runs the current test class; `<leader>tn` runs the nearest test
+  method. Both can launch JUnit/TestNG through the Java debug adapter.
+- `:JdtUpdateConfig` refreshes Maven/Gradle changes; `:JdtSetRuntime` selects a
+  project JDK; `:JdtRestart` restarts the project language server.
+
+Shared DAP mappings (including Java/Spring Boot main-class discovery):
+
+- `<leader>db` breakpoint; `<leader>dc` start/continue; `<leader>di` step into;
+  `<leader>do` step over; `<leader>dO` step out.
+- `<leader>dr` opens the REPL; `<leader>dt` terminates; `<leader>du` repeats the
+  previous debug session. `:DapNew` discovers Java main classes after JDTLS has
+  loaded the project.
 
 ## Multiverse Vault Pickers
 

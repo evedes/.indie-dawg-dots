@@ -24,6 +24,7 @@ require("nvim-treesitter").install({
 	"json",
 	"json5",
 	"javascript",
+	"java",
 	"lua",
 	"markdown",
 	"markdown_inline",
