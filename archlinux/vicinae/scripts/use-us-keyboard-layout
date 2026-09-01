@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Use US Keyboard Layout
+# @vicinae.mode silent
+# @vicinae.icon 🇺🇸
+# @vicinae.keywords ["keyboard", "layout", "american"]
+# @vicinae.description Switch to the regular US keyboard layout
+
+exec "$HOME/.indie-dawg-dots/archlinux/bin/keyboard-layout" us

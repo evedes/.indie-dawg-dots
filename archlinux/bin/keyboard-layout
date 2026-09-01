@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mode="${1:-toggle}"
+
+if [[ "$mode" == "toggle" ]]; then
+	current_variant=$(hyprctl -j getoption input:kb_variant | jq -r '.str')
+	if [[ "$current_variant" == "intl" ]]; then
+		mode="us"
+	else
+		mode="intl"
+	fi
+fi
+
+case "$mode" in
+	us)
+		hyprctl eval 'hl.config({ input = { kb_layout = "us", kb_variant = "" } })' >/dev/null
+		echo "Keyboard layout: US"
+		;;
+	intl)
+		hyprctl eval 'hl.config({ input = { kb_layout = "us", kb_variant = "intl" } })' >/dev/null
+		echo "Keyboard layout: US International"
+		;;
+	*)
+		echo "Usage: ${0##*/} {toggle|us|intl}" >&2
+		exit 2
+		;;
+esac
