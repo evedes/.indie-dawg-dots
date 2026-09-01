@@ -130,8 +130,11 @@ else
 	monitor_id=$(hyprctl -j monitors | jq -r --arg monitor "$monitor" '.[] | select(.name == $monitor) | .id')
 	[[ $monitor_id =~ ^[0-9]+$ ]] || die "could not determine ID for monitor $monitor"
 	workspace_id=$(((monitor_id + 1) * 1000 + target))
-	occupied=$(hyprctl -j workspaces | jq -r --argjson id "$workspace_id" '.[] | select(.id == $id) | .name')
-	[[ -z $occupied ]] || die "workspace ID $workspace_id is already used by $occupied"
+	step=1
+	[[ $direction == up ]] && step=-1
+	while hyprctl -j workspaces | jq -e --argjson id "$workspace_id" '.[] | select(.id == $id)' >/dev/null; do
+		workspace_id=$((workspace_id + step))
+	done
 	selector=$workspace_id
 fi
 
