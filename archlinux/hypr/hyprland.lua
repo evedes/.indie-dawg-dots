@@ -8,8 +8,10 @@
 -- Host-specific hardware and policy live in profiles/<hostname>.lua. Set
 -- HYPRLAND_PROFILE to validate a profile on another host.
 --
--- Two binds below need packages that aren't installed yet -- they no-op until then:
---   sudo pacman -S brightnessctl playerctl     # XF86MonBrightness*, XF86Audio{Next,Prev,Play}
+-- A few binds/services depend on packages that aren't installed yet and no-op
+-- until they are:
+--   sudo pacman -S hypridle hyprlock brightnessctl   # idle/lock + backlight
+--   yay -S xembedsniproxy                           # XEmbed tray icons (AUR)
 --
 -- Autoreload is off (see misc), so after editing: SUPER+SHIFT+R.
 -- #######################################################################################
@@ -78,7 +80,7 @@ end
 local nextX = 0
 for _, d in ipairs(arrangement) do
 	d.x, d.y = nextX, math.floor((tallest - d.lh) / 2 + 0.5)
-	d.mode = string.format("%dx%d@%g", d.w, d.h, d.hz)
+	d.mode = d.mode or string.format("%dx%d@%g", d.w, d.h, d.hz)
 	d.position = d.position or string.format("%dx%d", d.x, d.y)
 	hl.monitor({
 		output = d.output,
@@ -99,7 +101,9 @@ local fileManager = "dolphin"
 local menu = "vicinae toggle"
 local screenshotDir = profile.screenshot_dir
 local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/bin/workspace-stack"
-local uwsmManaged = os.getenv("UWSM_ID") ~= nil
+-- UWSM marks its session with DESKTOP_SESSION="<wm>-uwsm" (e.g. hyprland-uwsm);
+-- there is no UWSM_ID variable, so that check never matched.
+local uwsmManaged = (os.getenv("DESKTOP_SESSION") or ""):match("%-uwsm$") ~= nil
 local directServices = {
 	"plasma-polkit-agent.service",
 	"vicinae.service",
@@ -128,7 +132,10 @@ hl.on("hyprland.start", function()
 	-- Start Odin's user services explicitly: graphical-session.target is marked
 	-- RefuseManualStart by systemd and `uwsm app` in a non-UWSM session starts nothing.
 	if not uwsmManaged then
-		hl.exec_cmd("systemctl --user start " .. directServiceList .. " && waypaper --restore")
+		hl.exec_cmd("systemctl --user start " .. directServiceList)
+		-- Restore the wallpaper independently of the daemon starts above: a
+		-- missing unit must not silently cancel it.
+		hl.exec_cmd("waypaper --restore")
 		return
 	end
 
@@ -192,12 +199,15 @@ hl.env("GDK_BACKEND", "wayland,x11")
 -- simple composer explicitly (Kitty does not need this because it is not GTK).
 hl.env("GTK_IM_MODULE", "simple")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
+hl.env("QT_QPA_PLATFORMTHEME", "kde")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 
 if profile.features.gaming then
 	-- Permission enforcement and direct scanout are only needed for Odin's game setup.
 	hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
 	hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
+	-- hyprlock's `background { path = screenshot }` needs the same access.
+	hl.permission("/usr/(bin|local/bin)/hyprlock", "screencopy", "allow")
 end
 
 -- Deliberately NOT setting GDK_SCALE / QT_SCALE_FACTOR / QT_AUTO_SCREEN_SCALE_FACTOR:
@@ -205,9 +215,7 @@ end
 -- 1.0 (laptop) and 1.25 (4K) in play they'd override per-monitor Wayland scaling and
 -- make toolkit apps the wrong size on one screen or the other. Let the toolkits ask.
 --
--- QT_QPA_PLATFORMTHEME/qt6ct and QT_STYLE_OVERRIDE/kvantum are gone as well: neither
--- package is installed here, and pointing Qt at a missing platform theme just makes it
--- complain on every launch. Reinstate them if you install qt6ct.
+-- QT_STYLE_OVERRIDE/kvantum remains unset because Kvantum is not installed.
 
 -----------------------
 ---- LOOK AND FEEL ----
@@ -282,7 +290,7 @@ hl.config({
 	},
 
 	misc = {
-		force_default_wallpaper = odinAppearance and -1 or 0,
+		force_default_wallpaper = -1,
 		disable_hyprland_logo = true,
 		background_color = "rgba(2b2b2bff)",
 
