@@ -1,15 +1,12 @@
 -- #######################################################################################
--- Hyprland (Lua config) -- "darker"                                          Vedder 2026
+-- Hyprland (Lua config) -- shared host profiles                              Vedder 2026
 -- #######################################################################################
 --
--- Lives in ~/.indie-dawg-dots/archlinux/darker/hypr, symlinked to ~/.config/hypr.
+-- Shared by the "darker" and "odin" hosts. ~/.config/hypr points here on both.
 -- Hyprland picks this file up as ~/.config/hypr/hyprland.lua. Wiki: https://wiki.hypr.land
 --
--- The machine this is written for:
---   * ThinkPad, i5-1135G7 / Intel Iris Xe (i915), 1920x1200 internal panel
---   * 2x LG 31.5" 4K on the dock, matched by serial so DP port numbers can shuffle
---   * SDDM -> uwsm -> Hyprland, so daemons are started through `uwsm app`
---   * ZSA Voyager + ROG Pugio II when docked, Synaptics touchpad + TrackPoint when not
+-- Host-specific hardware and policy live in profiles/<hostname>.lua. Set
+-- HYPRLAND_PROFILE to validate a profile on another host.
 --
 -- Two binds below need packages that aren't installed yet -- they no-op until then:
 --   sudo pacman -S brightnessctl playerctl     # XF86MonBrightness*, XF86Audio{Next,Prev,Play}
@@ -20,6 +17,23 @@
 ------------------
 ---- MONITORS ----
 ------------------
+
+local function read_hostname()
+	local override = os.getenv("HYPRLAND_PROFILE")
+	if override and override ~= "" then
+		return override
+	end
+
+	local file = assert(io.open("/etc/hostname", "r"), "cannot read /etc/hostname")
+	local hostname = assert(file:read("*l"), "/etc/hostname is empty")
+	file:close()
+	return hostname:match("^%s*(.-)%s*$")
+end
+
+local hostname = read_hostname()
+local supportedHosts = { darker = true, odin = true }
+assert(supportedHosts[hostname], "unsupported Hyprland host profile: " .. hostname)
+local profile = require("profiles." .. hostname)
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 --
@@ -38,23 +52,13 @@
 -- the lid-switch re-enable line) recomputes itself. Keep width/scale and height/scale
 -- whole numbers -- Hyprland rejects fractional logical sizes.
 
-local displays = {
-	laptop = { output = "eDP-1", w = 1920, h = 1200, hz = 60, scale = 1.0 },
-	-- Matched on description+serial rather than DP-3/DP-4: the dock hands out port
-	-- numbers in whatever order it feels like. `hyprctl monitors` prints these.
-	left = {
-		output = "desc:LG Electronics LG HDR 4K 108NTGYED519",
-		w = 3840,
-		h = 2160,
-		hz = 60,
-		scale = 1.0,
-		transform = 3,
-	},
-	center = { output = "desc:LG Electronics LG HDR 4K 108NTNHED527", w = 3840, h = 2160, hz = 60, scale = 1.0 },
-}
+local displays = profile.displays
 
 -- Physical left-to-right order. Reorder this list, not the coordinates.
-local arrangement = { displays.left, displays.center, displays.laptop }
+local arrangement = {}
+for _, name in ipairs(profile.arrangement) do
+	arrangement[#arrangement + 1] = assert(displays[name], "unknown display in profile: " .. name)
+end
 
 -- Catch-all first, so a monitor that isn't in the list above (projector, TV, a
 -- borrowed screen) still comes up instead of staying black.
@@ -74,8 +78,8 @@ end
 local nextX = 0
 for _, d in ipairs(arrangement) do
 	d.x, d.y = nextX, math.floor((tallest - d.lh) / 2 + 0.5)
-	d.mode = string.format("%dx%d@%d", d.w, d.h, d.hz)
-	d.position = string.format("%dx%d", d.x, d.y)
+	d.mode = string.format("%dx%d@%g", d.w, d.h, d.hz)
+	d.position = d.position or string.format("%dx%d", d.x, d.y)
 	hl.monitor({
 		output = d.output,
 		mode = d.mode,
@@ -93,8 +97,8 @@ end
 local terminal = "ghostty"
 local fileManager = "dolphin"
 local menu = "vicinae toggle"
-local screenshotDir = "$HOME/Downloads" -- the only one of the XDG dirs that exists here
-local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/darker/bin/workspace-stack"
+local screenshotDir = profile.screenshot_dir
+local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/bin/workspace-stack"
 
 -------------------
 ---- AUTOSTART ----
@@ -118,6 +122,12 @@ hl.on("hyprland.start", function()
 	-- Do not start mako alongside it: only one notification server can own the
 	-- D-Bus name, and mako would prevent the integrated notification UI loading.
 	daemon("quickshell")
+	if profile.features.idle then
+		daemon("hypridle")
+	end
+	if profile.features.xembed then
+		daemon("xembedsniproxy")
+	end
 
 	-- Wallpaper: waypaper (GUI picker) driving awww as its backend. waypaper is
 	-- only a frontend -- it shells out to a backend, so `awww` has to be installed
@@ -149,6 +159,12 @@ hl.env("GDK_BACKEND", "wayland,x11")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 
+if profile.features.gaming then
+	-- Permission enforcement and direct scanout are only needed for Odin's game setup.
+	hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
+	hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
+end
+
 -- Deliberately NOT setting GDK_SCALE / QT_SCALE_FACTOR / QT_AUTO_SCREEN_SCALE_FACTOR:
 -- pinning them to 1 was right when this machine ran a single 1.0-scaled panel, but with
 -- 1.0 (laptop) and 1.25 (4K) in play they'd override per-monitor Wayland scaling and
@@ -163,42 +179,43 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 -----------------------
 
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
+local odinAppearance = profile.appearance == "odin"
 hl.config({
 	general = {
-		gaps_in = 9,
-		gaps_out = 18,
+		gaps_in = odinAppearance and 12 or 9,
+		gaps_out = odinAppearance and 24 or 18,
 
-		border_size = 1,
+		border_size = odinAppearance and 2 or 1,
 
 		col = {
-			active_border = "rgba(6A6A6AFF)",
-			inactive_border = "rgba(6A6A6A66)",
+			active_border = odinAppearance and "rgba(b0b0b0cc)" or "rgba(6A6A6AFF)",
+			inactive_border = odinAppearance and "rgba(4a4a4a88)" or "rgba(6A6A6A66)",
 		},
 
 		resize_on_border = false,
-		allow_tearing = false, -- no games on darker; keep the compositor honest
+		allow_tearing = profile.features.gaming,
 
 		layout = "dwindle",
 	},
 
 	decoration = {
-		rounding = 4,
+		rounding = odinAppearance and 10 or 4,
 		rounding_power = 2,
 
-		active_opacity = 0.95,
-		inactive_opacity = 0.85,
+		active_opacity = odinAppearance and 1.0 or 0.95,
+		inactive_opacity = odinAppearance and 1.0 or 0.85,
 
 		shadow = {
 			enabled = true,
 			range = 4,
 			render_power = 3,
-			color = "rgba(2b2b2bee)",
+			color = odinAppearance and "rgba(1a1a1aee)" or "rgba(2b2b2bee)",
 		},
 
 		blur = {
 			enabled = true,
-			size = 8,
-			passes = 2,
+			size = odinAppearance and 3 or 8,
+			passes = odinAppearance and 1 or 2,
 			new_optimizations = true,
 			ignore_opacity = true,
 			vibrancy = 0.1696,
@@ -230,7 +247,7 @@ hl.config({
 	},
 
 	misc = {
-		force_default_wallpaper = 0,
+		force_default_wallpaper = odinAppearance and -1 or 0,
 		disable_hyprland_logo = true,
 		background_color = "rgba(2b2b2bff)",
 
@@ -248,6 +265,13 @@ hl.config({
 		force_zero_scaling = true,
 	},
 })
+
+if profile.features.gaming then
+	hl.config({
+		ecosystem = { enforce_permissions = true },
+		render = { direct_scanout = 2 },
+	})
+end
 
 -- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
 hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
@@ -281,6 +305,9 @@ hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "a
 hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
 hl.animation({ leaf = "workspacesIn", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
 hl.animation({ leaf = "workspacesOut", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
+if profile.features.gaming then
+	hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" })
+end
 
 ---------------
 ---- INPUT ----
@@ -341,6 +368,12 @@ hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + I", hl.dsp.layout("togglesplit")) -- dwindle only
+if profile.features.idle then
+	hl.bind("CTRL + " .. mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
+end
+if profile.features.gaming then
+	hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("wow-kill"))
+end
 
 -- Move focus
 hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
@@ -391,20 +424,24 @@ hl.bind("CTRL + PRINT", hl.dsp.exec_cmd("hyprshot -m output -o " .. screenshotDi
 hl.bind("CTRL + SHIFT + 3", hl.dsp.exec_cmd("hyprshot -z -m region -o " .. screenshotDir))
 hl.bind("CTRL + SHIFT + 4", hl.dsp.exec_cmd("hyprshot -z -m window -o " .. screenshotDir))
 
--- Volume. This box has pipewire-pulse but no wireplumber CLI, so it's pactl rather
--- than the wpctl lines the other machines use.
-hl.bind(
-	"XF86AudioRaiseVolume",
-	hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ +5%"),
-	{ locked = true, repeating = true }
-)
-hl.bind(
-	"XF86AudioLowerVolume",
-	hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ -5%"),
-	{ locked = true, repeating = true }
-)
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("pactl set-sink-mute @DEFAULT_SINK@ toggle"), { locked = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("pactl set-source-mute @DEFAULT_SOURCE@ toggle"), { locked = true })
+-- The machines expose different PipeWire control CLIs.
+local volume = profile.audio == "wpctl"
+		and {
+			up = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
+			down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+			mute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+			mic_mute = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+		}
+	or {
+		up = "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+		down = "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+		mute = "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		mic_mute = "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+	}
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(volume.up), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(volume.down), { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd(volume.mute), { locked = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(volume.mic_mute), { locked = true })
 
 -- Backlight. Needs `brightnessctl` (not installed yet -- these are no-ops until it is).
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
@@ -416,27 +453,53 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
--- Lid: turn the internal panel off when it closes and put it back exactly where the
--- MONITORS block says it goes. `locked` so it still fires over a lock screen.
-local lid = displays.laptop
-hl.bind(
-	"switch:on:Lid Switch",
-	hl.dsp.exec_cmd(string.format('hyprctl keyword monitor "%s, disable"', lid.output)),
-	{ locked = true }
-)
-hl.bind(
-	"switch:off:Lid Switch",
-	hl.dsp.exec_cmd(
-		string.format('hyprctl keyword monitor "%s, %s, %s, %s"', lid.output, lid.mode, lid.position, lid.scale)
-	),
-	{ locked = true }
-)
+if profile.features.laptop then
+	-- Turn the internal panel off with the lid and restore its profile position.
+	local lid = assert(displays[profile.laptop], "laptop display missing from profile")
+	hl.bind(
+		"switch:on:Lid Switch",
+		hl.dsp.exec_cmd(string.format('hyprctl keyword monitor "%s, disable"', lid.output)),
+		{ locked = true }
+	)
+	hl.bind(
+		"switch:off:Lid Switch",
+		hl.dsp.exec_cmd(
+			string.format('hyprctl keyword monitor "%s, %s, %s, %s"', lid.output, lid.mode, lid.position, lid.scale)
+		),
+		{ locked = true }
+	)
+end
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
 --------------------------------
 
 -- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
+
+if profile.features.gaming then
+	hl.window_rule({
+		name = "wow-game",
+		match = { class = "steam_app_2894584976", title = "World of Warcraft" },
+		workspace = "unset",
+		fullscreen = true,
+		suppress_event = "fullscreen",
+		content = "game",
+		idle_inhibit = "fullscreen",
+		immediate = true,
+		no_anim = true,
+		no_blur = true,
+		no_shadow = true,
+		opaque = true,
+		confine_pointer = true,
+	})
+
+	hl.window_rule({
+		name = "move-hyprland-run",
+		match = { class = "hyprland-run" },
+		move = "20 monitor_h-120",
+		float = true,
+	})
+end
 
 hl.window_rule({
 	-- Ignore maximize requests from all apps. You'll probably like this.
@@ -473,9 +536,9 @@ hl.window_rule({
 -- ignore_alpha keeps fully transparent regions clear.
 hl.layer_rule({
 	name = "frost-quickshell-bar",
-	match = { namespace = "^quickshell" },
+	match = { namespace = odinAppearance and "^quickshell:bar$" or "^quickshell" },
 	blur = true,
-	ignore_alpha = 0.3,
+	ignore_alpha = odinAppearance and 0.2 or 0.3,
 })
 
 -- Same treatment for the launcher and notifications.

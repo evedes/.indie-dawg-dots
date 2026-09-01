@@ -64,7 +64,7 @@ Neovim and Zellij are shared across platforms at the repository root. Everything
 brew install git zsh neovim tmux fzf starship ripgrep bat lazygit mise
 
 # Arch Linux
-sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise hypridle hyprlock
+sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise uwsm hypridle hyprlock
 yay -S lazygit-bin
 ```
 
@@ -121,14 +121,15 @@ ln -sf ~/.indie-dawg-dots/archlinux/tmux ~/.config/tmux
 ln -sf ~/.indie-dawg-dots/zellij ~/.config/zellij
 ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 
-# Hyprland stack (optional)
-ln -sf ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
+# Hyprland stack (optional; shared config selects darker/odin by hostname)
+ln -sfn ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
 ln -sf ~/.indie-dawg-dots/archlinux/mako ~/.config/mako
 
-# Session services used by the Hyprland configuration
-systemctl --user link ~/.indie-dawg-dots/archlinux/odin/systemd/user/*.service
-systemctl --user enable awww-daemon.service quickshell.service xembedsniproxy.service vicinae.service hypridle.service
-systemctl --user add-wants graphical-session.target plasma-polkit-agent.service com.nextcloud.desktopclient.nextcloud.service
+# Hyprland must be launched through UWSM on both hosts. Desktop daemons are
+# launched by the Hyprland config with `uwsm app`; do not enable duplicate units.
+# If migrating an older Odin installation, remove its legacy service setup:
+systemctl --user disable --now awww-daemon.service quickshell.service xembedsniproxy.service 2>/dev/null || true
+systemctl --user daemon-reload
 
 # Quickshell lives in its own repo — clone it, then link it
 # git clone <quickshell-repo-url> ~/.quickshell
