@@ -99,6 +99,21 @@ local fileManager = "dolphin"
 local menu = "vicinae toggle"
 local screenshotDir = profile.screenshot_dir
 local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/bin/workspace-stack"
+local uwsmManaged = os.getenv("UWSM_ID") ~= nil
+local directServices = {
+	"plasma-polkit-agent.service",
+	"vicinae.service",
+	"com.nextcloud.desktopclient.nextcloud.service",
+	"quickshell.service",
+	"awww-daemon.service",
+}
+if profile.features.idle then
+	directServices[#directServices + 1] = "hypridle.service"
+end
+if profile.features.xembed then
+	directServices[#directServices + 1] = "xembedsniproxy.service"
+end
+local directServiceList = table.concat(directServices, " ")
 
 -------------------
 ---- AUTOSTART ----
@@ -107,6 +122,14 @@ local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/bin/workspace-stack"
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 hl.on("hyprland.start", function()
 	hl.exec_cmd(workspaceStack .. " init")
+
+	-- Odin currently enters Hyprland directly from SDDM, while Darker uses UWSM.
+	-- Start Odin's user services explicitly: graphical-session.target is marked
+	-- RefuseManualStart by systemd and `uwsm app` in a non-UWSM session starts nothing.
+	if not uwsmManaged then
+		hl.exec_cmd("systemctl --user start " .. directServiceList .. " && waypaper --restore")
+		return
+	end
 
 	-- The session is uwsm-managed, so launch daemons as user services in the
 	-- background slice: `systemctl --user` can then see and restart them, and they
@@ -141,6 +164,12 @@ hl.on("hyprland.start", function()
 	daemon("awww-daemon")
 	-- Reapply whatever waypaper set last. Daemon is already up by this point.
 	hl.exec_cmd("uwsm app -s b -- waypaper --restore")
+end)
+
+hl.on("hyprland.shutdown", function()
+	if not uwsmManaged then
+		hl.exec_cmd("systemctl --user stop " .. directServiceList)
+	end
 end)
 
 -------------------------------
@@ -360,9 +389,9 @@ hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
--- Clean logout: the session is a uwsm unit, so stop it rather than killing the
--- compositor out from under systemd.
-hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd("uwsm stop"))
+-- Stop the UWSM session when present; otherwise ask Hyprland to exit normally.
+local logout = uwsmManaged and "uwsm stop" or "hyprctl dispatch exit"
+hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd(logout))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload")) -- autoreload is off
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())

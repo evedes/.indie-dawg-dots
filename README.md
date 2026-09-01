@@ -125,11 +125,15 @@ ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 ln -sfn ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
 ln -sf ~/.indie-dawg-dots/archlinux/mako ~/.config/mako
 
-# Hyprland must be launched through UWSM on both hosts. Desktop daemons are
-# launched by the Hyprland config with `uwsm app`; do not enable duplicate units.
-# If migrating an older Odin installation, remove its legacy service setup:
-systemctl --user disable --now awww-daemon.service quickshell.service xembedsniproxy.service 2>/dev/null || true
-systemctl --user daemon-reload
+# Darker launches Hyprland through UWSM. Odin currently launches it directly
+# from SDDM, so install its desktop-daemon user services (the shared Hyprland
+# config starts and stops them explicitly with the session):
+if [ "$(cat /etc/hostname)" = odin ]; then
+  for service in awww-daemon quickshell xembedsniproxy; do
+    ln -sf ~/.indie-dawg-dots/archlinux/odin/systemd/user/$service.service ~/.config/systemd/user/$service.service
+  done
+  systemctl --user daemon-reload
+fi
 
 # Quickshell lives in its own repo — clone it, then link it
 # git clone <quickshell-repo-url> ~/.quickshell
