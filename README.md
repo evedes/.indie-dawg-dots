@@ -142,6 +142,9 @@ ln -sfn ~/.quickshell ~/.config/quickshell
 # Other
 ln -sf ~/.indie-dawg-dots/archlinux/.ripgreprc ~/.ripgreprc
 
+# Vicinae script commands
+ln -sfn ~/.indie-dawg-dots/archlinux/vicinae/scripts ~/.local/share/vicinae/scripts
+
 # Set Zsh as default shell
 chsh -s $(which zsh)
 ```

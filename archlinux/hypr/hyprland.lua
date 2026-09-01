@@ -114,6 +114,7 @@ if profile.features.xembed then
 	directServices[#directServices + 1] = "xembedsniproxy.service"
 end
 local directServiceList = table.concat(directServices, " ")
+local keyboardLayout = "$HOME/.indie-dawg-dots/archlinux/bin/keyboard-layout"
 
 -------------------
 ---- AUTOSTART ----
@@ -185,6 +186,11 @@ hl.env("HYPRCURSOR_SIZE", "24")
 
 hl.env("GTK_THEME", "Adwaita:dark")
 hl.env("GDK_BACKEND", "wayland,x11")
+
+-- GTK 4.20+ no longer falls back to its built-in dead-key composer on Wayland
+-- when no input-method daemon is installed. Ghostty uses GTK, so request the
+-- simple composer explicitly (Kitty does not need this because it is not GTK).
+hl.env("GTK_IM_MODULE", "simple")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 
@@ -344,6 +350,9 @@ end
 
 hl.config({
 	input = {
+		-- keyboard-layout rebuilds this single keymap with the `intl` variant
+		-- when requested. A single group works reliably across multi-interface
+		-- USB keyboards such as the ZSA Voyager.
 		kb_layout = "us",
 		kb_variant = "",
 		kb_model = "",
@@ -388,6 +397,7 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + SHIFT + SPACE", hl.dsp.exec_cmd(keyboardLayout .. " toggle"))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- Stop the UWSM session when present; otherwise ask Hyprland to exit normally.
 local logout = uwsmManaged and "uwsm stop" or "hyprctl dispatch exit"

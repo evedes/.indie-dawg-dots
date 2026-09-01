@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Toggle Keyboard Layout
+# @vicinae.mode silent
+# @vicinae.icon ⌨️
+# @vicinae.keywords ["keyboard", "layout", "us", "international", "intl"]
+# @vicinae.description Toggle between US and US International keyboard layouts
+
+exec "$HOME/.indie-dawg-dots/archlinux/bin/keyboard-layout" toggle
