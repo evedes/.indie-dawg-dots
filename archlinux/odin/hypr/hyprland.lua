@@ -51,6 +51,7 @@ hl.monitor({
 local terminal = "ghostty"
 local fileManager = "dolphin"
 local menu = "vicinae"
+local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/odin/bin/workspace-stack"
 
 -------------------
 ---- AUTOSTART ----
@@ -60,6 +61,7 @@ local menu = "vicinae"
 -- Use it as the lifecycle boundary for desktop application user services.
 hl.on("hyprland.start", function()
 	hl.exec_cmd("systemctl --user start graphical-session.target")
+	hl.exec_cmd(workspaceStack .. " init")
 end)
 
 hl.on("hyprland.shutdown", function()
@@ -178,7 +180,8 @@ hl.animation({ leaf = "layersIn", enabled = true, speed = 4, bezier = "easeOutQu
 hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear", style = "fade" })
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 1.79, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" })
--- Pop!_OS-style vertical workspace stack, matching CTRL+SUPER+K/J navigation.
+-- Pop!_OS-style vertical workspace stack. Workspaces are named
+-- <monitor-output>:<position> and normalized by workspace-stack.
 hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
 hl.animation({ leaf = "workspacesIn", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
 hl.animation({ leaf = "workspacesOut", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
@@ -264,22 +267,24 @@ hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
 
--- Move windows horizontally across monitors with SUPER+SHIFT+h/l.
--- SUPER+SHIFT+k/j moves windows through the vertical workspace stack below.
+-- Move/reorder windows within the layout. At a horizontal edge, h/l can hand
+-- the window to the next monitor when Hyprland's monitor fallback is enabled.
 hl.bind(mainMod .. " + SHIFT + h", hl.dsp.window.move({ direction = "left" }))
 hl.bind(mainMod .. " + SHIFT + l", hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.move({ direction = "up" }))
+hl.bind(mainMod .. " + SHIFT + j", hl.dsp.window.move({ direction = "down" }))
 
 -- Example special workspace (scratchpad)
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
--- Navigate the focused monitor's stack; SHIFT moves the active window through it.
-hl.bind("CTRL + " .. mainMod .. " + k", hl.dsp.focus({ workspace = "r-1" }))
-hl.bind("CTRL + " .. mainMod .. " + j", hl.dsp.focus({ workspace = "r+1" }))
-hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.move({ workspace = "r-1" }))
-hl.bind(mainMod .. " + SHIFT + j", hl.dsp.window.move({ workspace = "r+1" }))
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "r+1" }))
-hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "r-1" }))
+-- Navigate with CTRL+SUPER; adding SHIFT moves the active window through the stack.
+hl.bind("CTRL + " .. mainMod .. " + k", hl.dsp.exec_cmd(workspaceStack .. " focus up"))
+hl.bind("CTRL + " .. mainMod .. " + j", hl.dsp.exec_cmd(workspaceStack .. " focus down"))
+hl.bind("CTRL + " .. mainMod .. " + SHIFT + k", hl.dsp.exec_cmd(workspaceStack .. " move up"))
+hl.bind("CTRL + " .. mainMod .. " + SHIFT + j", hl.dsp.exec_cmd(workspaceStack .. " move down"))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.exec_cmd(workspaceStack .. " focus down"))
+hl.bind(mainMod .. " + mouse_up", hl.dsp.exec_cmd(workspaceStack .. " focus up"))
 
 -- Screenshot palette; SUPER+SHIFT+1/2 are intentionally left available.
 hl.bind(mainMod .. " + SHIFT + 3", hl.dsp.exec_cmd("hyprshot -z -m region --clipboard-only"))

@@ -94,6 +94,7 @@ local terminal = "ghostty"
 local fileManager = "dolphin"
 local menu = "vicinae toggle"
 local screenshotDir = "$HOME/Downloads" -- the only one of the XDG dirs that exists here
+local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/darker/bin/workspace-stack"
 
 -------------------
 ---- AUTOSTART ----
@@ -101,6 +102,8 @@ local screenshotDir = "$HOME/Downloads" -- the only one of the XDG dirs that exi
 
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 hl.on("hyprland.start", function()
+	hl.exec_cmd(workspaceStack .. " init")
+
 	-- The session is uwsm-managed, so launch daemons as user services in the
 	-- background slice: `systemctl --user` can then see and restart them, and they
 	-- get torn down properly on logout instead of lingering under the compositor.
@@ -109,11 +112,11 @@ hl.on("hyprland.start", function()
 	end
 
 	daemon("/usr/lib/polkit-kde-authentication-agent-1") -- auth prompts (polkit-kde-agent)
-	daemon("mako") -- notifications (dunst is installed too -- only run one)
 	daemon("vicinae server") -- launcher backend for SUPER+SPACE
 	daemon("nextcloud --background") -- file sync client
-	-- Desktop shell / bar. There is no ~/.config/quickshell on darker yet, so this
-	-- exits immediately until you add one; `reload-desktop` restarts it with mako.
+	-- Quickshell owns both the desktop bar and org.freedesktop.Notifications.
+	-- Do not start mako alongside it: only one notification server can own the
+	-- D-Bus name, and mako would prevent the integrated notification UI loading.
 	daemon("quickshell")
 
 	-- Wallpaper: waypaper (GUI picker) driving awww as its backend. waypaper is
@@ -273,35 +276,11 @@ hl.animation({ leaf = "layersIn", enabled = true, speed = 4, bezier = "easeOutQu
 hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear", style = "fade" })
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 1.79, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
-
---------------------
----- WORKSPACES ----
---------------------
-
--- Workspaces are pinned to a monitor, laid out the way the screens are:
---   laptop : 1, 2          (SUPER+1, SUPER+2)
---   centre : 3, 4, 5, 6, 7
---   right  : 8, 9, 10      (SUPER+0 is workspace 10)
--- SUPER+[0-9] switches to a workspace and follows it to its monitor. Undocked, the
--- rules for absent monitors fall back to the panel on their own.
-local workspaceGroups = {
-	{ monitor = displays.laptop, list = { "1", "2" } },
-	{ monitor = displays.left, list = { "3", "4", "5", "6", "7" } },
-	{ monitor = displays.center, list = { "8", "9", "10" } },
-}
-
-for _, group in ipairs(workspaceGroups) do
-	for i, ws in ipairs(group.list) do
-		hl.workspace_rule({
-			workspace = ws,
-			monitor = group.monitor.output,
-			default = i == 1, -- first workspace listed is that monitor's default
-		})
-	end
-end
+-- Pop!_OS-style vertical workspace stack. Workspaces are named
+-- <monitor-output>:<position> and normalized by workspace-stack.
+hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
+hl.animation({ leaf = "workspacesIn", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
+hl.animation({ leaf = "workspacesOut", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
 
 ---------------
 ---- INPUT ----
@@ -369,28 +348,26 @@ hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
 
--- Move the window itself. At the edge of a monitor this hands the window to the
--- next screen (binds.window_direction_monitor_fallback, set above).
+-- Move/reorder windows within the layout. At a horizontal edge, h/l can hand
+-- the window to the next monitor (window_direction_monitor_fallback above).
 hl.bind(mainMod .. " + SHIFT + h", hl.dsp.window.move({ direction = "left" }))
 hl.bind(mainMod .. " + SHIFT + l", hl.dsp.window.move({ direction = "right" }))
 hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. " + SHIFT + j", hl.dsp.window.move({ direction = "down" }))
 
--- Switch workspaces with SUPER+[0-9]; SHIFT sends the active window there.
--- Key 0 maps to workspace 10.
-for i = 1, 10 do
-	local key = i % 10
-	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
-end
-
 -- Scratchpad
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
--- Scroll through workspaces, and drag/resize with the mouse
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+-- Navigate with CTRL+SUPER; adding SHIFT moves the active window through the stack.
+hl.bind("CTRL + " .. mainMod .. " + k", hl.dsp.exec_cmd(workspaceStack .. " focus up"))
+hl.bind("CTRL + " .. mainMod .. " + j", hl.dsp.exec_cmd(workspaceStack .. " focus down"))
+hl.bind("CTRL + " .. mainMod .. " + SHIFT + k", hl.dsp.exec_cmd(workspaceStack .. " move up"))
+hl.bind("CTRL + " .. mainMod .. " + SHIFT + j", hl.dsp.exec_cmd(workspaceStack .. " move down"))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.exec_cmd(workspaceStack .. " focus down"))
+hl.bind(mainMod .. " + mouse_up", hl.dsp.exec_cmd(workspaceStack .. " focus up"))
+
+-- Drag/resize with the mouse.
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
