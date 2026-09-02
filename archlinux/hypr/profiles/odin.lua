@@ -30,7 +30,7 @@ return {
 	features = {
 		laptop = false,
 		gaming = true,
-		idle = true,
+		idle = false,
 		xembed = true,
 	},
 }
