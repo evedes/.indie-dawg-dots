@@ -9,7 +9,7 @@ if [[ "$profile" == odin ]]; then
 else
 	killall quickshell awww-daemon mako nextcloud-desktop 2>/dev/null || true
 	sleep 0.2
-	quickshell &
+	quickshell -p "$HOME/.quickshell" &
 	awww-daemon &
 	nextcloud-desktop &
 	vicinae server --replace &

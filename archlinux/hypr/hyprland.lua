@@ -164,7 +164,7 @@ hl.on("hyprland.start", function()
 	-- Quickshell owns both the desktop bar and org.freedesktop.Notifications.
 	-- Do not start mako alongside it: only one notification server can own the
 	-- D-Bus name, and mako would prevent the integrated notification UI loading.
-	daemon("quickshell")
+	daemon("quickshell -p $HOME/.quickshell")
 	if profile.features.idle then
 		daemon("hypridle")
 	end
@@ -608,7 +608,14 @@ hl.window_rule({
 -- ignore_alpha keeps fully transparent regions clear.
 hl.layer_rule({
 	name = "frost-quickshell-bar",
-	match = { namespace = "^quickshell" },
+	match = { namespace = "^quickshell:bar$" },
+	blur = true,
+	ignore_alpha = 0.3,
+})
+
+hl.layer_rule({
+	name = "frost-quickshell-osd",
+	match = { namespace = "^quickshell:osd$" },
 	blur = true,
 	ignore_alpha = 0.3,
 })
