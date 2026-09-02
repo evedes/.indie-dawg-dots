@@ -1,6 +1,8 @@
 #!/bin/sh
 
-CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/ghostty/config"
+ROOT="$HOME/.indie-dawg-dots/archlinux"
+PROFILE=$("$ROOT/bin/profile-name")
+CONFIG_FILE="$ROOT/ghostty/profiles/$PROFILE"
 
 # Define color options - very dark, subtle tints
 COLOR_OPTIONS="Remove Background:REMOVE

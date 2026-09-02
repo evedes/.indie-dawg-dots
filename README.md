@@ -121,19 +121,12 @@ ln -sf ~/.indie-dawg-dots/archlinux/tmux ~/.config/tmux
 ln -sf ~/.indie-dawg-dots/zellij ~/.config/zellij
 ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 
+# Select darker/odin from the hostname and link the host-aware configs.
+~/.indie-dawg-dots/archlinux/bin/activate-profile
+
 # Hyprland stack (optional; shared config selects darker/odin by hostname)
 ln -sfn ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
 ln -sf ~/.indie-dawg-dots/archlinux/mako ~/.config/mako
-
-# Darker launches Hyprland through UWSM. Odin currently launches it directly
-# from SDDM, so install its desktop-daemon user services (the shared Hyprland
-# config starts and stops them explicitly with the session):
-if [ "$(cat /etc/hostname)" = odin ]; then
-  for service in awww-daemon quickshell xembedsniproxy; do
-    ln -sf ~/.indie-dawg-dots/archlinux/odin/systemd/user/$service.service ~/.config/systemd/user/$service.service
-  done
-  systemctl --user daemon-reload
-fi
 
 # Quickshell lives in its own repo — clone it, then link it
 # git clone <quickshell-repo-url> ~/.quickshell

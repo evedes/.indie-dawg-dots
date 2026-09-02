@@ -1,7 +1,9 @@
 #!/bin/bash
 
-CONFIG_FILE="$HOME/.config/ghostty/config"
-OPACITY_STORE="$HOME/.config/ghostty/.opacity-value"
+ROOT="$HOME/.indie-dawg-dots/archlinux"
+PROFILE=$("$ROOT/bin/profile-name")
+CONFIG_FILE="$ROOT/ghostty/profiles/$PROFILE"
+OPACITY_STORE="$HOME/.local/state/ghostty-opacity-$PROFILE"
 
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "Config file not found: $CONFIG_FILE"
@@ -24,6 +26,7 @@ if [ "$CURRENT" = "1" ] || [ "$CURRENT" = "1.0" ] || [ "$CURRENT" = "1.00" ]; th
     fi
 else
     # Save current value and go opaque
+    mkdir -p "${OPACITY_STORE%/*}"
     echo "$CURRENT" > "$OPACITY_STORE"
     NEW="1"
 fi

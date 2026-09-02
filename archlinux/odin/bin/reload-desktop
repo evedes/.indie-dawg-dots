@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-systemctl --user restart quickshell.service awww-daemon.service
