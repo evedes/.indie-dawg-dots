@@ -132,6 +132,12 @@ ForegroundVisited=155,89,182
 
 [General]
 ColorScheme=BreezeDark
+# Tokens from theme/tokens.lua: font.ui at size.md / size.sm
+font=Adwaita Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=Adwaita Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+toolBarFont=Adwaita Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=Adwaita Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+fixed=Berkeley Mono,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [Icons]
 Theme=breeze-dark

@@ -191,6 +191,10 @@ end)
 -- uwsm already exports XDG_CURRENT_DESKTOP / XDG_SESSION_TYPE / XDG_SESSION_DESKTOP,
 -- so they're deliberately not repeated here.
 
+-- Cursor: token cursor.theme / cursor.size (theme/tokens.lua). Bibata ships both a
+-- hyprcursor and an xcursor build; ~/.icons/default/index.theme covers XWayland.
+hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
+hl.env("HYPRCURSOR_THEME", "Bibata-Modern-Classic")
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
