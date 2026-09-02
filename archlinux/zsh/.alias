@@ -210,7 +210,7 @@ alias zn='zellij --session'
 alias zl='zellij list-sessions'
 alias za='zellij attach'
 alias zd='zellij delete-session'
-alias zt='$HOME/.indie-dawg-dots/archlinux/odin/bin/switch-theme'
+alias zt='$HOME/.indie-dawg-dots/archlinux/bin/switch-theme'
 alias zam='za MULTIVERSE'
 
 # YAZI

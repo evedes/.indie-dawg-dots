@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ -n ${DOTS_PROFILE:-} ]]; then
+	profile=$DOTS_PROFILE
+else
+	IFS= read -r profile </etc/hostname
+fi
+
+case "$profile" in
+	darker | odin) printf '%s\n' "$profile" ;;
+	*)
+		printf 'Unsupported dotfiles profile: %s\n' "$profile" >&2
+		exit 1
+		;;
+esac

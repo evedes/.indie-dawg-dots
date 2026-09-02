@@ -17,7 +17,9 @@ case "$SELECTION" in
         ~/.local/bin/ghostty-bg-picker.sh
         ;;
     "3. Reset to Default")
-        CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/ghostty/config"
+        ROOT="$HOME/.indie-dawg-dots/archlinux"
+        PROFILE=$("$ROOT/bin/profile-name")
+        CONFIG_FILE="$ROOT/ghostty/profiles/$PROFILE"
         TEMP_FILE=$(mktemp)
         sed 's/^theme = .*/theme = "Kanagawa Dragon"/' "$CONFIG_FILE" | \
         sed 's/^background = .*/background = "#000000"/' > "$TEMP_FILE"

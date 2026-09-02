@@ -4,3 +4,6 @@
 .env
 
 **/.claude/settings.local.json
+
+# Machine-local link created by bin/activate-profile.
+ghostty/active-profile

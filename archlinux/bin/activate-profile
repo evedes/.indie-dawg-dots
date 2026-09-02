@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+profile=$($root/bin/profile-name)
+
+ln -sfn "profiles/$profile" "$root/ghostty/active-profile"
+ln -sfn "$root/bin" "$HOME/.config/bin"
+ln -sfn "$root/ghostty" "$HOME/.config/ghostty"
+ln -sfn "$root/vicinae" "$HOME/.config/vicinae"
+
+if [[ "$profile" == odin ]]; then
+	mkdir -p "$HOME/.config/systemd/user"
+	for unit in "$root"/systemd/user/*.service; do
+		ln -sf "$unit" "$HOME/.config/systemd/user/${unit##*/}"
+	done
+	systemctl --user daemon-reload
+fi
+
+printf 'Activated %s profile.\n' "$profile"

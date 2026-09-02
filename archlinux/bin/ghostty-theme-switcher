@@ -1,6 +1,8 @@
 #!/bin/bash
 
-CONFIG_FILE="$HOME/.indie-dawg-dots/archlinux/darker/ghostty/config"
+ROOT="$HOME/.indie-dawg-dots/archlinux"
+PROFILE=$("$ROOT/bin/profile-name")
+CONFIG_FILE="$ROOT/ghostty/profiles/$PROFILE"
 
 # Get available themes from ghostty
 THEMES=$(ghostty +list-themes 2>/dev/null)
