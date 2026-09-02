@@ -1,0 +1,48 @@
+# Desktop design tokens (theme/tokens.lua, ~/Multiverse/hyprland-desktop-design-system.md).
+# Everything not set here is derived by vicinae from [colors.core].
+
+[meta]
+name = "Indie Dawg Dark"
+description = "One palette with the bar, notifications and lock screen"
+variant = "dark"
+inherits = "vicinae-dark"
+
+[colors.core]
+accent = "#7e9cd8"                 # accent
+accent_foreground = "#1a1a1a"      # bg.base
+background = "#141414"             # bg.surface (opacity comes from launcher_window.opacity)
+foreground = "#e6e6e6"             # fg.primary
+secondary_background = "#242424"   # bg.elevated
+border = "#2e2e2e"                 # border.subtle over bg.surface
+
+[colors.main_window]
+border = "#2e2e2e"
+
+[colors.settings_window]
+border = "#2e2e2e"
+
+[colors.text]
+default = "colors.core.foreground"
+muted = "#a5a5a5"                  # fg.secondary
+danger = "#e46876"                 # danger
+placeholder = "#7a7a7a"
+selection = { background = "#7e9cd8", foreground = "#1a1a1a" }
+
+[colors.text.links]
+default = "#7e9cd8"
+
+[colors.input]
+border = "#2e2e2e"
+border_focus = "#7e9cd8"
+border_error = "#e46876"
+
+[colors.button.primary]
+background = "#242424"
+foreground = "#e6e6e6"
+focus = { outline = "colors.core.accent" }
+
+[colors.list.item.selection]
+background = "#242424"
+foreground = "#e6e6e6"
+secondary_background = "#242424"
+secondary_foreground = "#a5a5a5"
