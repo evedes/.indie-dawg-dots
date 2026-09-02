@@ -64,7 +64,7 @@ Neovim and Zellij are shared across platforms at the repository root. Everything
 brew install git zsh neovim tmux fzf starship ripgrep bat lazygit mise
 
 # Arch Linux
-sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise uwsm hypridle hyprlock
+sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise uwsm hypridle hyprlock plasma-integration
 yay -S lazygit-bin
 ```
 
@@ -122,6 +122,7 @@ ln -sf ~/.indie-dawg-dots/zellij ~/.config/zellij
 ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 
 # Select darker/odin from the hostname and link the host-aware configs.
+# This also installs the shared dark GTK and KDE toolkit settings.
 ~/.indie-dawg-dots/archlinux/bin/activate-profile
 
 # Hyprland stack (optional; shared config selects darker/odin by hostname)

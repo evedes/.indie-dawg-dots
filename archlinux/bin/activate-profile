@@ -7,6 +7,9 @@ profile=$($root/bin/profile-name)
 ln -sfn "profiles/$profile" "$root/ghostty/active-profile"
 ln -sfn "$root/bin" "$HOME/.config/bin"
 ln -sfn "$root/ghostty" "$HOME/.config/ghostty"
+ln -sfn "$root/gtk-3.0" "$HOME/.config/gtk-3.0"
+ln -sfn "$root/gtk-4.0" "$HOME/.config/gtk-4.0"
+ln -sf "$root/kdeglobals" "$HOME/.config/kdeglobals"
 ln -sfn "$root/vicinae" "$HOME/.config/vicinae"
 
 if [[ "$profile" == odin ]]; then

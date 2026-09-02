@@ -132,7 +132,10 @@ hl.on("hyprland.start", function()
 	-- Start Odin's user services explicitly: graphical-session.target is marked
 	-- RefuseManualStart by systemd and `uwsm app` in a non-UWSM session starts nothing.
 	if not uwsmManaged then
-		hl.exec_cmd("systemctl --user start " .. directServiceList)
+		-- A directly launched compositor does not automatically update the D-Bus
+		-- and systemd user environments. Import Hyprland's environment first so
+		-- tray processes and other services receive the shared GTK/Qt dark theme.
+		hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user start " .. directServiceList)
 		-- Restore the wallpaper independently of the daemon starts above: a
 		-- missing unit must not silently cancel it.
 		hl.exec_cmd("waypaper --restore")
