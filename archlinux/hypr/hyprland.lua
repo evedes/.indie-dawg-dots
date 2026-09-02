@@ -37,6 +37,13 @@ local supportedHosts = { darker = true, odin = true }
 assert(supportedHosts[hostname], "unsupported Hyprland host profile: " .. hostname)
 local profile = require("profiles." .. hostname)
 
+-- Desktop design tokens live one directory up, in theme/tokens.lua (the design note is
+-- ~/Multiverse/hyprland-desktop-design-system.md). ~/.config/hypr is a symlink into the
+-- dotfiles, so "../theme" resolves to archlinux/theme on both hosts.
+local configDir = (os.getenv("XDG_CONFIG_HOME") or (os.getenv("HOME") .. "/.config")) .. "/hypr"
+package.path = configDir .. "/../theme/?.lua;" .. package.path
+local T = require("tokens")
+
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 --
 -- 4K SCALE REFERENCE
@@ -135,7 +142,9 @@ hl.on("hyprland.start", function()
 		-- A directly launched compositor does not automatically update the D-Bus
 		-- and systemd user environments. Import Hyprland's environment first so
 		-- tray processes and other services receive the shared GTK/Qt dark theme.
-		hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user start " .. directServiceList)
+		hl.exec_cmd(
+			"dbus-update-activation-environment --systemd --all && systemctl --user start " .. directServiceList
+		)
 		-- Restore the wallpaper independently of the daemon starts above: a
 		-- missing unit must not silently cancel it.
 		hl.exec_cmd("waypaper --restore")
@@ -193,10 +202,10 @@ end)
 
 -- Cursor: token cursor.theme / cursor.size (theme/tokens.lua). Bibata ships both a
 -- hyprcursor and an xcursor build; ~/.icons/default/index.theme covers XWayland.
-hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
-hl.env("HYPRCURSOR_THEME", "Bibata-Modern-Classic")
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("XCURSOR_THEME", T.cursor.theme)
+hl.env("HYPRCURSOR_THEME", T.cursor.theme)
+hl.env("XCURSOR_SIZE", tostring(T.cursor.size))
+hl.env("HYPRCURSOR_SIZE", tostring(T.cursor.size))
 
 hl.env("GTK_THEME", "Adwaita:dark")
 hl.env("GDK_BACKEND", "wayland,x11")
@@ -229,17 +238,18 @@ end
 -----------------------
 
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
-local odinAppearance = profile.appearance == "odin"
+-- One appearance on every host: all values here come from theme/tokens.lua. Per-host
+-- differences are limited to monitors, scale and profile.features.*.
 hl.config({
 	general = {
-		gaps_in = odinAppearance and 12 or 9,
-		gaps_out = odinAppearance and 24 or 18,
+		gaps_in = T.gap.inner,
+		gaps_out = T.gap.outer,
 
-		border_size = odinAppearance and 2 or 1,
+		border_size = T.border.width,
 
 		col = {
-			active_border = odinAppearance and "rgba(b0b0b0cc)" or "rgba(6A6A6AFF)",
-			inactive_border = odinAppearance and "rgba(4a4a4a88)" or "rgba(6A6A6A66)",
+			active_border = T.hypr(T.color.border.active),
+			inactive_border = T.hypr(T.color.border.subtle),
 		},
 
 		resize_on_border = false,
@@ -249,23 +259,30 @@ hl.config({
 	},
 
 	decoration = {
-		rounding = odinAppearance and 10 or 4,
+		rounding = T.radius.window,
 		rounding_power = 2,
 
-		active_opacity = odinAppearance and 1.0 or 0.95,
-		inactive_opacity = odinAppearance and 1.0 or 0.85,
+		-- Windows stay opaque; unfocused ones are dimmed a touch instead of made
+		-- translucent, which keeps text crisp and stops app windows being blurred.
+		active_opacity = 1.0,
+		inactive_opacity = 1.0,
+		dim_inactive = true,
+		dim_strength = T.dim.inactive,
 
+		-- Large and soft, like a real drop shadow rather than an outline.
 		shadow = {
 			enabled = true,
-			range = 4,
-			render_power = 3,
-			color = odinAppearance and "rgba(1a1a1aee)" or "rgba(2b2b2bee)",
+			range = T.shadow.range,
+			render_power = T.shadow.power,
+			color = T.hypr(T.shadow.color),
 		},
 
+		-- Blur only reaches layer surfaces (bar, launcher, notifications) through the
+		-- layer rules at the bottom of this file; opaque windows are never blurred.
 		blur = {
 			enabled = true,
-			size = odinAppearance and 3 or 8,
-			passes = odinAppearance and 1 or 2,
+			size = T.blur.size,
+			passes = T.blur.passes,
 			new_optimizations = true,
 			ignore_opacity = true,
 			vibrancy = 0.1696,
@@ -299,7 +316,7 @@ hl.config({
 	misc = {
 		force_default_wallpaper = -1,
 		disable_hyprland_logo = true,
-		background_color = "rgba(2b2b2bff)",
+		background_color = T.hypr(T.color.bg.base), -- token bg.base
 
 		-- Disable the inotify config-file watcher. Editors that save atomically
 		-- (write temp + rename) swap the file's inode, which makes the watcher lose
@@ -323,40 +340,41 @@ if profile.features.gaming then
 	})
 end
 
--- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
-hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
-hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36, 1 } } })
-hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
-hl.curve("almostLinear", { type = "bezier", points = { { 0.5, 0.5 }, { 0.75, 1 } } })
-hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
-
--- Default spring, plus a critically damped one (dampening = 2*sqrt(stiffness*mass)) for
--- window movement: it snaps into place in ~0.13s with no bounce, which matters a lot
--- when a window is being flung across three monitors.
-hl.curve("easy", { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
+-- Curves, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
+-- Motion token: one easing curve (easeOutQuint) plus a critically damped spring
+-- (dampening = 2*sqrt(stiffness*mass)) for window movement. It snaps into place in
+-- ~0.13s with no bounce, which matters a lot when a window is being flung across three
+-- monitors.
+hl.curve(
+	"easeOutQuint",
+	{ type = "bezier", points = { { T.motion.ease[1], T.motion.ease[2] }, { T.motion.ease[3], T.motion.ease[4] } } }
+)
 hl.curve("snappy", { type = "spring", mass = 1, stiffness = 900, dampening = 60 })
 
-hl.animation({ leaf = "global", enabled = true, speed = 10, bezier = "default" })
-hl.animation({ leaf = "border", enabled = true, speed = 5.39, bezier = "easeOutQuint" })
-hl.animation({ leaf = "windows", enabled = true, speed = 4.79, spring = "easy" })
-hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.1, spring = "easy", style = "popin 87%" })
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.49, bezier = "linear", style = "popin 87%" })
+-- Motion tokens: easeOutQuint for almost everything, the "snappy" spring for window
+-- movement, popin for windows, fade for layers. Speeds are in 100 ms units, so 2.5 is
+-- the ~250 ms ceiling.
+hl.animation({ leaf = "global", enabled = true, speed = 2.5, bezier = "easeOutQuint" })
+hl.animation({ leaf = "border", enabled = true, speed = 2.5, bezier = "easeOutQuint" })
+hl.animation({ leaf = "windows", enabled = true, speed = 2.5, bezier = "easeOutQuint" })
+hl.animation({ leaf = "windowsIn", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = T.motion.window_style })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 2, bezier = "easeOutQuint", style = T.motion.window_style })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 1.3, spring = "snappy" })
-hl.animation({ leaf = "fadeIn", enabled = true, speed = 1.73, bezier = "almostLinear" })
-hl.animation({ leaf = "fadeOut", enabled = true, speed = 1.46, bezier = "almostLinear" })
-hl.animation({ leaf = "fade", enabled = true, speed = 3.03, bezier = "quick" })
-hl.animation({ leaf = "layers", enabled = true, speed = 3.81, bezier = "easeOutQuint" })
-hl.animation({ leaf = "layersIn", enabled = true, speed = 4, bezier = "easeOutQuint", style = "fade" })
-hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear", style = "fade" })
-hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 1.79, bezier = "almostLinear" })
-hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" })
+hl.animation({ leaf = "fadeIn", enabled = true, speed = 2, bezier = "easeOutQuint" })
+hl.animation({ leaf = "fadeOut", enabled = true, speed = 1.5, bezier = "easeOutQuint" })
+hl.animation({ leaf = "fade", enabled = true, speed = 2, bezier = "easeOutQuint" })
+hl.animation({ leaf = "layers", enabled = true, speed = 2, bezier = "easeOutQuint", style = T.motion.layer_style })
+hl.animation({ leaf = "layersIn", enabled = true, speed = 2, bezier = "easeOutQuint", style = T.motion.layer_style })
+hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "easeOutQuint", style = T.motion.layer_style })
+hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 2, bezier = "easeOutQuint" })
+hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.5, bezier = "easeOutQuint" })
 -- Pop!_OS-style vertical workspace stack. Workspaces are named
 -- <monitor-output>:<position> and normalized by workspace-stack.
-hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
-hl.animation({ leaf = "workspacesIn", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slidevert" })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidevert" })
+hl.animation({ leaf = "workspacesIn", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidevert" })
+hl.animation({ leaf = "workspacesOut", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidevert" })
 if profile.features.gaming then
-	hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" })
+	hl.animation({ leaf = "zoomFactor", enabled = true, speed = 2.5, bezier = "easeOutQuint" })
 end
 
 ---------------
@@ -590,9 +608,9 @@ hl.window_rule({
 -- ignore_alpha keeps fully transparent regions clear.
 hl.layer_rule({
 	name = "frost-quickshell-bar",
-	match = { namespace = odinAppearance and "^quickshell:bar$" or "^quickshell" },
+	match = { namespace = "^quickshell" },
 	blur = true,
-	ignore_alpha = odinAppearance and 0.2 or 0.3,
+	ignore_alpha = 0.3,
 })
 
 -- Same treatment for the launcher and notifications.

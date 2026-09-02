@@ -21,7 +21,6 @@ return {
 	arrangement = { "left", "center", "laptop" },
 	laptop = "laptop",
 	audio = "pactl",
-	appearance = "darker",
 	screenshot_dir = "$HOME/Downloads",
 	features = {
 		laptop = true,
