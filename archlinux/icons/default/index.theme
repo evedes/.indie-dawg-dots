@@ -1,0 +1,3 @@
+[Icon Theme]
+# token: cursor.theme (theme/tokens.lua) -- XWayland / legacy X cursor fallback
+Inherits=Bibata-Modern-Classic
