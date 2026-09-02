@@ -62,30 +62,6 @@ normalize_all() {
 	done < <(hyprctl -j monitors | jq -r '.[].name')
 }
 
-insert_top() {
-	local monitor=$1 id
-	local -a ids=()
-
-	while IFS= read -r id; do
-		[[ -n ${id:-} ]] && ids+=("$id")
-	done < <(
-		workspace_rows \
-			| awk -F '\t' -v monitor="$monitor" '$1 == monitor { count = split($3, part, ":"); print part[count] "\t" $2 }' \
-			| sort -n -k1,1 \
-			| cut -f2
-	)
-
-	for id in "${ids[@]}"; do
-		rename_workspace "$id" "__workspace_stack_${monitor}_${id}"
-	done
-
-	local pos=2
-	for id in "${ids[@]}"; do
-		rename_workspace "$id" "${monitor}:${pos}"
-		pos=$((pos + 1))
-	done
-}
-
 [[ $# -ge 1 ]] || die "usage: workspace-stack init | {focus|move} {up|down}"
 
 if [[ $1 == init ]]; then
@@ -99,8 +75,16 @@ direction=$2
 [[ $action == focus || $action == move ]] || die "unknown action: $action"
 [[ $direction == up || $direction == down ]] || die "unknown direction: $direction"
 
-read -r active_id monitor < <(hyprctl -j activeworkspace | jq -r '[.id, .monitor] | @tsv')
+read -r active_id monitor active_name < <(hyprctl -j activeworkspace | jq -r '[.id, .monitor, .name] | @tsv')
 [[ -n ${monitor:-} ]] || die "could not determine the focused monitor"
+
+# Check the upper boundary before normalization. Normalization temporarily
+# renames workspaces, which makes workspace consumers such as QuickShell
+# rebuild even if the requested action ultimately becomes a no-op.
+if [[ $direction == up && $active_name == "$monitor:1" ]]; then
+	exit 0
+fi
+
 normalize_monitor "$monitor"
 
 name=$(hyprctl -j workspaces | jq -r --argjson id "$active_id" '.[] | select(.id == $id) | .name')
@@ -108,9 +92,9 @@ index=${name#"$monitor:"}
 [[ $index =~ ^[0-9]+$ ]] || die "could not normalize workspace $active_id"
 
 if [[ $direction == up && $index -eq 1 ]]; then
-	[[ $action == focus ]] && exit 0
-	insert_top "$monitor"
-	target=1
+	# Workspace 1 is the top of this monitor's stack. Do not create a new
+	# workspace or renumber the stack when focus/window movement hits the edge.
+	exit 0
 elif [[ $direction == up ]]; then
 	target=$((index - 1))
 else
