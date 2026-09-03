@@ -41,7 +41,6 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 │   ├── zsh/          # Shell config (.zshrc, .zshenv, .alias)
 │   ├── tmux/         # Terminal multiplexer
 │   ├── starship/     # Cross-shell prompt
-│   ├── mako/         # Notification daemon
 │   ├── fontconfig/   # Font configuration
 │   ├── gtk-3.0/, gtk-4.0/   # GTK theming
 │   ├── cava/         # Audio visualizer
