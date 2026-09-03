@@ -1,0 +1,11 @@
+[SddmGreeterTheme]
+Name=Indie Dawg
+Description=Token-matched login screen for the Indie Dawg Hyprland desktop
+Author=Edo
+Type=sddm-theme
+Version=1.0
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=indie-dawg
+Theme-API=2.0

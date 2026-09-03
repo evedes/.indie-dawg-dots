@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+mode=${1:-region}
+output_dir=${XDG_PICTURES_DIR:-"$HOME/Pictures"}/Screenshots
+filename="$(date +%Y-%m-%d_%H-%M-%S).png"
+output_path="$output_dir/$filename"
+
+mkdir -p "$output_dir"
+
+case "$mode" in
+	region|window)
+		hyprshot -z -m "$mode" -o "$output_dir" -f "$filename"
+		;;
+	full)
+		grim "$output_path"
+		wl-copy --type image/png < "$output_path"
+		notify-send -a Screenshot -i "$output_path" "Screenshot saved" "$output_path"
+		;;
+	*)
+		printf 'Usage: %s {region|window|full}\n' "${0##*/}" >&2
+		exit 2
+		;;
+esac

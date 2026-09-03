@@ -27,7 +27,6 @@ Neovim and Zellij are shared across platforms at the repository root. Everything
 │   ├── fonts/             # Nerd Fonts
 │   ├── ghostty/           # Terminal emulator
 │   ├── hypr/              # Hyprland window manager
-│   ├── mako/              # Notification daemon
 │   ├── starship/          # Cross-shell prompt
 │   ├── tmux/              # Terminal multiplexer
 │   ├── udev/              # Custom udev rules
@@ -64,7 +63,7 @@ Neovim and Zellij are shared across platforms at the repository root. Everything
 brew install git zsh neovim tmux fzf starship ripgrep bat lazygit mise
 
 # Arch Linux
-sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise uwsm hypridle hyprlock plasma-integration
+sudo pacman -S git zsh neovim tmux fzf starship ripgrep bat xsel wl-clipboard mise uwsm hypridle hyprlock plasma-integration brightnessctl grim slurp hyprshot sddm
 yay -S lazygit-bin
 ```
 
@@ -127,7 +126,9 @@ ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 
 # Hyprland stack (optional; shared config selects darker/odin by hostname)
 ln -sfn ~/.indie-dawg-dots/archlinux/hypr ~/.config/hypr
-ln -sf ~/.indie-dawg-dots/archlinux/mako ~/.config/mako
+
+# Install the matching SDDM login theme (requires root)
+~/.indie-dawg-dots/archlinux/bin/install-sddm-theme
 
 # Quickshell lives in its own repo — clone it, then link it
 # git clone <quickshell-repo-url> ~/.quickshell

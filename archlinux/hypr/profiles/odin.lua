@@ -25,7 +25,6 @@ return {
 	},
 	arrangement = { "left", "center", "right" },
 	audio = "wpctl",
-	screenshot_dir = "$HOME/Downloads",
 	features = {
 		laptop = false,
 		gaming = true,

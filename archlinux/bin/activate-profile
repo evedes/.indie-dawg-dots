@@ -5,12 +5,18 @@ root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 profile=$($root/bin/profile-name)
 
 ln -sfn "profiles/$profile" "$root/ghostty/active-profile"
-ln -sfn "$root/bin" "$HOME/.config/bin"
-ln -sfn "$root/ghostty" "$HOME/.config/ghostty"
-ln -sfn "$root/gtk-3.0" "$HOME/.config/gtk-3.0"
-ln -sfn "$root/gtk-4.0" "$HOME/.config/gtk-4.0"
+ln -sfnT "$root/bin" "$HOME/.config/bin"
+ln -sfnT "$root/ghostty" "$HOME/.config/ghostty"
+mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
+ln -sf "$root/gtk-3.0/settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
+ln -sf "$root/gtk-3.0/gtk.css" "$HOME/.config/gtk-3.0/gtk.css"
+ln -sf "$root/gtk-4.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"
+ln -sf "$root/gtk-4.0/gtk.css" "$HOME/.config/gtk-4.0/gtk.css"
 ln -sf "$root/kdeglobals" "$HOME/.config/kdeglobals"
-ln -sfn "$root/vicinae" "$HOME/.config/vicinae"
+mkdir -p "$HOME/.config/vicinae" "$HOME/.local/share/vicinae/themes"
+ln -sf "$root/vicinae/settings.json" "$HOME/.config/vicinae/settings.json"
+ln -sfnT "$root/vicinae/scripts" "$HOME/.config/vicinae/scripts"
+ln -sf "$root/vicinae/themes/indie-dawg-dark.toml" "$HOME/.local/share/vicinae/themes/indie-dawg-dark.toml"
 
 if [[ "$profile" == odin ]]; then
 	mkdir -p "$HOME/.config/systemd/user"

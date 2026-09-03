@@ -105,8 +105,11 @@ end
 
 local terminal = "ghostty"
 local fileManager = "dolphin"
+-- Yazi in its own Ghostty window; the custom app-id lets the float rule below
+-- match it without catching every other terminal.
+local fileManagerTui = "ghostty --class=com.mitchellh.ghostty.yazi -e yazi"
 local menu = "vicinae toggle"
-local screenshotDir = profile.screenshot_dir
+local screenshot = "$HOME/.indie-dawg-dots/archlinux/bin/screenshot"
 local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/bin/workspace-stack"
 -- UWSM marks its session with DESKTOP_SESSION="<wm>-uwsm" (e.g. hyprland-uwsm);
 -- there is no UWSM_ID variable, so that check never matched.
@@ -162,8 +165,6 @@ hl.on("hyprland.start", function()
 	daemon("vicinae server") -- launcher backend for SUPER+SPACE
 	daemon("nextcloud --background") -- file sync client
 	-- Quickshell owns both the desktop bar and org.freedesktop.Notifications.
-	-- Do not start mako alongside it: only one notification server can own the
-	-- D-Bus name, and mako would prevent the integrated notification UI loading.
 	daemon("quickshell -p $HOME/.quickshell")
 	if profile.features.idle then
 		daemon("hypridle")
@@ -207,7 +208,6 @@ hl.env("HYPRCURSOR_THEME", T.cursor.theme)
 hl.env("XCURSOR_SIZE", tostring(T.cursor.size))
 hl.env("HYPRCURSOR_SIZE", tostring(T.cursor.size))
 
-hl.env("GTK_THEME", "Adwaita:dark")
 hl.env("GDK_BACKEND", "wayland,x11")
 
 -- GTK 4.20+ no longer falls back to its built-in dead-key composer on Wayland
@@ -429,12 +429,14 @@ local mainMod = "SUPER"
 -- Programs and window management
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(fileManagerTui))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + SPACE", hl.dsp.exec_cmd(keyboardLayout .. " toggle"))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
--- Stop the UWSM session when present; otherwise ask Hyprland to exit normally.
-local logout = uwsmManaged and "uwsm stop" or "hyprctl dispatch exit"
-hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd(logout))
+hl.bind(
+	mainMod .. " + SHIFT + Q",
+	hl.dsp.exec_cmd("qs -p $HOME/.quickshell ipc call powerMenu toggle")
+)
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload")) -- autoreload is off
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
@@ -488,13 +490,13 @@ hl.define_submap("resize", function()
 end)
 hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
 
--- Screenshots (hyprshot; -z freezes the screen while you drag a region)
-hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -z -m region -o " .. screenshotDir))
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -z -m window -o " .. screenshotDir))
-hl.bind("CTRL + PRINT", hl.dsp.exec_cmd("hyprshot -m output -o " .. screenshotDir))
+-- Screenshots: save to ~/Pictures/Screenshots, copy, and notify.
+hl.bind("PRINT", hl.dsp.exec_cmd(screenshot .. " region"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd(screenshot .. " window"))
+hl.bind("CTRL + PRINT", hl.dsp.exec_cmd(screenshot .. " full"))
 -- macOS muscle memory, kept from the old .conf
-hl.bind("CTRL + SHIFT + 3", hl.dsp.exec_cmd("hyprshot -z -m region -o " .. screenshotDir))
-hl.bind("CTRL + SHIFT + 4", hl.dsp.exec_cmd("hyprshot -z -m window -o " .. screenshotDir))
+hl.bind("CTRL + SHIFT + 3", hl.dsp.exec_cmd(screenshot .. " region"))
+hl.bind("CTRL + SHIFT + 4", hl.dsp.exec_cmd(screenshot .. " window"))
 
 -- The machines expose different PipeWire control CLIs.
 local volume = profile.audio == "wpctl"
@@ -515,7 +517,7 @@ hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(volume.down), { locked = true, r
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd(volume.mute), { locked = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(volume.mic_mute), { locked = true })
 
--- Backlight. Needs `brightnessctl` (not installed yet -- these are no-ops until it is).
+-- Backlight. BrightnessService watches sysfs and shows the OSD for these changes.
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
 
@@ -597,6 +599,17 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	-- Yazi (SUPER+SHIFT+E) is a transient "peek at the filesystem" window, not
+	-- something to give a tile to.
+	name = "float-yazi",
+	match = { class = "^com\\.mitchellh\\.ghostty\\.yazi$" },
+
+	float = true,
+	size = "60% 70%",
+	center = true,
+})
+
+hl.window_rule({
 	-- Small system dialogs are worse tiled than floated.
 	name = "float-system-dialogs",
 	match = { class = "^(nm-connection-editor|blueman-manager|org.kde.polkit-kde-authentication-agent-1)$" },
@@ -620,6 +633,13 @@ hl.layer_rule({
 	ignore_alpha = 0.3,
 })
 
+hl.layer_rule({
+	name = "frost-quickshell-power-menu",
+	match = { namespace = "^quickshell:power-menu$" },
+	blur = true,
+	ignore_alpha = 0.3,
+})
+
 -- Same treatment for the launcher and notifications.
 hl.layer_rule({
 	name = "frost-vicinae",
@@ -630,7 +650,7 @@ hl.layer_rule({
 
 hl.layer_rule({
 	name = "frost-notifications",
-	match = { namespace = "^notifications$" },
+	match = { namespace = "^quickshell:notifications$" },
 	blur = true,
 	ignore_alpha = 0.3,
 })

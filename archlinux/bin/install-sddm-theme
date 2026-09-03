@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source_dir="$HOME/.indie-dawg-dots/archlinux/sddm"
+
+sudo install -d /usr/share/sddm/themes/indie-dawg /etc/sddm.conf.d
+sudo cp -a "$source_dir/indie-dawg/." /usr/share/sddm/themes/indie-dawg/
+sudo install -m 0644 "$source_dir/10-indie-dawg.conf" /etc/sddm.conf.d/10-indie-dawg.conf

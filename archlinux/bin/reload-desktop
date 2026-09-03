@@ -7,7 +7,7 @@ profile=$($root/bin/profile-name)
 if [[ "$profile" == odin ]]; then
 	systemctl --user restart quickshell.service awww-daemon.service
 else
-	killall quickshell awww-daemon mako nextcloud-desktop 2>/dev/null || true
+	killall quickshell awww-daemon nextcloud-desktop 2>/dev/null || true
 	sleep 0.2
 	quickshell -p "$HOME/.quickshell" &
 	awww-daemon &
