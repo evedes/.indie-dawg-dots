@@ -2,7 +2,25 @@
 set -euo pipefail
 
 source_dir="$HOME/.indie-dawg-dots/archlinux/sddm"
+waypaper_config="$HOME/.config/waypaper/config.ini"
+
+# Waypaper stores one wallpaper per monitor. The first entry is its default
+# (the main display); later indented entries are monitor-specific overrides.
+wallpaper="${1:-}"
+if [[ -z "$wallpaper" && -r "$waypaper_config" ]]; then
+	wallpaper="$(sed -n 's/^[[:space:]]*wallpaper[[:space:]]*=[[:space:]]*//p' "$waypaper_config" | head -n 1)"
+fi
+
+wallpaper="${wallpaper/#\~/$HOME}"
+if [[ ! -f "$wallpaper" ]]; then
+	printf 'Main-display wallpaper not found: %s\n' "${wallpaper:-<unset>}" >&2
+	printf 'Pass its path explicitly: %s /path/to/wallpaper\n' "$0" >&2
+	exit 1
+fi
 
 sudo install -d /usr/share/sddm/themes/indie-dawg /etc/sddm.conf.d
 sudo cp -a "$source_dir/indie-dawg/." /usr/share/sddm/themes/indie-dawg/
+sudo install -m 0644 "$wallpaper" /usr/share/sddm/themes/indie-dawg/background.png
 sudo install -m 0644 "$source_dir/10-indie-dawg.conf" /etc/sddm.conf.d/10-indie-dawg.conf
+
+printf 'Installed SDDM theme with background: %s\n' "$wallpaper"
