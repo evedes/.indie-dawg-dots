@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Take Screenshot: Window to Clipboard
+# @vicinae.mode silent
+# @vicinae.icon 📋
+# @vicinae.keywords ["screenshot", "capture", "screen", "window", "clipboard", "copy", "hyprshot"]
+# @vicinae.description Select a window and copy it without saving a file
+
+exec "$HOME/.indie-dawg-dots/archlinux/bin/screenshot" window clipboard

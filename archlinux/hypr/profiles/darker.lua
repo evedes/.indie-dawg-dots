@@ -7,7 +7,7 @@ return {
 			w = 3840,
 			h = 2160,
 			hz = 60,
-			scale = 1.0,
+			scale = 1.25,
 			transform = 3,
 		},
 		center = {
@@ -15,7 +15,7 @@ return {
 			w = 3840,
 			h = 2160,
 			hz = 60,
-			scale = 1.0,
+			scale = 1.25,
 		},
 	},
 	arrangement = { "left", "center", "laptop" },

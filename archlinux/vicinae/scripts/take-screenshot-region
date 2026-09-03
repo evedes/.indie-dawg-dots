@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Take Screenshot: Region to File
+# @vicinae.mode silent
+# @vicinae.icon 📷
+# @vicinae.keywords ["screenshot", "capture", "screen", "region", "selection", "file", "save", "hyprshot"]
+# @vicinae.description Select a region and save it to Pictures/Screenshots
+
+exec "$HOME/.indie-dawg-dots/archlinux/bin/screenshot" region file

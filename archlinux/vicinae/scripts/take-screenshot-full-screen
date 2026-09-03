@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Take Screenshot: Full Screen to File
+# @vicinae.mode silent
+# @vicinae.icon 🖥️
+# @vicinae.keywords ["screenshot", "capture", "screen", "full", "fullscreen", "file", "save", "hyprshot"]
+# @vicinae.description Capture the full screen and save it to Pictures/Screenshots
+
+exec "$HOME/.indie-dawg-dots/archlinux/bin/screenshot" full file

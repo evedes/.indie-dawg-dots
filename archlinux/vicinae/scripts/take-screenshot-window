@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Take Screenshot: Window to File
+# @vicinae.mode silent
+# @vicinae.icon 🪟
+# @vicinae.keywords ["screenshot", "capture", "screen", "window", "file", "save", "hyprshot"]
+# @vicinae.description Select a window and save it to Pictures/Screenshots
+
+exec "$HOME/.indie-dawg-dots/archlinux/bin/screenshot" window file
