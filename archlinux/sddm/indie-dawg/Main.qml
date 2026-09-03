@@ -8,6 +8,18 @@ Rectangle {
     color: config.background
     property bool loginFailed: false
 
+    Image {
+        anchors.fill: parent
+        source: config.backgroundImage
+        fillMode: Image.PreserveAspectCrop
+        asynchronous: true
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: config.backgroundOverlay
+    }
+
     function submit() {
         loginFailed = false;
         sddm.login(userField.text, passwordField.text, sessionBox.currentIndex);
