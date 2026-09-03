@@ -1,24 +1,64 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mode=${1:-region}
+target=${1:-region}
+destination=${2:-file}
+config_file=${XDG_CONFIG_HOME:-"$HOME/.config"}/screenshot.conf
+prefix=
+date_format=%Y-%m-%d_%H-%M-%S
+
+# Compatibility for the previous combined mode name.
+if [[ "$target" == region-clipboard ]]; then
+	target=region
+	destination=clipboard
+fi
+
+case "$target" in
+	region|window|full) ;;
+	*)
+		printf 'Unknown screenshot target: %s\n' "$target" >&2
+		exit 2
+		;;
+esac
+
+if [[ -r "$config_file" ]]; then
+	while IFS='=' read -r key value; do
+		case "$key" in
+			prefix) prefix=$value ;;
+			date_format) date_format=$value ;;
+		esac
+	done < "$config_file"
+fi
+
+if [[ "$prefix" == */* || "$date_format" == */* ]]; then
+	printf 'Screenshot filename settings may not contain slashes\n' >&2
+	exit 2
+fi
+
 output_dir=${XDG_PICTURES_DIR:-"$HOME/Pictures"}/Screenshots
-filename="$(date +%Y-%m-%d_%H-%M-%S).png"
+filename="${prefix}$(date "+$date_format").png"
 output_path="$output_dir/$filename"
 
-mkdir -p "$output_dir"
-
-case "$mode" in
-	region|window)
-		hyprshot -z -m "$mode" -o "$output_dir" -f "$filename"
+case "$destination" in
+	clipboard)
+		if [[ "$target" == full ]]; then
+			grim - | wl-copy --type image/png
+			notify-send -a Screenshot "Screenshot copied" "Full screen copied to clipboard"
+		else
+			hyprshot -z -m "$target" --clipboard-only
+		fi
 		;;
-	full)
-		grim "$output_path"
-		wl-copy --type image/png < "$output_path"
+	file)
+		mkdir -p "$output_dir"
+		if [[ "$target" == full ]]; then
+			grim "$output_path"
+		else
+			hyprshot -z -r -m "$target" > "$output_path"
+		fi
 		notify-send -a Screenshot -i "$output_path" "Screenshot saved" "$output_path"
 		;;
 	*)
-		printf 'Usage: %s {region|window|full}\n' "${0##*/}" >&2
+		printf 'Unknown screenshot destination: %s\n' "$destination" >&2
 		exit 2
 		;;
 esac

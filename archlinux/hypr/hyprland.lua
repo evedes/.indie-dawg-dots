@@ -491,12 +491,12 @@ end)
 hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
 
 -- Screenshots: save to ~/Pictures/Screenshots, copy, and notify.
-hl.bind("PRINT", hl.dsp.exec_cmd(screenshot .. " region"))
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd(screenshot .. " window"))
-hl.bind("CTRL + PRINT", hl.dsp.exec_cmd(screenshot .. " full"))
+hl.bind("PRINT", hl.dsp.exec_cmd(screenshot .. " region file"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd(screenshot .. " window file"))
+hl.bind("CTRL + PRINT", hl.dsp.exec_cmd(screenshot .. " full file"))
 -- macOS muscle memory, kept from the old .conf
-hl.bind("CTRL + SHIFT + 3", hl.dsp.exec_cmd(screenshot .. " region"))
-hl.bind("CTRL + SHIFT + 4", hl.dsp.exec_cmd(screenshot .. " window"))
+hl.bind("CTRL + SHIFT + 3", hl.dsp.exec_cmd(screenshot .. " region clipboard"))
+hl.bind("CTRL + SHIFT + 4", hl.dsp.exec_cmd(screenshot .. " region file"))
 
 -- The machines expose different PipeWire control CLIs.
 local volume = profile.audio == "wpctl"

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# @vicinae.schemaVersion 1
+# @vicinae.title Take Screenshot: Full Screen to Clipboard
+# @vicinae.mode silent
+# @vicinae.icon 📋
+# @vicinae.keywords ["screenshot", "capture", "screen", "full", "fullscreen", "clipboard", "copy", "hyprshot"]
+# @vicinae.description Copy the full screen without saving a file
+
+exec "$HOME/.indie-dawg-dots/archlinux/bin/screenshot" full clipboard
