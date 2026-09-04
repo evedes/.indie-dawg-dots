@@ -112,26 +112,20 @@ alias wakerubik='wakeonlan b4:2e:99:3d:2f:40'
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias myiplocation='curl https://ipinfo.io'
 
-# Standard eza aliases
-alias ls='eza --icons --color=always --group-directories-first'
-alias l='eza -F --icons --color=always --group-directories-first'
-alias ll='eza -alh --icons --color=always --group-directories-first'
-alias la='eza -a --icons --color=always --group-directories-first'
-alias lt='eza --tree --icons --color=always --group-directories-first'
-alias l.='eza -a | grep "^\."'
-
-# Enhanced directory listing with git
-alias lsa='eza -lah --icons --color=always --group-directories-first --git'
-alias lst='eza -lah --icons --color=always --group-directories-first --git --tree --level=2'
-alias lsg='eza -alh --icons --color=always --group-directories-first --git'
+# GNU coreutils ls aliases
+alias ls='ls --color=auto --group-directories-first'
+alias l='ls -F --color=auto --group-directories-first'
+alias ll='ls -alh --color=auto --group-directories-first'
+alias la='ls -A --color=auto --group-directories-first'
+alias l.='ls -A --color=auto | grep "^\."'
 
 # Time-based listing
-alias lsnew='eza -alh --icons --color=always --group-directories-first --sort=created'
-alias lsold='eza -alh --icons --color=always --group-directories-first --sort=created --reverse'
-alias lsmod='eza -alh --icons --color=always --group-directories-first --sort=modified'
+alias lsnew='ls -alh --color=auto --group-directories-first --time=birth --sort=time'
+alias lsold='ls -alhr --color=auto --group-directories-first --time=birth --sort=time'
+alias lsmod='ls -alh --color=auto --group-directories-first --sort=time'
 
 # Size-based listing
-alias lsize='eza -alh --icons --color=always --group-directories-first --sort=size --reverse'
+alias lsize='ls -alhS --color=auto --group-directories-first'
 
 # SPOTIFY
 alias sp='TERM=xterm-256color spotify_player'
