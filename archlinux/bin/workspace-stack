@@ -25,7 +25,7 @@ workspace_rows() {
 }
 
 normalize_monitor() {
-	local monitor=$1 line id name suffix sort_key pos=0
+	local monitor=$1 start=${2:-1} line id name suffix sort_key pos=0
 	local -a rows=() ids=()
 
 	while IFS=$'\t' read -r id name; do
@@ -48,7 +48,7 @@ normalize_monitor() {
 		rename_workspace "$id" "__workspace_stack_${monitor}_${id}"
 	done
 
-	pos=1
+	pos=$start
 	for id in "${ids[@]}"; do
 		rename_workspace "$id" "${monitor}:${pos}"
 		pos=$((pos + 1))
@@ -81,7 +81,7 @@ read -r active_id monitor active_name < <(hyprctl -j activeworkspace | jq -r '[.
 # Check the upper boundary before normalization. Normalization temporarily
 # renames workspaces, which makes workspace consumers such as QuickShell
 # rebuild even if the requested action ultimately becomes a no-op.
-if [[ $direction == up && $active_name == "$monitor:1" ]]; then
+if [[ $action == focus && $direction == up && $active_name == "$monitor:1" ]]; then
 	exit 0
 fi
 
@@ -91,10 +91,14 @@ name=$(hyprctl -j workspaces | jq -r --argjson id "$active_id" '.[] | select(.id
 index=${name#"$monitor:"}
 [[ $index =~ ^[0-9]+$ ]] || die "could not normalize workspace $active_id"
 
+prepended=false
 if [[ $direction == up && $index -eq 1 ]]; then
-	# Workspace 1 is the top of this monitor's stack. Do not create a new
-	# workspace or renumber the stack when focus/window movement hits the edge.
-	exit 0
+	# Moving above the first workspace prepends a new position. Shift the
+	# existing stack forward so the moved window can become the new workspace 1.
+	[[ $action == move ]] || exit 0
+	normalize_monitor "$monitor" 2
+	target=1
+	prepended=true
 elif [[ $direction == up ]]; then
 	target=$((index - 1))
 else
@@ -106,6 +110,10 @@ existing_id=$(hyprctl -j workspaces | jq -r --arg name "$target_name" '.[] | sel
 
 if [[ -n $existing_id ]]; then
 	selector="name:${target_name}"
+elif [[ $action == focus && $target -gt 4 ]]; then
+	# Positions after the permanent first four are created only by moving a
+	# window into them, never by focus navigation alone.
+	exit 0
 else
 	# Named workspaces created directly receive decreasing negative IDs, which
 	# makes Hyprland animate a newly appended workspace in the wrong direction.
@@ -129,3 +137,7 @@ else
 fi
 
 [[ -n $existing_id ]] || rename_workspace "$workspace_id" "$target_name"
+
+# If moving the only window emptied one of the shifted workspaces, close the
+# resulting numbering gap while keeping the newly prepended workspace first.
+[[ $prepended == false ]] || normalize_monitor "$monitor"
