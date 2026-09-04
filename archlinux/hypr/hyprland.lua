@@ -554,6 +554,11 @@ if profile.features.gaming then
 	hl.window_rule({
 		name = "wow-game",
 		match = { class = "steam_app_2894584976", title = "World of Warcraft" },
+		-- Pin to the 4K LG. Wine picks the "primary" display from whichever
+		-- output Hyprland lists first for XWayland (monitor ID order, which
+		-- changes whenever the outputs re-enumerate), and WoW maximizes onto
+		-- that display -- so without this it sometimes opens at 1440p on the Dell.
+		monitor = "DP-1",
 		workspace = "unset",
 		fullscreen = true,
 		suppress_event = "fullscreen",

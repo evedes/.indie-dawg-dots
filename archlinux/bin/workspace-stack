@@ -26,7 +26,7 @@ workspace_rows() {
 
 normalize_monitor() {
 	local monitor=$1 start=${2:-1} line id name suffix sort_key pos=0
-	local -a rows=() ids=()
+	local -a rows=() sorted_rows=() ids=()
 
 	while IFS=$'\t' read -r id name; do
 		[[ -n ${id:-} ]] || continue
@@ -36,12 +36,30 @@ normalize_monitor() {
 		else
 			sort_key=$((1000000 + pos))
 		fi
-		rows+=("$(printf '%010d\t%s' "$sort_key" "$id")")
+		rows+=("$(printf '%010d\t%s\t%s' "$sort_key" "$id" "$name")")
 		pos=$((pos + 1))
 	done < <(workspace_rows | awk -F '\t' -v monitor="$monitor" '$1 == monitor { print $2 "\t" $3 }')
 
 	((${#rows[@]})) || return 0
-	mapfile -t ids < <(printf '%s\n' "${rows[@]}" | sort -n -k1,1 | cut -f2)
+	mapfile -t sorted_rows < <(printf '%s\n' "${rows[@]}" | sort -n -k1,1)
+
+	# Most operations leave an already contiguous stack. Avoid temporary renames
+	# in that case: workspace consumers rebuild for every rename, which makes the
+	# bar visibly flicker while navigating a stack with dynamic workspaces.
+	pos=$start
+	for line in "${sorted_rows[@]}"; do
+		IFS=$'\t' read -r _ id name <<<"$line"
+		ids+=("$id")
+		[[ $name == "$monitor:$pos" ]] || break
+		pos=$((pos + 1))
+	done
+	((pos == start + ${#sorted_rows[@]})) && return 0
+
+	ids=()
+	for line in "${sorted_rows[@]}"; do
+		IFS=$'\t' read -r _ id _ <<<"$line"
+		ids+=("$id")
+	done
 
 	# Temporary names make the operation safe even when the final names overlap.
 	for id in "${ids[@]}"; do
@@ -62,10 +80,21 @@ normalize_all() {
 	done < <(hyprctl -j monitors | jq -r '.[].name')
 }
 
+keep_base_workspaces() {
+	local monitor position
+	while IFS= read -r monitor; do
+		[[ -n $monitor ]] || continue
+		for position in {1..4}; do
+			hyprctl eval "hl.workspace_rule({ workspace = [[name:${monitor}:${position}]], monitor = [[$monitor]], persistent = true })" >/dev/null
+		done
+	done < <(hyprctl -j monitors | jq -r '.[].name')
+}
+
 [[ $# -ge 1 ]] || die "usage: workspace-stack init | {focus|move} {up|down}"
 
 if [[ $1 == init ]]; then
 	normalize_all
+	keep_base_workspaces
 	exit 0
 fi
 
