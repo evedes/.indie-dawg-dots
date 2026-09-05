@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Screenshots
+Comment=Open the Screenshots folder in Nautilus
+Exec=nautilus --new-window /home/edo/Pictures/Screenshots
+Icon=folder-pictures
+Type=Application
+Terminal=false
+StartupNotify=true
+StartupWMClass=org.gnome.Nautilus
+Categories=System;FileManager;FileTools;
+Keywords=files;folder;images;captures;screen;

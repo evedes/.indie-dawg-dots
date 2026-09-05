@@ -213,7 +213,7 @@ Shared DAP mappings (including Java/Spring Boot main-class discovery):
 
 ## Multiverse Vault Pickers
 
-`lua/plugins/multiverse.lua` adds Snacks pickers hard-scoped to the notes vault (`~/Nextcloud/Multiverse`), so notes are reachable from any project without changing the session's cwd. The `<leader>n` keys take `cwd` as a one-off argument — they do not `cd` the session.
+`lua/plugins/multiverse.lua` adds Snacks pickers hard-scoped to the notes vault (`~/Multiverse`), so notes are reachable from any project without changing the session's cwd. The `<leader>n` keys take `cwd` as a one-off argument — they do not `cd` the session.
 
 - `<leader>nf` — find a note by filename.
 - `<leader>n/` — live grep across all notes.
