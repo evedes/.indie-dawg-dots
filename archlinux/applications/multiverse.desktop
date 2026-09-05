@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Multiverse
+Comment=Open the Multiverse folder in Nautilus
+Exec=sh -c "nautilus --new-window ~/Multiverse"
+Icon=folder-documents
+Type=Application
+Terminal=false
+StartupNotify=true
+StartupWMClass=org.gnome.Nautilus
+Categories=System;FileManager;FileTools;
+Keywords=files;folder;notes;knowledge;base;

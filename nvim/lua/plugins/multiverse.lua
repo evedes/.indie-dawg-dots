@@ -4,7 +4,7 @@
 -- snacks is required lazily inside each mapping because this file may load
 -- before lua/plugins/snacks.lua adds snacks to the pack path.
 
-local vault = vim.fn.expand("~/Nextcloud/Multiverse")
+local vault = vim.fn.expand("~/Multiverse")
 
 -- Find a note by filename.
 vim.keymap.set("n", "<leader>nf", function()

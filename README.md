@@ -158,7 +158,7 @@ lives in `claude/` and is symlinked into place by a script:
 The script is idempotent and only links user-authored config. It never touches
 credentials (`~/.claude/.credentials.json`) or `~/.claude.json` — those are
 machine-local and are recreated when you authenticate, so they are **not** synced.
-Note: `/new-note` writes to `~/Nextcloud/Multiverse`, so that vault must be present
+Note: `/new-note` writes to `~/Multiverse`, so that vault must be present
 on the machine for note capture to work.
 
 ## Quick Commands

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Downloads
+Comment=Open the Downloads folder in Nautilus
+Exec=nautilus --new-window /home/edo/Downloads
+Icon=folder-download
+Type=Application
+Terminal=false
+StartupNotify=true
+StartupWMClass=org.gnome.Nautilus
+Categories=System;FileManager;FileTools;
+Keywords=files;folder;downloads;download;
