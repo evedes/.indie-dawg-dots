@@ -1,3 +1,4 @@
 font-size = 15
 theme = "sourcerer"
+background = "#000000"
 background-opacity = 0.88
