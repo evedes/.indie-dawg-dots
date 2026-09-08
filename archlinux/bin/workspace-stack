@@ -81,13 +81,36 @@ normalize_all() {
 }
 
 keep_base_workspaces() {
-	local monitor position
-	while IFS= read -r monitor; do
+	local monitor monitor_id position name workspace_id workspaces used floor
+
+	workspaces=$(hyprctl -j workspaces)
+	used=" $(printf '%s' "$workspaces" | jq -r '.[].id' | tr '\n' ' ')"
+
+	while IFS=$'\t' read -r monitor_id monitor; do
 		[[ -n $monitor ]] || continue
+		floor=$(((monitor_id + 1) * 1000))
 		for position in {1..4}; do
-			hyprctl eval "hl.workspace_rule({ workspace = [[name:${monitor}:${position}]], monitor = [[$monitor]], persistent = true })" >/dev/null
+			name="${monitor}:${position}"
+			workspace_id=$(printf '%s' "$workspaces" | jq -r --arg name "$name" '.[] | select(.name == $name) | .id')
+
+			if [[ -z $workspace_id ]]; then
+				# Hyprland picks the workspace slide direction by comparing numeric
+				# IDs, and a `name:` rule creates its workspace with a decreasing
+				# negative one -- which animates the whole stack backwards. Pin each
+				# base position to an ordered ID inside the monitor's range instead
+				# and let default_name do the naming.
+				workspace_id=$(((monitor_id + 1) * 1000 + position))
+				((workspace_id > floor)) || workspace_id=$((floor + 1))
+				while [[ $used == *" $workspace_id "* ]]; do
+					workspace_id=$((workspace_id + 1))
+				done
+				used+="$workspace_id "
+			fi
+			floor=$workspace_id
+
+			hyprctl eval "hl.workspace_rule({ workspace = [[$workspace_id]], monitor = [[$monitor]], persistent = true, default_name = [[$name]] })" >/dev/null
 		done
-	done < <(hyprctl -j monitors | jq -r '.[].name')
+	done < <(hyprctl -j monitors | jq -r '.[] | [(.id | tostring), .name] | @tsv')
 }
 
 [[ $# -ge 1 ]] || die "usage: workspace-stack init | {focus|move} {up|down}"
@@ -104,14 +127,16 @@ direction=$2
 [[ $action == focus || $action == move ]] || die "unknown action: $action"
 [[ $direction == up || $direction == down ]] || die "unknown direction: $direction"
 
-read -r active_id monitor active_name < <(hyprctl -j activeworkspace | jq -r '[.id, .monitor, .name] | @tsv')
+read -r active_id monitor active_name active_windows < <(hyprctl -j activeworkspace | jq -r '[.id, .monitor, .name, .windows] | @tsv')
 [[ -n ${monitor:-} ]] || die "could not determine the focused monitor"
 
 # Check the upper boundary before normalization. Normalization temporarily
 # renames workspaces, which makes workspace consumers such as QuickShell
 # rebuild even if the requested action ultimately becomes a no-op.
-if [[ $action == focus && $direction == up && $active_name == "$monitor:1" ]]; then
-	exit 0
+if [[ $direction == up && $active_name == "$monitor:1" ]]; then
+	# Focus can never go above the first workspace, and moving its only window
+	# above it would just prepend a workspace to replace the one it empties.
+	[[ $action == move && $active_windows -gt 1 ]] || exit 0
 fi
 
 normalize_monitor "$monitor"
@@ -124,7 +149,9 @@ prepended=false
 if [[ $direction == up && $index -eq 1 ]]; then
 	# Moving above the first workspace prepends a new position. Shift the
 	# existing stack forward so the moved window can become the new workspace 1.
-	[[ $action == move ]] || exit 0
+	# The last window of the first workspace stays put: prepending for it would
+	# only trade one workspace 1 for another.
+	[[ $action == move && $active_windows -gt 1 ]] || exit 0
 	normalize_monitor "$monitor" 2
 	target=1
 	prepended=true
