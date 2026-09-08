@@ -432,6 +432,10 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(fileManagerTui))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + SPACE", hl.dsp.exec_cmd(keyboardLayout .. " toggle"))
+hl.bind(
+	"CTRL + " .. mainMod .. " + SPACE",
+	hl.dsp.exec_cmd("qs -p $HOME/.quickshell ipc call emojiPicker toggle")
+)
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(
 	mainMod .. " + SHIFT + Q",
