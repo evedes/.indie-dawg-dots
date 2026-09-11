@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Give every monitor its own ordered namespace: <monitor-output>:<position>.
-# Empty workspaces disappear in Hyprland, so normalize the remaining names
-# before every operation to keep each monitor's stack contiguous.
+# Give every monitor its own ordered namespace: <monitor-output>:<position>, or
+# <monitor-output>:<position>:<label> once a workspace has been given a custom
+# name. The position always leads so the stack stays sortable, and the label
+# rides along through every rename so it follows its workspace as the stack
+# shifts. Empty workspaces disappear in Hyprland, so normalize the remaining
+# names before every operation to keep each monitor's stack contiguous.
 
 die() {
 	printf 'workspace-stack: %s\n' "$*" >&2
@@ -15,6 +18,31 @@ rename_workspace() {
 	hyprctl dispatch "hl.dsp.workspace.rename({ workspace = $id, name = [[$name]] })" >/dev/null
 }
 
+# Prints the numeric position of a "<monitor>:<position>[:<label>]" name, or
+# fails for anything outside this monitor's stack.
+workspace_position() {
+	local monitor=$1 name=$2 suffix position
+	[[ $name == "$monitor:"* ]] || return 1
+	suffix=${name#"$monitor:"}
+	position=${suffix%%:*}
+	[[ $position =~ ^[0-9]+$ ]] || return 1
+	printf '%s' "$position"
+}
+
+# Prints the custom label of such a name, or nothing when it carries none.
+workspace_label() {
+	local monitor=$1 name=$2 suffix
+	[[ $name == "$monitor:"* ]] || return 0
+	suffix=${name#"$monitor:"}
+	[[ $suffix == *:* ]] || return 0
+	printf '%s' "${suffix#*:}"
+}
+
+compose_name() {
+	local monitor=$1 position=$2 label=${3:-}
+	printf '%s:%s%s' "$monitor" "$position" "${label:+:$label}"
+}
+
 workspace_rows() {
 	hyprctl -j workspaces | jq -r '
 		.[]
@@ -24,19 +52,33 @@ workspace_rows() {
 	'
 }
 
+# Prints "<id>\t<name>" for whatever occupies <monitor>:<position>, label or no
+# label. Positions are matched instead of whole names because a labelled
+# workspace no longer answers to its bare "<monitor>:<position>".
+workspace_at_position() {
+	local monitor=$1 position=$2
+	hyprctl -j workspaces | jq -r --arg prefix "$monitor:" --arg position "$position" '
+		.[]
+		| select(.name | startswith($prefix))
+		| select((.name | ltrimstr($prefix) | split(":")[0]) == $position)
+		| [(.id | tostring), .name]
+		| @tsv
+	' | head -n 1
+}
+
 normalize_monitor() {
-	local monitor=$1 start=${2:-1} line id name suffix sort_key pos=0
-	local -a rows=() sorted_rows=() ids=()
+	local monitor=$1 start=${2:-1} line id name label sort_key pos=0
+	local -a rows=() sorted_rows=()
 
 	while IFS=$'\t' read -r id name; do
 		[[ -n ${id:-} ]] || continue
-		if [[ $name == "$monitor:"* ]]; then
-			suffix=${name#"$monitor:"}
-			[[ $suffix =~ ^[0-9]+$ ]] && sort_key=$suffix || sort_key=$((1000000 + pos))
+		if sort_key=$(workspace_position "$monitor" "$name"); then
+			label=$(workspace_label "$monitor" "$name")
 		else
 			sort_key=$((1000000 + pos))
+			label=""
 		fi
-		rows+=("$(printf '%010d\t%s\t%s' "$sort_key" "$id" "$name")")
+		rows+=("$(printf '%010d\t%s\t%s\t%s' "$sort_key" "$id" "$name" "$label")")
 		pos=$((pos + 1))
 	done < <(workspace_rows | awk -F '\t' -v monitor="$monitor" '$1 == monitor { print $2 "\t" $3 }')
 
@@ -48,27 +90,22 @@ normalize_monitor() {
 	# bar visibly flicker while navigating a stack with dynamic workspaces.
 	pos=$start
 	for line in "${sorted_rows[@]}"; do
-		IFS=$'\t' read -r _ id name <<<"$line"
-		ids+=("$id")
-		[[ $name == "$monitor:$pos" ]] || break
+		IFS=$'\t' read -r _ id name label <<<"$line"
+		[[ $name == "$(compose_name "$monitor" "$pos" "$label")" ]] || break
 		pos=$((pos + 1))
 	done
 	((pos == start + ${#sorted_rows[@]})) && return 0
 
-	ids=()
-	for line in "${sorted_rows[@]}"; do
-		IFS=$'\t' read -r _ id _ <<<"$line"
-		ids+=("$id")
-	done
-
 	# Temporary names make the operation safe even when the final names overlap.
-	for id in "${ids[@]}"; do
+	for line in "${sorted_rows[@]}"; do
+		IFS=$'\t' read -r _ id _ _ <<<"$line"
 		rename_workspace "$id" "__workspace_stack_${monitor}_${id}"
 	done
 
 	pos=$start
-	for id in "${ids[@]}"; do
-		rename_workspace "$id" "${monitor}:${pos}"
+	for line in "${sorted_rows[@]}"; do
+		IFS=$'\t' read -r _ id _ label <<<"$line"
+		rename_workspace "$id" "$(compose_name "$monitor" "$pos" "$label")"
 		pos=$((pos + 1))
 	done
 }
@@ -81,7 +118,7 @@ normalize_all() {
 }
 
 keep_base_workspaces() {
-	local monitor monitor_id position name workspace_id workspaces used floor
+	local monitor monitor_id position name workspace_id workspaces used floor existing
 
 	workspaces=$(hyprctl -j workspaces)
 	used=" $(printf '%s' "$workspaces" | jq -r '.[].id' | tr '\n' ' ')"
@@ -91,7 +128,13 @@ keep_base_workspaces() {
 		floor=$(((monitor_id + 1) * 1000))
 		for position in {1..4}; do
 			name="${monitor}:${position}"
-			workspace_id=$(printf '%s' "$workspaces" | jq -r --arg name "$name" '.[] | select(.name == $name) | .id')
+			existing=$(printf '%s' "$workspaces" | jq -r --arg prefix "${monitor}:" --arg position "$position" '
+				.[]
+				| select(.name | startswith($prefix))
+				| select((.name | ltrimstr($prefix) | split(":")[0]) == $position)
+				| (.id | tostring)
+			' | head -n 1)
+			workspace_id=$existing
 
 			if [[ -z $workspace_id ]]; then
 				# Hyprland picks the workspace slide direction by comparing numeric
@@ -108,16 +151,43 @@ keep_base_workspaces() {
 			fi
 			floor=$workspace_id
 
+			# default_name only applies when the rule creates the workspace, so a
+			# base position that already carries a label keeps it.
 			hyprctl eval "hl.workspace_rule({ workspace = [[$workspace_id]], monitor = [[$monitor]], persistent = true, default_name = [[$name]] })" >/dev/null
 		done
 	done < <(hyprctl -j monitors | jq -r '.[] | [(.id | tostring), .name] | @tsv')
 }
 
-[[ $# -ge 1 ]] || die "usage: workspace-stack init | {focus|move} {up|down}"
+rename_active_workspace() {
+	local label=${1:-} active_id monitor active_name position
+
+	# The name encodes the stack position, and normalization carries the fields
+	# through tab-delimited records -- so a label may contain neither separator.
+	label=${label//:/ }
+	label=$(printf '%s' "$label" | tr -s '[:space:]' ' ')
+	label=${label#"${label%%[![:space:]]*}"}
+	label=${label%"${label##*[![:space:]]}"}
+
+	read -r active_id monitor active_name < <(hyprctl -j activeworkspace | jq -r '[.id, .monitor, .name] | @tsv')
+	[[ -n ${monitor:-} ]] || die "could not determine the focused monitor"
+
+	position=$(workspace_position "$monitor" "$active_name") ||
+		die "workspace $active_name is not part of a monitor stack"
+
+	rename_workspace "$active_id" "$(compose_name "$monitor" "$position" "$label")"
+}
+
+[[ $# -ge 1 ]] || die "usage: workspace-stack init | rename [label] | {focus|move} {up|down}"
 
 if [[ $1 == init ]]; then
 	normalize_all
 	keep_base_workspaces
+	exit 0
+fi
+
+if [[ $1 == rename ]]; then
+	[[ $# -le 2 ]] || die "usage: workspace-stack rename [label]"
+	rename_active_workspace "${2:-}"
 	exit 0
 fi
 
@@ -133,7 +203,8 @@ read -r active_id monitor active_name active_windows < <(hyprctl -j activeworksp
 # Check the upper boundary before normalization. Normalization temporarily
 # renames workspaces, which makes workspace consumers such as QuickShell
 # rebuild even if the requested action ultimately becomes a no-op.
-if [[ $direction == up && $active_name == "$monitor:1" ]]; then
+active_position=$(workspace_position "$monitor" "$active_name") || active_position=""
+if [[ $direction == up && $active_position == 1 ]]; then
 	# Focus can never go above the first workspace, and moving its only window
 	# above it would just prepend a workspace to replace the one it empties.
 	[[ $action == move && $active_windows -gt 1 ]] || exit 0
@@ -142,8 +213,7 @@ fi
 normalize_monitor "$monitor"
 
 name=$(hyprctl -j workspaces | jq -r --argjson id "$active_id" '.[] | select(.id == $id) | .name')
-index=${name#"$monitor:"}
-[[ $index =~ ^[0-9]+$ ]] || die "could not normalize workspace $active_id"
+index=$(workspace_position "$monitor" "$name") || die "could not normalize workspace $active_id"
 
 prepended=false
 if [[ $direction == up && $index -eq 1 ]]; then
@@ -162,10 +232,14 @@ else
 fi
 
 target_name="${monitor}:${target}"
-existing_id=$(hyprctl -j workspaces | jq -r --arg name "$target_name" '.[] | select(.name == $name) | .id')
+existing=$(workspace_at_position "$monitor" "$target")
+existing_id=${existing%%$'\t'*}
+existing_name=${existing#*$'\t'}
 
 if [[ -n $existing_id ]]; then
-	selector="name:${target_name}"
+	# A labelled target no longer answers to its bare position, so select it by
+	# whatever it is actually called.
+	selector="name:${existing_name}"
 elif [[ $action == focus && $target -gt 4 ]]; then
 	# Positions after the permanent first four are created only by moving a
 	# window into them, never by focus navigation alone.
