@@ -108,7 +108,7 @@ local fileManager = "dolphin"
 -- Yazi in its own Ghostty window; the custom app-id lets the float rule below
 -- match it without catching every other terminal.
 local fileManagerTui = "ghostty --class=com.mitchellh.ghostty.yazi -e yazi"
-local menu = "vicinae toggle"
+local menu = "qs -p $HOME/.quickshell ipc call launcher toggle"
 local screenshot = "$HOME/.indie-dawg-dots/archlinux/bin/screenshot"
 local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/bin/workspace-stack"
 -- UWSM marks its session with DESKTOP_SESSION="<wm>-uwsm" (e.g. hyprland-uwsm);
@@ -116,7 +116,6 @@ local workspaceStack = "$HOME/.indie-dawg-dots/archlinux/bin/workspace-stack"
 local uwsmManaged = (os.getenv("DESKTOP_SESSION") or ""):match("%-uwsm$") ~= nil
 local directServices = {
 	"plasma-polkit-agent.service",
-	"vicinae.service",
 	"com.nextcloud.desktopclient.nextcloud.service",
 	"quickshell.service",
 	"awww-daemon.service",
@@ -162,7 +161,6 @@ hl.on("hyprland.start", function()
 	end
 
 	daemon("/usr/lib/polkit-kde-authentication-agent-1") -- auth prompts (polkit-kde-agent)
-	daemon("vicinae server") -- launcher backend for SUPER+SPACE
 	daemon("nextcloud --background") -- file sync client
 	-- Quickshell owns both the desktop bar and org.freedesktop.Notifications.
 	daemon("quickshell -p $HOME/.quickshell")

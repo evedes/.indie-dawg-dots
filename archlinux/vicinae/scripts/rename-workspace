@@ -5,6 +5,7 @@
 # @vicinae.icon 🏷️
 # @vicinae.keywords ["workspace", "rename", "name", "label", "hyprland"]
 # @vicinae.description Give the active workspace a custom name (leave empty to clear)
-# @vicinae.argument1 { "type": "text", "placeholder": "Name", "optional": true }
 
-exec "$HOME/.indie-dawg-dots/archlinux/bin/workspace-stack" rename "${1:-}"
+# Release the launcher's keyboard focus before opening the name dialog.
+vicinae close
+exec quickshell ipc -p "$HOME/.quickshell" call workspaceRename open
