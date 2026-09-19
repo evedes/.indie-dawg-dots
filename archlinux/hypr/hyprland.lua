@@ -650,6 +650,14 @@ hl.layer_rule({
 
 -- Same treatment for the launcher and notifications.
 hl.layer_rule({
+	name = "frost-quickshell-launcher",
+	match = { namespace = "^quickshell:launcher$" },
+	blur = true,
+	ignore_alpha = 0.3,
+	animation = "fade",
+})
+
+hl.layer_rule({
 	name = "frost-vicinae",
 	match = { namespace = "^vicinae" },
 	blur = true,
