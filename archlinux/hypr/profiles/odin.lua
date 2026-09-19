@@ -6,7 +6,7 @@ return {
 			w = 3840,
 			h = 2160,
 			hz = 60,
-			scale = 2.0,
+			scale = 1.25,
 		},
 		center = {
 			output = "desc:Dell Inc. DELL U2520D BD0P823",
