@@ -1,4 +1,6 @@
 font-family = "ZedMono Nerd Font"
+font-style = "Regular"
 # The installed family has no Bold face (only ExtraBold), so name it explicitly
 font-style-bold = "ExtraBold"
+font-style-italic = "Italic"
 font-style-bold-italic = "ExtraBold Italic"
