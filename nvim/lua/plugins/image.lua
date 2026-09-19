@@ -17,7 +17,7 @@ require("image").setup({
   backend = "kitty",
   processor = "magick_cli",
   -- molten drives rendering directly; no markdown/neorg auto-render integrations
-  -- (markview already handles Markdown).
+  -- (render-markdown already handles Markdown).
   integrations = {},
   max_width = 100,
   max_height = 12,

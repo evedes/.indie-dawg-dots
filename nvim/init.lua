@@ -12,7 +12,7 @@ local deferred = {
   ["dadbod"] = true,
   ["diffview"] = true,
   ["neogit"] = true,
-  ["markview"] = true,
+  ["render-markdown"] = true,
 }
 
 for name, type in vim.fs.dir(vim.fn.stdpath("config") .. "/lua/plugins") do

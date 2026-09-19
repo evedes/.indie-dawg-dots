@@ -367,10 +367,11 @@ hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "easeOu
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 2, bezier = "easeOutQuint" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.5, bezier = "easeOutQuint" })
 -- Pop!_OS-style vertical workspace stack. Workspaces are named
--- <monitor-output>:<position> and normalized by workspace-stack.
-hl.animation({ leaf = "workspaces", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidevert" })
-hl.animation({ leaf = "workspacesIn", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidevert" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidevert" })
+-- <monitor-output>:<position> and normalized by workspace-stack. Keep workspace
+-- changes immediate while retaining window, border, fade, and layer animations.
+hl.animation({ leaf = "workspaces", enabled = false })
+hl.animation({ leaf = "workspacesIn", enabled = false })
+hl.animation({ leaf = "workspacesOut", enabled = false })
 if profile.features.gaming then
 	hl.animation({ leaf = "zoomFactor", enabled = true, speed = 2.5, bezier = "easeOutQuint" })
 end

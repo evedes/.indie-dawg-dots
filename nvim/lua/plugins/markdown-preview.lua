@@ -1,5 +1,5 @@
 -- Role: browser preview of the current Markdown buffer. Owns external/WYSIWYG
--- rendering; in-editor rendering is markview, navigation is mkdnflow.
+-- rendering; in-editor rendering is render-markdown, navigation is mkdnflow.
 -- (See CLAUDE.md → "Markdown Workflow".)
 --
 -- Requires Node.js on PATH for the `app/` install step.
