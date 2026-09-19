@@ -1,0 +1,140 @@
+#:schema https://yazi-rs.github.io/schemas/theme.json
+# #######################################################################################
+# Yazi theme -- follows the Quickshell palette (~/.quickshell/Theme.qml)     Vedder 2026
+# #######################################################################################
+#
+# Plain greys plus the one accent, like the bar. Yazi has no alpha, so translucent
+# Quickshell colours are pre-blended over bg.surface (#141414). Backgrounds are left
+# unset so the terminal's own background shows through.
+#
+#   bg.surface   #141414   pill text on accent fills
+#   bgLighter    #272727   white @ 0.08 over bg.surface -- inactive pills, parent hover
+#   bgSelected   #133443   accent @ 0.2 over bg.surface  -- hovered file
+#   fg.primary   #e6e6e6
+#   fg.secondary #a5a5a5
+#   textMuted    #6a6a6a   fg.secondary @ 0.6 over bg.surface
+#   accent       #10b6ff   neonBlue (Ghostty HaX0R Blue)
+#   danger       #e46876   neonRed
+#   success      #98bb6c   neonGreen
+# #######################################################################################
+
+[mgr]
+cwd = { fg = "#10b6ff" }
+
+find_keyword  = { fg = "#10b6ff", bold = true, underline = true }
+find_position = { fg = "#a5a5a5", italic = true }
+
+symlink_target = { fg = "#a5a5a5", italic = true }
+
+marker_copied   = { fg = "#98bb6c", bg = "#98bb6c" }
+marker_cut      = { fg = "#e46876", bg = "#e46876" }
+marker_marked   = { fg = "#a5a5a5", bg = "#a5a5a5" }
+marker_selected = { fg = "#10b6ff", bg = "#10b6ff" }
+
+count_copied   = { fg = "#141414", bg = "#98bb6c" }
+count_cut      = { fg = "#141414", bg = "#e46876" }
+count_selected = { fg = "#141414", bg = "#10b6ff" }
+
+border_symbol = "│"
+border_style  = { fg = "#272727" }
+
+[tabs]
+active    = { fg = "#141414", bg = "#10b6ff", bold = true }
+inactive  = { fg = "#a5a5a5", bg = "#272727" }
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+[mode]
+normal_main = { fg = "#141414", bg = "#10b6ff", bold = true }
+normal_alt  = { fg = "#e6e6e6", bg = "#272727" }
+select_main = { fg = "#141414", bg = "#98bb6c", bold = true }
+select_alt  = { fg = "#e6e6e6", bg = "#272727" }
+unset_main  = { fg = "#141414", bg = "#e46876", bold = true }
+unset_alt   = { fg = "#e6e6e6", bg = "#272727" }
+
+[indicator]
+parent  = { fg = "#e6e6e6", bg = "#272727" }
+current = { fg = "#e6e6e6", bg = "#133443", bold = true }
+preview = { bg = "#272727" }
+
+[status]
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+perm_sep   = { fg = "#6a6a6a" }
+perm_type  = { fg = "#10b6ff" }
+perm_read  = { fg = "#e6e6e6" }
+perm_write = { fg = "#a5a5a5" }
+perm_exec  = { fg = "#98bb6c" }
+
+progress_label  = { fg = "#e6e6e6", bold = true }
+progress_normal = { fg = "#10b6ff", bg = "#272727" }
+progress_error  = { fg = "#e46876", bg = "#272727" }
+
+[which]
+border          = { fg = "#272727" }
+cand            = { fg = "#10b6ff" }
+rest            = { fg = "#6a6a6a" }
+desc            = { fg = "#e6e6e6" }
+separator       = "  "
+separator_style = { fg = "#6a6a6a" }
+
+[confirm]
+border  = { fg = "#10b6ff" }
+title   = { fg = "#e6e6e6", bold = true }
+btn_yes = { fg = "#141414", bg = "#10b6ff", bold = true }
+btn_no  = { fg = "#a5a5a5" }
+
+[spot]
+border   = { fg = "#10b6ff" }
+title    = { fg = "#e6e6e6", bold = true }
+tbl_col  = { fg = "#10b6ff" }
+tbl_cell = { fg = "#e6e6e6", bg = "#133443" }
+
+[notify]
+title_info  = { fg = "#10b6ff" }
+title_warn  = { fg = "#e6e6e6" }
+title_error = { fg = "#e46876" }
+
+[pick]
+border   = { fg = "#10b6ff" }
+active   = { fg = "#e6e6e6", bg = "#133443", bold = true }
+inactive = { fg = "#a5a5a5" }
+
+[input]
+border   = { fg = "#10b6ff" }
+title    = { fg = "#e6e6e6" }
+value    = { fg = "#e6e6e6" }
+selected = { bg = "#133443" }
+
+[cmp]
+border   = { fg = "#10b6ff" }
+active   = { fg = "#e6e6e6", bg = "#133443" }
+inactive = { fg = "#a5a5a5" }
+
+[tasks]
+border  = { fg = "#10b6ff" }
+title   = { fg = "#e6e6e6" }
+hovered = { fg = "#e6e6e6", bg = "#133443", bold = true }
+
+[help]
+border  = { fg = "#10b6ff" }
+chord   = { fg = "#10b6ff" }
+action  = { fg = "#a5a5a5" }
+hovered = { bg = "#133443", bold = true }
+
+# Directories carry the accent; files stay neutral unless they need attention.
+[filetype]
+rules = [
+	{ mime = "**/image/*", fg = "#e6e6e6" },
+	{ mime = "**/{audio,video}/*", fg = "#e6e6e6" },
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#e46876" },
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "#e6e6e6" },
+	{ mime = "vfs/{absent,stale}", fg = "#6a6a6a" },
+	{ url = "*", is = "orphan", fg = "#e46876", italic = true },
+	{ url = "*", is = "dummy", fg = "#e46876", italic = true },
+	{ url = "*/", is = "dummy", fg = "#e46876", italic = true },
+	{ url = "*", is = "exec", fg = "#98bb6c" },
+	{ url = "*/", fg = "#10b6ff" },
+	{ url = "*", fg = "#a5a5a5" },
+]

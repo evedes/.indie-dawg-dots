@@ -103,7 +103,9 @@ T.motion = {
 ------------------------
 
 T.icon = { theme = "breeze-dark" }
-T.cursor = { theme = "Bibata-Modern-Classic", size = 24 }
+-- macOS look (AUR apple_cursor + apple_hyprcursor). The xcursor and hyprcursor
+-- builds ship under different names, hence hypr_theme.
+T.cursor = { theme = "macOS", hypr_theme = "macOS-hypr", size = 24 }
 
 -----------------
 ---- HELPERS ----
