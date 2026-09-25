@@ -31,6 +31,7 @@ newnvim/
 │   │   ├── molten.lua          # Jupyter kernel: run cells, inline outputs/plots
 │   │   ├── jupytext.lua        # Edit .ipynb as `# %%` percent Python cells
 │   │   ├── image.lua           # In-terminal image rendering (molten outputs)
+│   │   ├── csvview.lua         # Aligned table view for csv/tsv buffers
 │   │   └── tmux-navigator.lua  # Tmux pane navigation
 │   ├── util/
 │   │   └── lazy.lua            # on_filetype(): defer a plugin's load to the first matching buffer
@@ -47,7 +48,7 @@ newnvim/
 - **Plugin keymaps live with their plugin**: Each plugin file in `lua/plugins/` contains its own keymaps. Only general-purpose keymaps go in `config/keymaps.lua`.
 - **Colorscheme loads before plugins**: `config/colorscheme.lua` is required explicitly in `init.lua` before the plugins loop to ensure highlight groups are available.
 - **No lazy.nvim**: Uses Neovim 0.12's built-in `vim.pack.add` for plugin management.
-- **Filetype-deferred plugins**: Plugins that only matter for specific buffers wrap their whole body (including `vim.pack.add`) in `require("util.lazy").on_filetype(fts, fn)`, so they don't load on unrelated startups. The helper runs `fn` once on the first matching buffer, on the next tick via `vim.schedule` (filetype detection runs inside a `vim._with` textlock where `vim.pack.add` is disallowed). Currently used by `mkdnflow.lua` (`markdown`) and `autotag.lua` (web/markup filetypes). `render-markdown.lua` and `markdown-preview.lua` are left eager — they're already effectively lazy (≈0 ms startup cost).
+- **Filetype-deferred plugins**: Plugins that only matter for specific buffers wrap their whole body (including `vim.pack.add`) in `require("util.lazy").on_filetype(fts, fn)`, so they don't load on unrelated startups. The helper runs `fn` once on the first matching buffer, on the next tick via `vim.schedule` (filetype detection runs inside a `vim._with` textlock where `vim.pack.add` is disallowed). Currently used by `mkdnflow.lua` (`markdown`), `autotag.lua` (web/markup filetypes), and `csvview.lua` (`csv`/`tsv`). `render-markdown.lua` and `markdown-preview.lua` are left eager — they're already effectively lazy (≈0 ms startup cost).
 - **`with_desc()` helper** in `keymaps.lua`: Returns merged options table with description for mini.clue integration.
 
 ## Adding a Plugin
@@ -210,6 +211,18 @@ Shared DAP mappings (including Java/Spring Boot main-class discovery):
 - `<leader>dr` opens the REPL; `<leader>dt` terminates; `<leader>du` repeats the
   previous debug session. `:DapNew` discovers Java main classes after JDTLS has
   loaded the project.
+
+## CSV & TSV
+
+`lua/plugins/csvview.lua` renders delimited files as an aligned table —
+virtual-text column padding plus separators, so the file's bytes are never
+touched. It loads on the first `csv`/`tsv` buffer and auto-enables for every one
+after that.
+
+- `<leader>uc` toggles the table view (`:CsvViewToggle`).
+- `if` / `af` are field textobjects (inner field / field + delimiter).
+- `<Tab>` / `<S-Tab>` jump by column; `<CR>` / `<S-CR>` jump by row.
+- Row 1 is treated as the header and stays pinned while scrolling.
 
 ## Multiverse Vault Pickers
 
