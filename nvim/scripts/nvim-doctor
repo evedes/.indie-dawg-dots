@@ -63,7 +63,7 @@ JAVA_TEST="$JAVA_TOOLS/vscode-java-test"
 # ----------------------------------------------------------------------------
 TOOLS=(
 	# --- Java ---
-	"java|JAVA|JDK 21+ (JDTLS runtime)|sudo pacman -S --needed --noconfirm jdk21-openjdk|brew install openjdk"
+	"java|JAVA|JDK 21+ (JDTLS runtime)|sudo pacman -S --needed --noconfirm jdk21-openjdk|mise use -g java@temurin-21 && export PATH=\"\$(mise where java)/bin:\$PATH\""
 	"jdtls|JAVA|Eclipse Java language server|yay -S --needed --noconfirm jdtls|brew install jdtls"
 	# --- LSP servers ---
 	"vtsls|LSP|TypeScript/JavaScript|$NPM @vtsls/language-server|$NPM @vtsls/language-server"
@@ -118,6 +118,15 @@ group_label() {
 # Helpers
 # ----------------------------------------------------------------------------
 have() { command -v "$1" >/dev/null 2>&1; }
+
+# Like have(), but runs the tool where a bare PATH hit can lie: macOS ships a
+# /usr/bin/java stub that exists even when no JDK is installed.
+tool_ok() {
+	case "$1" in
+	java) have java && java -version >/dev/null 2>&1 ;;
+	*) have "$1" ;;
+	esac
+}
 
 # Is the Molten host venv present with pynvim importable?
 pyhost_ok() {
@@ -232,7 +241,7 @@ cmd_check() {
 $record
 EOF
 			[ "$g" = "$group" ] || continue
-			if have "$bin"; then
+			if tool_ok "$bin"; then
 				printf "  ${GREEN}✓${RESET} %-32s ${DIM}%s${RESET}\n" "$bin" "$desc"
 			else
 				missing=$((missing + 1))
@@ -292,7 +301,7 @@ cmd_install() {
 		IFS='|' read -r bin g desc arch mac <<EOF
 $record
 EOF
-		have "$bin" && continue # already present (possibly via a shared package)
+		tool_ok "$bin" && continue # already present (possibly via a shared package)
 
 		cmd=$(recipe_for "$arch" "$mac")
 		if [ -z "$cmd" ]; then
@@ -322,7 +331,7 @@ $cmd"
 			;;
 		esac
 
-		have "$bin" || failed="$failed $bin"
+		tool_ok "$bin" || failed="$failed $bin"
 	done
 
 	if java_debug_ok && java_test_ok; then

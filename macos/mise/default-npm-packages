@@ -1,0 +1,29 @@
+# Global npm packages installed automatically into every new mise Node version
+# (mise reads ~/.default-npm-packages). Keeps LSPs/CLIs alive across `node@lts` bumps.
+
+# Language servers (nvim/lsp/*.lua)
+@tailwindcss/language-server
+@vtsls/language-server
+@vue/language-server
+bash-language-server
+emmet-ls
+stylelint-lsp
+vscode-langservers-extracted
+yaml-language-server
+
+# Formatters / linters
+eslint@9
+prettier
+
+# Tooling
+tree-sitter-cli
+typescript@5
+@typescript/native-preview
+
+# AI CLIs
+@github/copilot
+@openai/codex
+
+# AWS
+aws-cdk
+aws-cdk-local

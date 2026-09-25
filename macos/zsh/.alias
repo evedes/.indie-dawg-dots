@@ -51,19 +51,18 @@ alias vv='nvim .'
 alias rswap='rm -rf ~/.local/state/nvim/swap/*'
 
 # GHOSTTY
-alias gtm='$HOME/.config/bin/ghostty-theme-menu'
+alias gtm='$HOME/.indie-dawg-dots/macos/ghostty/ghostty-theme-menu'
 alias gt='$HOME/.config/bin/ghostty-theme-switcher'
 alias gtheme='gt'
 alias gbg='$HOME/.config/bin/ghostty-bg-picker'
-alias gm='ghostty-theme-menu.sh'
 alias ot='$HOME/.indie-dawg-dots/macos/ghostty/ghostty-opacity-toggle'
 
 # NETWORK PRIORITY
 alias isp='curl ipinfo.io | grep org'
 
 # NODE_MODULES
-alias lsnodemodules='sudo find . -name 'node_modules' -type d -prune'
-alias rmnodemodules='find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +'
+alias lsnodemodules="find . -name node_modules -type d -prune"
+alias rmnodemodules="find . -name node_modules -type d -prune -exec rm -rf {} +"
 
 # GIT
 alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -94,12 +93,11 @@ alias m='cmatrix'
 
 # K8s
 alias k='kubectl'
-alias mk='minikube'
 
 # PYTHON
 alias pyac='source .venv/bin/activate'
 alias pyde='deactivate'
-alias pyenv='echo $VIRTUAL_ENV'
+alias pyvenv='echo $VIRTUAL_ENV'
 
 # AWS
 alias aws-whoami='aws sts get-caller-identity'
@@ -122,15 +120,12 @@ alias dpav='docker ps -a --format="$VFORMAT"'
 # VIRT MANAGER
 alias vm='virt-manager & disown'
 
-# SPEEDTEST
-alias speed='speedtest --secure'
+# SPEEDTEST (built into macOS)
+alias speed='networkQuality -v'
 
 # MACHINES
 alias ssh='TERM=xterm-256color ssh'
 alias killt='lsof -ti:25060 | xargs kill -9'
-
-# CODEBASES
-alias atomize='cd ~/Work/atomize'
 
 alias wakerubik='wakeonlan b4:2e:99:3d:2f:40'
 
@@ -227,6 +222,3 @@ alias y='yazi'
 
 # FASTFETCH
 alias ff='fastfetch'
-
-# K8S
-alias k='kubectl'

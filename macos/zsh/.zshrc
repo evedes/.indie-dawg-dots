@@ -7,29 +7,34 @@ has_cmd() {
     return ${_cmd_cache[$1]}
 }
 
-# Homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Zinit
-source "/opt/homebrew/opt/zinit/zinit.zsh"
-zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma-continuum/fast-syntax-highlighting
-zinit ice wait lucid atload"zicompinit; zicdreplay"
-zinit light zsh-users/zsh-completions
+# Zinit (brew install zinit)
+if [[ -r "${HOMEBREW_PREFIX:-/opt/homebrew}/opt/zinit/zinit.zsh" ]]; then
+    source "${HOMEBREW_PREFIX:-/opt/homebrew}/opt/zinit/zinit.zsh"
+    zinit light zsh-users/zsh-autosuggestions
+    zinit light zdharma-continuum/fast-syntax-highlighting
+    zinit ice wait lucid atload"zicompinit; zicdreplay"
+    zinit light zsh-users/zsh-completions
+else
+    autoload -Uz compinit && compinit
+fi
 
 # Aliases
-source $HOME/.indie-dawg-dots/macos/zsh/.alias
-source $HOME/.secret/.alias
-source $HOME/.secret/.env
+source "$HOME/.indie-dawg-dots/macos/zsh/.alias"
+[[ -r "$HOME/.secret/.alias" ]] && source "$HOME/.secret/.alias"
+[[ -r "$HOME/.secret/.env" ]] && source "$HOME/.secret/.env"
 
 # History
 HISTFILE=$HOME/.zsh_history
-HISTSIZE=5000
+HISTSIZE=50000
 SAVEHIST=$HISTSIZE
 setopt appendhistory
+setopt inc_append_history     # write each command immediately, not on exit
+setopt share_history          # share history across tmux/zellij panes
+setopt extended_history       # record timestamps
 setopt hist_expire_dups_first
 setopt hist_ignore_space
-setopt hist_ignore_dups
+setopt hist_ignore_all_dups
+setopt hist_reduce_blanks
 setopt hist_verify
 
 # Emacs mode

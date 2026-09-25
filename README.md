@@ -13,18 +13,18 @@ This repository contains configuration files for:
 
 ## Architecture
 
-Neovim and Zellij are shared across platforms at the repository root. Everything else lives in a platform-specific directory (`archlinux/` or `macos/`). Duplication across platforms is intentional for independence and simplicity.
+Neovim, Zellij and fonts are shared across platforms at the repository root. Everything else lives in a platform-specific directory (`archlinux/` or `macos/`). Duplication across platforms is intentional for independence and simplicity.
 
 ```
 .indie-dawg-dots/
 ├── nvim/                  # Shared Neovim configuration (Neovim 0.12+ native packages)
 ├── zellij/                # Shared Zellij configuration (terminal workspace manager)
+├── fonts/                 # Shared Nerd Fonts (JetBrains Mono, Zed Mono)
 │
 ├── archlinux/             # Arch Linux configuration
 │   ├── bin/               # Custom scripts (ghostty theme switcher, monitor switch, etc.)
 │   ├── cava/              # Audio visualizer
 │   ├── fontconfig/        # Font configuration
-│   ├── fonts/             # Nerd Fonts
 │   ├── ghostty/           # Terminal emulator
 │   ├── hypr/              # Hyprland window manager
 │   ├── starship/          # Cross-shell prompt
@@ -39,7 +39,6 @@ Neovim and Zellij are shared across platforms at the repository root. Everything
 ├── macos/                 # macOS configuration
 │   ├── bin/               # Custom scripts
 │   ├── cava/              # Audio visualizer
-│   ├── fonts/             # Nerd Fonts
 │   ├── ghostty/           # Terminal emulator
 │   ├── starship/          # Cross-shell prompt
 │   ├── tmux/              # Terminal multiplexer
@@ -69,6 +68,13 @@ yay -S lazygit-bin
 
 Neovim **0.12 or newer** is required (the config uses the native `vim.pack.add` API).
 
+### Fonts
+
+Nerd Fonts (JetBrains Mono, Zed Mono) live in the shared `fonts/` directory. The Ghostty
+config defaults to **Berkeley Mono**, which is a commercial font and is **not** included
+(it is git-ignored). If you don't own a licence, switch the `config-file` line in
+`{platform}/ghostty/config` to `fonts/jetbrainsmono` or `fonts/zedmono`.
+
 ### Setup (macOS)
 
 ```bash
@@ -77,6 +83,7 @@ cd ~/.indie-dawg-dots
 
 # Shell
 ln -sf ~/.indie-dawg-dots/macos/zsh/.zshenv ~/.zshenv
+ln -sf ~/.indie-dawg-dots/macos/zsh/.zshrc ~/.zshrc
 
 # Neovim (shared)
 ln -sf ~/.indie-dawg-dots/nvim ~/.config/nvim
@@ -87,12 +94,18 @@ ln -sf ~/.indie-dawg-dots/macos/.gitignore ~/.gitignore
 
 # Terminal tools
 ln -sf ~/.indie-dawg-dots/macos/ghostty ~/.config/ghostty
-ln -sf ~/.indie-dawg-dots/macos/tmux ~/.config/tmux
+ln -sf ~/.indie-dawg-dots/macos/tmux/.tmux.conf ~/.tmux.conf
 ln -sf ~/.indie-dawg-dots/zellij ~/.config/zellij
 ln -sf ~/.indie-dawg-dots/macos/starship ~/.config/starship
+ln -sf ~/.indie-dawg-dots/macos/cava ~/.config/cava
+ln -sf ~/.indie-dawg-dots/macos/bin ~/.config/bin
+
+# Fonts (shared Nerd Fonts)
+cp ~/.indie-dawg-dots/fonts/*.ttf ~/Library/Fonts/
 
 # Other
 ln -sf ~/.indie-dawg-dots/macos/.ripgreprc ~/.ripgreprc
+ln -sf ~/.indie-dawg-dots/macos/.vimrc ~/.vimrc
 
 # Set Zsh as default shell
 chsh -s $(which zsh)
@@ -116,7 +129,7 @@ ln -sf ~/.indie-dawg-dots/archlinux/.gitignore ~/.gitignore
 
 # Terminal tools
 ln -sf ~/.indie-dawg-dots/archlinux/ghostty ~/.config/ghostty
-ln -sf ~/.indie-dawg-dots/archlinux/tmux ~/.config/tmux
+ln -sf ~/.indie-dawg-dots/archlinux/tmux/.tmux.conf ~/.tmux.conf
 ln -sf ~/.indie-dawg-dots/zellij ~/.config/zellij
 ln -sf ~/.indie-dawg-dots/archlinux/starship ~/.config/starship
 

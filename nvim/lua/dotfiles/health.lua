@@ -10,7 +10,8 @@ local groups = {
   {
     name = "Java",
     tools = {
-      { bin = "java", desc = "JDK 21+ (JDTLS runtime)" },
+      -- `probe` runs the binary: macOS's /usr/bin/java stub exists without a JDK.
+      { bin = "java", desc = "JDK 21+ (JDTLS runtime)", probe = { "java", "-version" } },
       { bin = "jdtls", desc = "Eclipse Java language server" },
     },
   },
@@ -81,7 +82,11 @@ function M.check()
   for _, group in ipairs(groups) do
     health.start(group.name)
     for _, tool in ipairs(group.tools) do
-      if vim.fn.executable(tool.bin) == 1 then
+      local found = vim.fn.executable(tool.bin) == 1
+      if found and tool.probe then
+        found = vim.system(tool.probe):wait().code == 0
+      end
+      if found then
         health.ok(string.format("%-32s %s", tool.bin, tool.desc))
       else
         missing = missing + 1

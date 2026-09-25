@@ -14,7 +14,6 @@ This is a personal dotfiles repository (`indie-dawg-dots`) containing configurat
 
 ### Editor Commands
 - `v` or `nvim` - Open Neovim (primary editor)
-- `nconf` - Edit Neovim configuration
 - `aa` - Edit shell aliases
 - `zz` - Edit zshrc configuration
 
@@ -37,6 +36,7 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 .indie-dawg-dots/
 ├── nvim/             # Shared Neovim config (Lua, native vim.pack.add — no plugin manager)
 ├── zellij/           # Shared Zellij config (terminal workspace manager)
+├── fonts/            # Shared Nerd Fonts (JetBrains Mono, Zed Mono); Berkeley Mono is git-ignored
 ├── archlinux/        # Arch Linux platform configs
 │   ├── zsh/          # Shell config (.zshrc, .zshenv, .alias)
 │   ├── tmux/         # Terminal multiplexer
@@ -44,7 +44,7 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 │   ├── fontconfig/   # Font configuration
 │   ├── gtk-3.0/, gtk-4.0/   # GTK theming
 │   ├── cava/         # Audio visualizer
-│   ├── …             # Other machine-specific dirs (chromium, udev, fonts, etc.)
+│   ├── …             # Other machine-specific dirs (chromium, udev, hypr, etc.)
 │   └── .gitconfig, .gitignore, .ripgreprc, .vimrc
 ├── macos/            # macOS platform configs
 │   ├── zsh/          # Shell config (.zshrc, .zshenv, .alias)
@@ -52,8 +52,8 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 │   ├── ghostty/      # Terminal emulator (includes theme switcher scripts)
 │   ├── starship/     # Cross-shell prompt
 │   ├── cava/         # Audio visualizer
-│   ├── bin/          # Custom scripts
-│   ├── fonts/        # Nerd Fonts
+│   ├── bin/          # Custom scripts (→ ~/.config/bin)
+│   ├── mise/         # mise config.toml + default-npm-packages
 │   └── .gitconfig, .gitignore, .ripgreprc, .vimrc
 ├── CLAUDE.md         # This documentation
 ├── README.md         # Overview and install instructions
@@ -61,7 +61,7 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 └── .claude/          # Claude Code configuration
 ```
 
-> **Layout note:** `nvim/` and `zellij/` are shared across platforms
+> **Layout note:** `nvim/`, `zellij/` and `fonts/` are shared across platforms
 > at the repository root. Everything else is duplicated under `archlinux/` and
 > `macos/` — duplication is intentional for per-platform independence. There is
 > no `common/` directory.
@@ -102,7 +102,7 @@ nvim/
   packer, or similar. Plugin commits are pinned in `nvim-pack-lock.json`.
 - `init.lua` iterates `lua/plugins/*.lua` and `require`s each. A small set is
   deferred until after first render via `vim.schedule` (`dadbod`, `diffview`,
-  `neogit`, `markview`).
+  `neogit`, `render-markdown`).
 - `lua/util/lazy.lua` provides `on_filetype()` — a self-deleting `FileType`
   autocmd that defers a plugin's load until a matching buffer opens. Despite the
   filename, it is **not** a plugin manager.
@@ -127,11 +127,13 @@ nvim/
 - **Navigation**: flash.nvim; `<C-h/j/k/l>` window/pane motion via
   vim-tmux-navigator (seamless with tmux panes)
 - **AI**: supermaven-nvim
-- **Markdown / notes**: markview.nvim, markdown-preview.nvim, mkdnflow.nvim, plus
+- **Markdown / notes**: render-markdown.nvim, markdown-preview.nvim, mkdnflow.nvim, plus
   a local `multiverse` integration for the personal knowledge vault
 - **Eye candy**: tiny-glimmer, smear-cursor, ui2
 - **Treesitter**: nvim-treesitter (+ treesitter-context), nvim-ts-autotag
 - **Database**: vim-dadbod (+ dadbod-ui, dadbod-completion)
+- **Java**: nvim-jdtls (`lua/plugins/java.lua`, started per Java buffer — not in `lsp/`)
+- **Notebooks / data**: molten-nvim, jupytext, image.nvim, csvview; nvim-dap for debugging
 
 #### Themes (`lua/config/colorscheme.lua`)
 - Available: kanagawa (dragon/wave/lotus), kanagawa-paper, catppuccin
@@ -144,8 +146,9 @@ nvim/
 - **No Mason, no nvim-lspconfig.** Each file in `lsp/` is a native server config;
   `lua/lsp.lua` discovers them via `vim.api.nvim_get_runtime_file("lsp/*.lua")`
   and enables them with `vim.lsp.enable(...)`.
-- Servers configured (16): bash, clangd, css, dprint, elixir, emmet, eslint,
-  html, json, lua, rust, stylelint, tailwindcss, volar, vtsls, yaml
+- Servers configured (18): basedpyright, bash, clangd, css, dprint, elixir, emmet,
+  eslint, html, json, lua, ruff, rust, stylelint, tailwindcss, volar, vtsls, yaml
+  (plus Java via nvim-jdtls)
 - Install the server binaries yourself (system package manager / language
   toolchain) — there is no in-editor installer.
 - `LspAttach` sets buffer-local keymaps. Beyond Neovim 0.12's built-in LSP
@@ -202,33 +205,29 @@ A cross-platform Zsh configuration designed to work seamlessly on both macOS and
 ├── .zshrc       # Main interactive shell configuration
 ├── .zshenv      # Environment variables / PATH (non-interactive)
 └── .alias       # Shell aliases and functions
-
-archlinux/
-├── .linuxrc     # Linux-specific configurations
-└── yay/         # AUR helper configuration
-
-macos/
-└── .macosrc     # macOS-specific configurations
 ```
 
 #### Key Files
 
 ##### .zshrc
 - **Platform Detection**: Automatically detects macOS vs Linux using `ZSH_PLATFORM`
-- **Zinit Integration**: Plugin manager with multiple fallback paths
+- **Zinit Integration**: Plugin manager (Arch: multiple fallback paths; macOS: Homebrew, falls back to plain `compinit`)
 - **Plugin Loading**: Essential plugins for autosuggestions, fast syntax highlighting
 - **Environment Setup**: Sources platform-specific configs
 - **Command Caching**: Uses `has_cmd()` function for performance optimization
 
 ##### .alias
-- Common command shortcuts (e.g., `dots`, `nconf`, `lg`)
+- Common command shortcuts (e.g., `dots`, `aa`, `zz`, `lg`)
 - Git aliases
 - Docker shortcuts
 - Platform-agnostic commands
 
-##### Platform-Specific Files
-- `archlinux/.linuxrc`: Linux-specific paths, configurations, and Wayland/X11 clipboard support
-- `macos/.macosrc`: macOS-specific paths and Homebrew setup
+##### .zshenv
+- Sets `ZSH_PLATFORM`, Homebrew (`brew shellenv`), PATH and editor variables
+- `typeset -U path` keeps PATH free of duplicates in nested shells (tmux/zellij)
+- Runtimes (Node, Ruby, Deno) come from **mise** (`mise activate` in `.zshrc`);
+  global npm packages are listed in `macos/mise/default-npm-packages`
+  (→ `~/.default-npm-packages`) so every new Node version gets them
 
 #### Important Features
 
@@ -269,7 +268,7 @@ brew install zinit
 - See troubleshooting section for dependency installation
 
 ##### Performance Issues
-- Remove duplicate initializations (e.g., fnm)
+- Remove duplicate initializations (e.g., a second `brew shellenv`)
 - Check for conflicting plugins
 - Use `zsh -xv` to debug slow startup
 
@@ -281,9 +280,8 @@ brew install zinit
 3. Reload with `source ~/.zshrc` or use the `r` alias
 
 ##### Adding Platform-Specific Config
-1. Edit `archlinux/.linuxrc` or `macos/.macosrc`
-2. Use platform detection for conditional logic
-3. Test on both platforms if possible
+1. Edit the matching `{platform}/zsh/` file (there is no shared shell config)
+2. Mirror the change in the other platform if it applies there too
 
 ### Tmux Configuration (`archlinux/tmux/`, `macos/tmux/`)
 
@@ -322,19 +320,22 @@ Modern GPU-accelerated terminal emulator configuration with platform-specific se
 #### File Structure
 ```
 {platform}/ghostty/
-├── config                 # Main configuration (imports platform-specific configs)
-├── config.common          # Common settings across platforms
-├── config.linux           # Linux-specific settings
-├── config.macos           # macOS-specific settings
-├── ghostty-theme-switcher.sh # Theme switcher utility script
-├── ghostty-theme-menu.sh     # Interactive theme selection menu
-└── ghostty-bg-picker.sh      # Background picker utility
+├── config                 # Main configuration (font, theme, keybinds, window)
+├── fonts/                 # Per-font snippets: berkeley | jetbrainsmono | zedmono
+│                          #   (selected via `config-file = fonts/<name>` in config)
+├── themes/                # Custom themes (kanagawa-paper-ink, sourcerer)
+├── ghostty-theme-menu     # Interactive theme selection menu (alias `gtm`)
+└── ghostty-opacity-toggle # Background opacity toggle (alias `ot`)
+
+macos/bin/                 # → ~/.config/bin
+├── ghostty-theme-switcher # Theme switcher (alias `gt`)
+└── ghostty-bg-picker      # Background picker (alias `gbg`)
 ```
 
 #### Key Features
-- **Platform-Specific Configs**: Separate files for Linux and macOS with conditional loading
-- **Common Configuration**: Shared settings in config.common
-- **Modular Design**: Main config imports platform-specific settings
+- **Font switching**: one-line `config-file` swap between the font snippets.
+  Berkeley Mono is commercial and not in the repo (`BerkeleyMono*` is
+  git-ignored) — install it locally into `~/Library/Fonts` if you own a licence
 - **Theme Management**: Custom theme switcher scripts for quick theme changes
 - **Custom Keybinds**: `Shift+Enter` mapped to newline insertion
 
@@ -374,7 +375,7 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
    - Heavy use of the mini.nvim suite (ai, surround, pairs, move, diff, icons,
      indentscope, cursorword, statusline)
    - which-key.nvim for keybinding hints
-   - Native LSP (`vim.lsp.enable`) with 16 language servers — no Mason
+   - Native LSP (`vim.lsp.enable`) with 18 language servers — no Mason
    - Git integration with Neogit, gitsigns, mini.diff, and diffview
    - mini.statusline for the statusline; `<C-hjkl>` via vim-tmux-navigator
 
@@ -383,7 +384,6 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
    - Aliases defined in `{platform}/zsh/.alias`
    - Environment variables and PATH exports in `{platform}/zsh/.zshenv` (non-interactive)
    - Interactive shell configuration in `{platform}/zsh/.zshrc` (plugins, completions, keybindings)
-   - Platform-specific configurations in `macos/.macosrc` and `archlinux/.linuxrc`
    - FZF integration for fuzzy finding
    - **Zinit paths**: Checks multiple locations on Linux (`/usr/share/zinit/`, `~/.local/share/zinit/zinit.git/`, `/usr/share/zsh/plugins/zinit/`)
    - **Cross-platform compatibility**: Platform detection ensures macOS and Linux-specific paths are handled correctly
@@ -411,19 +411,32 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 1. **No Automated Installation**: This repository requires manual symlinking or copying of dotfiles
 2. **External Dependencies**:
    - Required: zsh, git, Neovim
-   - Recommended: tmux, fnm, fzf, starship, ripgrep (rg), bat, lazygit, xsel/xclip, wl-clipboard
-   - Optional: Zinit (will still work without it), rbenv, cargo, PostgreSQL
+   - Recommended: tmux, mise, fzf, starship, ripgrep (rg), bat, lazygit, eza, xsel/xclip, wl-clipboard
+   - Optional: Zinit (will still work without it), PostgreSQL (libpq)
 3. **SSH Configuration**: References external secrets file (`~/.ssh/load_secrets.sh`)
 4. **Machine-Specific Aliases**: Contains SSH shortcuts to personal machines (rubik, prometheus, etc.)
 
 ### Development Tool Paths
-- Node.js: Managed with fnm, binaries in `~/.local/share/fnm` (PATH in .zshenv, interactive features in .zshrc)
-- Ruby: Managed with rbenv (PATH in .zshenv, init in .zshrc)
-- Rust: Cargo binaries in `~/.cargo/bin`
+- Node.js, Ruby, Deno: managed with mise (`~/.config/mise/config.toml` → `macos/mise/config.toml`), installs in `~/.local/share/mise/installs`
+- Global npm tools (LSPs, codex, copilot, …): `macos/mise/default-npm-packages`
+- Rust: Homebrew `rust` + `rust-analyzer` (macOS)
 - PostgreSQL: Multiple versions in `/usr/lib/postgresql/*/bin` (Linux) or `/opt/homebrew/opt/postgresql@*/bin` (macOS)
 - PNPM: Platform-specific homes - `~/Library/pnpm` (macOS) or `~/.local/share/pnpm` (Linux)
 
 ## Recent Updates
+
+### macOS Cleanup & Consolidation (2026-09-25)
+- **Fonts**: single shared `fonts/` at the repo root (was duplicated in
+  `macos/fonts` + `archlinux/fonts`). Berkeley Mono (commercial) removed from the
+  repo and git-ignored (`BerkeleyMono*`)
+- **mise**: config moved into `macos/mise/` (symlinked to `~/.config/mise/`);
+  `default-npm-packages` makes every new Node version reinstall the global LSPs/CLIs
+- **zsh (macOS)**: PATH de-duplicated (`typeset -U path`), dead `~/.cargo/bin` and
+  `~/.claude/local` entries removed, single `brew shellenv`, guarded zinit/secret
+  sourcing, larger shared history; broken aliases fixed/removed (`gtm`, `gm`,
+  `atomize`, `mk`, duplicate `k`; `pyenv` → `pyvenv`; `speed` → `networkQuality`)
+- **nvim health**: `java` is now probed by running it (macOS `/usr/bin/java` is a
+  stub without a JDK); macOS JDK recipe uses `mise use -g java@temurin-21`
 
 ### Neovim Plugin Updates (2025-10-03)
 > **Partially superseded:** the config later moved to native `vim.pack` (no
@@ -444,7 +457,7 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 - **Tailwind CSS**: Fixed unknown at-rules warnings
 
 ### Ghostty Configuration (2025-09-27)
-- Added custom theme management scripts (ghostty-theme-switcher.sh, ghostty-theme-menu.sh, ghostty-bg-picker.sh)
+- Added custom theme management scripts (ghostty-theme-switcher, ghostty-theme-menu, ghostty-bg-picker)
 - Enhanced platform-specific configuration files
 - Added custom keybind for Shift+Enter
 

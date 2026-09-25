@@ -2,3 +2,6 @@
 archlinux/chromium/*
 !archlinux/chromium/chromium-flags.conf
 docs/*
+
+# Commercial fonts — licensed, never commit (kept locally in ~/Downloads/fonts)
+BerkeleyMono*
