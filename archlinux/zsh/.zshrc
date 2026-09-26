@@ -9,8 +9,6 @@ has_cmd() {
 
 # Aliases
 source $HOME/.indie-dawg-dots/archlinux/zsh/.alias
-source $HOME/.secret/.alias
-# secrets: 1Password via opr / cc (see .alias) — no longer sourced globally
 
 # Copy / Past
 alias pbcopy='wl-copy'
