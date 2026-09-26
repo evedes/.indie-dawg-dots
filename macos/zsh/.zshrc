@@ -21,7 +21,6 @@ fi
 # Aliases
 source "$HOME/.indie-dawg-dots/macos/zsh/.alias"
 [[ -r "$HOME/.secret/.alias" ]] && source "$HOME/.secret/.alias"
-[[ -r "$HOME/.secret/.env" ]] && source "$HOME/.secret/.env"
 
 # History
 HISTFILE=$HOME/.zsh_history
