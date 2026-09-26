@@ -130,39 +130,51 @@ alias lsize='ls -alhS --color=auto --group-directories-first'
 # SPOTIFY
 alias sp='TERM=xterm-256color spotify_player'
 
+## 1PASSWORD SECRETS
+# Secrets live in 1Password (vault "odin"); ~/.secret/*.env.tpl hold only op:// references.
+# The session token is kept in an unexported shell variable, so child processes
+# (including Claude Code) can't reuse the 1Password session.
+typeset -g _op_session=""
+_op_ensure() {
+  op whoami --session "$_op_session" &>/dev/null && return 0
+  _op_session=$(op signin --raw) || return 1
+}
+# opr <cmd> — run a command with all secrets from ~/.secret/.env.tpl
+opr() {
+  _op_ensure && op run --session "$_op_session" --env-file="$HOME/.secret/.env.tpl" -- "$@"
+}
+# Claude Code only gets ~/.secret/claude.env.tpl (the MCP token). No masking:
+# it would sit between claude and the TTY.
+_claude_op() {
+  _op_ensure && op run --session "$_op_session" --no-masking \
+    --env-file="$HOME/.secret/claude.env.tpl" -- claude --dangerously-skip-permissions "$@"
+}
+
 ## CLAUDE CODE
-alias cc="claude --dangerously-skip-permissions"
+unalias cc 2>/dev/null
+cc() { _claude_op "$@"; }
 
 # GLM coder (z.ai) — Option A of the "Opus architect / GLM coder" workflow.
 # Architect/plan in a normal `cc` (Opus) session, then implement here on GLM.
-# Requires: export ZAI_API_KEY=... in ~/.secret/.env (sourced, uncommitted).
+# The op:// reference is resolved by `op run` inside _claude_op.
 glm() {
-  if [[ -z "$ZAI_API_KEY" ]]; then
-    print -u2 "glm: ZAI_API_KEY not set — add 'export ZAI_API_KEY=...' to ~/.secret/.env"
-    return 1
-  fi
   ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" \
-  ANTHROPIC_AUTH_TOKEN="$ZAI_API_KEY" \
+  ANTHROPIC_AUTH_TOKEN="op://odin/ZAI_API_KEY/credential" \
   ANTHROPIC_DEFAULT_OPUS_MODEL="GLM-5.3" \
   API_TIMEOUT_MS="3000000" \
-  claude --dangerously-skip-permissions "$@"
+  _claude_op "$@"
 }
 
 # DeepSeek coder — same pattern as glm(), via DeepSeek's native Anthropic-compatible endpoint.
 # deepseek-v4-pro for Opus/Sonnet tiers, deepseek-v4-flash (= deepseek-chat) for Haiku.
-# Requires: DEEPSEEK_API_KEY=... in ~/.secret/.env (sourced, uncommitted).
 dsk() {
-  if [[ -z "$DEEPSEEK_API_KEY" ]]; then
-    print -u2 "dsk: DEEPSEEK_API_KEY not set — add 'DEEPSEEK_API_KEY=...' to ~/.secret/.env"
-    return 1
-  fi
   ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
-  ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY" \
+  ANTHROPIC_AUTH_TOKEN="op://odin/DEEPSEEK_API_KEY/credential" \
   ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-v4-pro" \
   ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-v4-pro" \
   ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash" \
   API_TIMEOUT_MS="3000000" \
-  claude --dangerously-skip-permissions "$@"
+  _claude_op "$@"
 }
 
 # SOL coder (OpenAI Codex sub) — same pattern as glm(), but via a local
@@ -184,7 +196,7 @@ sol() {
   ANTHROPIC_DEFAULT_SONNET_MODEL="gpt-5.6-sol" \
   ANTHROPIC_DEFAULT_HAIKU_MODEL="gpt-5.6-luna" \
   API_TIMEOUT_MS="3000000" \
-  claude --dangerously-skip-permissions "$@"
+  _claude_op "$@"
 }
 
 # CODEX
