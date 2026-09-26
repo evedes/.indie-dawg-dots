@@ -161,6 +161,8 @@ glm() {
   ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" \
   ANTHROPIC_AUTH_TOKEN="op://odin/ZAI_API_KEY/credential" \
   ANTHROPIC_DEFAULT_OPUS_MODEL="GLM-5.3" \
+  ANTHROPIC_DEFAULT_SONNET_MODEL="GLM-5.3" \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL="GLM-4.5-Air" \
   API_TIMEOUT_MS="3000000" \
   _claude_op "$@"
 }
