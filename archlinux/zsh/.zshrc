@@ -9,6 +9,7 @@ has_cmd() {
 
 # Aliases
 source $HOME/.indie-dawg-dots/archlinux/zsh/.alias
+[[ -r "$HOME/.env/.alias" ]] && source "$HOME/.env/.alias"
 
 # Copy / Past
 alias pbcopy='wl-copy'
