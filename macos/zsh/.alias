@@ -167,12 +167,13 @@ opr() {
 
 ## CLAUDE CODE
 alias cc="claude --dangerously-skip-permissions"
-alias ccusage="npx ccusage daily"
 
 # GLM coder (z.ai) — Option A of the "Opus architect / GLM coder" workflow.
 # Architect/plan in a normal `cc` (Opus) session, then implement here on GLM.
 # ZAI_API_KEY is injected from 1Password (vault odin) by op run.
+# Runs in the personal account dir (~/.claude-personal); ANTHROPIC_AUTH_TOKEN overrides its OAuth login.
 glm() {
+  CLAUDE_CONFIG_DIR="$HOME/.claude-personal" \
   ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" \
   ANTHROPIC_AUTH_TOKEN="op://odin/ZAI_API_KEY/credential" \
   ANTHROPIC_DEFAULT_OPUS_MODEL="GLM-5.2" \
@@ -186,6 +187,7 @@ glm() {
 # deepseek-v4-pro for Opus/Sonnet tiers, deepseek-v4-flash (= deepseek-chat) for Haiku.
 # DEEPSEEK_API_KEY is injected from 1Password (vault odin) by op run.
 dsk() {
+  CLAUDE_CONFIG_DIR="$HOME/.claude-personal" \
   ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
   ANTHROPIC_AUTH_TOKEN="op://odin/DEEPSEEK_API_KEY/credential" \
   ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-v4-pro" \

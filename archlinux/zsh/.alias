@@ -132,7 +132,6 @@ alias sp='TERM=xterm-256color spotify_player'
 
 ## CLAUDE CODE
 alias cc="claude --dangerously-skip-permissions"
-alias ccusage="npx ccusage daily"
 
 # GLM coder (z.ai) — Option A of the "Opus architect / GLM coder" workflow.
 # Architect/plan in a normal `cc` (Opus) session, then implement here on GLM.
