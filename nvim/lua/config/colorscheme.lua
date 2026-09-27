@@ -60,7 +60,11 @@ local function apply_transparency()
     return
   end
   for _, group in ipairs(transparent_groups) do
-    vim.api.nvim_set_hl(0, group, { bg = "NONE", ctermbg = "NONE" })
+    -- Preserve the theme's foreground and styles, including linked highlights.
+    local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+    hl.bg = "NONE"
+    hl.ctermbg = "NONE"
+    vim.api.nvim_set_hl(0, group, hl)
   end
 end
 
