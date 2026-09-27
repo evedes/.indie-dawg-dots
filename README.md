@@ -13,13 +13,12 @@ This repository contains configuration files for:
 
 ## Architecture
 
-Neovim, Zellij and fonts are shared across platforms at the repository root. Everything else lives in a platform-specific directory (`archlinux/` or `macos/`). Duplication across platforms is intentional for independence and simplicity.
+Neovim and Zellij are shared across platforms at the repository root. Everything else lives in a platform-specific directory (`archlinux/` or `macos/`). Duplication across platforms is intentional for independence and simplicity.
 
 ```
 .indie-dawg-dots/
 ├── nvim/                  # Shared Neovim configuration (Neovim 0.12+ native packages)
 ├── zellij/                # Shared Zellij configuration (terminal workspace manager)
-├── fonts/                 # Shared Nerd Fonts (JetBrains Mono, Zed Mono)
 │
 ├── archlinux/             # Arch Linux configuration
 │   ├── bin/               # Custom scripts (ghostty theme switcher, monitor switch, etc.)
@@ -70,10 +69,20 @@ Neovim **0.12 or newer** is required (the config uses the native `vim.pack.add` 
 
 ### Fonts
 
-Nerd Fonts (JetBrains Mono, Zed Mono) live in the shared `fonts/` directory. The Ghostty
-config defaults to **Berkeley Mono**, which is a commercial font and is **not** included
-(it is git-ignored). If you don't own a licence, switch the `config-file` line in
-`{platform}/ghostty/config` to `fonts/jetbrainsmono` or `fonts/zedmono`.
+Fonts are not stored in the repo — install them with the system package manager:
+
+```bash
+# Arch Linux
+sudo pacman -S ttf-jetbrains-mono-nerd ttf-zed-mono-nerd
+# macOS
+brew install --cask font-jetbrains-mono-nerd-font font-zed-mono-nerd-font
+```
+
+The Ghostty config defaults to **Berkeley Mono**, a commercial font that is **not**
+included (it is git-ignored). If you own a licence, install it manually
+(`~/.local/share/fonts/BerkeleyMono/` + `fc-cache -f` on Linux, `~/Library/Fonts` on
+macOS). Otherwise switch the `config-file` line in `{platform}/ghostty/config` to
+`fonts/jetbrainsmono` or `fonts/zedmono`.
 
 ### Setup (macOS)
 
@@ -100,8 +109,8 @@ ln -sf ~/.indie-dawg-dots/macos/starship ~/.config/starship
 ln -sf ~/.indie-dawg-dots/macos/cava ~/.config/cava
 ln -sf ~/.indie-dawg-dots/macos/bin ~/.config/bin
 
-# Fonts (shared Nerd Fonts)
-cp ~/.indie-dawg-dots/fonts/*.ttf ~/Library/Fonts/
+# Fonts (Nerd Fonts via Homebrew)
+brew install --cask font-jetbrains-mono-nerd-font font-zed-mono-nerd-font
 
 # Other
 ln -sf ~/.indie-dawg-dots/macos/.ripgreprc ~/.ripgreprc

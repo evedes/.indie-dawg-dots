@@ -36,7 +36,6 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 .indie-dawg-dots/
 ├── nvim/             # Shared Neovim config (Lua, native vim.pack.add — no plugin manager)
 ├── zellij/           # Shared Zellij config (terminal workspace manager)
-├── fonts/            # Shared Nerd Fonts (JetBrains Mono, Zed Mono); Berkeley Mono is git-ignored
 ├── archlinux/        # Arch Linux platform configs
 │   ├── zsh/          # Shell config (.zshrc, .zshenv, .alias)
 │   ├── tmux/         # Terminal multiplexer
@@ -61,10 +60,12 @@ No project-specific test or lint commands are defined as this is a dotfiles repo
 └── .claude/          # Claude Code configuration
 ```
 
-> **Layout note:** `nvim/`, `zellij/` and `fonts/` are shared across platforms
-> at the repository root. Everything else is duplicated under `archlinux/` and
+> **Layout note:** `nvim/` and `zellij/` are shared across platforms at the
+> repository root. Everything else is duplicated under `archlinux/` and
 > `macos/` — duplication is intentional for per-platform independence. There is
-> no `common/` directory.
+> no `common/` directory. Fonts are not in the repo: Nerd Fonts come from the
+> package manager (`ttf-*-nerd` / `font-*-nerd-font` casks); Berkeley Mono is
+> installed manually.
 
 ## Detailed Configuration Guides
 
@@ -334,8 +335,12 @@ macos/bin/                 # → ~/.config/bin
 
 #### Key Features
 - **Font switching**: one-line `config-file` swap between the font snippets.
-  Berkeley Mono is commercial and not in the repo (`BerkeleyMono*` is
-  git-ignored) — install it locally into `~/Library/Fonts` if you own a licence
+  JetBrains Mono / Zed Mono Nerd Fonts come from the package manager (pacman
+  `ttf-jetbrains-mono-nerd` `ttf-zed-mono-nerd`; Homebrew casks
+  `font-jetbrains-mono-nerd-font` `font-zed-mono-nerd-font`). Berkeley Mono is
+  commercial and not in the repo (`BerkeleyMono*` is git-ignored) — install it
+  manually: `~/.local/share/fonts/BerkeleyMono/` + `fc-cache -f` (Linux) or
+  `~/Library/Fonts` (macOS)
 - **Theme Management**: Custom theme switcher scripts for quick theme changes
 - **Custom Keybinds**: `Shift+Enter` mapped to newline insertion
 
@@ -424,6 +429,11 @@ Terminal workspace manager similar to tmux but with a modern design philosophy a
 - PNPM: Platform-specific homes - `~/Library/pnpm` (macOS) or `~/.local/share/pnpm` (Linux)
 
 ## Recent Updates
+
+### Fonts Removed From Repo (2026-09-27)
+- Deleted the shared `fonts/` directory; Nerd Fonts are now installed via pacman /
+  Homebrew casks. Berkeley Mono lives in `~/.local/share/fonts/BerkeleyMono/`
+  (Linux) or `~/Library/Fonts` (macOS), sourced from the licensed zips
 
 ### macOS Cleanup & Consolidation (2026-09-25)
 - **Fonts**: single shared `fonts/` at the repo root (was duplicated in
