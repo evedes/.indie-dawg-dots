@@ -12,7 +12,7 @@ if [[ -r "${HOMEBREW_PREFIX:-/opt/homebrew}/opt/zinit/zinit.zsh" ]]; then
     source "${HOMEBREW_PREFIX:-/opt/homebrew}/opt/zinit/zinit.zsh"
     zinit light zsh-users/zsh-autosuggestions
     zinit light zdharma-continuum/fast-syntax-highlighting
-    zinit ice wait lucid atload"zicompinit; zicdreplay"
+    zinit ice lucid atload"zicompinit; zicdreplay"
     zinit light zsh-users/zsh-completions
 else
     autoload -Uz compinit && compinit
