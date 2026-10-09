@@ -1,3 +1,10 @@
+# OPENSPEC:START
+# OpenSpec shell completions configuration
+fpath=('/Users/admin.eduardo.vedes/.zsh/completions' $fpath)
+autoload -Uz compinit
+compinit
+# OPENSPEC:END
+
 # Command existence cache for performance
 typeset -gA _cmd_cache
 has_cmd() {
