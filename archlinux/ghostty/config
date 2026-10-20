@@ -1,5 +1,5 @@
-# Font
 # Pick one: fonts/jetbrainsmono | fonts/zedmono | fonts/berkeley
+# Font
 config-file = fonts/berkeley
 
 # Shared font settings (apply to whichever font is active)
